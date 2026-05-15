@@ -1,0 +1,200 @@
+{
+  "schema_version": "final_repo_audit_v1",
+  "generated_at": "2026-05-15T15:27:16.495014+00:00",
+  "status": "PASS",
+  "score": {
+    "score": 90.0,
+    "max_score": 100,
+    "grade": "PASS",
+    "blockers": [],
+    "warnings": [
+      "json_outputs",
+      "master_pipeline_health"
+    ]
+  },
+  "checks": {
+    "files": {
+      "packages": {
+        "Package 1A": {
+          "present_count": 5,
+          "expected_count": 5,
+          "missing": [],
+          "status": "PASS"
+        },
+        "Package 1B": {
+          "present_count": 4,
+          "expected_count": 4,
+          "missing": [],
+          "status": "PASS"
+        },
+        "Package 8 Dashboard": {
+          "present_count": 4,
+          "expected_count": 4,
+          "missing": [],
+          "status": "PASS"
+        },
+        "Package 2": {
+          "present_count": 4,
+          "expected_count": 4,
+          "missing": [],
+          "status": "PASS"
+        },
+        "Package 3": {
+          "present_count": 4,
+          "expected_count": 4,
+          "missing": [],
+          "status": "PASS"
+        },
+        "Package 4": {
+          "present_count": 3,
+          "expected_count": 3,
+          "missing": [],
+          "status": "PASS"
+        },
+        "Package 5": {
+          "present_count": 3,
+          "expected_count": 3,
+          "missing": [],
+          "status": "PASS"
+        },
+        "Package 6": {
+          "present_count": 3,
+          "expected_count": 3,
+          "missing": [],
+          "status": "PASS"
+        },
+        "Package 7": {
+          "present_count": 3,
+          "expected_count": 3,
+          "missing": [],
+          "status": "PASS"
+        },
+        "Alpaca Paid Upgrade": {
+          "present_count": 7,
+          "expected_count": 7,
+          "missing": [],
+          "status": "PASS"
+        },
+        "Package 12 Advanced Quality": {
+          "present_count": 3,
+          "expected_count": 3,
+          "missing": [],
+          "status": "PASS"
+        },
+        "Packages 13-15 Market Risk": {
+          "present_count": 7,
+          "expected_count": 7,
+          "missing": [],
+          "status": "PASS"
+        },
+        "Package 9": {
+          "present_count": 2,
+          "expected_count": 2,
+          "missing": [],
+          "status": "PASS"
+        }
+      },
+      "missing_files": [],
+      "status": "PASS"
+    },
+    "python_syntax": {
+      "checked_count": 63,
+      "failures": [],
+      "status": "PASS"
+    },
+    "json_outputs": {
+      "required_missing": [],
+      "runtime_missing": [
+        "one_of:docs/data/prediction_engine/master_pipeline_health.json,docs/data/prediction_engine/master_paid_pipeline_health.json,docs/data/prediction_engine/alpaca_market_scanner_health.json"
+      ],
+      "required_invalid": [],
+      "optional_present": [],
+      "optional_invalid": [],
+      "status": "WARN"
+    },
+    "workflow_safety": {
+      "checked_workflows": [
+        ".github/workflows/adaptive-guard.yml",
+        ".github/workflows/advanced-signal-quality.yml",
+        ".github/workflows/alpaca-free-market-scanner.yml",
+        ".github/workflows/final-repo-audit.yml",
+        ".github/workflows/finra-short-pressure-scanner.yml",
+        ".github/workflows/free-scanner-normalizer.yml",
+        ".github/workflows/full-validation-suite.yml",
+        ".github/workflows/market-rule-risk-update.yml",
+        ".github/workflows/master-free-scanner-pipeline.yml",
+        ".github/workflows/master-paid-alpaca-pipeline.yml",
+        ".github/workflows/outcome-labeler.yml",
+        ".github/workflows/paper-execution-gate.yml",
+        ".github/workflows/sec-catalyst-scanner.yml",
+        ".github/workflows/signal-journal.yml"
+      ],
+      "issues": [],
+      "status": "PASS"
+    },
+    "code_safety": {
+      "checked_files": [
+        "src/prediction_engine/__init__.py",
+        "src/prediction_engine/scanners/__init__.py",
+        "src/prediction_engine/scanners/free_signal_schema.py",
+        "src/prediction_engine/scanners/free_scanner_normalizer.py",
+        "src/prediction_engine/scanners/alpaca_free_market_scanner.py",
+        "src/prediction_engine/scanners/alpaca_paid_config.py",
+        "src/prediction_engine/scanners/alpaca_paid_market_scanner.py",
+        "src/prediction_engine/dashboard/__init__.py",
+        "src/prediction_engine/dashboard/export_free_scanner_dashboard.py",
+        "src/prediction_engine/catalysts/__init__.py",
+        "src/prediction_engine/catalysts/sec_catalyst_scanner.py",
+        "src/prediction_engine/catalysts/enrich_signal_dashboard_with_sec.py",
+        "src/prediction_engine/catalysts/alpaca_news_scanner.py",
+        "src/prediction_engine/catalysts/enrich_signal_dashboard_with_alpaca_news.py",
+        "src/prediction_engine/short_pressure/__init__.py",
+        "src/prediction_engine/short_pressure/finra_short_volume_scanner.py",
+        "src/prediction_engine/short_pressure/enrich_signal_dashboard_with_finra.py",
+        "src/prediction_engine/learning/__init__.py",
+        "src/prediction_engine/learning/signal_journal.py",
+        "src/prediction_engine/learning/outcome_labeler.py",
+        "src/prediction_engine/learning/adaptive_guard.py",
+        "src/prediction_engine/trade_gate/paper_execution_gate.py",
+        "src/prediction_engine/trade_gate/__init__.py",
+        "src/prediction_engine/quality/__init__.py",
+        "src/prediction_engine/quality/advanced_signal_quality.py",
+        "src/prediction_engine/risk/__init__.py",
+        "src/prediction_engine/risk/real_money_readiness_guard.py",
+        "src/prediction_engine/risk/halt_luld_circuit_guard.py",
+        "src/prediction_engine/execution/__init__.py",
+        "src/prediction_engine/execution/slippage_fill_tracker.py"
+      ],
+      "issues": [],
+      "status": "PASS"
+    },
+    "dashboard_contract": {
+      "missing_ids": [],
+      "missing_data_refs": [],
+      "issues": [],
+      "status": "PASS"
+    },
+    "master_pipeline_health": {
+      "status": "WARN",
+      "reason": "master_pipeline_health_not_found_yet",
+      "source": "none"
+    },
+    "workflow_overlap": {
+      "issues": [],
+      "status": "PASS"
+    }
+  },
+  "recommendation": {
+    "safe_to_run_master_pipeline": true,
+    "safe_to_enable_paper_submission": false,
+    "reason": "Keep PAPER_ORDER_SUBMISSION_ENABLED=false until multiple clean days of paper order plans are reviewed.",
+    "next_step": "Run Master Free Scanner Pipeline, review dashboard, then review paper_order_plan.json outputs before enabling any paper submission."
+  },
+  "safety": {
+    "paper_only": true,
+    "live_trading": false,
+    "order_submission_default": false,
+    "audit_only": true,
+    "disclaimer": "Audit validates repo readiness only. Not financial advice."
+  }
+}

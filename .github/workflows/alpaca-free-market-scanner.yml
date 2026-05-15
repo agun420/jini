@@ -1,0 +1,83 @@
+name: Alpaca Free Market Scanner
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: alpaca-free-market-scanner
+  cancel-in-progress: true
+
+jobs:
+  run-alpaca-free-market-scanner:
+    runs-on: ubuntu-latest
+
+    env:
+      PYTHONPATH: src:.
+      ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+      ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+      SCANNER_MAX_SYMBOLS: "75"
+      ALPACA_DATA_LOOKBACK_DAYS: "7"
+      ALPACA_END_DELAY_MINUTES: "16"
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package requirements
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          python - <<'PY'
+          try:
+              import alpaca
+              print("alpaca-py already installed")
+          except Exception:
+              raise SystemExit(1)
+          PY
+        continue-on-error: true
+
+      - name: Ensure alpaca-py is installed
+        run: |
+          python -m pip install alpaca-py
+
+      - name: Run Alpaca Free Market Scanner
+        run: python scripts/run_alpaca_free_market_scanner.py
+
+      - name: Validate generated JSON
+        run: python scripts/validate_alpaca_free_market_scanner.py
+
+      - name: Print scanner summary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          health_path = Path("docs/data/prediction_engine/alpaca_market_scanner_health.json")
+          health = json.loads(health_path.read_text())
+          print("Status:", health.get("status"))
+          print("Rows:", health.get("row_count"))
+          print("Error:", health.get("error"))
+
+          free_path = Path("docs/data/prediction_engine/free_scanner.json")
+          if free_path.exists():
+              free = json.loads(free_path.read_text())
+              print("Normalized rows:", free.get("counts", {}).get("total"))
+              print("Trade eligible:", free.get("counts", {}).get("trade_eligible"))
+              print("Used placeholders:", free.get("used_placeholders"))
+          PY
+
+      - name: Commit scanner data
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add docs/data/prediction_engine state/prediction_engine
+          git commit -m "Update alpaca free market scanner data" || echo "No changes to commit"
+          git push
