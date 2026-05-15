@@ -1,4 +1,4 @@
-name: Free Scanner Normalizer
+name: SEC Catalyst Scanner
 
 on:
   workflow_dispatch:
@@ -7,15 +7,16 @@ permissions:
   contents: write
 
 concurrency:
-  group: free-scanner-normalizer
+  group: sec-catalyst-scanner
   cancel-in-progress: true
 
 jobs:
-  run-free-scanner-normalizer:
+  run-sec-catalyst-scanner:
     runs-on: ubuntu-latest
 
     env:
       PYTHONPATH: src:.
+      SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
 
     steps:
       - name: Checkout repo
@@ -31,40 +32,35 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Run Free Scanner Normalizer
-        run: python scripts/run_free_scanner_normalizer.py
+      - name: Validate SEC package
+        run: python scripts/validate_sec_catalyst_package.py
+
+      - name: Run SEC Catalyst Scanner
+        run: python scripts/run_sec_catalyst_scanner.py
 
       - name: Validate generated JSON
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-
           required = [
-              "docs/data/prediction_engine/free_scanner.json",
-              "docs/data/prediction_engine/signal_dashboard.json",
-              "docs/data/prediction_engine/scanner_health.json",
-              "docs/data/prediction_engine/social_sentiment.json",
+              "docs/data/prediction_engine/sec_catalysts.json",
+              "docs/data/prediction_engine/sec_catalyst_health.json",
           ]
-
           for item in required:
               path = Path(item)
               if not path.exists():
                   raise SystemExit(f"Missing required output: {item}")
               json.loads(path.read_text(encoding="utf-8"))
-
-          payload = json.loads(Path("docs/data/prediction_engine/free_scanner.json").read_text())
-          print("Rows:", payload.get("counts", {}).get("total"))
-          print("Real rows:", payload.get("counts", {}).get("real_rows"))
-          print("Placeholder rows:", payload.get("counts", {}).get("placeholder_rows"))
-          print("Trade eligible:", payload.get("counts", {}).get("trade_eligible"))
-          print("Used placeholders:", payload.get("used_placeholders"))
+          payload = json.loads(Path("docs/data/prediction_engine/sec_catalysts.json").read_text())
+          print("SEC status:", payload.get("status"))
+          print("Counts:", payload.get("counts"))
           PY
 
-      - name: Commit dashboard data
+      - name: Commit SEC catalyst data
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add docs/data/prediction_engine state/prediction_engine
-          git commit -m "Update free scanner normalizer data" || echo "No changes to commit"
+          git commit -m "Update SEC catalyst scanner data" || echo "No changes to commit"
           git push

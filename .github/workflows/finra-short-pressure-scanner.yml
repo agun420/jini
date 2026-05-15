@@ -1,4 +1,4 @@
-name: Free Scanner Normalizer
+name: FINRA Short-Pressure Scanner
 
 on:
   workflow_dispatch:
@@ -7,15 +7,16 @@ permissions:
   contents: write
 
 concurrency:
-  group: free-scanner-normalizer
+  group: finra-short-pressure-scanner
   cancel-in-progress: true
 
 jobs:
-  run-free-scanner-normalizer:
+  run-finra-short-pressure:
     runs-on: ubuntu-latest
 
     env:
       PYTHONPATH: src:.
+      FINRA_USER_AGENT: free-scanner-finra-layer/1.0
 
     steps:
       - name: Checkout repo
@@ -31,8 +32,11 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Run Free Scanner Normalizer
-        run: python scripts/run_free_scanner_normalizer.py
+      - name: Validate FINRA package
+        run: python scripts/validate_finra_short_pressure_package.py
+
+      - name: Run FINRA short-pressure scanner
+        run: python scripts/run_finra_short_pressure_scanner.py
 
       - name: Validate generated JSON
         run: |
@@ -41,30 +45,27 @@ jobs:
           from pathlib import Path
 
           required = [
-              "docs/data/prediction_engine/free_scanner.json",
-              "docs/data/prediction_engine/signal_dashboard.json",
-              "docs/data/prediction_engine/scanner_health.json",
-              "docs/data/prediction_engine/social_sentiment.json",
+              "docs/data/prediction_engine/finra_short_pressure.json",
+              "docs/data/prediction_engine/finra_short_pressure_health.json",
+              "docs/data/prediction_engine/signal_dashboard_finra_enriched.json",
+              "docs/data/prediction_engine/free_scanner_finra_enriched.json",
           ]
-
           for item in required:
               path = Path(item)
               if not path.exists():
                   raise SystemExit(f"Missing required output: {item}")
               json.loads(path.read_text(encoding="utf-8"))
 
-          payload = json.loads(Path("docs/data/prediction_engine/free_scanner.json").read_text())
-          print("Rows:", payload.get("counts", {}).get("total"))
-          print("Real rows:", payload.get("counts", {}).get("real_rows"))
-          print("Placeholder rows:", payload.get("counts", {}).get("placeholder_rows"))
-          print("Trade eligible:", payload.get("counts", {}).get("trade_eligible"))
-          print("Used placeholders:", payload.get("used_placeholders"))
+          payload = json.loads(Path("docs/data/prediction_engine/finra_short_pressure.json").read_text())
+          print("FINRA status:", payload.get("status"))
+          print("Trade date:", payload.get("trade_date"))
+          print("Counts:", payload.get("counts"))
           PY
 
-      - name: Commit dashboard data
+      - name: Commit FINRA short-pressure data
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add docs/data/prediction_engine state/prediction_engine
-          git commit -m "Update free scanner normalizer data" || echo "No changes to commit"
+          git commit -m "Update FINRA short-pressure data" || echo "No changes to commit"
           git push

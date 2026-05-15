@@ -1,4 +1,4 @@
-name: Free Scanner Normalizer
+name: Master Free Scanner Pipeline
 
 on:
   workflow_dispatch:
@@ -7,15 +7,20 @@ permissions:
   contents: write
 
 concurrency:
-  group: free-scanner-normalizer
+  group: master-free-scanner-pipeline
   cancel-in-progress: true
 
 jobs:
-  run-free-scanner-normalizer:
+  run-master-free-scanner-pipeline:
     runs-on: ubuntu-latest
 
     env:
       PYTHONPATH: src:.
+      ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+      ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+      SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+      PAPER_ORDER_SUBMISSION_ENABLED: "false"
+      OUTCOME_LOOKBACK_DAYS: "7"
 
     steps:
       - name: Checkout repo
@@ -31,20 +36,20 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Run Free Scanner Normalizer
-        run: python scripts/run_free_scanner_normalizer.py
+      - name: Run Master Free Scanner Pipeline
+        run: python scripts/run_master_free_scanner_pipeline.py
 
-      - name: Validate generated JSON
+      - name: Validate master pipeline outputs
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
 
           required = [
+              "docs/data/prediction_engine/master_pipeline_health.json",
+              "state/prediction_engine/master_pipeline_state.json",
               "docs/data/prediction_engine/free_scanner.json",
               "docs/data/prediction_engine/signal_dashboard.json",
-              "docs/data/prediction_engine/scanner_health.json",
-              "docs/data/prediction_engine/social_sentiment.json",
           ]
 
           for item in required:
@@ -53,18 +58,17 @@ jobs:
                   raise SystemExit(f"Missing required output: {item}")
               json.loads(path.read_text(encoding="utf-8"))
 
-          payload = json.loads(Path("docs/data/prediction_engine/free_scanner.json").read_text())
-          print("Rows:", payload.get("counts", {}).get("total"))
-          print("Real rows:", payload.get("counts", {}).get("real_rows"))
-          print("Placeholder rows:", payload.get("counts", {}).get("placeholder_rows"))
-          print("Trade eligible:", payload.get("counts", {}).get("trade_eligible"))
-          print("Used placeholders:", payload.get("used_placeholders"))
+          health = json.loads(Path("docs/data/prediction_engine/master_pipeline_health.json").read_text())
+          print("Pipeline status:", health.get("status"))
+          print("Summary:", health.get("summary"))
+          if health.get("status") != "PASS":
+              raise SystemExit("Master pipeline did not pass")
           PY
 
-      - name: Commit dashboard data
+      - name: Commit pipeline data
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add docs/data/prediction_engine state/prediction_engine
-          git commit -m "Update free scanner normalizer data" || echo "No changes to commit"
+          git commit -m "Update master free scanner pipeline data" || echo "No changes to commit"
           git push

@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Free Scanner Engine Dashboard</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Paper-only research dashboard</p>
+      <h1>Free Scanner Engine</h1>
+      <p class="subtitle">Scanner signals, catalyst context, learning outcomes, adaptive guard, and paper order plan.</p>
+    </div>
+    <div class="status-pill" id="global-status">Loading</div>
+  </header>
+
+  <main class="page">
+    <section class="grid metrics-grid">
+      <article class="card metric">
+        <span class="label">Signals</span>
+        <strong id="metric-total-signals">0</strong>
+        <small id="metric-signal-source">source loading</small>
+      </article>
+      <article class="card metric">
+        <span class="label">Trade Eligible</span>
+        <strong id="metric-trade-eligible">0</strong>
+        <small>only these can reach paper gate</small>
+      </article>
+      <article class="card metric">
+        <span class="label">Risk Mode</span>
+        <strong id="metric-risk-mode">N/A</strong>
+        <small id="metric-guard-reason">guard loading</small>
+      </article>
+      <article class="card metric">
+        <span class="label">Order Plan</span>
+        <strong id="metric-order-plan">N/A</strong>
+        <small id="metric-order-selected">selected loading</small>
+      </article>
+    </section>
+
+    <section class="grid main-grid">
+      <article class="card hero-card">
+        <div class="card-header">
+          <div>
+            <p class="eyebrow">Top setup</p>
+            <h2>Best Trade Eligible Signal</h2>
+          </div>
+          <span class="chip" id="top-status">Loading</span>
+        </div>
+        <div id="top-setup" class="top-setup">
+          <p class="muted">Loading best setup...</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <p class="eyebrow">Risk control</p>
+            <h2>Adaptive Guard</h2>
+          </div>
+          <span class="chip" id="guard-allow">Loading</span>
+        </div>
+        <div id="adaptive-guard-panel" class="stack">
+          <p class="muted">Loading adaptive guard...</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <p class="eyebrow">Execution</p>
+            <h2>Paper Order Plan</h2>
+          </div>
+          <span class="chip warning">Submission off by default</span>
+        </div>
+        <div id="paper-plan-panel" class="stack">
+          <p class="muted">Loading paper order plan...</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <p class="eyebrow">Learning</p>
+            <h2>Outcome Labels</h2>
+          </div>
+          <span class="chip" id="outcome-count-chip">Loading</span>
+        </div>
+        <div id="outcomes-panel" class="stack">
+          <p class="muted">Loading outcomes...</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow">Signal board</p>
+          <h2>All Ranked Signals</h2>
+        </div>
+        <div class="controls">
+          <input id="search-input" type="search" placeholder="Search ticker..." />
+          <select id="status-filter">
+            <option value="ALL">All statuses</option>
+            <option value="TRADE_ELIGIBLE">Trade Eligible</option>
+            <option value="WAIT_FOR_PULLBACK">Wait for Pullback</option>
+            <option value="ALERT_ONLY">Alert Only</option>
+            <option value="WATCH_ONLY">Watch Only</option>
+            <option value="NO_TRADE">No Trade</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Ticker</th>
+              <th>Status</th>
+              <th>Score</th>
+              <th>Price</th>
+              <th>RVOL</th>
+              <th>VWAP Dist.</th>
+              <th>Risk/Reward</th>
+              <th>SEC</th>
+              <th>FINRA</th>
+              <th>News</th>
+              <th>Quality</th>
+              <th>Market Guard</th>
+              <th>Reason</th>
+            </tr>
+          </thead>
+          <tbody id="signals-table">
+            <tr><td colspan="13">Loading signals...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="grid lower-grid">
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <p class="eyebrow">Health</p>
+            <h2>System Health</h2>
+          </div>
+        </div>
+        <div id="health-panel" class="stack">
+          <p class="muted">Loading health...</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <p class="eyebrow">Data quality</p>
+            <h2>Source Quality</h2>
+          </div>
+        </div>
+        <div id="quality-panel" class="stack">
+          <p class="muted">Loading quality...</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <p class="eyebrow">Learning base</p>
+            <h2>Signal Journal</h2>
+          </div>
+        </div>
+        <div id="learning-panel" class="stack">
+          <p class="muted">Loading learning state...</p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Paper-only research tool. Not financial advice. Live trading, shorts, and options are not supported.</p>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

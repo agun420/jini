@@ -1,17 +1,20 @@
-name: Free Scanner Normalizer
+name: Final Repo Audit
 
 on:
   workflow_dispatch:
+  schedule:
+    # After market close during daylight saving time.
+    - cron: "30 21 * * 1-5"
 
 permissions:
   contents: write
 
 concurrency:
-  group: free-scanner-normalizer
+  group: final-repo-audit
   cancel-in-progress: true
 
 jobs:
-  run-free-scanner-normalizer:
+  run-final-repo-audit:
     runs-on: ubuntu-latest
 
     env:
@@ -31,20 +34,18 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Run Free Scanner Normalizer
-        run: python scripts/run_free_scanner_normalizer.py
+      - name: Run Final Repo Audit
+        run: python scripts/run_final_repo_audit.py
 
-      - name: Validate generated JSON
+      - name: Validate audit output
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
 
           required = [
-              "docs/data/prediction_engine/free_scanner.json",
-              "docs/data/prediction_engine/signal_dashboard.json",
-              "docs/data/prediction_engine/scanner_health.json",
-              "docs/data/prediction_engine/social_sentiment.json",
+              "docs/data/prediction_engine/final_repo_audit.json",
+              "state/prediction_engine/final_repo_audit.json",
           ]
 
           for item in required:
@@ -53,18 +54,17 @@ jobs:
                   raise SystemExit(f"Missing required output: {item}")
               json.loads(path.read_text(encoding="utf-8"))
 
-          payload = json.loads(Path("docs/data/prediction_engine/free_scanner.json").read_text())
-          print("Rows:", payload.get("counts", {}).get("total"))
-          print("Real rows:", payload.get("counts", {}).get("real_rows"))
-          print("Placeholder rows:", payload.get("counts", {}).get("placeholder_rows"))
-          print("Trade eligible:", payload.get("counts", {}).get("trade_eligible"))
-          print("Used placeholders:", payload.get("used_placeholders"))
+          audit = json.loads(Path("docs/data/prediction_engine/final_repo_audit.json").read_text())
+          print("Audit status:", audit.get("status"))
+          print("Audit score:", audit.get("score"))
+          if audit.get("status") == "FAIL":
+              raise SystemExit("Final repo audit failed")
           PY
 
-      - name: Commit dashboard data
+      - name: Commit audit data
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add docs/data/prediction_engine state/prediction_engine
-          git commit -m "Update free scanner normalizer data" || echo "No changes to commit"
+          git commit -m "Update final repo audit" || echo "No changes to commit"
           git push

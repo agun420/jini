@@ -1,0 +1,75 @@
+name: Market Rule Risk Update
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: market-rule-risk-update
+  cancel-in-progress: true
+
+jobs:
+  run-market-rule-risk-update:
+    runs-on: ubuntu-latest
+
+    env:
+      PYTHONPATH: src:.
+      ACCOUNT_TYPE: "unknown"
+      MANUAL_APPROVAL_REQUIRED: "true"
+      ENGINE_KILL_SWITCH: "false"
+      DAILY_LOSS_CAP_DOLLARS: "150"
+      MAX_REAL_TRADE_NOTIONAL: "250"
+      MIN_PAPER_OUTCOMES_BEFORE_REAL: "50"
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package requirements if present
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run Halt LULD Circuit Guard
+        run: python scripts/run_halt_luld_circuit_guard.py
+
+      - name: Run Slippage Fill Tracker
+        run: python scripts/run_slippage_fill_tracker.py
+
+      - name: Run Real Money Readiness Guard
+        run: python scripts/run_real_money_readiness_guard.py
+
+      - name: Validate outputs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          required = [
+              "docs/data/prediction_engine/halt_luld_circuit_guard.json",
+              "docs/data/prediction_engine/slippage_fill_tracker.json",
+              "docs/data/prediction_engine/real_money_readiness_guard.json",
+          ]
+          for item in required:
+              path = Path(item)
+              if not path.exists():
+                  raise SystemExit(f"Missing {item}")
+              json.loads(path.read_text())
+          readiness = json.loads(Path("docs/data/prediction_engine/real_money_readiness_guard.json").read_text())
+          print("Readiness:", readiness.get("readiness_status"))
+          print("Blocks:", readiness.get("blocks"))
+          PY
+
+      - name: Commit risk update data
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add docs/data/prediction_engine state/prediction_engine
+          git commit -m "Update market rule risk guards" || echo "No changes to commit"
+          git push
