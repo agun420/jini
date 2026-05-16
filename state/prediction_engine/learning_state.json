@@ -1,0 +1,50 @@
+{
+  "schema_version": "learning_state_v1",
+  "generated_at": "2026-05-16T05:37:08.909804+00:00",
+  "source_path": "docs/data/prediction_engine/signal_dashboard_market_guard_enriched.json",
+  "run_generated_at": "2026-05-16T05:37:08.284772+00:00",
+  "window": {
+    "recent_rows_considered": 50,
+    "total_journal_rows": 50,
+    "new_records_this_run": 50
+  },
+  "counts": {
+    "by_status": {
+      "WATCH_ONLY": 36,
+      "ALERT_ONLY": 7,
+      "NO_TRADE": 7
+    },
+    "by_score_bucket": {
+      "40_59": 35,
+      "60_69": 7,
+      "70_79": 1,
+      "0_39": 7
+    },
+    "top_no_trade_reasons": {
+      "relative_volume_too_low": 50,
+      "below_vwap": 12,
+      "price_below_3": 1
+    },
+    "trade_eligible_recent": 0,
+    "pending_outcomes": 50
+  },
+  "learning_readiness": {
+    "signal_history_ready": false,
+    "meta_labeling_ready": false,
+    "walk_forward_ready": false,
+    "reason": "Need outcome labeling and more history before ML."
+  },
+  "adaptive_state": {
+    "enabled": false,
+    "mode": "journal_only",
+    "min_confidence_adjustment": 0,
+    "allow_new_entries": false,
+    "reason": "Package 4 records signals only. Adaptive guard is added later."
+  },
+  "safety": {
+    "paper_only": true,
+    "order_submission": false,
+    "live_trading": false,
+    "this_package_can_trade": false
+  }
+}
