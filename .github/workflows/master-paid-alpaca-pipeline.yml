@@ -3,7 +3,6 @@ name: Master Paid Alpaca Pipeline
 on:
   workflow_dispatch:
   schedule:
-    # NY market hours during daylight saving time.
     - cron: "30-59/5 13 * * 1-5"
     - cron: "*/5 14-19 * * 1-5"
     - cron: "10 21 * * 1-5"
@@ -62,86 +61,56 @@ jobs:
 
       - name: Run SEC Catalyst Scanner
         run: |
-          if [ -f scripts/run_sec_catalyst_scanner.py ]; then
-            python scripts/run_sec_catalyst_scanner.py || echo "SEC catalyst layer failed safely; continuing."
-          fi
+          if [ -f scripts/run_sec_catalyst_scanner.py ]; then python scripts/run_sec_catalyst_scanner.py || true; fi
+          if [ -f scripts/repair_sec_health.py ]; then python scripts/repair_sec_health.py || true; fi
 
       - name: Run FINRA Short Pressure Scanner
         run: |
-          if [ -f scripts/run_finra_short_pressure_scanner.py ]; then
-            python scripts/run_finra_short_pressure_scanner.py || echo "FINRA short-pressure layer failed safely; continuing."
-          fi
+          if [ -f scripts/run_finra_short_pressure_scanner.py ]; then python scripts/run_finra_short_pressure_scanner.py || true; fi
 
       - name: Run Alpaca News Scanner
-        run: |
-          if [ -f scripts/run_alpaca_news_scanner.py ]; then
-            python scripts/run_alpaca_news_scanner.py || echo "Alpaca news layer failed safely; continuing."
-          fi
+        run: python scripts/run_alpaca_news_scanner.py
 
       - name: Run Advanced Signal Quality
         run: |
-          if [ -f scripts/run_advanced_signal_quality.py ]; then
-            python scripts/run_advanced_signal_quality.py || echo "Advanced quality layer failed safely; continuing."
-          fi
+          if [ -f scripts/run_advanced_signal_quality.py ]; then python scripts/run_advanced_signal_quality.py; fi
 
       - name: Run Halt LULD Circuit Guard
         run: |
-          if [ -f scripts/run_halt_luld_circuit_guard.py ]; then
-            python scripts/run_halt_luld_circuit_guard.py || echo "Market guard layer failed safely; continuing."
-          fi
+          if [ -f scripts/run_halt_luld_circuit_guard.py ]; then python scripts/run_halt_luld_circuit_guard.py; fi
 
       - name: Run Signal Journal
         run: |
-          if [ -f scripts/run_signal_journal.py ]; then
-            python scripts/run_signal_journal.py || echo "Signal journal failed safely; continuing."
-          fi
+          if [ -f scripts/run_signal_journal.py ]; then python scripts/run_signal_journal.py; fi
 
       - name: Run Outcome Labeler
         run: |
-          if [ -f scripts/run_outcome_labeler.py ]; then
-            python scripts/run_outcome_labeler.py || echo "Outcome labeler failed safely; continuing."
-          fi
+          if [ -f scripts/run_outcome_labeler.py ]; then python scripts/run_outcome_labeler.py || true; fi
 
       - name: Run Adaptive Guard
         run: |
-          if [ -f scripts/run_adaptive_guard.py ]; then
-            python scripts/run_adaptive_guard.py || echo "Adaptive guard failed safely; continuing."
-          fi
+          if [ -f scripts/run_adaptive_guard.py ]; then python scripts/run_adaptive_guard.py; fi
 
       - name: Run Paper Execution Gate Plan
         run: |
-          if [ -f scripts/run_paper_execution_gate.py ]; then
-            python scripts/run_paper_execution_gate.py || echo "Paper execution gate plan failed safely; continuing."
-          fi
+          if [ -f scripts/run_paper_execution_gate.py ]; then python scripts/run_paper_execution_gate.py; fi
 
       - name: Run Slippage Fill Tracker
         run: |
-          if [ -f scripts/run_slippage_fill_tracker.py ]; then
-            python scripts/run_slippage_fill_tracker.py || echo "Slippage tracker failed safely; continuing."
-          fi
+          if [ -f scripts/run_slippage_fill_tracker.py ]; then python scripts/run_slippage_fill_tracker.py; fi
 
       - name: Run Real Money Readiness Guard
         run: |
-          if [ -f scripts/run_real_money_readiness_guard.py ]; then
-            python scripts/run_real_money_readiness_guard.py || echo "Real-money readiness guard failed safely; continuing."
-          fi
-
-      - name: Write Paid Pipeline Health
-        run: |
-          if [ -f scripts/write_paid_pipeline_health.py ]; then
-            python scripts/write_paid_pipeline_health.py
-          fi
+          if [ -f scripts/run_real_money_readiness_guard.py ]; then python scripts/run_real_money_readiness_guard.py; fi
 
       - name: Run Final Repo Audit
         run: |
-          if [ -f scripts/run_final_repo_audit.py ]; then
-            python scripts/run_final_repo_audit.py || echo "Final repo audit failed safely; continuing so data can be committed."
-          fi
+          if [ -f scripts/run_final_repo_audit.py ]; then python scripts/run_final_repo_audit.py || true; fi
 
       - name: Commit paid Alpaca pipeline data
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add docs/data/prediction_engine state/prediction_engine
-          git commit -m "Update paid Alpaca elite scanner pipeline data" || echo "No changes to commit"
+          git commit -m "Update paid Alpaca scanner pipeline data" || echo "No changes to commit"
           git push

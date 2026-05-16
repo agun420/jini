@@ -3,29 +3,24 @@ from __future__ import annotations
 import json
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
+
 
 SIGNAL_INPUT_CANDIDATES = [
-    Path('docs/data/prediction_engine/signal_dashboard_market_guard_enriched.json'),
-    Path('docs/data/prediction_engine/signal_dashboard_quality_enriched.json'),
-    Path('docs/data/prediction_engine/signal_dashboard_news_enriched.json'),
-    Path('docs/data/prediction_engine/signal_dashboard_finra_enriched.json'),
-    Path('docs/data/prediction_engine/signal_dashboard_enriched.json'),
-    Path('docs/data/prediction_engine/signal_dashboard.json'),
+    Path("docs/data/prediction_engine/signal_dashboard_market_guard_enriched.json"),
+    Path("docs/data/prediction_engine/signal_dashboard_quality_enriched.json"),
+    Path("docs/data/prediction_engine/signal_dashboard_news_enriched.json"),
+    Path("docs/data/prediction_engine/signal_dashboard_finra_enriched.json"),
+    Path("docs/data/prediction_engine/signal_dashboard_enriched.json"),
+    Path("docs/data/prediction_engine/signal_dashboard.json"),
+    Path("docs/data/prediction_engine/alpaca_paid_market_candidates.json"),
+    Path("state/prediction_engine/dynamic_alpaca_candidates.json"),
 ]
 
-FREE_SCANNER_CANDIDATES = [
-    Path('docs/data/prediction_engine/free_scanner_finra_enriched.json'),
-    Path('docs/data/prediction_engine/free_scanner_enriched.json'),
-    Path('docs/data/prediction_engine/free_scanner.json'),
-]
-
-JOURNAL_PATH = Path('state/prediction_engine/signal_history.json')
-LEARNING_STATE_PATH = Path('state/prediction_engine/learning_state.json')
-LEARNING_DASHBOARD_PATH = Path('docs/data/prediction_engine/learning.json')
-HEALTH_PATH = Path('docs/data/prediction_engine/signal_journal_health.json')
-
-MAX_JOURNAL_ROWS = 5000
+STATE_HISTORY_PATH = Path("state/prediction_engine/signal_history.json")
+DOCS_HISTORY_PATH = Path("docs/data/prediction_engine/signal_history.json")
+LEARNING_PATH = Path("docs/data/prediction_engine/learning.json")
+HEALTH_PATH = Path("docs/data/prediction_engine/signal_journal_health.json")
 
 
 def now_utc_iso() -> str:
@@ -35,300 +30,221 @@ def now_utc_iso() -> str:
 def read_json(path: Path, default: Any) -> Any:
     if not path.exists():
         return default
+
     try:
-        raw = path.read_text(encoding='utf-8').strip()
-        return json.loads(raw) if raw else default
+        raw = path.read_text(encoding="utf-8").strip()
+        if not raw:
+            return default
+        return json.loads(raw)
     except Exception:
         return default
 
 
 def write_json(path: Path, payload: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=2, sort_keys=False), encoding='utf-8')
+    path.write_text(json.dumps(payload, indent=2, sort_keys=False), encoding="utf-8")
 
 
-def first_existing(paths: List[Path]) -> Optional[Path]:
-    for path in paths:
-        if path.exists():
-            return path
-    return None
+def extract_rows(payload: Any) -> List[Dict[str, Any]]:
+    if isinstance(payload, list):
+        return [item for item in payload if isinstance(item, dict)]
+
+    if isinstance(payload, dict):
+        for key in ["rows", "signals", "candidates", "data", "items"]:
+            value = payload.get(key)
+            if isinstance(value, list):
+                return [item for item in value if isinstance(item, dict)]
+
+    return []
 
 
-def normalize_symbol(value: Any) -> str:
-    return str(value or '').upper().strip()
+def load_latest_signals() -> tuple[List[Dict[str, Any]], str]:
+    for path in SIGNAL_INPUT_CANDIDATES:
+        payload = read_json(path, {})
+        rows = extract_rows(payload)
+        if rows:
+            return rows, str(path)
+
+    return [], "none"
 
 
-def safe_float(value: Any, default: Optional[float] = None) -> Optional[float]:
-    try:
-        if value in (None, ''):
-            return default
-        return float(value)
-    except Exception:
-        return default
+def normalize_signal(row: Dict[str, Any], source_path: str, run_id: str) -> Dict[str, Any]:
+    ticker = str(row.get("ticker") or row.get("symbol") or "").upper().strip()
 
+    advanced_quality = row.get("advanced_quality")
+    if not isinstance(advanced_quality, dict):
+        advanced_quality = {}
 
-def load_signal_rows() -> Dict[str, Any]:
-    source_path = first_existing(SIGNAL_INPUT_CANDIDATES)
-    if not source_path:
-        return {
-            'source_path': None,
-            'rows': [],
-            'source_payload': {},
-        }
+    market_guard = row.get("market_guard")
+    if not isinstance(market_guard, dict):
+        market_guard = {}
 
-    payload = read_json(source_path, {})
-    rows = payload.get('rows') if isinstance(payload, dict) else []
-    if not isinstance(rows, list):
-        rows = []
+    alpaca_news = row.get("alpaca_news")
+    if not isinstance(alpaca_news, dict):
+        alpaca_news = {}
 
     return {
-        'source_path': str(source_path),
-        'rows': [row for row in rows if isinstance(row, dict)],
-        'source_payload': payload if isinstance(payload, dict) else {},
+        "journal_id": f"{run_id}:{ticker}",
+        "journaled_at": run_id,
+        "source_path": source_path,
+        "ticker": ticker,
+        "status": row.get("status") or row.get("signal") or row.get("decision") or "UNKNOWN",
+        "score": row.get("score"),
+        "price": row.get("price"),
+        "entry": row.get("entry"),
+        "target": row.get("target"),
+        "stop": row.get("stop"),
+        "risk_reward": row.get("risk_reward"),
+        "relative_volume": row.get("relative_volume"),
+        "vwap_distance_pct": (
+            row.get("vwap_distance_pct")
+            or row.get("vwap_distance_percent")
+        ),
+        "day_change_pct": (
+            row.get("day_change_pct")
+            or row.get("day_move_percent")
+            or row.get("day_change_percent")
+        ),
+        "gap_pct": row.get("gap_pct") or row.get("gap_percent"),
+        "volume_acceleration": row.get("volume_acceleration"),
+        "reason": row.get("reason") or row.get("trade_gate_summary"),
+        "quality_gate_status": row.get("quality_gate_status"),
+        "quality_gate_blocks": row.get("quality_gate_blocks"),
+        "advanced_quality_score": advanced_quality.get("advanced_quality_score"),
+        "halt_luld_status": market_guard.get("halt_luld_status"),
+        "halt_luld_score": market_guard.get("halt_luld_proxy_score"),
+        "news_count": alpaca_news.get("news_count"),
+        "news_catalyst_score": alpaca_news.get("news_catalyst_score"),
+        "latest_headline": alpaca_news.get("latest_headline"),
+        "raw": row,
     }
 
 
-def load_free_scanner_summary() -> Dict[str, Any]:
-    path = first_existing(FREE_SCANNER_CANDIDATES)
-    if not path:
-        return {}
-    payload = read_json(path, {})
-    return payload if isinstance(payload, dict) else {}
+def dedupe_rows(rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    seen = set()
+    deduped: List[Dict[str, Any]] = []
+
+    for row in rows:
+        key = row.get("journal_id")
+        if not key:
+            key = f"{row.get('journaled_at')}:{row.get('ticker')}"
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(row)
+
+    return deduped
 
 
-def make_signal_key(row: Dict[str, Any], generated_at: str) -> str:
-    ticker = normalize_symbol(row.get('ticker'))
-    status = str(row.get('status') or row.get('signal') or 'UNKNOWN')
-    score = safe_float(row.get('score'), 0.0) or 0.0
-    price = safe_float(row.get('price'), 0.0) or 0.0
-    # Keep one record per ticker/status/run. Later packages will add outcome snapshots.
-    return f'{generated_at}|{ticker}|{status}|{score:.2f}|{price:.4f}'
+def summarize(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
+    by_status: Dict[str, int] = {}
+    by_quality: Dict[str, int] = {}
 
+    for row in rows:
+        status = str(row.get("status") or "UNKNOWN")
+        by_status[status] = by_status.get(status, 0) + 1
 
-def classify_bucket(score: Optional[float]) -> str:
-    if score is None:
-        return 'UNKNOWN'
-    if score >= 90:
-        return '90_100'
-    if score >= 80:
-        return '80_89'
-    if score >= 70:
-        return '70_79'
-    if score >= 60:
-        return '60_69'
-    if score >= 40:
-        return '40_59'
-    return '0_39'
-
-
-def build_journal_record(row: Dict[str, Any], run_generated_at: str, source_path: Optional[str]) -> Dict[str, Any]:
-    ticker = normalize_symbol(row.get('ticker'))
-    score = safe_float(row.get('score'), None)
-    status = str(row.get('status') or 'UNKNOWN')
-    no_trade_reasons = row.get('no_trade_reasons') if isinstance(row.get('no_trade_reasons'), list) else []
-
-    was_trade_eligible = status == 'TRADE_ELIGIBLE'
-    was_paper_order_submitted = False
-
-    skip_reason = None
-    if not was_trade_eligible:
-        skip_reason = ';'.join(str(x) for x in no_trade_reasons) or status
-    else:
-        # Package 4 still does not submit orders.
-        skip_reason = 'paper_execution_not_enabled_in_package_4'
+        quality = str(row.get("quality_gate_status") or "UNKNOWN")
+        by_quality[quality] = by_quality.get(quality, 0) + 1
 
     return {
-        'journal_schema_version': 'signal_history_v1',
-        'journaled_at': now_utc_iso(),
-        'run_generated_at': run_generated_at,
-        'source_path': source_path,
-        'signal_key': make_signal_key(row, run_generated_at),
-        'ticker': ticker,
-        'status': status,
-        'signal': row.get('signal'),
-        'score': score,
-        'score_bucket': classify_bucket(score),
-        'price': safe_float(row.get('price'), None),
-        'entry': safe_float(row.get('entry'), None),
-        'stop': safe_float(row.get('stop'), None),
-        'target': safe_float(row.get('target'), None),
-        'risk_reward': safe_float(row.get('risk_reward'), None),
-        'relative_volume': safe_float(row.get('relative_volume'), None),
-        'day_move_percent': safe_float(row.get('day_move_percent'), None),
-        'gap_pct': safe_float(row.get('gap_pct'), None),
-        'vwap': safe_float(row.get('vwap'), None),
-        'vwap_distance_percent': safe_float(row.get('vwap_distance_percent'), None),
-        'volume_acceleration': safe_float(row.get('volume_acceleration'), None),
-        'trend_state': row.get('trend_state'),
-        'candidate_quality': row.get('candidate_quality'),
-        'data_quality': row.get('data_quality'),
-        'sec_context': row.get('sec_context') or row.get('sec_catalyst'),
-        'finra_context': row.get('finra_context') or row.get('short_pressure'),
-        'trade_gate_summary': row.get('trade_gate_summary'),
-        'no_trade_reasons': no_trade_reasons,
-        'was_trade_eligible': was_trade_eligible,
-        'was_paper_order_submitted': was_paper_order_submitted,
-        'skip_reason': skip_reason,
-        'future_outcome': {
-            'status': 'PENDING',
-            'future_30m_return_pct': None,
-            'future_60m_return_pct': None,
-            'hit_target_before_stop': None,
-            'notes': 'Outcome labeling is added in a later package.',
+        "total_rows": len(rows),
+        "trade_eligible": by_status.get("TRADE_ELIGIBLE", 0),
+        "trade_eligible_count": by_status.get("TRADE_ELIGIBLE", 0),
+        "no_trade": by_status.get("NO_TRADE", 0),
+        "no_trade_count": by_status.get("NO_TRADE", 0),
+        "by_status": by_status,
+        "by_quality_gate": by_quality,
+    }
+
+
+def run_signal_journal() -> Dict[str, Any]:
+    run_id = now_utc_iso()
+    current_rows, source_path = load_latest_signals()
+
+    existing_payload = read_json(STATE_HISTORY_PATH, {})
+    existing_rows = extract_rows(existing_payload)
+
+    new_rows = [
+        normalize_signal(row, source_path, run_id)
+        for row in current_rows
+        if str(row.get("ticker") or row.get("symbol") or "").strip()
+    ]
+
+    combined_rows = dedupe_rows(existing_rows + new_rows)
+
+    # Keep the file from growing forever.
+    max_rows = 5000
+    if len(combined_rows) > max_rows:
+        combined_rows = combined_rows[-max_rows:]
+
+    summary = summarize(combined_rows)
+
+    payload = {
+        "schema_version": "signal_journal_v2",
+        "generated_at": run_id,
+        "status": "PASS" if new_rows else "WARN",
+        "source_path": source_path,
+        "current_signal_count": len(current_rows),
+        "new_rows_added": len(new_rows),
+        "summary": summary,
+        "rows": combined_rows,
+        "safety": {
+            "paper_only": True,
+            "order_submission": False,
+            "journal_only": True,
+            "disclaimer": "Signal journal only. Not financial advice.",
         },
     }
 
-
-def append_signal_history() -> Dict[str, Any]:
-    loaded = load_signal_rows()
-    rows = loaded['rows']
-    source_path = loaded['source_path']
-    source_payload = loaded['source_payload']
-    scanner_summary = load_free_scanner_summary()
-
-    run_generated_at = str(
-        source_payload.get('generated_at')
-        or scanner_summary.get('generated_at')
-        or now_utc_iso()
-    )
-
-    existing_payload = read_json(JOURNAL_PATH, {'schema_version': 'signal_history_v1', 'rows': []})
-    existing_rows = existing_payload.get('rows') if isinstance(existing_payload, dict) else []
-    if not isinstance(existing_rows, list):
-        existing_rows = []
-
-    existing_keys = {str(row.get('signal_key')) for row in existing_rows if isinstance(row, dict)}
-
-    new_records = []
-    for row in rows:
-        ticker = normalize_symbol(row.get('ticker'))
-        if not ticker:
-            continue
-        record = build_journal_record(row, run_generated_at, source_path)
-        if record['signal_key'] in existing_keys:
-            continue
-        new_records.append(record)
-        existing_keys.add(record['signal_key'])
-
-    all_rows = existing_rows + new_records
-    if len(all_rows) > MAX_JOURNAL_ROWS:
-        all_rows = all_rows[-MAX_JOURNAL_ROWS:]
-
-    journal_payload = {
-        'schema_version': 'signal_history_v1',
-        'updated_at': now_utc_iso(),
-        'max_rows': MAX_JOURNAL_ROWS,
-        'row_count': len(all_rows),
-        'rows': all_rows,
+    learning_payload = {
+        "schema_version": "learning_summary_v2",
+        "generated_at": run_id,
+        "status": payload["status"],
+        "source_path": source_path,
+        "summary": summary,
+        "rows": combined_rows[-500:],
+        "safety": payload["safety"],
     }
-
-    write_json(JOURNAL_PATH, journal_payload)
-
-    learning_state = build_learning_state(all_rows, new_records, source_path, run_generated_at)
-    write_json(LEARNING_STATE_PATH, learning_state)
-    write_json(LEARNING_DASHBOARD_PATH, learning_state)
 
     health = {
-        'schema_version': 'signal_journal_health_v1',
-        'generated_at': now_utc_iso(),
-        'status': 'PASS',
-        'source_path': source_path,
-        'input_rows': len(rows),
-        'new_records': len(new_records),
-        'total_journal_rows': len(all_rows),
-        'paper_only': True,
-        'order_submission': False,
-        'notes': [
-            'Package 4 saves signal history for future learning.',
-            'It records skipped and trade-eligible signals.',
-            'It does not submit orders.',
-            'Outcome labeling is intentionally deferred to a later package.',
-        ],
+        "schema_version": "signal_journal_health_v2",
+        "generated_at": run_id,
+        "status": payload["status"],
+        "message": (
+            "signals journaled"
+            if new_rows
+            else "no signals found to journal"
+        ),
+        "source_path": source_path,
+        "current_signal_count": len(current_rows),
+        "new_rows_added": len(new_rows),
+        "journal_rows": len(combined_rows),
+        "trade_eligible_count": summary["trade_eligible_count"],
+        "no_trade_count": summary["no_trade_count"],
+        "paper_only": True,
+        "order_submission": False,
     }
+
+    write_json(STATE_HISTORY_PATH, payload)
+    write_json(DOCS_HISTORY_PATH, payload)
+    write_json(LEARNING_PATH, learning_payload)
     write_json(HEALTH_PATH, health)
 
     return {
-        'status': 'PASS',
-        'source_path': source_path,
-        'input_rows': len(rows),
-        'new_records': len(new_records),
-        'total_journal_rows': len(all_rows),
-        'journal_path': str(JOURNAL_PATH),
-        'learning_dashboard_path': str(LEARNING_DASHBOARD_PATH),
-        'health_path': str(HEALTH_PATH),
-    }
-
-
-def build_learning_state(all_rows: List[Dict[str, Any]], new_records: List[Dict[str, Any]], source_path: Optional[str], run_generated_at: str) -> Dict[str, Any]:
-    recent = [row for row in all_rows if isinstance(row, dict)][-250:]
-
-    by_status: Dict[str, int] = {}
-    by_bucket: Dict[str, int] = {}
-    by_reason: Dict[str, int] = {}
-
-    for row in recent:
-        status = str(row.get('status') or 'UNKNOWN')
-        bucket = str(row.get('score_bucket') or 'UNKNOWN')
-        by_status[status] = by_status.get(status, 0) + 1
-        by_bucket[bucket] = by_bucket.get(bucket, 0) + 1
-
-        reasons = row.get('no_trade_reasons') if isinstance(row.get('no_trade_reasons'), list) else []
-        for reason in reasons[:5]:
-            key = str(reason)
-            by_reason[key] = by_reason.get(key, 0) + 1
-
-    trade_eligible_count = by_status.get('TRADE_ELIGIBLE', 0)
-    pending_outcomes = sum(
-        1 for row in recent
-        if isinstance(row.get('future_outcome'), dict)
-        and row['future_outcome'].get('status') == 'PENDING'
-    )
-
-    # Package 4 is base learning only. It should not change trading thresholds yet.
-    adaptive_state = {
-        'enabled': False,
-        'mode': 'journal_only',
-        'min_confidence_adjustment': 0,
-        'allow_new_entries': False,
-        'reason': 'Package 4 records signals only. Adaptive guard is added later.',
-    }
-
-    return {
-        'schema_version': 'learning_state_v1',
-        'generated_at': now_utc_iso(),
-        'source_path': source_path,
-        'run_generated_at': run_generated_at,
-        'window': {
-            'recent_rows_considered': len(recent),
-            'total_journal_rows': len(all_rows),
-            'new_records_this_run': len(new_records),
-        },
-        'counts': {
-            'by_status': by_status,
-            'by_score_bucket': by_bucket,
-            'top_no_trade_reasons': dict(sorted(by_reason.items(), key=lambda x: x[1], reverse=True)[:10]),
-            'trade_eligible_recent': trade_eligible_count,
-            'pending_outcomes': pending_outcomes,
-        },
-        'learning_readiness': {
-            'signal_history_ready': len(all_rows) >= 100,
-            'meta_labeling_ready': False,
-            'walk_forward_ready': False,
-            'reason': 'Need outcome labeling and more history before ML.',
-        },
-        'adaptive_state': adaptive_state,
-        'safety': {
-            'paper_only': True,
-            'order_submission': False,
-            'live_trading': False,
-            'this_package_can_trade': False,
-        },
+        "status": payload["status"],
+        "source_path": source_path,
+        "current_signal_count": len(current_rows),
+        "new_rows_added": len(new_rows),
+        "journal_rows": len(combined_rows),
+        "health_path": str(HEALTH_PATH),
+        "learning_path": str(LEARNING_PATH),
     }
 
 
 def main() -> None:
-    print(json.dumps(append_signal_history(), indent=2))
+    print(json.dumps(run_signal_journal(), indent=2))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
