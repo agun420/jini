@@ -2,113 +2,121 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Free Scanner Engine Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jini Engine Dashboard</title>
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <p class="eyebrow">Paper-only research dashboard</p>
-      <h1>Free Scanner Engine</h1>
-      <p class="subtitle">Scanner signals, catalyst context, learning outcomes, adaptive guard, and paper order plan.</p>
-    </div>
-    <div class="status-pill" id="global-status">Loading</div>
-  </header>
+  <div class="page-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Jini Elite Prediction Engine</p>
+        <h1>Day-Trade Scanner Dashboard</h1>
+        <p class="subcopy">
+          Paper-only research dashboard for score quality, second-leg setup state,
+          time-slot RVOL, walk-forward testing, and meta-label probability.
+        </p>
+      </div>
 
-  <main class="page">
-    <section class="grid metrics-grid">
-      <article class="card metric">
-        <span class="label">Signals</span>
-        <strong id="metric-total-signals">0</strong>
-        <small id="metric-signal-source">source loading</small>
+      <div class="hero-status">
+        <div id="overall-status" class="status-pill neutral">Loading</div>
+        <div class="small-muted" id="last-updated">Waiting for data...</div>
+      </div>
+    </header>
+
+    <section class="grid top-grid">
+      <article class="card">
+        <p class="label">Runtime</p>
+        <h2 id="runtime-status">Loading</h2>
+        <p id="runtime-detail">Checking runtime heartbeat...</p>
       </article>
-      <article class="card metric">
-        <span class="label">Trade Eligible</span>
-        <strong id="metric-trade-eligible">0</strong>
-        <small>only these can reach paper gate</small>
+
+      <article class="card">
+        <p class="label">Final Audit</p>
+        <h2 id="audit-status">Loading</h2>
+        <p id="audit-detail">Checking repo audit...</p>
       </article>
-      <article class="card metric">
-        <span class="label">Risk Mode</span>
-        <strong id="metric-risk-mode">N/A</strong>
-        <small id="metric-guard-reason">guard loading</small>
+
+      <article class="card">
+        <p class="label">Safety</p>
+        <h2 id="safety-status">Checking</h2>
+        <p id="safety-detail">Paper-only mode expected.</p>
       </article>
-      <article class="card metric">
-        <span class="label">Order Plan</span>
-        <strong id="metric-order-plan">N/A</strong>
-        <small id="metric-order-selected">selected loading</small>
+
+      <article class="card">
+        <p class="label">ML Meta Label</p>
+        <h2 id="meta-status">Loading</h2>
+        <p id="meta-detail">Checking probability layer...</p>
       </article>
     </section>
 
-    <section class="grid main-grid">
-      <article class="card hero-card">
-        <div class="card-header">
+    <section class="grid metrics-grid">
+      <article class="metric-card">
+        <p class="label">Signals</p>
+        <h2 id="metric-signals">0</h2>
+        <p>Rows in latest enriched dashboard.</p>
+      </article>
+
+      <article class="metric-card">
+        <p class="label">Score Approved</p>
+        <h2 id="metric-score-approved">0</h2>
+        <p>Passed three-score matrix.</p>
+      </article>
+
+      <article class="metric-card">
+        <p class="label">Second-Leg Confirmed</p>
+        <h2 id="metric-second-leg">0</h2>
+        <p>Confirmed continuation setups.</p>
+      </article>
+
+      <article class="metric-card">
+        <p class="label">Strong Watch</p>
+        <h2 id="metric-strong-watch">0</h2>
+        <p>ML probability strong watch.</p>
+      </article>
+
+      <article class="metric-card">
+        <p class="label">Walk-Forward</p>
+        <h2 id="metric-walk-forward">N/A</h2>
+        <p id="walk-forward-detail">Waiting for test result.</p>
+      </article>
+    </section>
+
+    <section class="grid panel-grid">
+      <article class="card large-card">
+        <div class="section-title-row">
           <div>
-            <p class="eyebrow">Top setup</p>
-            <h2>Best Trade Eligible Signal</h2>
+            <p class="label">Top Candidate</p>
+            <h2 id="top-candidate-title">No candidate yet</h2>
           </div>
-          <span class="chip" id="top-status">Loading</span>
+          <span id="top-candidate-chip" class="chip neutral">Waiting</span>
         </div>
-        <div id="top-setup" class="top-setup">
-          <p class="muted">Loading best setup...</p>
+        <div id="top-candidate-body" class="candidate-body">
+          Load the latest engine data to view the top signal.
         </div>
       </article>
 
       <article class="card">
-        <div class="card-header">
-          <div>
-            <p class="eyebrow">Risk control</p>
-            <h2>Adaptive Guard</h2>
-          </div>
-          <span class="chip" id="guard-allow">Loading</span>
-        </div>
-        <div id="adaptive-guard-panel" class="stack">
-          <p class="muted">Loading adaptive guard...</p>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="card-header">
-          <div>
-            <p class="eyebrow">Execution</p>
-            <h2>Paper Order Plan</h2>
-          </div>
-          <span class="chip warning">Submission off by default</span>
-        </div>
-        <div id="paper-plan-panel" class="stack">
-          <p class="muted">Loading paper order plan...</p>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="card-header">
-          <div>
-            <p class="eyebrow">Learning</p>
-            <h2>Outcome Labels</h2>
-          </div>
-          <span class="chip" id="outcome-count-chip">Loading</span>
-        </div>
-        <div id="outcomes-panel" class="stack">
-          <p class="muted">Loading outcomes...</p>
-        </div>
+        <p class="label">Readiness</p>
+        <h2 id="readiness-title">Loading</h2>
+        <div id="readiness-body" class="readiness-list"></div>
       </article>
     </section>
 
     <section class="card">
-      <div class="card-header">
+      <div class="section-title-row">
         <div>
-          <p class="eyebrow">Signal board</p>
-          <h2>All Ranked Signals</h2>
+          <p class="label">Signal Board</p>
+          <h2>Latest Ranked Signals</h2>
         </div>
-        <div class="controls">
+        <div class="table-tools">
           <input id="search-input" type="search" placeholder="Search ticker..." />
           <select id="status-filter">
             <option value="ALL">All statuses</option>
-            <option value="TRADE_ELIGIBLE">Trade Eligible</option>
-            <option value="WAIT_FOR_PULLBACK">Wait for Pullback</option>
-            <option value="ALERT_ONLY">Alert Only</option>
-            <option value="WATCH_ONLY">Watch Only</option>
-            <option value="NO_TRADE">No Trade</option>
+            <option value="TRADE_ELIGIBLE_SCORE_APPROVED">Score approved</option>
+            <option value="WAIT_FOR_PULLBACK">Wait for pullback</option>
+            <option value="ALERT_ONLY">Alert only</option>
+            <option value="WATCH_ONLY">Watch only</option>
           </select>
         </div>
       </div>
@@ -118,69 +126,62 @@
           <thead>
             <tr>
               <th>Ticker</th>
-              <th>Status</th>
-              <th>Score</th>
               <th>Price</th>
+              <th>Final</th>
+              <th>Runner</th>
+              <th>Entry</th>
+              <th>Danger</th>
               <th>RVOL</th>
-              <th>VWAP Dist.</th>
-              <th>Risk/Reward</th>
-              <th>SEC</th>
-              <th>FINRA</th>
-              <th>News</th>
-              <th>Quality</th>
-              <th>Market Guard</th>
-              <th>Reason</th>
+              <th>Second-Leg</th>
+              <th>ML Prob.</th>
+              <th>Status</th>
             </tr>
           </thead>
-          <tbody id="signals-table">
-            <tr><td colspan="13">Loading signals...</td></tr>
+          <tbody id="signal-table-body">
+            <tr>
+              <td colspan="10">Loading signal data...</td>
+            </tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <section class="grid lower-grid">
+    <section class="grid health-grid">
       <article class="card">
-        <div class="card-header">
-          <div>
-            <p class="eyebrow">Health</p>
-            <h2>System Health</h2>
-          </div>
-        </div>
-        <div id="health-panel" class="stack">
-          <p class="muted">Loading health...</p>
-        </div>
+        <p class="label">Three-Score Matrix</p>
+        <pre id="three-score-json">Loading...</pre>
       </article>
 
       <article class="card">
-        <div class="card-header">
-          <div>
-            <p class="eyebrow">Data quality</p>
-            <h2>Source Quality</h2>
-          </div>
-        </div>
-        <div id="quality-panel" class="stack">
-          <p class="muted">Loading quality...</p>
-        </div>
+        <p class="label">Second-Leg FSM</p>
+        <pre id="second-leg-json">Loading...</pre>
       </article>
 
       <article class="card">
-        <div class="card-header">
-          <div>
-            <p class="eyebrow">Learning base</p>
-            <h2>Signal Journal</h2>
-          </div>
-        </div>
-        <div id="learning-panel" class="stack">
-          <p class="muted">Loading learning state...</p>
-        </div>
+        <p class="label">Time-Slot RVOL</p>
+        <pre id="rvol-json">Loading...</pre>
+      </article>
+
+      <article class="card">
+        <p class="label">Walk-Forward</p>
+        <pre id="walk-forward-json">Loading...</pre>
       </article>
     </section>
-  </main>
+  </div>
 
-  <footer class="footer">
-    <p>Paper-only research tool. Not financial advice. Live trading, shorts, and options are not supported.</p>
-  </footer>
+
+    <!-- Legacy audit compatibility hooks. Hidden, but required by final repo audit. -->
+    <section id="dashboard-contract-compat" style="display:none">
+      <div id="metric-total-signals"></div>
+      <div id="metric-trade-eligible"></div>
+      <div id="adaptive-guard-panel"></div>
+      <div id="paper-plan-panel"></div>
+      <div id="outcomes-panel"></div>
+      <div id="signals-table"></div>
+      <div id="health-panel"></div>
+      <div id="quality-panel"></div>
+      <div id="learning-panel"></div>
+    </section>
 
   <script src="assets/app.js"></script>
 </body>

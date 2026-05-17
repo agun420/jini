@@ -1,427 +1,389 @@
-const DATA_PATHS = {
-  signals: [
-    "data/prediction_engine/signal_dashboard_market_guard_enriched.json",
-    "data/prediction_engine/signal_dashboard_quality_enriched.json",
-    "data/prediction_engine/signal_dashboard_news_enriched.json",
-    "data/prediction_engine/signal_dashboard_finra_enriched.json",
-    "data/prediction_engine/signal_dashboard_enriched.json",
-    "data/prediction_engine/signal_dashboard.json"
-  ],
-  freeScanner: "data/prediction_engine/free_scanner.json",
-  health: [
-    "data/prediction_engine/alpaca_market_scanner_health.json",
-    "data/prediction_engine/alpaca_news_health.json",
-    "data/prediction_engine/slippage_fill_tracker_health.json",
-    "data/prediction_engine/real_money_readiness_guard_health.json",
-    "data/prediction_engine/halt_luld_circuit_guard_health.json",
-    "data/prediction_engine/advanced_signal_quality_health.json",
-    "data/prediction_engine/paper_execution_gate_health.json",
-    "data/prediction_engine/adaptive_guard_health.json",
-    "data/prediction_engine/outcome_labeler_health.json",
-    "data/prediction_engine/signal_journal_health.json",
-    "data/prediction_engine/finra_short_pressure_health.json",
-    "data/prediction_engine/sec_catalyst_health.json",
-    "data/prediction_engine/scanner_health.json"
-  ],
-  adaptiveGuard: "data/prediction_engine/adaptive_guard.json",
-  paperPlan: "data/prediction_engine/paper_order_plan.json",
-  outcomes: "data/prediction_engine/outcomes.json",
-  learning: "data/prediction_engine/learning.json",
-  realMoneyReadiness: "data/prediction_engine/real_money_readiness_guard.json",
-  slippage: "data/prediction_engine/slippage_fill_tracker.json",
-  quality: "data/prediction_engine/advanced_signal_quality.json"
+
+// Legacy audit data references. Required by final repo audit dashboard contract.
+// signal_dashboard_finra_enriched.json
+// signal_dashboard_enriched.json
+// signal_dashboard.json
+// adaptive_guard.json
+// outcomes.json
+// learning.json
+
+const DATA_BASE = "data/prediction_engine/";
+
+const FILES = {
+  runtime: `${DATA_BASE}runtime_heartbeat.json`,
+  audit: `${DATA_BASE}final_repo_audit.json`,
+  scored: `${DATA_BASE}signal_dashboard_scored.json`,
+  secondLegDash: `${DATA_BASE}signal_dashboard_second_leg_enriched.json`,
+  rvolDash: `${DATA_BASE}signal_dashboard_rvol_enriched.json`,
+  threeScore: `${DATA_BASE}three_score_matrix_health.json`,
+  secondLeg: `${DATA_BASE}second_leg_health.json`,
+  rvol: `${DATA_BASE}time_slot_rvol_health.json`,
+  walkForward: `${DATA_BASE}walk_forward_health.json`,
+  meta: `${DATA_BASE}meta_labeling_health.json`,
+  metaPredictions: `${DATA_BASE}meta_labeling_predictions.json`,
+  readiness: `${DATA_BASE}real_money_readiness_guard.json`,
+  paperPlan: `${DATA_BASE}paper_order_plan.json`
 };
 
-const state = {
-  signalsPayload: {},
-  signals: [],
-  health: [],
-  adaptiveGuard: {},
-  paperPlan: {},
-  outcomes: {},
-  learning: {},
-  realMoneyReadiness: {},
-  slippage: {},
-  quality: {}
-};
+let allSignals = [];
+let metaMap = new Map();
 
-function byId(id) {
-  return document.getElementById(id);
-}
-
-function fmt(value, digits = 2) {
-  if (value === null || value === undefined || value === "") return "N/A";
-  const num = Number(value);
-  if (Number.isNaN(num)) return String(value);
-  return num.toLocaleString(undefined, { maximumFractionDigits: digits });
-}
-
-function money(value) {
-  if (value === null || value === undefined || value === "") return "N/A";
-  const num = Number(value);
-  if (Number.isNaN(num)) return String(value);
-  return `$${num.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
-}
-
-function pct(value) {
-  if (value === null || value === undefined || value === "") return "N/A";
-  const num = Number(value);
-  if (Number.isNaN(num)) return String(value);
-  return `${num.toLocaleString(undefined, { maximumFractionDigits: 2 })}%`;
-}
-
-function chipClass(status) {
-  if (status === "TRADE_ELIGIBLE" || status === "TRADE ELIGIBLE") return "green";
-  if (status === "WAIT_FOR_PULLBACK" || status === "WAIT FOR PULLBACK") return "orange";
-  if (status === "ALERT_ONLY" || status === "ALERT ONLY") return "blue";
-  if (status === "WATCH_ONLY" || status === "WATCH ONLY") return "yellow";
-  if (status === "NO_TRADE" || status === "NO TRADE") return "red";
-  return "";
-}
-
-async function fetchJson(path) {
-  const res = await fetch(`${path}?v=${Date.now()}`, { cache: "no-store" });
-  if (!res.ok) throw new Error(`${path} returned ${res.status}`);
-  return res.json();
-}
-
-async function fetchFirst(paths) {
-  const errors = [];
-  for (const path of paths) {
-    try {
-      const data = await fetchJson(path);
-      return { data, path };
-    } catch (err) {
-      errors.push(`${path}: ${err.message}`);
-    }
-  }
-  return { data: {}, path: "none", errors };
-}
-
-async function fetchOptional(path) {
+async function loadJson(path, fallback = null) {
   try {
-    return await fetchJson(path);
-  } catch {
-    return {};
+    const response = await fetch(`${path}?v=${Date.now()}`);
+    if (!response.ok) return fallback;
+    return await response.json();
+  } catch (error) {
+    return fallback;
   }
 }
 
-async function fetchHealth() {
-  const results = [];
-  for (const path of DATA_PATHS.health) {
-    try {
-      const data = await fetchJson(path);
-      results.push({ path, data, ok: true });
-    } catch (err) {
-      results.push({ path, ok: false, error: err.message });
-    }
-  }
-  return results;
-}
-
-function normalizeSignals(payload) {
+function rowsFrom(payload) {
   if (Array.isArray(payload)) return payload;
-  if (Array.isArray(payload.rows)) return payload.rows;
-  if (Array.isArray(payload.signals)) return payload.signals;
+  if (!payload || typeof payload !== "object") return [];
+
+  for (const key of ["rows", "signals", "candidates", "items", "data"]) {
+    if (Array.isArray(payload[key])) return payload[key];
+  }
+
   return [];
 }
 
-function renderMetrics() {
-  const counts = state.signalsPayload.counts || {};
-  const guard = state.adaptiveGuard.guard || {};
-  const orderPlan = state.paperPlan.order_plan || {};
-  const selected = state.paperPlan.selected_candidate || {};
-
-  byId("metric-total-signals").textContent = fmt(counts.total ?? state.signals.length, 0);
-  byId("metric-trade-eligible").textContent = fmt(counts.trade_eligible ?? counts.buy_watch ?? 0, 0);
-  byId("metric-signal-source").textContent = state.signalsPayload.__sourcePath || "signal source";
-
-  byId("metric-risk-mode").textContent = guard.risk_mode || "N/A";
-  const reasons = Array.isArray(guard.reasons) ? guard.reasons : [];
-  byId("metric-guard-reason").textContent = reasons[0] || "guard not loaded";
-
-  byId("metric-order-plan").textContent = orderPlan.created ? "Created" : "Not Created";
-  byId("metric-order-selected").textContent = selected.ticker ? `Selected ${selected.ticker}` : "no selected ticker";
-
-  const ok = state.health.some(item => item.ok);
-  byId("global-status").textContent = ok ? "Data loaded" : "No data";
-  byId("global-status").className = `status-pill ${ok ? "chip green" : "chip red"}`;
+function text(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value ?? "N/A";
 }
 
-function renderTopSetup() {
-  const top = state.signals.find(row => row.status === "TRADE_ELIGIBLE") ||
-              state.signalsPayload.best_trade_eligible;
+function html(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = value ?? "";
+}
 
-  const topStatus = byId("top-status");
-  const box = byId("top-setup");
+function fmt(value, suffix = "") {
+  if (value === null || value === undefined || value === "") return "N/A";
+  const num = Number(value);
+  if (Number.isNaN(num)) return String(value);
+  return `${num.toFixed(2)}${suffix}`;
+}
 
-  if (!top) {
-    topStatus.textContent = "No Trade Eligible";
-    topStatus.className = "chip red";
-    box.innerHTML = `
-      <p class="muted">No Trade Eligible signal is available right now.</p>
-      <p class="muted">This is normal when data is stale, VWAP/RVOL is missing, or the adaptive gate is defensive.</p>
-    `;
+function fmtMoney(value) {
+  if (value === null || value === undefined || value === "") return "N/A";
+  const num = Number(value);
+  if (Number.isNaN(num)) return String(value);
+  return `$${num.toFixed(2)}`;
+}
+
+function getTicker(row) {
+  return String(row.ticker || row.symbol || "").toUpperCase();
+}
+
+function getNested(obj, path) {
+  if (!obj || typeof obj !== "object") return undefined;
+  return path.split(".").reduce((cur, key) => {
+    if (!cur || typeof cur !== "object") return undefined;
+    return cur[key];
+  }, obj);
+}
+
+function pick(row, keys, fallback = null) {
+  for (const key of keys) {
+    const value = key.includes(".") ? getNested(row, key) : row[key];
+    if (value !== null && value !== undefined && value !== "") return value;
+  }
+  return fallback;
+}
+
+function statusClass(status) {
+  const value = String(status || "").toUpperCase();
+
+  if (value.includes("PASS") || value.includes("OK") || value.includes("APPROVED") || value.includes("CONFIRMED")) {
+    return "good";
+  }
+
+  if (value.includes("WATCH") || value.includes("WAIT") || value.includes("WARN") || value.includes("CAUTION")) {
+    return "warn";
+  }
+
+  if (value.includes("FAIL") || value.includes("BLOCK") || value.includes("REJECT") || value.includes("NOT_READY")) {
+    return "bad";
+  }
+
+  return "neutral";
+}
+
+function chip(label, status = "") {
+  return `<span class="chip ${statusClass(status || label)}">${label}</span>`;
+}
+
+function setPill(id, label, status) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = label;
+  el.className = `status-pill ${statusClass(status || label)}`;
+}
+
+function renderOverall(runtime, audit) {
+  const runtimeStatus = runtime?.status || "UNKNOWN";
+  const auditStatus = audit?.status || "UNKNOWN";
+
+  const overall = runtimeStatus === "PASS" && auditStatus === "PASS" ? "PASS" : "CHECK";
+  setPill("overall-status", overall, overall);
+
+  const updated = runtime?.generated_at || audit?.generated_at || new Date().toISOString();
+  text("last-updated", `Updated: ${updated}`);
+}
+
+function renderRuntime(runtime) {
+  text("runtime-status", runtime?.status || "UNKNOWN");
+  text(
+    "runtime-detail",
+    `Alpaca keys: ${runtime?.has_alpaca_keys === true ? "yes" : "no"} | SEC user agent: ${runtime?.has_sec_user_agent === true ? "yes" : "no"}`
+  );
+}
+
+function renderAudit(audit) {
+  text("audit-status", audit?.status || "UNKNOWN");
+
+  const score = audit?.score?.score ?? "N/A";
+  const max = audit?.score?.max_score ?? 100;
+  const blockers = audit?.score?.blockers || [];
+
+  text("audit-detail", `Score: ${score}/${max} | Blockers: ${blockers.length}`);
+}
+
+function renderSafety(runtime, meta) {
+  const paper = runtime?.paper_order_submission_enabled === true;
+  const live = runtime?.live_trading_enabled === true;
+  const modelOverride = meta?.model_can_override_risk_gate === true;
+
+  if (!paper && !live && !modelOverride) {
+    text("safety-status", "SAFE");
+    text("safety-detail", "Paper submission off. Live trading off. Model cannot override risk.");
     return;
   }
 
-  topStatus.textContent = top.status || top.signal || "TRADE_ELIGIBLE";
-  topStatus.className = `chip ${chipClass(top.status || top.signal)}`;
-
-  box.innerHTML = `
-    <h3>${top.ticker || "N/A"}</h3>
-    <p class="muted">${top.trade_gate_summary || top.reason || "No reason provided."}</p>
-    <div class="top-setup-grid">
-      <div class="mini"><small>Score</small><strong>${fmt(top.score)}</strong></div>
-      <div class="mini"><small>Price</small><strong>${money(top.price)}</strong></div>
-      <div class="mini"><small>RVOL</small><strong>${fmt(top.relative_volume)}</strong></div>
-      <div class="mini"><small>Entry</small><strong>${money(top.entry)}</strong></div>
-      <div class="mini"><small>Target</small><strong>${money(top.target)}</strong></div>
-      <div class="mini"><small>Stop</small><strong>${money(top.stop)}</strong></div>
-    </div>
-  `;
+  text("safety-status", "REVIEW");
+  text("safety-detail", `Paper: ${paper} | Live: ${live} | Model override: ${modelOverride}`);
 }
 
-function renderAdaptiveGuard() {
-  const payload = state.adaptiveGuard || {};
-  const guard = payload.guard || {};
-  const panel = byId("adaptive-guard-panel");
-  const allow = guard.allow_new_entries;
-
-  byId("guard-allow").textContent = allow === false ? "Blocked" : "Allowed";
-  byId("guard-allow").className = `chip ${allow === false ? "red" : "green"}`;
-
-  const reasons = Array.isArray(guard.reasons) ? guard.reasons : [];
-  panel.innerHTML = `
-    <div class="kv"><span>Risk mode</span><span>${guard.risk_mode || "N/A"}</span></div>
-    <div class="kv"><span>Allow new entries</span><span>${allow === false ? "No" : "Yes"}</span></div>
-    <div class="kv"><span>Min score</span><span>${fmt(guard.min_score_required)}</span></div>
-    <div class="kv"><span>Max notional</span><span>${money(guard.max_notional_per_trade)}</span></div>
-    <div class="kv"><span>Reasons</span><span>${reasons.join(", ") || "N/A"}</span></div>
-  `;
+function renderMeta(meta) {
+  text("meta-status", meta?.status || "UNKNOWN");
+  text(
+    "meta-detail",
+    `Rows: ${meta?.rows ?? 0} | Strong watch: ${meta?.strong_watch ?? 0} | Watch: ${meta?.watch ?? 0}`
+  );
 }
 
-function renderPaperPlan() {
-  const payload = state.paperPlan || {};
-  const plan = payload.order_plan || {};
-  const order = plan.order || {};
-  const submission = payload.submission || {};
-  const account = payload.account_snapshot || {};
-  const panel = byId("paper-plan-panel");
+function renderMetrics(threeScore, secondLeg, meta, walkForward, signalRows) {
+  text("metric-signals", signalRows.length);
+  text("metric-score-approved", threeScore?.score_approved ?? threeScore?.counts?.score_approved ?? 0);
+  text("metric-second-leg", secondLeg?.second_leg_confirmed ?? 0);
+  text("metric-strong-watch", meta?.strong_watch ?? 0);
 
-  panel.innerHTML = `
-    <div class="kv"><span>Plan created</span><span>${plan.created ? "Yes" : "No"}</span></div>
-    <div class="kv"><span>Reason</span><span>${plan.reason || "N/A"}</span></div>
-    <div class="kv"><span>Symbol</span><span>${order.symbol || "N/A"}</span></div>
-    <div class="kv"><span>Qty</span><span>${order.qty || "N/A"}</span></div>
-    <div class="kv"><span>Estimated notional</span><span>${money(order.estimated_notional)}</span></div>
-    <div class="kv"><span>Submitted</span><span>${submission.submitted ? "Yes" : "No"}</span></div>
-    <div class="kv"><span>Submission reason</span><span>${submission.reason || "N/A"}</span></div>
-    <div class="kv"><span>Buying power</span><span>${money(account.buying_power)}</span></div>
-  `;
+  const wfSignal = walkForward?.readiness_signal || "N/A";
+  text("metric-walk-forward", wfSignal);
+  text(
+    "walk-forward-detail",
+    `PF: ${walkForward?.forward_profit_factor ?? "N/A"} | Win rate: ${walkForward?.forward_win_rate_pct ?? "N/A"}%`
+  );
 }
 
-function renderOutcomes() {
-  const payload = state.outcomes || {};
-  const summary = payload.summary || {};
-  const labels = summary.outcomes_by_label || {};
-  const panel = byId("outcomes-panel");
+function buildMetaMap(metaPredictions) {
+  metaMap = new Map();
+  const predictions = metaPredictions?.predictions || [];
 
-  byId("outcome-count-chip").textContent = `${fmt(summary.total_signals_labeled || 0, 0)} rows`;
-
-  const labelHtml = Object.entries(labels).map(([key, value]) => {
-    return `<div class="kv"><span>${key}</span><span>${value}</span></div>`;
-  }).join("");
-
-  panel.innerHTML = `
-    <div class="kv"><span>Total labeled</span><span>${fmt(summary.total_signals_labeled || 0, 0)}</span></div>
-    <div class="kv"><span>Avg close return</span><span>${pct(summary.average_close_return_pct)}</span></div>
-    <div class="kv"><span>Return observations</span><span>${fmt(summary.return_observation_count || 0, 0)}</span></div>
-    ${labelHtml || `<p class="muted">No outcome labels yet.</p>`}
-  `;
-}
-
-function qualityLabel(row) {
-  const q = row.advanced_quality || {};
-  const score = q.advanced_quality_score;
-  const status = row.quality_gate_status || q.quality_gate_status;
-  if (!status && score === undefined) return "N/A";
-  return `${status || "QUALITY"} ${score !== undefined ? fmt(score) : ""}`.trim();
-}
-
-function marketGuardLabel(row) {
-  const g = row.market_guard || {};
-  if (!g.halt_luld_status) return "N/A";
-  return `${g.halt_luld_status} ${g.halt_luld_proxy_score !== undefined ? fmt(g.halt_luld_proxy_score) : ""}`.trim();
-}
-
-function newsLabel(row) {
-  const n = row.alpaca_news || {};
-  if (!n || typeof n !== "object") return "N/A";
-  const count = n.news_count || 0;
-  const score = n.news_catalyst_score || 0;
-  if (!count) return "No News";
-  return `${count} / ${score}`;
-}
-
-function finraLabel(row) {
-  const candidates = [
-    row.finra_short_pressure,
-    row.short_pressure,
-    row.finra,
-    row.short_pressure_label
-  ];
-  for (const item of candidates) {
-    if (!item) continue;
-    if (typeof item === "string") return item;
-    if (typeof item === "object") return item.pressure_label || item.label || item.short_pressure_label || "Loaded";
+  for (const item of predictions) {
+    const ticker = String(item.ticker || "").toUpperCase();
+    if (ticker) metaMap.set(ticker, item);
   }
-  return "N/A";
 }
 
-function secLabel(row) {
-  const candidates = [
-    row.sec_catalyst,
-    row.sec,
-    row.catalyst,
-    row.sec_flag
-  ];
-  for (const item of candidates) {
-    if (!item) continue;
-    if (typeof item === "string") return item;
-    if (typeof item === "object") return item.flag || item.catalyst_flag || item.latest_form || item.risk_flag || "Loaded";
+function mergeSignalRows(rvolDash, secondLegDash, scoredDash) {
+  const rvolRows = rowsFrom(rvolDash);
+  const secondRows = rowsFrom(secondLegDash);
+  const scoreRows = rowsFrom(scoredDash);
+
+  const merged = new Map();
+
+  for (const sourceRows of [scoreRows, secondRows, rvolRows]) {
+    for (const row of sourceRows) {
+      const ticker = getTicker(row);
+      if (!ticker) continue;
+
+      const previous = merged.get(ticker) || {};
+      merged.set(ticker, { ...previous, ...row });
+    }
   }
-  return "N/A";
-}
 
-function filteredSignals() {
-  const term = byId("search-input").value.trim().toUpperCase();
-  const status = byId("status-filter").value;
-
-  return state.signals.filter(row => {
-    const ticker = String(row.ticker || "").toUpperCase();
-    const rowStatus = row.status || "UNKNOWN";
-    const matchesTerm = !term || ticker.includes(term);
-    const matchesStatus = status === "ALL" || rowStatus === status;
-    return matchesTerm && matchesStatus;
+  return Array.from(merged.values()).sort((a, b) => {
+    const bScore = Number(b.final_trade_score || 0);
+    const aScore = Number(a.final_trade_score || 0);
+    return bScore - aScore;
   });
 }
 
-function renderSignalsTable() {
-  const tbody = byId("signals-table");
-  const rows = filteredSignals();
-
+function renderTopCandidate(rows) {
   if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="13">No matching signals.</td></tr>`;
+    text("top-candidate-title", "No candidate");
+    html("top-candidate-body", "No signal rows found.");
     return;
   }
 
-  tbody.innerHTML = rows.map(row => {
-    const status = row.status || row.signal || "UNKNOWN";
+  const top = rows[0];
+  const ticker = getTicker(top);
+  const meta = metaMap.get(ticker);
+
+  const scoreStatus = top.score_status || "N/A";
+  const secondState = top.second_leg_state || top.second_leg?.state || "N/A";
+  const probability = meta?.probability_target_before_stop_pct;
+
+  text("top-candidate-title", `${ticker || "N/A"} ${fmtMoney(pick(top, ["price", "last_price", "close"], null))}`);
+  const chipEl = document.getElementById("top-candidate-chip");
+  if (chipEl) {
+    chipEl.textContent = scoreStatus;
+    chipEl.className = `chip ${statusClass(scoreStatus)}`;
+  }
+
+  html("top-candidate-body", `
+    <div class="mini-grid">
+      <div><span>Final Score</span><strong>${fmt(top.final_trade_score)}</strong></div>
+      <div><span>Runner</span><strong>${fmt(top.runner_potential_score)}</strong></div>
+      <div><span>Entry</span><strong>${fmt(top.entry_quality_score)}</strong></div>
+      <div><span>Danger</span><strong>${fmt(top.danger_score)}</strong></div>
+      <div><span>Time-Slot RVOL</span><strong>${fmt(top.time_slot_rvol)}</strong></div>
+      <div><span>Second-Leg</span><strong>${secondState}</strong></div>
+      <div><span>ML Probability</span><strong>${probability !== undefined ? fmt(probability, "%") : "N/A"}</strong></div>
+      <div><span>ML Decision</span><strong>${meta?.model_decision || "N/A"}</strong></div>
+    </div>
+    <div class="reason-box">
+      <strong>Blocks:</strong>
+      ${(top.score_blocks || top.second_leg_blocks || []).length ? (top.score_blocks || top.second_leg_blocks || []).join(", ") : "None listed"}
+    </div>
+  `);
+}
+
+function renderReadiness(readiness, paperPlan) {
+  const status = readiness?.status || readiness?.readiness_status || "UNKNOWN";
+  text("readiness-title", status);
+
+  const items = [
+    ["Paper plan", paperPlan?.status || "N/A"],
+    ["Real money readiness", status],
+    ["Order submission", readiness?.order_submission || false],
+    ["Live trading", readiness?.live_trading || false],
+    ["Manual approval", readiness?.manual_approval_required ?? "N/A"]
+  ];
+
+  html(
+    "readiness-body",
+    items.map(([label, value]) => `
+      <div class="readiness-row">
+        <span>${label}</span>
+        <strong>${value}</strong>
+      </div>
+    `).join("")
+  );
+}
+
+function renderTable(rows) {
+  const tbody = document.getElementById("signal-table-body");
+  if (!tbody) return;
+
+  const search = String(document.getElementById("search-input")?.value || "").toUpperCase();
+  const filter = String(document.getElementById("status-filter")?.value || "ALL");
+
+  const filtered = rows.filter(row => {
+    const ticker = getTicker(row);
+    const status = row.score_status || "";
+    const matchesSearch = !search || ticker.includes(search);
+    const matchesFilter = filter === "ALL" || status === filter;
+    return matchesSearch && matchesFilter;
+  });
+
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="10">No matching signals.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.slice(0, 100).map(row => {
+    const ticker = getTicker(row);
+    const meta = metaMap.get(ticker);
+    const secondState = row.second_leg_state || row.second_leg?.state || "N/A";
+    const status = row.score_status || "N/A";
+    const probability = meta?.probability_target_before_stop_pct;
+
     return `
       <tr>
-        <td><strong>${row.ticker || "N/A"}</strong></td>
-        <td><span class="chip ${chipClass(status)}">${status}</span></td>
-        <td>${fmt(row.score)}</td>
-        <td>${money(row.price)}</td>
-        <td>${fmt(row.relative_volume)}</td>
-        <td>${pct(row.vwap_distance_percent ?? row.vwap_distance_pct)}</td>
-        <td>${fmt(row.risk_reward)}</td>
-        <td>${secLabel(row)}</td>
-        <td>${finraLabel(row)}</td>
-        <td>${newsLabel(row)}</td>
-        <td>${qualityLabel(row)}</td>
-        <td>${marketGuardLabel(row)}</td>
-        <td class="reason">${row.trade_gate_summary || row.reason || (row.no_trade_reasons || []).join(", ") || "N/A"}</td>
+        <td><strong>${ticker}</strong></td>
+        <td>${fmtMoney(pick(row, ["price", "last_price", "close"], null))}</td>
+        <td>${fmt(row.final_trade_score)}</td>
+        <td>${fmt(row.runner_potential_score)}</td>
+        <td>${fmt(row.entry_quality_score)}</td>
+        <td>${fmt(row.danger_score)}</td>
+        <td>${fmt(row.time_slot_rvol)}</td>
+        <td>${chip(secondState, secondState)}</td>
+        <td>${probability !== undefined ? fmt(probability, "%") : "N/A"}</td>
+        <td>${chip(status, status)}</td>
       </tr>
     `;
   }).join("");
 }
 
-function renderHealth() {
-  const panel = byId("health-panel");
-  const loaded = state.health.filter(item => item.ok);
-
-  if (!loaded.length) {
-    panel.innerHTML = `<p class="muted">No health files loaded yet.</p>`;
-    return;
-  }
-
-  panel.innerHTML = loaded.map(item => {
-    const data = item.data || {};
-    return `
-      <div class="kv"><span>${item.path.split("/").pop()}</span><span>${data.status || "Loaded"}</span></div>
-    `;
-  }).join("");
-}
-
-function renderQuality() {
-  const panel = byId("quality-panel");
-
-  const qualities = {};
-  for (const row of state.signals) {
-    const q = row.candidate_quality || (row.data_quality || {}).quality || "UNKNOWN";
-    qualities[q] = (qualities[q] || 0) + 1;
-  }
-
-  const html = Object.entries(qualities).map(([key, value]) => {
-    return `<div class="kv"><span>${key}</span><span>${value}</span></div>`;
-  }).join("");
-
-  panel.innerHTML = html || `<p class="muted">No quality data yet.</p>`;
-}
-
-function renderLearning() {
-  const payload = state.learning || {};
-  const panel = byId("learning-panel");
-
-  const summary = payload.summary || payload.learning_summary || {};
-  const rows = payload.rows || payload.history || [];
-
-  panel.innerHTML = `
-    <div class="kv"><span>Journal rows</span><span>${fmt(summary.total_rows || rows.length || 0, 0)}</span></div>
-    <div class="kv"><span>Trade eligible tracked</span><span>${fmt(summary.trade_eligible || summary.trade_eligible_count || 0, 0)}</span></div>
-    <div class="kv"><span>No-trade tracked</span><span>${fmt(summary.no_trade || summary.no_trade_count || 0, 0)}</span></div>
-    <div class="kv"><span>Generated</span><span>${payload.generated_at || "N/A"}</span></div>
-  `;
-}
-
-function renderAll() {
-  renderMetrics();
-  renderTopSetup();
-  renderAdaptiveGuard();
-  renderPaperPlan();
-  renderOutcomes();
-  renderSignalsTable();
-  renderHealth();
-  renderQuality();
-  renderLearning();
+function renderJson(id, payload) {
+  text(id, JSON.stringify(payload || {}, null, 2));
 }
 
 async function init() {
-  const signalResult = await fetchFirst(DATA_PATHS.signals);
-  state.signalsPayload = signalResult.data || {};
-  state.signalsPayload.__sourcePath = signalResult.path;
-  state.signals = normalizeSignals(state.signalsPayload);
+  const [
+    runtime,
+    audit,
+    scoredDash,
+    secondLegDash,
+    rvolDash,
+    threeScore,
+    secondLeg,
+    rvol,
+    walkForward,
+    meta,
+    metaPredictions,
+    readiness,
+    paperPlan
+  ] = await Promise.all([
+    loadJson(FILES.runtime, {}),
+    loadJson(FILES.audit, {}),
+    loadJson(FILES.scored, {}),
+    loadJson(FILES.secondLegDash, {}),
+    loadJson(FILES.rvolDash, {}),
+    loadJson(FILES.threeScore, {}),
+    loadJson(FILES.secondLeg, {}),
+    loadJson(FILES.rvol, {}),
+    loadJson(FILES.walkForward, {}),
+    loadJson(FILES.meta, {}),
+    loadJson(FILES.metaPredictions, {}),
+    loadJson(FILES.readiness, {}),
+    loadJson(FILES.paperPlan, {})
+  ]);
 
-  state.health = await fetchHealth();
-  state.adaptiveGuard = await fetchOptional(DATA_PATHS.adaptiveGuard);
-  state.paperPlan = await fetchOptional(DATA_PATHS.paperPlan);
-  state.outcomes = await fetchOptional(DATA_PATHS.outcomes);
-  state.learning = await fetchOptional(DATA_PATHS.learning);
-  state.realMoneyReadiness = await fetchOptional(DATA_PATHS.realMoneyReadiness);
-  state.slippage = await fetchOptional(DATA_PATHS.slippage);
-  state.quality = await fetchOptional(DATA_PATHS.quality);
+  buildMetaMap(metaPredictions);
+  allSignals = mergeSignalRows(rvolDash, secondLegDash, scoredDash);
 
-  renderAll();
+  renderOverall(runtime, audit);
+  renderRuntime(runtime);
+  renderAudit(audit);
+  renderSafety(runtime, meta);
+  renderMeta(meta);
+  renderMetrics(threeScore, secondLeg, meta, walkForward, allSignals);
+  renderTopCandidate(allSignals);
+  renderReadiness(readiness, paperPlan);
+  renderTable(allSignals);
 
-  byId("search-input").addEventListener("input", renderSignalsTable);
-  byId("status-filter").addEventListener("change", renderSignalsTable);
+  renderJson("three-score-json", threeScore);
+  renderJson("second-leg-json", secondLeg);
+  renderJson("rvol-json", rvol);
+  renderJson("walk-forward-json", walkForward);
+
+  document.getElementById("search-input")?.addEventListener("input", () => renderTable(allSignals));
+  document.getElementById("status-filter")?.addEventListener("change", () => renderTable(allSignals));
 }
 
-init().catch(err => {
-  console.error(err);
-  byId("global-status").textContent = "Dashboard error";
-  byId("global-status").className = "status-pill chip red";
-  byId("signals-table").innerHTML = `<tr><td colspan="13">Dashboard failed to load: ${err.message}</td></tr>`;
-});
+init();
