@@ -1,12 +1,14 @@
 {
   "schema_version": "final_repo_audit_v1",
-  "generated_at": "2026-05-17T18:14:56.168533+00:00",
-  "status": "PASS",
+  "generated_at": "2026-05-17T18:33:52.592318+00:00",
+  "status": "FAIL",
   "score": {
-    "score": 100,
+    "score": 90,
     "max_score": 100,
-    "grade": "PASS",
-    "blockers": [],
+    "grade": "FAIL",
+    "blockers": [
+      "dashboard_contract"
+    ],
     "warnings": []
   },
   "checks": {
@@ -95,7 +97,7 @@
       "status": "PASS"
     },
     "python_syntax": {
-      "checked_count": 85,
+      "checked_count": 86,
       "failures": [],
       "status": "PASS"
     },
@@ -192,10 +194,27 @@
       "status": "PASS"
     },
     "dashboard_contract": {
-      "missing_ids": [],
-      "missing_data_refs": [],
+      "missing_ids": [
+        "metric-total-signals",
+        "metric-trade-eligible",
+        "adaptive-guard-panel",
+        "paper-plan-panel",
+        "outcomes-panel",
+        "signals-table",
+        "health-panel",
+        "quality-panel",
+        "learning-panel"
+      ],
+      "missing_data_refs": [
+        "signal_dashboard_finra_enriched.json",
+        "signal_dashboard_enriched.json",
+        "signal_dashboard.json",
+        "adaptive_guard.json",
+        "outcomes.json",
+        "learning.json"
+      ],
       "issues": [],
-      "status": "PASS"
+      "status": "FAIL"
     },
     "master_pipeline_health": {
       "status": "PASS",
@@ -211,7 +230,7 @@
           "path": "docs/data/prediction_engine/scanner_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-17T18:08:33.085040+00:00"
+          "generated_at": "2026-05-17T18:16:47.905251+00:00"
         },
         {
           "path": "docs/data/prediction_engine/sec_catalyst_health.json",
@@ -223,7 +242,7 @@
           "path": "docs/data/prediction_engine/finra_short_pressure_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-17T18:08:32.845132+00:00"
+          "generated_at": "2026-05-17T18:16:47.406527+00:00"
         },
         {
           "path": "docs/data/prediction_engine/alpaca_news_health.json",
@@ -235,49 +254,49 @@
           "path": "docs/data/prediction_engine/advanced_signal_quality_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-17T18:08:33.340025+00:00"
+          "generated_at": "2026-05-17T18:16:48.046446+00:00"
         },
         {
           "path": "docs/data/prediction_engine/halt_luld_circuit_guard_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-17T18:08:33.512349+00:00"
+          "generated_at": "2026-05-17T18:16:48.143829+00:00"
         },
         {
           "path": "docs/data/prediction_engine/signal_journal_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-17T18:08:33.637652+00:00"
+          "generated_at": "2026-05-17T18:16:48.241391+00:00"
         },
         {
           "path": "docs/data/prediction_engine/outcome_labeler_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-17T18:08:33.921915+00:00"
+          "generated_at": "2026-05-17T18:16:48.512827+00:00"
         },
         {
           "path": "docs/data/prediction_engine/adaptive_guard_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-17T18:08:34.026644+00:00"
+          "generated_at": "2026-05-17T18:16:48.652541+00:00"
         },
         {
           "path": "docs/data/prediction_engine/paper_execution_gate_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-17T18:08:34.143569+00:00"
+          "generated_at": "2026-05-17T18:16:48.789692+00:00"
         },
         {
           "path": "docs/data/prediction_engine/slippage_fill_tracker_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-17T18:08:34.233426+00:00"
+          "generated_at": "2026-05-17T18:16:48.957310+00:00"
         },
         {
           "path": "docs/data/prediction_engine/real_money_readiness_guard_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-17T18:08:34.317812+00:00"
+          "generated_at": "2026-05-17T18:16:49.045749+00:00"
         }
       ],
       "source": "master_paid_pipeline_health.json"
@@ -288,7 +307,7 @@
     }
   },
   "recommendation": {
-    "safe_to_run_master_pipeline": true,
+    "safe_to_run_master_pipeline": false,
     "safe_to_enable_paper_submission": false,
     "reason": "Keep PAPER_ORDER_SUBMISSION_ENABLED=false until multiple clean days of paper order plans are reviewed.",
     "next_step": "Run Master Free Scanner Pipeline, review dashboard, then review paper_order_plan.json outputs before enabling any paper submission."
