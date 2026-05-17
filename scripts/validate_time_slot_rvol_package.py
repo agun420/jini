@@ -33,9 +33,6 @@ def main() -> None:
         "python_failures": failures,
     }, indent=2))
 
-    if status != "PASS":
-        raise SystemExit(1)
-
-
+    if status != "PASS
 if __name__ == "__main__":
     main()
