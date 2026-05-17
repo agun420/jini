@@ -1,12 +1,14 @@
 {
   "schema_version": "final_repo_audit_v1",
-  "generated_at": "2026-05-17T17:57:28.193212+00:00",
-  "status": "PASS",
+  "generated_at": "2026-05-17T18:03:40.727506+00:00",
+  "status": "FAIL",
   "score": {
-    "score": 100,
+    "score": 80,
     "max_score": 100,
-    "grade": "PASS",
-    "blockers": [],
+    "grade": "FAIL",
+    "blockers": [
+      "python_syntax"
+    ],
     "warnings": []
   },
   "checks": {
@@ -95,9 +97,14 @@
       "status": "PASS"
     },
     "python_syntax": {
-      "checked_count": 79,
-      "failures": [],
-      "status": "PASS"
+      "checked_count": 82,
+      "failures": [
+        {
+          "path": "scripts/validate_time_slot_rvol_package.py",
+          "error": "unterminated string literal (detected at line 36) (<unknown>, line 36)"
+        }
+      ],
+      "status": "FAIL"
     },
     "json_outputs": {
       "required_missing": [],
@@ -163,6 +170,7 @@
         "src/prediction_engine/learning/adaptive_guard.py",
         "src/prediction_engine/learning/outcome_labeler.py",
         "src/prediction_engine/learning/__init__.py",
+        "src/prediction_engine/learning/walk_forward.py",
         "src/prediction_engine/risk/real_money_readiness_guard.py",
         "src/prediction_engine/risk/__init__.py",
         "src/prediction_engine/risk/halt_luld_circuit_guard.py",
@@ -286,7 +294,7 @@
     }
   },
   "recommendation": {
-    "safe_to_run_master_pipeline": true,
+    "safe_to_run_master_pipeline": false,
     "safe_to_enable_paper_submission": false,
     "reason": "Keep PAPER_ORDER_SUBMISSION_ENABLED=false until multiple clean days of paper order plans are reviewed.",
     "next_step": "Run Master Free Scanner Pipeline, review dashboard, then review paper_order_plan.json outputs before enabling any paper submission."
