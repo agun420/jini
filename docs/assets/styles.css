@@ -327,3 +327,48 @@ pre {
     grid-template-columns: 1fr;
   }
 }
+/* Package 32 safe-mode dashboard warning */
+.safe-mode-banner {
+  margin: 0 0 18px 0;
+  padding: 22px;
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.safe-mode-banner h2 {
+  margin: 4px 0 8px;
+  font-size: 26px;
+}
+
+.safe-mode-banner p {
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.safe-mode-banner.danger {
+  border-color: rgba(239, 68, 68, 0.55);
+  background:
+    linear-gradient(135deg, rgba(127, 29, 29, 0.55), rgba(15, 23, 42, 0.92)),
+    var(--panel);
+}
+
+.safe-mode-banner.ok {
+  border-color: rgba(34, 197, 94, 0.42);
+  background:
+    linear-gradient(135deg, rgba(20, 83, 45, 0.32), rgba(15, 23, 42, 0.92)),
+    var(--panel);
+}
+
+@media (max-width: 860px) {
+  .safe-mode-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
