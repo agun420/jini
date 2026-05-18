@@ -14,6 +14,7 @@ const FILES = {
   audit: `${DATA_BASE}final_repo_audit.json`,
   scored: `${DATA_BASE}signal_dashboard_scored.json`,
   secondLegDash: `${DATA_BASE}signal_dashboard_second_leg_enriched.json`,
+  dataGuardDash: `${DATA_BASE}signal_dashboard_data_guard_enriched.json`,
   rvolDash: `${DATA_BASE}signal_dashboard_rvol_enriched.json`,
   threeScore: `${DATA_BASE}three_score_matrix_health.json`,
   secondLeg: `${DATA_BASE}second_leg_health.json`,
@@ -198,7 +199,8 @@ function buildMetaMap(metaPredictions) {
   }
 }
 
-function mergeSignalRows(rvolDash, secondLegDash, scoredDash) {
+function mergeSignalRows(dataGuardDash,
+    rvolDash, secondLegDash, scoredDash) {
   const rvolRows = rowsFrom(rvolDash);
   const secondRows = rowsFrom(secondLegDash);
   const scoreRows = rowsFrom(scoredDash);
@@ -339,6 +341,7 @@ async function init() {
     audit,
     scoredDash,
     secondLegDash,
+    dataGuardDash,
     rvolDash,
     threeScore,
     secondLeg,
@@ -353,7 +356,8 @@ async function init() {
     loadJson(FILES.audit, {}),
     loadJson(FILES.scored, {}),
     loadJson(FILES.secondLegDash, {}),
-    loadJson(FILES.rvolDash, {}),
+    loadJson(FILES.dataGuardDash,
+    rvolDash, {}),
     loadJson(FILES.threeScore, {}),
     loadJson(FILES.secondLeg, {}),
     loadJson(FILES.rvol, {}),
@@ -365,7 +369,8 @@ async function init() {
   ]);
 
   buildMetaMap(metaPredictions);
-  allSignals = mergeSignalRows(rvolDash, secondLegDash, scoredDash);
+  allSignals = mergeSignalRows(dataGuardDash,
+    rvolDash, secondLegDash, scoredDash);
 
   renderOverall(runtime, audit);
   renderRuntime(runtime);
