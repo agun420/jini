@@ -1,30 +1,30 @@
 {
   "schema_version": "alpaca_source_diagnostic_v1",
-  "generated_at": "2026-05-18T18:34:18.036290+00:00",
+  "generated_at": "2026-05-18T18:49:24.997135+00:00",
   "status": "FAIL",
   "blockers": [
-    "alpaca_key_missing",
-    "alpaca_secret_missing",
+    "alpaca_trading_auth_failed_401",
     "all_alpaca_data_feed_tests_failed"
   ],
   "warnings": [
+    "alpaca_auth_failed_401",
     "base_signal_dashboard_has_zero_price_rows"
   ],
   "env": {
     "ALPACA_API_KEY": {
-      "exists": false,
-      "length": 0,
-      "starts_with": null,
-      "ends_with": null,
-      "has_spaces": null,
+      "exists": true,
+      "length": 20,
+      "starts_with": "your",
+      "ends_with": "here",
+      "has_spaces": false,
       "is_placeholder": false
     },
     "ALPACA_SECRET_KEY": {
-      "exists": false,
-      "length": 0,
-      "starts_with": null,
-      "ends_with": null,
-      "has_spaces": null,
+      "exists": true,
+      "length": 23,
+      "starts_with": "your",
+      "ends_with": "here",
+      "has_spaces": false,
       "is_placeholder": false
     },
     "APCA_API_KEY_ID": {
@@ -44,34 +44,52 @@
       "is_placeholder": false
     },
     "ALPACA_DATA_FEED": {
-      "exists": false,
-      "length": 0,
-      "starts_with": null,
-      "ends_with": null,
-      "has_spaces": null,
+      "exists": true,
+      "length": 3,
+      "starts_with": "sip",
+      "ends_with": "sip",
+      "has_spaces": false,
       "is_placeholder": false
     }
   },
   "trading_auth": {
     "ok": false,
-    "reason": "unknown_error",
-    "error_type": "ModuleNotFoundError",
-    "error": "No module named 'alpaca'"
+    "reason": "alpaca_auth_failed_401",
+    "error_type": "APIError",
+    "error": "{\"message\": \"unauthorized.\"}\n"
   },
   "data_feeds": {
     "IEX": {
-      "ok": false,
-      "reason": "unknown_error",
-      "error_type": "ModuleNotFoundError",
-      "error": "No module named 'alpaca'",
-      "feed": "IEX"
+      "feed": "IEX",
+      "bars": {
+        "ok": false,
+        "reason": "alpaca_auth_failed_401",
+        "error_type": "APIError",
+        "error": "<html>\r\n<head><title>401 Authorization Required</title></head>\r\n<body>\r\n<center><h1>401 Authorization Required</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+      },
+      "quotes": {
+        "ok": false,
+        "reason": "alpaca_auth_failed_401",
+        "error_type": "APIError",
+        "error": "<html>\r\n<head><title>401 Authorization Required</title></head>\r\n<body>\r\n<center><h1>401 Authorization Required</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+      },
+      "ok": false
     },
     "SIP": {
-      "ok": false,
-      "reason": "unknown_error",
-      "error_type": "ModuleNotFoundError",
-      "error": "No module named 'alpaca'",
-      "feed": "SIP"
+      "feed": "SIP",
+      "bars": {
+        "ok": false,
+        "reason": "alpaca_auth_failed_401",
+        "error_type": "APIError",
+        "error": "<html>\r\n<head><title>401 Authorization Required</title></head>\r\n<body>\r\n<center><h1>401 Authorization Required</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+      },
+      "quotes": {
+        "ok": false,
+        "reason": "alpaca_auth_failed_401",
+        "error_type": "APIError",
+        "error": "<html>\r\n<head><title>401 Authorization Required</title></head>\r\n<body>\r\n<center><h1>401 Authorization Required</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+      },
+      "ok": false
     }
   },
   "scanner_files": {
@@ -100,23 +118,23 @@
     "docs/data/prediction_engine/signal_dashboard_data_guard_enriched.json": {
       "exists": true,
       "top_level_status": "FAIL",
-      "rows": 29,
-      "good_price_rows": 29,
-      "zero_price_rows": 0,
+      "rows": 27,
+      "good_price_rows": 0,
+      "zero_price_rows": 27,
       "missing_price_rows": 0,
       "statuses": {
-        "DATA_FEED_FAIL": 29
+        "DATA_FEED_FAIL": 27
       }
     },
     "docs/data/prediction_engine/signal_dashboard_rvol_enriched.json": {
       "exists": true,
       "top_level_status": "PASS",
-      "rows": 29,
-      "good_price_rows": 29,
-      "zero_price_rows": 0,
+      "rows": 27,
+      "good_price_rows": 0,
+      "zero_price_rows": 27,
       "missing_price_rows": 0,
       "statuses": {
-        "WATCH_ONLY": 29
+        "WATCH_ONLY": 27
       }
     },
     "docs/data/prediction_engine/scanner_data_source_health.json": {
