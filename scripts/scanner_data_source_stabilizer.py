@@ -85,7 +85,10 @@ def cache_map(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
     return out
 
 
-def stabilize_rows(current_rows: list[dict[str, Any]], cache_rows: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+def stabilize_rows(
+    current_rows: list[dict[str, Any]],
+    cache_rows: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     cache = cache_map(cache_rows)
     stable: list[dict[str, Any]] = []
 
@@ -109,8 +112,8 @@ def stabilize_rows(current_rows: list[dict[str, Any]], cache_rows: list[dict[str
             continue
 
         current_bad += 1
-
         cached = cache.get(t)
+
         if cached and row_is_good(cached):
             new = dict(cached)
             new["scanner_data_status"] = "STALE_DATA_RESTORED"
@@ -159,7 +162,6 @@ def export() -> dict[str, Any]:
 
     stable_rows, stats = stabilize_rows(current_rows, cache_rows)
 
-    # Update cache only with rows that have real live prices from the current scan.
     new_good_cache = [row for row in current_rows if row_is_good(row)]
     cache_updated = False
     if new_good_cache:
