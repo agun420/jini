@@ -29,6 +29,7 @@ run_once() {
   git reset --hard origin/main || true
 
   PYTHONPATH=src:. python scripts/run_runtime_worker.py || true
+  PYTHONPATH=src:. python scripts/run_scanner_data_source_stabilizer.py || true
   PYTHONPATH=src:. python scripts/run_three_score_matrix.py || true
   PYTHONPATH=src:. python scripts/run_second_leg_fsm.py || true
   PYTHONPATH=src:. python scripts/run_time_slot_rvol.py || true
