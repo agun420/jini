@@ -32,6 +32,7 @@ run_once() {
   PYTHONPATH=src:. python scripts/run_three_score_matrix.py || true
   PYTHONPATH=src:. python scripts/run_second_leg_fsm.py || true
   PYTHONPATH=src:. python scripts/run_time_slot_rvol.py || true
+  PYTHONPATH=src:. python scripts/run_data_feed_truth_guard.py || true
   PYTHONPATH=src:. python scripts/run_walk_forward_test.py || true
   PYTHONPATH=src:. python scripts/run_meta_labeling.py || true
   PYTHONPATH=src:. python scripts/run_production_monitor.py || true
