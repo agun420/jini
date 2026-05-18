@@ -35,6 +35,7 @@ run_once() {
   PYTHONPATH=src:. python scripts/run_walk_forward_test.py || true
   PYTHONPATH=src:. python scripts/run_meta_labeling.py || true
   PYTHONPATH=src:. python scripts/run_production_monitor.py || true
+  PYTHONPATH=src:. python scripts/run_alert_delivery.py || true
   PYTHONPATH=src:. python scripts/run_final_repo_audit.py || true
 
   git add docs/data/prediction_engine state/prediction_engine || true
