@@ -116,9 +116,39 @@ def export() -> dict[str, Any]:
         p_row = price_rows.get(t, {})
         s_row = score_rows.get(t, {})
 
-        # Score row first, then price row, then force best valid price back in.
-        merged = {**s_row, **p_row}
+        # Preserve score-layer values first.
+        # Then add price-layer values only when they are useful.
+        # Do not let stale DATA_FEED_FAIL from a guard layer overwrite valid score status.
+        merged = dict(s_row)
+
+        for key, value in p_row.items():
+            if key in {
+                "price", "last_price", "close", "last", "mark",
+                "scanner_data_status", "scanner_data_source_stable",
+                "scanner_data_restored_from_cache",
+                "data_feed_guard_status", "data_feed_valid",
+                "data_feed_warnings", "data_feed_blocks",
+                "_operator_sources",
+            }:
+                merged[key] = value
+            elif key not in merged or merged.get(key) in (None, "", "N/A"):
+                merged[key] = value
+
         merged["ticker"] = t
+
+        # If we have valid score fields and live/stable price data, keep score-layer status.
+        bad_guard_status = str(merged.get("score_status") or "").upper() in {"DATA_FEED_FAIL", "ALPACA_AUTH_FAIL"}
+        has_score = any(num(merged.get(k)) is not None for k in [
+            "final_trade_score",
+            "runner_potential_score",
+            "entry_quality_score",
+            "danger_score",
+        ])
+        has_live_data = str(merged.get("scanner_data_status") or "").upper() == "LIVE_DATA_OK"
+
+        if bad_guard_status and has_score and has_live_data:
+            merged["score_status"] = s_row.get("score_status") or "WATCH_ONLY"
+            merged["score_status_corrected_by_operator"] = True
 
         best_price = price(p_row) or price(s_row)
         if best_price is not None:
