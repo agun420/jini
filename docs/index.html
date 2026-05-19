@@ -126,6 +126,7 @@ const files={
   audit:B+'final_repo_audit.json',
   safe:B+'auth_failure_safe_mode_health.json',
   safeDash:B+'signal_dashboard_safe_mode.json',
+  operator:B+'signal_dashboard_operator.json',
   stable:B+'signal_dashboard_stable.json',
   data:B+'data_feed_quality_health.json',
   scanner:B+'scanner_data_source_health.json',
@@ -141,10 +142,10 @@ function money(v){const n=Number(v);return Number.isFinite(n)&&n>0?'$'+n.toFixed
 function num(v){const n=Number(v);return Number.isFinite(n)?n.toFixed(2):'N/A'}
 function pickRows(safeDash,stable){return rows(safeDash).length?rows(safeDash):rows(stable)}
 (async function(){
-  const [runtime,audit,safe,safeDash,stable,data,scanner,alerts]=await Promise.all([
-    j(files.runtime),j(files.audit),j(files.safe),j(files.safeDash),j(files.stable),j(files.data),j(files.scanner),j(files.alerts)
+  const [runtime,audit,safe,safeDash,operator,stable,data,scanner,alerts]=await Promise.all([
+    j(files.runtime),j(files.audit),j(files.safe),j(files.safeDash),j(files.operator),j(files.stable),j(files.data),j(files.scanner),j(files.alerts)
   ]);
-  const r=pickRows(safeDash,stable);
+  const r=rows(operator).length?rows(operator):pickRows(safeDash,stable);
 
   t('overall', audit.status||'UNKNOWN'); document.getElementById('overall').className='pill '+cls(audit.status);
   t('updated','Updated: '+(runtime.generated_at||audit.generated_at||new Date().toISOString()));

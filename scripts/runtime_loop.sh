@@ -40,6 +40,7 @@ run_once() {
   PYTHONPATH=src:. python scripts/run_alert_delivery.py || true
   PYTHONPATH=src:. python scripts/run_alpaca_source_diagnostic.py || true
   PYTHONPATH=src:. python scripts/run_auth_failure_safe_mode.py || true
+  PYTHONPATH=src:. python scripts/run_operator_signal_resolver.py || true
   PYTHONPATH=src:. python scripts/run_final_repo_audit.py || true
 
   git add docs/data/prediction_engine state/prediction_engine || true
