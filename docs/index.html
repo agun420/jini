@@ -187,6 +187,7 @@ learning-panel
     audit: B + "final_repo_audit.json",
     safe: B + "auth_failure_safe_mode_health.json",
     operator: B + "signal_dashboard_operator.json",
+    operatorHealth: B + "operator_signal_resolver_health.json",
     safeDash: B + "signal_dashboard_safe_mode.json",
     stable: B + "signal_dashboard_stable.json",
     data: B + "data_feed_quality_health.json",
@@ -260,6 +261,7 @@ learning-panel
     getJson(files.audit),
     getJson(files.safe),
     getJson(files.operator),
+    getJson(files.operatorHealth),
     getJson(files.safeDash),
     getJson(files.stable),
     getJson(files.data),
@@ -270,11 +272,12 @@ learning-panel
     var audit = payloads[1] || {};
     var safe = payloads[2] || {};
     var operator = payloads[3] || {};
-    var safeDash = payloads[4] || {};
-    var stable = payloads[5] || {};
-    var data = payloads[6] || {};
-    var scanner = payloads[7] || {};
-    var alerts = payloads[8] || {};
+    var operatorHealth = payloads[4] || {};
+    var safeDash = payloads[5] || {};
+    var stable = payloads[6] || {};
+    var data = payloads[7] || {};
+    var scanner = payloads[8] || {};
+    var alerts = payloads[9] || {};
 
     var rows = firstNonEmptyRows([operator, safeDash, stable]);
 
@@ -295,8 +298,18 @@ learning-panel
     setText("audit", audit.status || "UNKNOWN");
     setText("auditSub", "Score: " + ((audit.score && audit.score.score) || "N/A") + "/" + ((audit.score && audit.score.max_score) || 100));
 
-    setText("dataFeed", data.status || scanner.status || "UNKNOWN");
-    setText("dataFeedSub", "Good: " + (scanner.current_good_rows == null ? "N/A" : scanner.current_good_rows) + " | Bad: " + (scanner.current_bad_rows == null ? "N/A" : scanner.current_bad_rows) + " | Zero: " + (data.zero_price_rows == null ? "N/A" : data.zero_price_rows));
+    var rowsWithPrice = operatorHealth.rows_with_price == null ? scanner.current_good_rows : operatorHealth.rows_with_price;
+    var rowsWithScore = operatorHealth.rows_with_score == null ? "N/A" : operatorHealth.rows_with_score;
+    var badRows = scanner.current_bad_rows == null ? 0 : scanner.current_bad_rows;
+    var zeroRows = data.zero_price_rows == null ? 0 : data.zero_price_rows;
+    var feedStatus = operatorHealth.status || scanner.status || data.status || "UNKNOWN";
+
+    if (Number(rowsWithPrice) > 0 && Number(badRows) === 0 && Number(zeroRows) === 0) {
+      feedStatus = "PASS";
+    }
+
+    setText("dataFeed", feedStatus);
+    setText("dataFeedSub", "Priced: " + rowsWithPrice + " | Scored: " + rowsWithScore + " | Bad: " + badRows + " | Zero: " + zeroRows);
 
     setText("alerts", alerts.status || "UNKNOWN");
     setText("alertsSub", "Telegram: " + (alerts.telegram_configured === true ? "on" : "off") + " | Delivered: " + (alerts.delivered_count || 0));
@@ -343,7 +356,7 @@ learning-panel
     setHtml("rows", html);
 
     setText("safeJson", JSON.stringify(safe, null, 2));
-    setText("dataJson", JSON.stringify({ data: data, scanner: scanner, operator: operator.health || {} }, null, 2));
+    setText("dataJson", JSON.stringify({ data: data, scanner: scanner, operator: operatorHealth }, null, 2));
   }).catch(function (err) {
     applyPill("overall", "ERROR");
     setText("runtime", "ERROR");
