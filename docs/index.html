@@ -1,186 +1,176 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Jini Engine Dashboard</title>
-  <link rel="stylesheet" href="assets/styles.css" />
+  <style>
+    :root{--bg:#020617;--panel:#0f172a;--text:#e5e7eb;--muted:#94a3b8;--border:rgba(148,163,184,.25);--good:#22c55e;--warn:#f59e0b;--bad:#ef4444;--blue:#38bdf8}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif}
+    main{width:min(1450px,calc(100% - 32px));margin:0 auto;padding:28px 0 60px}
+    .hero,.card{background:rgba(15,23,42,.94);border:1px solid var(--border);border-radius:22px;padding:22px;margin-bottom:16px}
+    .hero{display:flex;justify-content:space-between;gap:20px}
+    h1,h2{margin:0 0 8px}
+    p{color:var(--muted);line-height:1.5}
+    .label{color:var(--blue);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin:0 0 8px}
+    .grid{display:grid;gap:16px;margin-bottom:16px}
+    .top{grid-template-columns:repeat(4,1fr)}
+    .metrics{grid-template-columns:repeat(5,1fr)}
+    .two{grid-template-columns:2fr 1fr}
+    .pill{display:inline-flex;border:1px solid var(--border);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800}
+    .good{color:var(--good);background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.4)}
+    .warn{color:var(--warn);background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.4)}
+    .bad{color:var(--bad);background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.4)}
+    .neutral{color:var(--blue);background:rgba(56,189,248,.08);border-color:rgba(56,189,248,.4)}
+    .safe{border-color:rgba(239,68,68,.55);background:linear-gradient(135deg,rgba(127,29,29,.5),rgba(15,23,42,.95))}
+    .metric h2{font-size:34px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:12px;border-bottom:1px solid var(--border);text-align:left;font-size:13px}
+    th{color:var(--muted);font-size:11px;text-transform:uppercase}
+    pre{white-space:pre-wrap;word-break:break-word;color:var(--muted);max-height:320px;overflow:auto}
+    .mini{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+    .mini div{background:#111827;border:1px solid var(--border);border-radius:14px;padding:12px}
+    .mini span{display:block;color:var(--muted);font-size:12px}
+    .mini strong{font-size:18px}
+    @media(max-width:900px){.top,.metrics,.two,.mini{grid-template-columns:1fr}.hero{flex-direction:column}}
+  </style>
 </head>
 <body>
-  <main class="page-shell">
-    <header class="hero">
-      <div>
-        <p class="eyebrow">Jini Elite Prediction Engine</p>
-        <h1>Day-Trade Scanner Dashboard</h1>
-        <p class="subcopy">
-          Paper-only research dashboard for runtime health, safe mode, scanner data quality,
-          alerts, score quality, second-leg setup state, RVOL, walk-forward testing, and ML meta-label probability.
-        </p>
-      </div>
-      <div class="hero-status">
-        <div id="overall-status" class="status-pill neutral">Loading</div>
-        <div id="last-updated" class="small-muted">Waiting for data...</div>
-      </div>
-    </header>
+<main>
+  <section class="hero">
+    <div>
+      <p class="label">Jini Elite Prediction Engine</p>
+      <h1>Emergency Safe Dashboard v2</h1>
+      <p>Standalone dashboard. No external JavaScript dependency. Paper-only research mode.</p>
+    </div>
+    <div>
+      <span id="overall" class="pill neutral">Loading</span>
+      <p id="updated">Waiting for data...</p>
+    </div>
+  </section>
 
-    <section id="safe-mode-banner" class="safe-mode-banner neutral">
-      <div>
-        <p class="label">Safe Mode</p>
-        <h2 id="safe-mode-title">Checking safe mode...</h2>
-        <p id="safe-mode-detail">Loading Alpaca auth/data status.</p>
-      </div>
-      <span id="safe-mode-pill" class="status-pill neutral">Loading</span>
-    </section>
+  <section id="safeBox" class="card safe">
+    <p class="label">Safe Mode</p>
+    <h2 id="safeTitle">Checking Alpaca auth...</h2>
+    <p id="safeDetail">Loading safe-mode health.</p>
+    <span id="safePill" class="pill neutral">Loading</span>
+  </section>
 
-    <section class="grid top-grid">
-      <article class="card">
-        <p class="label">Runtime</p>
-        <h2 id="runtime-status">Loading</h2>
-        <p id="runtime-detail">Checking heartbeat...</p>
-      </article>
+  <section class="grid top">
+    <article class="card"><p class="label">Runtime</p><h2 id="runtime">Loading</h2><p id="runtimeSub"></p></article>
+    <article class="card"><p class="label">Final Audit</p><h2 id="audit">Loading</h2><p id="auditSub"></p></article>
+    <article class="card"><p class="label">Data Feed</p><h2 id="dataFeed">Loading</h2><p id="dataFeedSub"></p></article>
+    <article class="card"><p class="label">Alerts</p><h2 id="alerts">Loading</h2><p id="alertsSub"></p></article>
+  </section>
 
-      <article class="card">
-        <p class="label">Final Audit</p>
-        <h2 id="audit-status">Loading</h2>
-        <p id="audit-detail">Checking audit score...</p>
-      </article>
+  <section class="grid metrics">
+    <article class="card metric"><p class="label">Signals</p><h2 id="signalsCount">0</h2><p>Rows loaded.</p></article>
+    <article class="card metric"><p class="label">Auth Fail</p><h2 id="authFail">N/A</h2><p>Alpaca auth status.</p></article>
+    <article class="card metric"><p class="label">Good Rows</p><h2 id="goodRows">0</h2><p>Scanner source quality.</p></article>
+    <article class="card metric"><p class="label">Bad Rows</p><h2 id="badRows">0</h2><p>Scanner source quality.</p></article>
+    <article class="card metric"><p class="label">Orders</p><h2>OFF</h2><p>Paper/live submission blocked.</p></article>
+  </section>
 
-      <article class="card">
-        <p class="label">Data Feed</p>
-        <h2 id="data-feed-status">Loading</h2>
-        <p id="data-feed-detail">Checking scanner data quality...</p>
-      </article>
+  <section class="grid two">
+    <article class="card">
+      <p class="label">Top Candidate</p>
+      <h2 id="topTitle">Loading</h2>
+      <div id="topBody"></div>
+    </article>
+    <article class="card">
+      <p class="label">System Message</p>
+      <h2 id="messageTitle">Loading</h2>
+      <p id="messageBody"></p>
+    </article>
+  </section>
 
-      <article class="card">
-        <p class="label">Alerts</p>
-        <h2 id="alert-status">Loading</h2>
-        <p id="alert-detail">Checking alert delivery...</p>
-      </article>
-    </section>
+  <section class="card">
+    <p class="label">Signal Board</p>
+    <h2>Latest Rows</h2>
+    <table>
+      <thead><tr><th>Ticker</th><th>Price</th><th>Final</th><th>Runner</th><th>Entry</th><th>Danger</th><th>Status</th><th>Data Status</th></tr></thead>
+      <tbody id="rows"><tr><td colspan="8">Loading...</td></tr></tbody>
+    </table>
+  </section>
 
-    <section class="grid metrics-grid">
-      <article class="metric-card">
-        <p class="label">Signals</p>
-        <h2 id="metric-total-signals">0</h2>
-        <p>Rows in latest dashboard.</p>
-      </article>
+  <section class="grid two">
+    <article class="card"><p class="label">Safe Mode JSON</p><pre id="safeJson">Loading...</pre></article>
+    <article class="card"><p class="label">Data Health JSON</p><pre id="dataJson">Loading...</pre></article>
+  </section>
+</main>
 
-      <article class="metric-card">
-        <p class="label">Score Approved</p>
-        <h2 id="metric-score-approved">0</h2>
-        <p>Passed three-score matrix.</p>
-      </article>
+<script>
+const B='data/prediction_engine/';
+const files={
+  runtime:B+'runtime_heartbeat.json',
+  audit:B+'final_repo_audit.json',
+  safe:B+'auth_failure_safe_mode_health.json',
+  safeDash:B+'signal_dashboard_safe_mode.json',
+  stable:B+'signal_dashboard_stable.json',
+  data:B+'data_feed_quality_health.json',
+  scanner:B+'scanner_data_source_health.json',
+  alerts:B+'alert_delivery_health.json'
+};
+async function j(path){try{const r=await fetch(path+'?v='+Date.now());return r.ok?await r.json():{}}catch(e){return {error:String(e)}}}
+function rows(x){if(Array.isArray(x))return x;if(!x||typeof x!=='object')return[];for(const k of ['rows','signals','candidates','data'])if(Array.isArray(x[k]))return x[k];return[]}
+function t(id,v){const e=document.getElementById(id);if(e)e.textContent=v??'N/A'}
+function h(id,v){const e=document.getElementById(id);if(e)e.innerHTML=v??''}
+function cls(v){v=String(v||'').toUpperCase();if(v.includes('PASS')||v.includes('OK'))return'good';if(v.includes('WARN')||v.includes('WATCH')||v.includes('STALE'))return'warn';if(v.includes('FAIL')||v.includes('AUTH')||v.includes('DATA_FEED'))return'bad';return'neutral'}
+function pill(v){return `<span class="pill ${cls(v)}">${v||'N/A'}</span>`}
+function money(v){const n=Number(v);return Number.isFinite(n)&&n>0?'$'+n.toFixed(2):'N/A'}
+function num(v){const n=Number(v);return Number.isFinite(n)?n.toFixed(2):'N/A'}
+function pickRows(safeDash,stable){return rows(safeDash).length?rows(safeDash):rows(stable)}
+(async function(){
+  const [runtime,audit,safe,safeDash,stable,data,scanner,alerts]=await Promise.all([
+    j(files.runtime),j(files.audit),j(files.safe),j(files.safeDash),j(files.stable),j(files.data),j(files.scanner),j(files.alerts)
+  ]);
+  const r=pickRows(safeDash,stable);
 
-      <article class="metric-card">
-        <p class="label">Second-Leg Confirmed</p>
-        <h2 id="metric-second-leg">0</h2>
-        <p>Confirmed continuation setups.</p>
-      </article>
+  t('overall', audit.status||'UNKNOWN'); document.getElementById('overall').className='pill '+cls(audit.status);
+  t('updated','Updated: '+(runtime.generated_at||audit.generated_at||new Date().toISOString()));
+  t('runtime',runtime.status||'UNKNOWN'); t('runtimeSub','Heartbeat: '+(runtime.generated_at||'N/A'));
+  t('audit',audit.status||'UNKNOWN'); t('auditSub','Score: '+(audit.score?.score??'N/A')+'/'+(audit.score?.max_score??100));
+  t('dataFeed',data.status||scanner.status||'UNKNOWN'); t('dataFeedSub',`Good: ${scanner.current_good_rows??'N/A'} | Bad: ${scanner.current_bad_rows??'N/A'} | Zero: ${data.zero_price_rows??'N/A'}`);
+  t('alerts',alerts.status||'UNKNOWN'); t('alertsSub',`Telegram: ${alerts.telegram_configured===true?'on':'off'} | Delivered: ${alerts.delivered_count??0}`);
 
-      <article class="metric-card">
-        <p class="label">Strong Watch</p>
-        <h2 id="metric-strong-watch">0</h2>
-        <p>ML probability strong watch.</p>
-      </article>
+  const active=safe.safe_mode_active===true;
+  t('safeTitle',active?'ALPACA AUTH FAILED':'Safe Mode Clear');
+  t('safeDetail',active?'Safe mode active. Buy alerts and all orders are blocked.':'No auth safe-mode blocker active.');
+  t('safePill',active?'SAFE MODE ACTIVE':(safe.status||'UNKNOWN')); document.getElementById('safePill').className='pill '+cls(active?'FAIL':safe.status);
+  t('signalsCount',r.length); t('authFail',active?'YES':'NO'); t('goodRows',scanner.current_good_rows??0); t('badRows',scanner.current_bad_rows??0);
 
-      <article class="metric-card">
-        <p class="label">Walk-Forward</p>
-        <h2 id="metric-walk-forward">Loading</h2>
-        <p id="walk-forward-detail">Checking walk-forward status...</p>
-      </article>
-    </section>
+  const top=r[0]||{};
+  t('topTitle',`${top.ticker||top.symbol||'N/A'} ${money(top.price||top.last_price||top.close)}`);
+  h('topBody',`<div class="mini">
+    <div><span>Final</span><strong>${num(top.final_trade_score)}</strong></div>
+    <div><span>Runner</span><strong>${num(top.runner_potential_score)}</strong></div>
+    <div><span>Entry</span><strong>${num(top.entry_quality_score)}</strong></div>
+    <div><span>Danger</span><strong>${num(top.danger_score)}</strong></div>
+  </div><p>Status: ${pill(top.score_status||top.scanner_data_status)}</p>`);
 
-    <section class="grid panel-grid">
-      <article class="card large-card">
-        <div class="section-title-row">
-          <div>
-            <p class="label">Top Candidate</p>
-            <h2 id="top-candidate-title">No candidate yet</h2>
-          </div>
-          <span id="top-candidate-chip" class="chip neutral">Waiting</span>
-        </div>
-        <div id="top-candidate-body" class="candidate-body">Loading top candidate...</div>
-      </article>
+  t('messageTitle', active?'System Protected':'System Check');
+  t('messageBody', active?'Alpaca auth/data failed. The dashboard is intentionally blocking buy/watch eligibility.':'Dashboard loaded successfully.');
 
-      <article class="card">
-        <p class="label">Readiness</p>
-        <h2 id="readiness-status">Loading</h2>
-        <div id="readiness-detail" class="readiness-list"></div>
-      </article>
-    </section>
+  h('rows',r.slice(0,100).map(x=>`<tr>
+    <td><strong>${x.ticker||x.symbol||'N/A'}</strong></td>
+    <td>${money(x.price||x.last_price||x.close)}</td>
+    <td>${num(x.final_trade_score)}</td>
+    <td>${num(x.runner_potential_score)}</td>
+    <td>${num(x.entry_quality_score)}</td>
+    <td>${num(x.danger_score)}</td>
+    <td>${pill(x.score_status||'N/A')}</td>
+    <td>${pill(x.scanner_data_status||x.data_feed_guard_status||'N/A')}</td>
+  </tr>`).join('') || '<tr><td colspan="8">No rows found.</td></tr>');
 
-    <section class="card">
-      <div class="section-title-row">
-        <div>
-          <p class="label">Signal Board</p>
-          <h2>Latest Ranked Signals</h2>
-        </div>
-        <div class="table-tools">
-          <input id="search-input" type="search" placeholder="Search ticker..." />
-          <select id="status-filter">
-            <option value="ALL">All statuses</option>
-            <option value="TRADE_ELIGIBLE_SCORE_APPROVED">Trade eligible</option>
-            <option value="WATCH_ONLY">Watch only</option>
-            <option value="DATA_FEED_FAIL">Data feed fail</option>
-            <option value="ALPACA_AUTH_FAIL">Auth fail</option>
-            <option value="STALE_DATA">Stale data</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="table-wrap">
-        <table id="signals-table">
-          <thead>
-            <tr>
-              <th>Ticker</th>
-              <th>Price</th>
-              <th>Final</th>
-              <th>Runner</th>
-              <th>Entry</th>
-              <th>Danger</th>
-              <th>RVOL</th>
-              <th>Second-Leg</th>
-              <th>ML Prob.</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="signal-table-body">
-            <tr><td colspan="10">Loading signal data...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="grid health-grid">
-      <article class="card" id="health-panel">
-        <p class="label">Runtime / Production</p>
-        <pre id="runtime-json">Loading...</pre>
-      </article>
-
-      <article class="card" id="quality-panel">
-        <p class="label">Data Feed Quality</p>
-        <pre id="data-json">Loading...</pre>
-      </article>
-
-      <article class="card" id="learning-panel">
-        <p class="label">ML Meta Label</p>
-        <pre id="meta-json">Loading...</pre>
-      </article>
-
-      <article class="card">
-        <p class="label">Walk-Forward</p>
-        <pre id="walk-json">Loading...</pre>
-      </article>
-    </section>
-
-    <!-- Legacy audit compatibility hooks -->
-    <section id="dashboard-contract-compat" style="display:none">
-      <div id="adaptive-guard-panel"></div>
-      <div id="paper-plan-panel"></div>
-      <div id="outcomes-panel"></div>
-    </section>
-  </main>
-
-  <script src="assets/app.js"></script>
+  t('safeJson',JSON.stringify(safe,null,2));
+  t('dataJson',JSON.stringify({data,scanner},null,2));
+})().catch(e=>{
+  t('overall','ERROR');
+  t('runtime','ERROR');
+  t('runtimeSub',String(e));
+  h('rows','<tr><td colspan="8">Dashboard error: '+String(e)+'</td></tr>');
+});
+</script>
 </body>
 </html>
