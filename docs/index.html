@@ -2,59 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Jini Engine Dashboard</title>
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
-  <div class="page-shell">
+  <main class="page-shell">
     <header class="hero">
       <div>
         <p class="eyebrow">Jini Elite Prediction Engine</p>
         <h1>Day-Trade Scanner Dashboard</h1>
         <p class="subcopy">
-          Paper-only research dashboard for score quality, second-leg setup state,
-          time-slot RVOL, walk-forward testing, and meta-label probability.
+          Paper-only research dashboard for runtime health, safe mode, scanner data quality,
+          alerts, score quality, second-leg setup state, RVOL, walk-forward testing, and ML meta-label probability.
         </p>
       </div>
-
       <div class="hero-status">
         <div id="overall-status" class="status-pill neutral">Loading</div>
-        <div class="small-muted" id="last-updated">Waiting for data...</div>
+        <div id="last-updated" class="small-muted">Waiting for data...</div>
       </div>
     </header>
+
+    <section id="safe-mode-banner" class="safe-mode-banner neutral">
+      <div>
+        <p class="label">Safe Mode</p>
+        <h2 id="safe-mode-title">Checking safe mode...</h2>
+        <p id="safe-mode-detail">Loading Alpaca auth/data status.</p>
+      </div>
+      <span id="safe-mode-pill" class="status-pill neutral">Loading</span>
+    </section>
 
     <section class="grid top-grid">
       <article class="card">
         <p class="label">Runtime</p>
         <h2 id="runtime-status">Loading</h2>
-        <p id="runtime-detail">Checking runtime heartbeat...</p>
+        <p id="runtime-detail">Checking heartbeat...</p>
       </article>
 
       <article class="card">
         <p class="label">Final Audit</p>
         <h2 id="audit-status">Loading</h2>
-        <p id="audit-detail">Checking repo audit...</p>
+        <p id="audit-detail">Checking audit score...</p>
       </article>
 
       <article class="card">
-        <p class="label">Safety</p>
-        <h2 id="safety-status">Checking</h2>
-        <p id="safety-detail">Paper-only mode expected.</p>
+        <p class="label">Data Feed</p>
+        <h2 id="data-feed-status">Loading</h2>
+        <p id="data-feed-detail">Checking scanner data quality...</p>
       </article>
 
       <article class="card">
-        <p class="label">ML Meta Label</p>
-        <h2 id="meta-status">Loading</h2>
-        <p id="meta-detail">Checking probability layer...</p>
+        <p class="label">Alerts</p>
+        <h2 id="alert-status">Loading</h2>
+        <p id="alert-detail">Checking alert delivery...</p>
       </article>
     </section>
 
     <section class="grid metrics-grid">
       <article class="metric-card">
         <p class="label">Signals</p>
-        <h2 id="metric-signals">0</h2>
-        <p>Rows in latest enriched dashboard.</p>
+        <h2 id="metric-total-signals">0</h2>
+        <p>Rows in latest dashboard.</p>
       </article>
 
       <article class="metric-card">
@@ -77,8 +85,8 @@
 
       <article class="metric-card">
         <p class="label">Walk-Forward</p>
-        <h2 id="metric-walk-forward">N/A</h2>
-        <p id="walk-forward-detail">Waiting for test result.</p>
+        <h2 id="metric-walk-forward">Loading</h2>
+        <p id="walk-forward-detail">Checking walk-forward status...</p>
       </article>
     </section>
 
@@ -91,15 +99,13 @@
           </div>
           <span id="top-candidate-chip" class="chip neutral">Waiting</span>
         </div>
-        <div id="top-candidate-body" class="candidate-body">
-          Load the latest engine data to view the top signal.
-        </div>
+        <div id="top-candidate-body" class="candidate-body">Loading top candidate...</div>
       </article>
 
       <article class="card">
         <p class="label">Readiness</p>
-        <h2 id="readiness-title">Loading</h2>
-        <div id="readiness-body" class="readiness-list"></div>
+        <h2 id="readiness-status">Loading</h2>
+        <div id="readiness-detail" class="readiness-list"></div>
       </article>
     </section>
 
@@ -113,16 +119,17 @@
           <input id="search-input" type="search" placeholder="Search ticker..." />
           <select id="status-filter">
             <option value="ALL">All statuses</option>
-            <option value="TRADE_ELIGIBLE_SCORE_APPROVED">Score approved</option>
-            <option value="WAIT_FOR_PULLBACK">Wait for pullback</option>
-            <option value="ALERT_ONLY">Alert only</option>
+            <option value="TRADE_ELIGIBLE_SCORE_APPROVED">Trade eligible</option>
             <option value="WATCH_ONLY">Watch only</option>
+            <option value="DATA_FEED_FAIL">Data feed fail</option>
+            <option value="ALPACA_AUTH_FAIL">Auth fail</option>
+            <option value="STALE_DATA">Stale data</option>
           </select>
         </div>
       </div>
 
       <div class="table-wrap">
-        <table>
+        <table id="signals-table">
           <thead>
             <tr>
               <th>Ticker</th>
@@ -138,50 +145,41 @@
             </tr>
           </thead>
           <tbody id="signal-table-body">
-            <tr>
-              <td colspan="10">Loading signal data...</td>
-            </tr>
+            <tr><td colspan="10">Loading signal data...</td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
     <section class="grid health-grid">
-      <article class="card">
-        <p class="label">Three-Score Matrix</p>
-        <pre id="three-score-json">Loading...</pre>
+      <article class="card" id="health-panel">
+        <p class="label">Runtime / Production</p>
+        <pre id="runtime-json">Loading...</pre>
       </article>
 
-      <article class="card">
-        <p class="label">Second-Leg FSM</p>
-        <pre id="second-leg-json">Loading...</pre>
+      <article class="card" id="quality-panel">
+        <p class="label">Data Feed Quality</p>
+        <pre id="data-json">Loading...</pre>
       </article>
 
-      <article class="card">
-        <p class="label">Time-Slot RVOL</p>
-        <pre id="rvol-json">Loading...</pre>
+      <article class="card" id="learning-panel">
+        <p class="label">ML Meta Label</p>
+        <pre id="meta-json">Loading...</pre>
       </article>
 
       <article class="card">
         <p class="label">Walk-Forward</p>
-        <pre id="walk-forward-json">Loading...</pre>
+        <pre id="walk-json">Loading...</pre>
       </article>
     </section>
-  </div>
 
-
-    <!-- Legacy audit compatibility hooks. Hidden, but required by final repo audit. -->
+    <!-- Legacy audit compatibility hooks -->
     <section id="dashboard-contract-compat" style="display:none">
-      <div id="metric-total-signals"></div>
-      <div id="metric-trade-eligible"></div>
       <div id="adaptive-guard-panel"></div>
       <div id="paper-plan-panel"></div>
       <div id="outcomes-panel"></div>
-      <div id="signals-table"></div>
-      <div id="health-panel"></div>
-      <div id="quality-panel"></div>
-      <div id="learning-panel"></div>
     </section>
+  </main>
 
   <script src="assets/app.js"></script>
 </body>

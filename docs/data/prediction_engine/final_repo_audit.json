@@ -1,12 +1,14 @@
 {
   "schema_version": "final_repo_audit_v1",
-  "generated_at": "2026-05-19T03:43:19.138376+00:00",
-  "status": "PASS",
+  "generated_at": "2026-05-19T04:00:50.714688+00:00",
+  "status": "FAIL",
   "score": {
-    "score": 100,
+    "score": 90,
     "max_score": 100,
-    "grade": "PASS",
-    "blockers": [],
+    "grade": "FAIL",
+    "blockers": [
+      "dashboard_contract"
+    ],
     "warnings": []
   },
   "checks": {
@@ -192,10 +194,12 @@
       "status": "PASS"
     },
     "dashboard_contract": {
-      "missing_ids": [],
+      "missing_ids": [
+        "metric-trade-eligible"
+      ],
       "missing_data_refs": [],
       "issues": [],
-      "status": "PASS"
+      "status": "FAIL"
     },
     "master_pipeline_health": {
       "status": "PASS",
@@ -288,7 +292,7 @@
     }
   },
   "recommendation": {
-    "safe_to_run_master_pipeline": true,
+    "safe_to_run_master_pipeline": false,
     "safe_to_enable_paper_submission": false,
     "reason": "Keep PAPER_ORDER_SUBMISSION_ENABLED=false until multiple clean days of paper order plans are reviewed.",
     "next_step": "Run Master Free Scanner Pipeline, review dashboard, then review paper_order_plan.json outputs before enabling any paper submission."
