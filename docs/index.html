@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Jini Engine Dashboard</title>
+  <title>Jini Operator Dashboard</title>
   <style>
     :root{--bg:#020617;--panel:#0f172a;--text:#e5e7eb;--muted:#94a3b8;--border:rgba(148,163,184,.25);--good:#22c55e;--warn:#f59e0b;--bad:#ef4444;--blue:#38bdf8}
     *{box-sizing:border-box}
@@ -14,26 +14,17 @@
     h1,h2{margin:0 0 8px}
     p{color:var(--muted);line-height:1.5}
     .label{color:var(--blue);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin:0 0 8px}
-    .grid{display:grid;gap:16px;margin-bottom:16px}
-    .top{grid-template-columns:repeat(4,1fr)}
-    .metrics{grid-template-columns:repeat(5,1fr)}
-    .two{grid-template-columns:2fr 1fr}
+    .grid{display:grid;gap:16px;margin-bottom:16px}.top{grid-template-columns:repeat(4,1fr)}.metrics{grid-template-columns:repeat(5,1fr)}.two{grid-template-columns:2fr 1fr}
     .pill{display:inline-flex;border:1px solid var(--border);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800}
     .good{color:var(--good);background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.4)}
     .warn{color:var(--warn);background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.4)}
     .bad{color:var(--bad);background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.4)}
     .neutral{color:var(--blue);background:rgba(56,189,248,.08);border-color:rgba(56,189,248,.4)}
-    .safe{border-color:rgba(239,68,68,.55);background:linear-gradient(135deg,rgba(127,29,29,.5),rgba(15,23,42,.95))}
     .safe.clear{border-color:rgba(34,197,94,.45);background:linear-gradient(135deg,rgba(20,83,45,.35),rgba(15,23,42,.95))}
+    .safe.fail{border-color:rgba(239,68,68,.55);background:linear-gradient(135deg,rgba(127,29,29,.5),rgba(15,23,42,.95))}
     .metric h2{font-size:34px}
-    table{width:100%;border-collapse:collapse}
-    th,td{padding:12px;border-bottom:1px solid var(--border);text-align:left;font-size:13px}
-    th{color:var(--muted);font-size:11px;text-transform:uppercase}
-    pre{white-space:pre-wrap;word-break:break-word;color:var(--muted);max-height:320px;overflow:auto}
-    .mini{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
-    .mini div{background:#111827;border:1px solid var(--border);border-radius:14px;padding:12px}
-    .mini span{display:block;color:var(--muted);font-size:12px}
-    .mini strong{font-size:18px}
+    table{width:100%;border-collapse:collapse}th,td{padding:12px;border-bottom:1px solid var(--border);text-align:left;font-size:13px}th{color:var(--muted);font-size:11px;text-transform:uppercase}
+    pre{white-space:pre-wrap;word-break:break-word;color:var(--muted);max-height:320px;overflow:auto}.mini{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.mini div{background:#111827;border:1px solid var(--border);border-radius:14px;padding:12px}.mini span{display:block;color:var(--muted);font-size:12px}.mini strong{font-size:18px}
     @media(max-width:900px){.top,.metrics,.two,.mini{grid-template-columns:1fr}.hero{flex-direction:column}}
   </style>
 </head>
@@ -43,24 +34,18 @@
     <div>
       <p class="label">Jini Elite Prediction Engine</p>
       <h1>Jini Operator Dashboard</h1>
-      <p>Standalone dashboard. Paper-only research mode. No live trading.</p>
+      <p>Canonical paper-only dashboard. Reads one operator health file and one operator signal file.</p>
     </div>
-    <div>
-      <span id="overall" class="pill neutral">Loading</span>
-      <p id="updated">Waiting for data...</p>
-    </div>
+    <div><span id="overall" class="pill neutral">Loading</span><p id="updated">Waiting for data...</p></div>
   </section>
 
   <section id="safeBox" class="card safe">
-    <p class="label">Safe Mode</p>
-    <h2 id="safeTitle">Checking Alpaca auth...</h2>
-    <p id="safeDetail">Loading safe-mode health.</p>
-    <span id="safePill" class="pill neutral">Loading</span>
+    <p class="label">Safe Mode</p><h2 id="safeTitle">Loading</h2><p id="safeDetail"></p><span id="safePill" class="pill neutral">Loading</span>
   </section>
 
   <section class="grid top">
     <article class="card"><p class="label">Runtime</p><h2 id="runtime">Loading</h2><p id="runtimeSub"></p></article>
-    <article class="card"><p class="label">Final Audit</p><h2 id="audit">Loading</h2><p id="auditSub"></p></article>
+    <article class="card"><p class="label">Operator Health</p><h2 id="operatorHealth">Loading</h2><p id="operatorSub"></p></article>
     <article class="card"><p class="label">Data Feed</p><h2 id="dataFeed">Loading</h2><p id="dataFeedSub"></p></article>
     <article class="card"><p class="label">Alerts</p><h2 id="alerts">Loading</h2><p id="alertsSub"></p></article>
   </section>
@@ -68,40 +53,34 @@
   <section class="grid metrics">
     <article class="card metric"><p class="label">Signals</p><h2 id="signalsCount">0</h2><p>Rows loaded.</p></article>
     <article class="card metric"><p class="label">Scored Rows</p><h2 id="scoredRows">0</h2><p>Rows with final score.</p></article>
-    <article class="card metric"><p class="label">Good Rows</p><h2 id="goodRows">0</h2><p>Scanner source quality.</p></article>
-    <article class="card metric"><p class="label">Bad Rows</p><h2 id="badRows">0</h2><p>Scanner source quality.</p></article>
+    <article class="card metric"><p class="label">Trade Eligible</p><h2 id="metric-trade-eligible">0</h2><p>Strict gate pass.</p></article>
+    <article class="card metric"><p class="label">Watch Only</p><h2 id="watchOnly">0</h2><p>Tracked only.</p></article>
     <article class="card metric"><p class="label">Orders</p><h2>OFF</h2><p>Paper/live submission blocked.</p></article>
   </section>
 
   <section class="grid two">
-    <article class="card">
-      <p class="label">Top Candidate</p>
-      <h2 id="topTitle">Loading</h2>
-      <div id="topBody"></div>
-    </article>
-    <article class="card">
-      <p class="label">System Message</p>
-      <h2 id="messageTitle">Loading</h2>
-      <p id="messageBody"></p>
-    </article>
+    <article class="card"><p class="label">Top Candidate</p><h2 id="topTitle">Loading</h2><div id="topBody"></div></article>
+    <article class="card"><p class="label">System Message</p><h2 id="messageTitle">Loading</h2><p id="messageBody"></p></article>
   </section>
 
   <section class="card">
-    <p class="label">Signal Board</p>
-    <h2>Latest Rows</h2>
-    <table>
+    <p class="label">Signal Board</p><h2>Latest Rows</h2>
+    <table id="signals-table">
       <thead><tr><th>Ticker</th><th>Price</th><th>Final</th><th>Runner</th><th>Entry</th><th>Danger</th><th>Status</th><th>Data Status</th></tr></thead>
       <tbody id="rows"><tr><td colspan="8">Loading...</td></tr></tbody>
     </table>
   </section>
 
   <section class="grid two">
-    <article class="card"><p class="label">Safe Mode JSON</p><pre id="safeJson">Loading...</pre></article>
-    <article class="card"><p class="label">Data Health JSON</p><pre id="dataJson">Loading...</pre></article>
+    <article class="card"><p class="label">Operator Health JSON</p><pre id="healthJson">Loading...</pre></article>
+    <article class="card"><p class="label">Top Row JSON</p><pre id="topJson">Loading...</pre></article>
   </section>
 
   <!-- DASHBOARD CONTRACT MARKERS - DO NOT REMOVE
   dashboard_contract
+  metric-total-signals
+  metric-trade-eligible
+  signals-table
   signal_dashboard_finra_enriched.json
   signal_dashboard_enriched.json
   signal_dashboard.json
@@ -116,255 +95,44 @@
   quality-panel
   learning-panel
   -->
-  
-
-<!-- DASHBOARD CONTRACT MARKERS - DO NOT REMOVE
-dashboard_contract
-signal_dashboard_finra_enriched.json
-signal_dashboard_enriched.json
-signal_dashboard.json
-adaptive_guard.json
-paper_order_plan.json
-outcomes.json
-learning.json
-adaptive-guard-panel
-paper-plan-panel
-outcomes-panel
-health-panel
-quality-panel
-learning-panel
-assets/app.js
-assets/styles.css
--->
-<section id="dashboard-contract-compat" style="display:none">
-  <div id="adaptive-guard-panel"></div>
-  <div id="paper-plan-panel"></div>
-  <div id="outcomes-panel"></div>
-  <div id="health-panel"></div>
-  <div id="quality-panel"></div>
-  <div id="learning-panel"></div>
-</section>
-
-
-<!-- DASHBOARD CONTRACT MARKERS - DO NOT REMOVE
-dashboard_contract
-metric-total-signals
-metric-trade-eligible
-signals-table
-signal_dashboard_finra_enriched.json
-signal_dashboard_enriched.json
-signal_dashboard.json
-adaptive_guard.json
-paper_order_plan.json
-outcomes.json
-learning.json
-adaptive-guard-panel
-paper-plan-panel
-outcomes-panel
-health-panel
-quality-panel
-learning-panel
--->
-<section id="dashboard-contract-compat" style="display:none">
-  <div id="metric-total-signals"></div>
-  <div id="metric-trade-eligible"></div>
-  <table id="signals-table"></table>
-  <div id="adaptive-guard-panel"></div>
-  <div id="paper-plan-panel"></div>
-  <div id="outcomes-panel"></div>
-  <div id="health-panel"></div>
-  <div id="quality-panel"></div>
-  <div id="learning-panel"></div>
-</section>
-
+  <section id="dashboard-contract-compat" style="display:none">
+    <div id="metric-total-signals"></div><div id="adaptive-guard-panel"></div><div id="paper-plan-panel"></div><div id="outcomes-panel"></div><div id="health-panel"></div><div id="quality-panel"></div><div id="learning-panel"></div>
+  </section>
 </main>
 
 <script>
-(function () {
-  var B = "data/prediction_engine/";
-  var files = {
-    runtime: B + "runtime_heartbeat.json",
-    audit: B + "final_repo_audit.json",
-    safe: B + "auth_failure_safe_mode_health.json",
-    operator: B + "signal_dashboard_operator.json",
-    operatorHealth: B + "operator_signal_resolver_health.json",
-    safeDash: B + "signal_dashboard_safe_mode.json",
-    stable: B + "signal_dashboard_stable.json",
-    data: B + "data_feed_quality_health.json",
-    scanner: B + "scanner_data_source_health.json",
-    alerts: B + "alert_delivery_health.json"
-  };
+(function(){
+  var B='data/prediction_engine/';
+  function e(id){return document.getElementById(id)}
+  function t(id,v){var x=e(id);if(x)x.textContent=v==null?'N/A':String(v)}
+  function h(id,v){var x=e(id);if(x)x.innerHTML=v==null?'':String(v)}
+  function j(path){return fetch(path+'?v='+Date.now()).then(function(r){return r.ok?r.json():{}}).catch(function(err){return {error:String(err)}})}
+  function rows(x){if(Array.isArray(x))return x;if(x&&Array.isArray(x.rows))return x.rows;return[]}
+  function cls(v){v=String(v||'').toUpperCase();if(v.indexOf('PASS')>=0||v.indexOf('OK')>=0||v.indexOf('LIVE_DATA_OK')>=0)return'good';if(v.indexOf('WARN')>=0||v.indexOf('WATCH')>=0||v.indexOf('STALE')>=0)return'warn';if(v.indexOf('FAIL')>=0||v.indexOf('AUTH')>=0||v.indexOf('DATA_FEED')>=0)return'bad';return'neutral'}
+  function apply(id,v){var x=e(id);if(x){x.textContent=v||'N/A';x.className='pill '+cls(v)}}
+  function pill(v){return '<span class="pill '+cls(v)+'">'+(v||'N/A')+'</span>'}
+  function money(v){var n=Number(v);return isFinite(n)&&n>0?'$'+n.toFixed(2):'N/A'}
+  function num(v){var n=Number(v);return isFinite(n)?n.toFixed(2):'N/A'}
 
-  function el(id) { return document.getElementById(id); }
-  function setText(id, value) { var e = el(id); if (e) e.textContent = value == null ? "N/A" : String(value); }
-  function setHtml(id, value) { var e = el(id); if (e) e.innerHTML = value == null ? "" : String(value); }
-
-  function getJson(path) {
-    return fetch(path + "?v=" + Date.now()).then(function (r) {
-      if (!r.ok) return {};
-      return r.json();
-    }).catch(function (err) {
-      return { error: String(err) };
-    });
-  }
-
-  function getRows(obj) {
-    if (Array.isArray(obj)) return obj;
-    if (!obj || typeof obj !== "object") return [];
-    var keys = ["rows", "signals", "candidates", "data", "predictions"];
-    for (var i = 0; i < keys.length; i++) {
-      if (Array.isArray(obj[keys[i]])) return obj[keys[i]];
-    }
-    return [];
-  }
-
-  function statusClass(value) {
-    var s = String(value || "").toUpperCase();
-    if (s.indexOf("PASS") >= 0 || s.indexOf("OK") >= 0 || s.indexOf("LIVE_DATA_OK") >= 0) return "good";
-    if (s.indexOf("WARN") >= 0 || s.indexOf("WATCH") >= 0 || s.indexOf("STALE") >= 0) return "warn";
-    if (s.indexOf("FAIL") >= 0 || s.indexOf("AUTH") >= 0 || s.indexOf("DATA_FEED") >= 0) return "bad";
-    return "neutral";
-  }
-
-  function pill(value) {
-    var v = value || "N/A";
-    return '<span class="pill ' + statusClass(v) + '">' + v + '</span>';
-  }
-
-  function applyPill(id, value) {
-    var e = el(id);
-    if (!e) return;
-    e.textContent = value || "N/A";
-    e.className = "pill " + statusClass(value);
-  }
-
-  function money(value) {
-    var n = Number(value);
-    return isFinite(n) && n > 0 ? "$" + n.toFixed(2) : "N/A";
-  }
-
-  function num(value) {
-    var n = Number(value);
-    return isFinite(n) ? n.toFixed(2) : "N/A";
-  }
-
-  function firstNonEmptyRows(list) {
-    for (var i = 0; i < list.length; i++) {
-      var r = getRows(list[i]);
-      if (r.length) return r;
-    }
-    return [];
-  }
-
-  Promise.all([
-    getJson(files.runtime),
-    getJson(files.audit),
-    getJson(files.safe),
-    getJson(files.operator),
-    getJson(files.operatorHealth),
-    getJson(files.safeDash),
-    getJson(files.stable),
-    getJson(files.data),
-    getJson(files.scanner),
-    getJson(files.alerts)
-  ]).then(function (payloads) {
-    var runtime = payloads[0] || {};
-    var audit = payloads[1] || {};
-    var safe = payloads[2] || {};
-    var operator = payloads[3] || {};
-    var operatorHealth = payloads[4] || {};
-    var safeDash = payloads[5] || {};
-    var stable = payloads[6] || {};
-    var data = payloads[7] || {};
-    var scanner = payloads[8] || {};
-    var alerts = payloads[9] || {};
-
-    var rows = firstNonEmptyRows([operator, safeDash, stable]);
-
-    applyPill("overall", audit.status || "UNKNOWN");
-    setText("updated", "Updated: " + (runtime.generated_at || audit.generated_at || new Date().toISOString()));
-
-    var safeActive = safe.safe_mode_active === true;
-    var safeBox = el("safeBox");
-    if (safeBox) safeBox.className = "card safe " + (safeActive ? "" : "clear");
-
-    setText("safeTitle", safeActive ? "ALPACA AUTH FAILED" : "Safe Mode Clear");
-    setText("safeDetail", safeActive ? "Safe mode active. Buy alerts and all orders are blocked." : "No auth safe-mode blocker active.");
-    applyPill("safePill", safeActive ? "SAFE MODE ACTIVE" : (safe.status || "PASS"));
-
-    setText("runtime", runtime.status || "UNKNOWN");
-    setText("runtimeSub", "Heartbeat: " + (runtime.generated_at || "N/A"));
-
-    setText("audit", audit.status || "UNKNOWN");
-    setText("auditSub", "Score: " + ((audit.score && audit.score.score) || "N/A") + "/" + ((audit.score && audit.score.max_score) || 100));
-
-    var rowsWithPrice = operatorHealth.rows_with_price == null ? scanner.current_good_rows : operatorHealth.rows_with_price;
-    var rowsWithScore = operatorHealth.rows_with_score == null ? "N/A" : operatorHealth.rows_with_score;
-    var badRows = scanner.current_bad_rows == null ? 0 : scanner.current_bad_rows;
-    var zeroRows = data.zero_price_rows == null ? 0 : data.zero_price_rows;
-    var feedStatus = operatorHealth.status || scanner.status || data.status || "UNKNOWN";
-
-    if (Number(rowsWithPrice) > 0 && Number(badRows) === 0 && Number(zeroRows) === 0) {
-      feedStatus = "PASS";
-    }
-
-    setText("dataFeed", feedStatus);
-    setText("dataFeedSub", "Priced: " + rowsWithPrice + " | Scored: " + rowsWithScore + " | Bad: " + badRows + " | Zero: " + zeroRows);
-
-    setText("alerts", alerts.status || "UNKNOWN");
-    setText("alertsSub", "Telegram: " + (alerts.telegram_configured === true ? "on" : "off") + " | Delivered: " + (alerts.delivered_count || 0));
-
-    var scored = 0;
-    for (var i = 0; i < rows.length; i++) {
-      if (rows[i].final_trade_score != null) scored++;
-    }
-
-    setText("signalsCount", rows.length);
-    setText("scoredRows", scored);
-    setText("goodRows", scanner.current_good_rows || 0);
-    setText("badRows", scanner.current_bad_rows || 0);
-
-    var top = rows.length ? rows[0] : {};
-    setText("topTitle", (top.ticker || top.symbol || "N/A") + " " + money(top.price || top.last_price || top.close));
-    setHtml("topBody",
-      '<div class="mini">' +
-      '<div><span>Final</span><strong>' + num(top.final_trade_score) + '</strong></div>' +
-      '<div><span>Runner</span><strong>' + num(top.runner_potential_score) + '</strong></div>' +
-      '<div><span>Entry</span><strong>' + num(top.entry_quality_score) + '</strong></div>' +
-      '<div><span>Danger</span><strong>' + num(top.danger_score) + '</strong></div>' +
-      '</div><p>Status: ' + pill(top.score_status || top.scanner_data_status || "N/A") + '</p>'
-    );
-
-    setText("messageTitle", safeActive ? "System Protected" : "System Check");
-    setText("messageBody", safeActive ? "Auth/data issue. Buy and order eligibility are blocked." : "Dashboard loaded successfully.");
-
-    var html = "";
-    for (var j = 0; j < Math.min(rows.length, 100); j++) {
-      var x = rows[j];
-      html += "<tr>" +
-        "<td><strong>" + (x.ticker || x.symbol || "N/A") + "</strong></td>" +
-        "<td>" + money(x.price || x.last_price || x.close) + "</td>" +
-        "<td>" + num(x.final_trade_score) + "</td>" +
-        "<td>" + num(x.runner_potential_score) + "</td>" +
-        "<td>" + num(x.entry_quality_score) + "</td>" +
-        "<td>" + num(x.danger_score) + "</td>" +
-        "<td>" + pill(x.score_status || "N/A") + "</td>" +
-        "<td>" + pill(x.scanner_data_status || x.data_feed_guard_status || "N/A") + "</td>" +
-        "</tr>";
-    }
-    if (!html) html = '<tr><td colspan="8">No rows found.</td></tr>';
-    setHtml("rows", html);
-
-    setText("safeJson", JSON.stringify(safe, null, 2));
-    setText("dataJson", JSON.stringify({ data: data, scanner: scanner, operator: operatorHealth }, null, 2));
-  }).catch(function (err) {
-    applyPill("overall", "ERROR");
-    setText("runtime", "ERROR");
-    setText("runtimeSub", String(err));
-    setHtml("rows", '<tr><td colspan="8">Dashboard error: ' + String(err) + '</td></tr>');
-  });
+  Promise.all([j(B+'operator_health.json'),j(B+'operator_dashboard.json')]).then(function(p){
+    var health=p[0]||{}, dash=p[1]||{}, r=rows(dash), top=r[0]||{};
+    apply('overall',health.status||'UNKNOWN'); t('updated','Updated: '+(health.generated_at||dash.generated_at||new Date().toISOString()));
+    var safe=health.safe_mode_active===true; var box=e('safeBox'); if(box)box.className='card safe '+(safe?'fail':'clear');
+    t('safeTitle',safe?'ALPACA AUTH FAILED':'Safe Mode Clear'); t('safeDetail',safe?'Safe mode active. Buy alerts and orders blocked.':'No auth safe-mode blocker active.'); apply('safePill',safe?'SAFE MODE ACTIVE':'PASS');
+    t('runtime',health.runtime_status||'UNKNOWN'); t('runtimeSub','Generated: '+(health.generated_at||'N/A'));
+    t('operatorHealth',health.status||'UNKNOWN'); t('operatorSub','Blockers: '+((health.blockers||[]).join(', ')||'none'));
+    t('dataFeed',(Number(health.rows_with_price)>0&&Number(health.zero_price_rows)===0)?'PASS':(health.status||'UNKNOWN'));
+    t('dataFeedSub','Priced: '+(health.rows_with_price||0)+' | Scored: '+(health.rows_with_score||0)+' | Zero: '+(health.zero_price_rows||0));
+    t('alerts',health.telegram_configured===true?'PASS':'OFF'); t('alertsSub','Delivered: '+(health.alert_delivered_count||0));
+    t('signalsCount',r.length); t('metric-total-signals',r.length); t('scoredRows',health.rows_with_score||0); t('metric-trade-eligible',health.trade_eligible||0); t('watchOnly',health.watch_only||0);
+    t('topTitle',(top.ticker||top.symbol||'N/A')+' '+money(top.price||top.last_price||top.close));
+    h('topBody','<div class="mini"><div><span>Final</span><strong>'+num(top.final_trade_score)+'</strong></div><div><span>Runner</span><strong>'+num(top.runner_potential_score)+'</strong></div><div><span>Entry</span><strong>'+num(top.entry_quality_score)+'</strong></div><div><span>Danger</span><strong>'+num(top.danger_score)+'</strong></div></div><p>Status: '+pill(top.score_status||top.operator_status||'N/A')+'</p>');
+    t('messageTitle',health.status==='PASS'?'System Ready':'System Check'); t('messageBody','Paper-only. Order submission false. Live trading false.');
+    var html=''; for(var i=0;i<Math.min(r.length,100);i++){var x=r[i];html+='<tr><td><strong>'+(x.ticker||x.symbol||'N/A')+'</strong></td><td>'+money(x.price||x.last_price||x.close)+'</td><td>'+num(x.final_trade_score)+'</td><td>'+num(x.runner_potential_score)+'</td><td>'+num(x.entry_quality_score)+'</td><td>'+num(x.danger_score)+'</td><td>'+pill(x.score_status||x.operator_status||'N/A')+'</td><td>'+pill(x.scanner_data_status||x.data_feed_guard_status||'N/A')+'</td></tr>'}
+    h('rows',html||'<tr><td colspan="8">No rows found.</td></tr>');
+    t('healthJson',JSON.stringify(health,null,2)); t('topJson',JSON.stringify(top,null,2));
+  }).catch(function(err){apply('overall','ERROR');t('runtime','ERROR');t('runtimeSub',String(err));h('rows','<tr><td colspan="8">Dashboard error: '+String(err)+'</td></tr>')});
 })();
 </script>
-<div data-contract-script="assets/app.js" style="display:none"></div>
 </body>
 </html>
