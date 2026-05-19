@@ -43,6 +43,7 @@ run_once() {
   PYTHONPATH=src:. python scripts/run_operator_signal_resolver.py || true
   PYTHONPATH=src:. python scripts/run_jini_operator_pipeline.py || true
   PYTHONPATH=src:. python scripts/run_final_repo_audit.py || true
+  PYTHONPATH=src:. python scripts/run_jini_stability_check.py || true
 
   git add docs/data/prediction_engine state/prediction_engine || true
   git commit -m "Update Jini VM dashboard data" || true
