@@ -1,6 +1,6 @@
 {
   "schema_version": "advanced_signal_quality_v1",
-  "generated_at": "2026-05-19T09:55:16.169873+00:00",
+  "generated_at": "2026-05-19T10:01:06.784577+00:00",
   "status": "PASS",
   "signal_source": "docs/data/prediction_engine/signal_dashboard_news_enriched.json",
   "market_rows_loaded": 79,
@@ -16,36 +16,73 @@
     "details": {}
   },
   "theme_stats": {
-    "fintech": {
-      "members": [
-        "AFRM",
-        "UPST"
-      ],
-      "avg_day_change": 0.055,
-      "count": 2,
-      "sympathy_score": 3
-    },
     "mega_cap_ai": {
       "members": [
         "MSFT",
-        "AMZN",
         "META",
-        "GOOG"
+        "GOOG",
+        "TSLA",
+        "AVGO"
       ],
-      "avg_day_change": -0.1725,
-      "count": 4,
+      "avg_day_change": -0.39,
+      "count": 5,
       "sympathy_score": 3
+    },
+    "meme_retail": {
+      "members": [
+        "AMC",
+        "GME"
+      ],
+      "avg_day_change": 0.39,
+      "count": 2,
+      "sympathy_score": 3
+    },
+    "fintech": {
+      "members": [
+        "AFRM"
+      ],
+      "avg_day_change": 0.58,
+      "count": 1,
+      "sympathy_score": 0
     },
     "ev": {
       "members": [
         "GM",
         "XPEV",
         "LCID",
-        "NIO",
         "RIVN"
       ],
-      "avg_day_change": -0.25,
-      "count": 5,
+      "avg_day_change": -0.275,
+      "count": 4,
+      "sympathy_score": 3
+    },
+    "travel_reopen": {
+      "members": [
+        "AAL",
+        "DAL"
+      ],
+      "avg_day_change": -0.365,
+      "count": 2,
+      "sympathy_score": 3
+    },
+    "crypto": {
+      "members": [
+        "MSTR",
+        "WULF"
+      ],
+      "avg_day_change": -2.065,
+      "count": 2,
+      "sympathy_score": 3
+    },
+    "space_air": {
+      "members": [
+        "ACHR",
+        "ASTS",
+        "RKLB",
+        "BA"
+      ],
+      "avg_day_change": -1.255,
+      "count": 4,
       "sympathy_score": 3
     },
     "small_cap_ai": {
@@ -54,65 +91,94 @@
         "AI",
         "PLTR"
       ],
-      "avg_day_change": -0.4233,
+      "avg_day_change": -0.4833,
       "count": 3,
-      "sympathy_score": 3
-    },
-    "space_air": {
-      "members": [
-        "RKLB",
-        "ACHR",
-        "BA"
-      ],
-      "avg_day_change": -1.4467,
-      "count": 3,
-      "sympathy_score": 3
-    },
-    "travel_reopen": {
-      "members": [
-        "AAL",
-        "DAL"
-      ],
-      "avg_day_change": -0.49,
-      "count": 2,
-      "sympathy_score": 3
-    },
-    "quantum": {
-      "members": [
-        "IONQ"
-      ],
-      "avg_day_change": -0.77,
-      "count": 1,
-      "sympathy_score": 0
-    },
-    "crypto": {
-      "members": [
-        "HOOD",
-        "MARA"
-      ],
-      "avg_day_change": -1.11,
-      "count": 2,
-      "sympathy_score": 3
-    },
-    "meme_retail": {
-      "members": [
-        "GME",
-        "AMC"
-      ],
-      "avg_day_change": 0.025,
-      "count": 2,
       "sympathy_score": 3
     }
   },
   "rows": [
+    {
+      "ticker": "MSFT",
+      "status": "ALERT_ONLY",
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "advanced_quality": {
+        "advanced_quality_score": 99.0,
+        "spread_pct": 0.0799,
+        "dollar_volume": 81352650.0,
+        "spread_score": 15.0,
+        "liquidity_score": 15.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 18.0,
+        "pullback_quality_score": 18,
+        "breakout_compression_score": 10.0,
+        "sympathy_score": 3,
+        "theme": "mega_cap_ai",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "strong_dollar_volume",
+          "weak_rvol",
+          "vwap_controlled",
+          "not_chasing_vwap_controlled",
+          "near_vwap_pullback_zone",
+          "volume_returning",
+          "breakout_not_overextended",
+          "breakout_volume_acceleration"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:ALERT_ONLY"
+        ]
+      }
+    },
+    {
+      "ticker": "CRM",
+      "status": "ALERT_ONLY",
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "advanced_quality": {
+        "advanced_quality_score": 93.0,
+        "spread_pct": 0.2759,
+        "dollar_volume": 6240253.5,
+        "spread_score": 15.0,
+        "liquidity_score": 12.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 18.0,
+        "pullback_quality_score": 18,
+        "breakout_compression_score": 10.0,
+        "sympathy_score": 0,
+        "theme": null,
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "good_dollar_volume",
+          "weak_rvol",
+          "vwap_controlled",
+          "not_chasing_vwap_controlled",
+          "near_vwap_pullback_zone",
+          "volume_returning",
+          "breakout_not_overextended",
+          "breakout_volume_acceleration"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:ALERT_ONLY"
+        ]
+      }
+    },
     {
       "ticker": "CRWD",
       "status": "ALERT_ONLY",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 90.0,
-        "spread_pct": 0.7286,
-        "dollar_volume": 13417563.82,
+        "spread_pct": 0.7803,
+        "dollar_volume": 13565213.24,
         "spread_score": 12.0,
         "liquidity_score": 12.0,
         "rvol_quality_score": 2.0,
@@ -143,49 +209,13 @@
       }
     },
     {
-      "ticker": "MSFT",
-      "status": "WATCH_ONLY",
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "advanced_quality": {
-        "advanced_quality_score": 87.0,
-        "spread_pct": 0.1412,
-        "dollar_volume": 79386188.2,
-        "spread_score": 15.0,
-        "liquidity_score": 15.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 13.0,
-        "pullback_quality_score": 15.0,
-        "breakout_compression_score": 6.0,
-        "sympathy_score": 3,
-        "theme": "mega_cap_ai",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "strong_dollar_volume",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "volume_fading",
-          "near_vwap_pullback_zone",
-          "breakout_not_overextended"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY"
-        ]
-      }
-    },
-    {
       "ticker": "ADBE",
       "status": "ALERT_ONLY",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 86.0,
         "spread_pct": 0.464,
-        "dollar_volume": 6837276.36,
+        "dollar_volume": 6897152.67,
         "spread_score": 15.0,
         "liquidity_score": 12.0,
         "rvol_quality_score": 2.0,
@@ -215,17 +245,17 @@
     },
     {
       "ticker": "NFLX",
-      "status": "ALERT_ONLY",
+      "status": "WATCH_ONLY",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
-        "advanced_quality_score": 86.0,
-        "spread_pct": 0.1338,
-        "dollar_volume": 7634224.75,
+        "advanced_quality_score": 81.0,
+        "spread_pct": 0.2007,
+        "dollar_volume": 7888038.6,
         "spread_score": 15.0,
         "liquidity_score": 12.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 18.0,
-        "anti_chase_score": 18.0,
+        "anti_chase_score": 13.0,
         "pullback_quality_score": 15.0,
         "breakout_compression_score": 6.0,
         "sympathy_score": 0,
@@ -238,50 +268,14 @@
           "weak_rvol",
           "vwap_controlled",
           "not_chasing_vwap_controlled",
+          "volume_fading",
           "near_vwap_pullback_zone",
           "breakout_not_overextended"
         ],
         "hard_blocks": [],
         "quality_gate_status": "DASHBOARD_ONLY",
         "quality_gate_blocks": [
-          "base_status_not_trade_eligible:ALERT_ONLY"
-        ]
-      }
-    },
-    {
-      "ticker": "CRM",
-      "status": "ALERT_ONLY",
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "advanced_quality": {
-        "advanced_quality_score": 85.0,
-        "spread_pct": 1.0169,
-        "dollar_volume": 6065754.1,
-        "spread_score": 7.0,
-        "liquidity_score": 12.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 18.0,
-        "pullback_quality_score": 18,
-        "breakout_compression_score": 10.0,
-        "sympathy_score": 0,
-        "theme": null,
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_caution",
-          "good_dollar_volume",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "near_vwap_pullback_zone",
-          "volume_returning",
-          "breakout_not_overextended",
-          "breakout_volume_acceleration"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:ALERT_ONLY"
+          "base_status_not_trade_eligible:WATCH_ONLY"
         ]
       }
     },
@@ -291,8 +285,8 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 81.0,
-        "spread_pct": 0.2928,
-        "dollar_volume": 2231110.5,
+        "spread_pct": 0.1122,
+        "dollar_volume": 2230693.47,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -326,8 +320,8 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 79.0,
-        "spread_pct": 0.1999,
-        "dollar_volume": 1624548.18,
+        "spread_pct": 0.0666,
+        "dollar_volume": 1631796.41,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -397,7 +391,7 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 78.0,
-        "spread_pct": 0.6466,
+        "spread_pct": 0.7136,
         "dollar_volume": 1457208.36,
         "spread_score": 12.0,
         "liquidity_score": 7.0,
@@ -427,49 +421,52 @@
       }
     },
     {
+      "ticker": "AMC",
+      "status": "WATCH_ONLY",
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "advanced_quality": {
+        "advanced_quality_score": 77.25,
+        "spread_pct": 0.7273,
+        "dollar_volume": 18376.08,
+        "spread_score": 12.0,
+        "liquidity_score": 0.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 18.0,
+        "pullback_quality_score": 18,
+        "breakout_compression_score": 10.0,
+        "sympathy_score": 3,
+        "theme": "meme_retail",
+        "halt_risk_score": 15.0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_acceptable",
+          "dollar_volume_too_low",
+          "weak_rvol",
+          "vwap_controlled",
+          "not_chasing_vwap_controlled",
+          "near_vwap_pullback_zone",
+          "volume_returning",
+          "breakout_not_overextended",
+          "breakout_volume_acceleration",
+          "low_price_halt_risk"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:WATCH_ONLY",
+          "dollar_volume_below_1m"
+        ]
+      }
+    },
+    {
       "ticker": "OXY",
       "status": "WATCH_ONLY",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 76.0,
-        "spread_pct": 0.2676,
+        "spread_pct": 0.2509,
         "dollar_volume": 1223897.56,
-        "spread_score": 15.0,
-        "liquidity_score": 7.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 13.0,
-        "pullback_quality_score": 15.0,
-        "breakout_compression_score": 6.0,
-        "sympathy_score": 0,
-        "theme": null,
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "thin_but_tradeable_dollar_volume",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "volume_fading",
-          "near_vwap_pullback_zone",
-          "breakout_not_overextended"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY"
-        ]
-      }
-    },
-    {
-      "ticker": "HIMS",
-      "status": "WATCH_ONLY",
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "advanced_quality": {
-        "advanced_quality_score": 76.0,
-        "spread_pct": 0.4484,
-        "dollar_volume": 2468924.12,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -504,44 +501,8 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 73.0,
-        "spread_pct": 0.7755,
-        "dollar_volume": 2822012.96,
-        "spread_score": 12.0,
-        "liquidity_score": 7.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 13.0,
-        "pullback_quality_score": 15.0,
-        "breakout_compression_score": 6.0,
-        "sympathy_score": 0,
-        "theme": null,
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_acceptable",
-          "thin_but_tradeable_dollar_volume",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "volume_fading",
-          "near_vwap_pullback_zone",
-          "breakout_not_overextended"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY"
-        ]
-      }
-    },
-    {
-      "ticker": "RBLX",
-      "status": "WATCH_ONLY",
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "advanced_quality": {
-        "advanced_quality_score": 73.0,
-        "spread_pct": 0.5316,
-        "dollar_volume": 1344712.83,
+        "spread_pct": 0.7156,
+        "dollar_volume": 2833887.77,
         "spread_score": 12.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -679,43 +640,6 @@
       }
     },
     {
-      "ticker": "AFRM",
-      "status": "WATCH_ONLY",
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "advanced_quality": {
-        "advanced_quality_score": 62.0,
-        "spread_pct": 2.1687,
-        "dollar_volume": 70807.0,
-        "spread_score": 0.0,
-        "liquidity_score": 0.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 18.0,
-        "pullback_quality_score": 15.0,
-        "breakout_compression_score": 6.0,
-        "sympathy_score": 3,
-        "theme": "fintech",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_too_wide",
-          "dollar_volume_too_low",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "near_vwap_pullback_zone",
-          "breakout_not_overextended"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY",
-          "spread_above_1_5",
-          "dollar_volume_below_1m"
-        ]
-      }
-    },
-    {
       "ticker": "GM",
       "status": "WATCH_ONLY",
       "quality_gate_status": "DASHBOARD_ONLY",
@@ -790,12 +714,49 @@
       }
     },
     {
+      "ticker": "AFRM",
+      "status": "WATCH_ONLY",
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "advanced_quality": {
+        "advanced_quality_score": 59.0,
+        "spread_pct": 1.8902,
+        "dollar_volume": 70807.0,
+        "spread_score": 0.0,
+        "liquidity_score": 0.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 18.0,
+        "pullback_quality_score": 15.0,
+        "breakout_compression_score": 6.0,
+        "sympathy_score": 0,
+        "theme": "fintech",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_too_wide",
+          "dollar_volume_too_low",
+          "weak_rvol",
+          "vwap_controlled",
+          "not_chasing_vwap_controlled",
+          "near_vwap_pullback_zone",
+          "breakout_not_overextended"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:WATCH_ONLY",
+          "spread_above_1_5",
+          "dollar_volume_below_1m"
+        ]
+      }
+    },
+    {
       "ticker": "DNA",
       "status": "WATCH_ONLY",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 59.0,
-        "spread_pct": 2.4759,
+        "spread_pct": 3.523,
         "dollar_volume": 7117.89,
         "spread_score": 0.0,
         "liquidity_score": 0.0,
@@ -827,83 +788,15 @@
       }
     },
     {
-      "ticker": "RKLB",
+      "ticker": "META",
       "status": "NO_TRADE",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 55.0,
-        "spread_pct": 0.2103,
-        "dollar_volume": 33294965.6,
+        "spread_pct": 0.1607,
+        "dollar_volume": 29500160.85,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 0.0,
-        "anti_chase_score": 15.0,
-        "pullback_quality_score": 1.0,
-        "breakout_compression_score": 4.0,
-        "sympathy_score": 3,
-        "theme": "space_air",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "strong_dollar_volume",
-          "weak_rvol",
-          "below_vwap",
-          "below_vwap_no_pullback_entry",
-          "breakout_volume_acceleration"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:NO_TRADE"
-        ]
-      }
-    },
-    {
-      "ticker": "BABA",
-      "status": "WATCH_ONLY",
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "advanced_quality": {
-        "advanced_quality_score": 52.0,
-        "spread_pct": 0.1106,
-        "dollar_volume": 22185686.0,
-        "spread_score": 15.0,
-        "liquidity_score": 15.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 0.0,
-        "anti_chase_score": 15.0,
-        "pullback_quality_score": 1.0,
-        "breakout_compression_score": 4.0,
-        "sympathy_score": 0,
-        "theme": null,
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "strong_dollar_volume",
-          "weak_rvol",
-          "below_vwap",
-          "below_vwap_no_pullback_entry",
-          "breakout_volume_acceleration"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY"
-        ]
-      }
-    },
-    {
-      "ticker": "AMZN",
-      "status": "NO_TRADE",
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "advanced_quality": {
-        "advanced_quality_score": 52.0,
-        "spread_pct": 0.1522,
-        "dollar_volume": 19760819.4,
-        "spread_score": 15.0,
-        "liquidity_score": 12.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 0.0,
         "anti_chase_score": 15.0,
@@ -915,7 +808,7 @@
         "market_regime": "NEUTRAL",
         "reasons": [
           "spread_tight",
-          "good_dollar_volume",
+          "strong_dollar_volume",
           "weak_rvol",
           "below_vwap",
           "below_vwap_no_pullback_entry",
@@ -929,13 +822,115 @@
       }
     },
     {
-      "ticker": "HOOD",
+      "ticker": "GOOG",
+      "status": "NO_TRADE",
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "advanced_quality": {
+        "advanced_quality_score": 55.0,
+        "spread_pct": 0.1265,
+        "dollar_volume": 55618895.36,
+        "spread_score": 15.0,
+        "liquidity_score": 15.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 0.0,
+        "anti_chase_score": 15.0,
+        "pullback_quality_score": 1.0,
+        "breakout_compression_score": 4.0,
+        "sympathy_score": 3,
+        "theme": "mega_cap_ai",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "strong_dollar_volume",
+          "weak_rvol",
+          "below_vwap",
+          "below_vwap_no_pullback_entry",
+          "breakout_volume_acceleration"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:NO_TRADE"
+        ]
+      }
+    },
+    {
+      "ticker": "TSLA",
+      "status": "NO_TRADE",
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "advanced_quality": {
+        "advanced_quality_score": 55.0,
+        "spread_pct": 0.0493,
+        "dollar_volume": 120611754.24,
+        "spread_score": 15.0,
+        "liquidity_score": 15.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 0.0,
+        "anti_chase_score": 15.0,
+        "pullback_quality_score": 1.0,
+        "breakout_compression_score": 4.0,
+        "sympathy_score": 3,
+        "theme": "mega_cap_ai",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "strong_dollar_volume",
+          "weak_rvol",
+          "below_vwap",
+          "below_vwap_no_pullback_entry",
+          "breakout_volume_acceleration"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:NO_TRADE"
+        ]
+      }
+    },
+    {
+      "ticker": "AVGO",
+      "status": "NO_TRADE",
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "advanced_quality": {
+        "advanced_quality_score": 55.0,
+        "spread_pct": 0.452,
+        "dollar_volume": 22479289.5,
+        "spread_score": 15.0,
+        "liquidity_score": 15.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 0.0,
+        "anti_chase_score": 15.0,
+        "pullback_quality_score": 1.0,
+        "breakout_compression_score": 4.0,
+        "sympathy_score": 3,
+        "theme": "mega_cap_ai",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "strong_dollar_volume",
+          "weak_rvol",
+          "below_vwap",
+          "below_vwap_no_pullback_entry",
+          "breakout_volume_acceleration"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:NO_TRADE"
+        ]
+      }
+    },
+    {
+      "ticker": "MSTR",
       "status": "NO_TRADE",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 52.0,
-        "spread_pct": 0.2618,
-        "dollar_volume": 6012668.9,
+        "spread_pct": 0.1505,
+        "dollar_volume": 12054128.1,
         "spread_score": 15.0,
         "liquidity_score": 12.0,
         "rvol_quality_score": 2.0,
@@ -963,46 +958,13 @@
       }
     },
     {
-      "ticker": "GOOG",
-      "status": "NO_TRADE",
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "advanced_quality": {
-        "advanced_quality_score": 51.0,
-        "spread_pct": 0.1165,
-        "dollar_volume": 54775485.54,
-        "spread_score": 15.0,
-        "liquidity_score": 15.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 0.0,
-        "anti_chase_score": 15.0,
-        "pullback_quality_score": 1.0,
-        "breakout_compression_score": 0,
-        "sympathy_score": 3,
-        "theme": "mega_cap_ai",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "strong_dollar_volume",
-          "weak_rvol",
-          "below_vwap",
-          "below_vwap_no_pullback_entry"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:NO_TRADE"
-        ]
-      }
-    },
-    {
       "ticker": "PLTR",
       "status": "NO_TRADE",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 51.0,
-        "spread_pct": 0.1118,
-        "dollar_volume": 26922831.8,
+        "spread_pct": 0.216,
+        "dollar_volume": 27422307.75,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -1029,31 +991,30 @@
       }
     },
     {
-      "ticker": "NIO",
+      "ticker": "AAPL",
       "status": "NO_TRADE",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
-        "advanced_quality_score": 47.0,
-        "spread_pct": 0.1732,
-        "dollar_volume": 3894513.43,
+        "advanced_quality_score": 48.0,
+        "spread_pct": 0.1248,
+        "dollar_volume": 23757486.34,
         "spread_score": 15.0,
-        "liquidity_score": 7.0,
+        "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 0.0,
         "anti_chase_score": 15.0,
         "pullback_quality_score": 1.0,
-        "breakout_compression_score": 4.0,
-        "sympathy_score": 3,
-        "theme": "ev",
+        "breakout_compression_score": 0,
+        "sympathy_score": 0,
+        "theme": null,
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
           "spread_tight",
-          "thin_but_tradeable_dollar_volume",
+          "strong_dollar_volume",
           "weak_rvol",
           "below_vwap",
-          "below_vwap_no_pullback_entry",
-          "breakout_volume_acceleration"
+          "below_vwap_no_pullback_entry"
         ],
         "hard_blocks": [],
         "quality_gate_status": "DASHBOARD_ONLY",
@@ -1063,47 +1024,13 @@
       }
     },
     {
-      "ticker": "MARA",
-      "status": "NO_TRADE",
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "advanced_quality": {
-        "advanced_quality_score": 47.0,
-        "spread_pct": 0.0838,
-        "dollar_volume": 2962620.64,
-        "spread_score": 15.0,
-        "liquidity_score": 7.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 0.0,
-        "anti_chase_score": 15.0,
-        "pullback_quality_score": 1.0,
-        "breakout_compression_score": 4.0,
-        "sympathy_score": 3,
-        "theme": "crypto",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "thin_but_tradeable_dollar_volume",
-          "weak_rvol",
-          "below_vwap",
-          "below_vwap_no_pullback_entry",
-          "breakout_volume_acceleration"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:NO_TRADE"
-        ]
-      }
-    },
-    {
-      "ticker": "META",
+      "ticker": "RKLB",
       "status": "NO_TRADE",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 46.0,
-        "spread_pct": 0.3218,
-        "dollar_volume": 29066524.44,
+        "spread_pct": 0.2102,
+        "dollar_volume": 33594894.62,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -1112,7 +1039,7 @@
         "pullback_quality_score": 1.0,
         "breakout_compression_score": 0,
         "sympathy_score": 3,
-        "theme": "mega_cap_ai",
+        "theme": "space_air",
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
@@ -1131,32 +1058,133 @@
       }
     },
     {
-      "ticker": "IONQ",
-      "status": "NO_TRADE",
+      "ticker": "HIMS",
+      "status": "WATCH_ONLY",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
-        "advanced_quality_score": 45.25,
-        "spread_pct": 0.1668,
-        "dollar_volume": 17128174.0,
+        "advanced_quality_score": 44.0,
+        "spread_pct": 0.2688,
+        "dollar_volume": 2476798.94,
         "spread_score": 15.0,
-        "liquidity_score": 12.0,
+        "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 0.0,
         "anti_chase_score": 15.0,
         "pullback_quality_score": 1.0,
         "breakout_compression_score": 4.0,
         "sympathy_score": 0,
-        "theme": "quantum",
-        "halt_risk_score": 15.0,
+        "theme": null,
+        "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
           "spread_tight",
-          "good_dollar_volume",
+          "thin_but_tradeable_dollar_volume",
           "weak_rvol",
           "below_vwap",
           "below_vwap_no_pullback_entry",
-          "breakout_volume_acceleration",
-          "volume_ignition_halt_risk"
+          "breakout_volume_acceleration"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:WATCH_ONLY"
+        ]
+      }
+    },
+    {
+      "ticker": "GE",
+      "status": "NO_TRADE",
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "advanced_quality": {
+        "advanced_quality_score": 44.0,
+        "spread_pct": 0.0907,
+        "dollar_volume": 2450152.0,
+        "spread_score": 15.0,
+        "liquidity_score": 7.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 0.0,
+        "anti_chase_score": 15.0,
+        "pullback_quality_score": 1.0,
+        "breakout_compression_score": 4.0,
+        "sympathy_score": 0,
+        "theme": null,
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "thin_but_tradeable_dollar_volume",
+          "weak_rvol",
+          "below_vwap",
+          "below_vwap_no_pullback_entry",
+          "breakout_volume_acceleration"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:NO_TRADE"
+        ]
+      }
+    },
+    {
+      "ticker": "BABA",
+      "status": "NO_TRADE",
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "advanced_quality": {
+        "advanced_quality_score": 43.0,
+        "spread_pct": 0.1106,
+        "dollar_volume": 22500275.59,
+        "spread_score": 15.0,
+        "liquidity_score": 15.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 0.0,
+        "anti_chase_score": 10.0,
+        "pullback_quality_score": 1.0,
+        "breakout_compression_score": 0,
+        "sympathy_score": 0,
+        "theme": null,
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "strong_dollar_volume",
+          "weak_rvol",
+          "below_vwap",
+          "volume_fading",
+          "below_vwap_no_pullback_entry"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:NO_TRADE"
+        ]
+      }
+    },
+    {
+      "ticker": "SMCI",
+      "status": "NO_TRADE",
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "advanced_quality": {
+        "advanced_quality_score": 41.0,
+        "spread_pct": 0.5913,
+        "dollar_volume": 2072919.82,
+        "spread_score": 12.0,
+        "liquidity_score": 7.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 0.0,
+        "anti_chase_score": 15.0,
+        "pullback_quality_score": 1.0,
+        "breakout_compression_score": 4.0,
+        "sympathy_score": 0,
+        "theme": null,
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_acceptable",
+          "thin_but_tradeable_dollar_volume",
+          "weak_rvol",
+          "below_vwap",
+          "below_vwap_no_pullback_entry",
+          "breakout_volume_acceleration"
         ],
         "hard_blocks": [],
         "quality_gate_status": "DASHBOARD_ONLY",
@@ -1171,8 +1199,8 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 40.0,
-        "spread_pct": 0.2436,
-        "dollar_volume": 519063.32,
+        "spread_pct": 0.1621,
+        "dollar_volume": 520331.39,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -1206,8 +1234,8 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 40.0,
-        "spread_pct": 0.3014,
-        "dollar_volume": 576679.75,
+        "spread_pct": 0.3012,
+        "dollar_volume": 578693.75,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -1241,8 +1269,8 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 40.0,
-        "spread_pct": 0.1699,
-        "dollar_volume": 711897.48,
+        "spread_pct": 0.1696,
+        "dollar_volume": 720605.76,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -1271,29 +1299,30 @@
       }
     },
     {
-      "ticker": "GE",
+      "ticker": "ASTS",
       "status": "NO_TRADE",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 40.0,
-        "spread_pct": 0.1257,
-        "dollar_volume": 2354281.2,
-        "spread_score": 15.0,
-        "liquidity_score": 7.0,
+        "spread_pct": 0.5364,
+        "dollar_volume": 13891014.0,
+        "spread_score": 12.0,
+        "liquidity_score": 12.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 0.0,
-        "anti_chase_score": 15.0,
+        "anti_chase_score": 10.0,
         "pullback_quality_score": 1.0,
         "breakout_compression_score": 0,
-        "sympathy_score": 0,
-        "theme": null,
+        "sympathy_score": 3,
+        "theme": "space_air",
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
-          "spread_tight",
-          "thin_but_tradeable_dollar_volume",
+          "spread_acceptable",
+          "good_dollar_volume",
           "weak_rvol",
           "below_vwap",
+          "volume_fading",
           "below_vwap_no_pullback_entry"
         ],
         "hard_blocks": [],
@@ -1304,26 +1333,26 @@
       }
     },
     {
-      "ticker": "OPEN",
+      "ticker": "WULF",
       "status": "NO_TRADE",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 37.0,
-        "spread_pct": 0.235,
-        "dollar_volume": 332305.76,
-        "spread_score": 15.0,
+        "spread_pct": 0.6776,
+        "dollar_volume": 557615.1,
+        "spread_score": 12.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 0.0,
         "anti_chase_score": 15.0,
         "pullback_quality_score": 1.0,
         "breakout_compression_score": 4.0,
-        "sympathy_score": 0,
-        "theme": null,
+        "sympathy_score": 3,
+        "theme": "crypto",
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
-          "spread_tight",
+          "spread_acceptable",
           "dollar_volume_too_low",
           "weak_rvol",
           "below_vwap",
@@ -1335,39 +1364,6 @@
         "quality_gate_blocks": [
           "base_status_not_trade_eligible:NO_TRADE",
           "dollar_volume_below_1m"
-        ]
-      }
-    },
-    {
-      "ticker": "PANW",
-      "status": "NO_TRADE",
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "advanced_quality": {
-        "advanced_quality_score": 37.0,
-        "spread_pct": 0.6067,
-        "dollar_volume": 1963905.44,
-        "spread_score": 12.0,
-        "liquidity_score": 7.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 0.0,
-        "anti_chase_score": 15.0,
-        "pullback_quality_score": 1.0,
-        "breakout_compression_score": 0,
-        "sympathy_score": 0,
-        "theme": null,
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_acceptable",
-          "thin_but_tradeable_dollar_volume",
-          "weak_rvol",
-          "below_vwap",
-          "below_vwap_no_pullback_entry"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:NO_TRADE"
         ]
       }
     },
@@ -1398,40 +1394,6 @@
           "below_vwap_no_pullback_entry",
           "breakout_volume_acceleration",
           "volume_ignition_halt_risk"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:NO_TRADE",
-          "dollar_volume_below_1m"
-        ]
-      }
-    },
-    {
-      "ticker": "PATH",
-      "status": "NO_TRADE",
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "advanced_quality": {
-        "advanced_quality_score": 33.0,
-        "spread_pct": 0.8447,
-        "dollar_volume": 624217.8,
-        "spread_score": 12.0,
-        "liquidity_score": 0.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 0.0,
-        "anti_chase_score": 15.0,
-        "pullback_quality_score": 1.0,
-        "breakout_compression_score": 0,
-        "sympathy_score": 3,
-        "theme": "small_cap_ai",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_acceptable",
-          "dollar_volume_too_low",
-          "weak_rvol",
-          "below_vwap",
-          "below_vwap_no_pullback_entry"
         ],
         "hard_blocks": [],
         "quality_gate_status": "DASHBOARD_ONLY",
@@ -1481,7 +1443,7 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 33.0,
-        "spread_pct": 0.4279,
+        "spread_pct": 0.2137,
         "dollar_volume": 491342.94,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
@@ -1510,13 +1472,13 @@
       }
     },
     {
-      "ticker": "SHOP",
-      "status": "NO_TRADE",
+      "ticker": "RBLX",
+      "status": "WATCH_ONLY",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 32.0,
-        "spread_pct": 0.9756,
-        "dollar_volume": 1446643.6,
+        "spread_pct": 0.5334,
+        "dollar_volume": 1387067.5,
         "spread_score": 12.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -1539,7 +1501,7 @@
         "hard_blocks": [],
         "quality_gate_status": "DASHBOARD_ONLY",
         "quality_gate_blocks": [
-          "base_status_not_trade_eligible:NO_TRADE"
+          "base_status_not_trade_eligible:WATCH_ONLY"
         ]
       }
     },
@@ -1583,7 +1545,7 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 30.0,
-        "spread_pct": 0.7049,
+        "spread_pct": 0.7146,
         "dollar_volume": 279882.0,
         "spread_score": 12.0,
         "liquidity_score": 0.0,
@@ -1612,33 +1574,31 @@
       }
     },
     {
-      "ticker": "AMC",
+      "ticker": "SNAP",
       "status": "NO_TRADE",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
-        "advanced_quality_score": 29.5,
-        "spread_pct": 0.7273,
-        "dollar_volume": 18242.92,
-        "spread_score": 12.0,
+        "advanced_quality_score": 29.0,
+        "spread_pct": 1.2378,
+        "dollar_volume": 250985.4,
+        "spread_score": 7.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 0.0,
         "anti_chase_score": 15.0,
         "pullback_quality_score": 1.0,
         "breakout_compression_score": 4.0,
-        "sympathy_score": 3,
-        "theme": "meme_retail",
-        "halt_risk_score": 30.0,
+        "sympathy_score": 0,
+        "theme": null,
+        "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
-          "spread_acceptable",
+          "spread_caution",
           "dollar_volume_too_low",
           "weak_rvol",
           "below_vwap",
           "below_vwap_no_pullback_entry",
-          "breakout_volume_acceleration",
-          "volume_ignition_halt_risk",
-          "low_price_halt_risk"
+          "breakout_volume_acceleration"
         ],
         "hard_blocks": [],
         "quality_gate_status": "DASHBOARD_ONLY",
@@ -1654,8 +1614,8 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 28.0,
-        "spread_pct": 0.5921,
-        "dollar_volume": 241076.16,
+        "spread_pct": 0.5013,
+        "dollar_volume": 247674.08,
         "spread_score": 12.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -1684,13 +1644,48 @@
       }
     },
     {
+      "ticker": "PATH",
+      "status": "NO_TRADE",
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "advanced_quality": {
+        "advanced_quality_score": 28.0,
+        "spread_pct": 0.8447,
+        "dollar_volume": 627475.4,
+        "spread_score": 12.0,
+        "liquidity_score": 0.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 0.0,
+        "anti_chase_score": 10.0,
+        "pullback_quality_score": 1.0,
+        "breakout_compression_score": 0,
+        "sympathy_score": 3,
+        "theme": "small_cap_ai",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_acceptable",
+          "dollar_volume_too_low",
+          "weak_rvol",
+          "below_vwap",
+          "volume_fading",
+          "below_vwap_no_pullback_entry"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:NO_TRADE",
+          "dollar_volume_below_1m"
+        ]
+      }
+    },
+    {
       "ticker": "AI",
       "status": "NO_TRADE",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
         "advanced_quality_score": 28.0,
         "spread_pct": 1.2593,
-        "dollar_volume": 53824.68,
+        "dollar_volume": 54755.69,
         "spread_score": 7.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -1718,36 +1713,36 @@
       }
     },
     {
-      "ticker": "UPST",
+      "ticker": "SHOP",
       "status": "NO_TRADE",
       "quality_gate_status": "DASHBOARD_ONLY",
       "advanced_quality": {
-        "advanced_quality_score": 28.0,
-        "spread_pct": 1.4435,
-        "dollar_volume": 165175.1,
+        "advanced_quality_score": 27.0,
+        "spread_pct": 1.2529,
+        "dollar_volume": 1482162.0,
         "spread_score": 7.0,
-        "liquidity_score": 0.0,
+        "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 0.0,
-        "anti_chase_score": 15.0,
+        "anti_chase_score": 10.0,
         "pullback_quality_score": 1.0,
         "breakout_compression_score": 0,
-        "sympathy_score": 3,
-        "theme": "fintech",
+        "sympathy_score": 0,
+        "theme": null,
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
           "spread_caution",
-          "dollar_volume_too_low",
+          "thin_but_tradeable_dollar_volume",
           "weak_rvol",
           "below_vwap",
+          "volume_fading",
           "below_vwap_no_pullback_entry"
         ],
         "hard_blocks": [],
         "quality_gate_status": "DASHBOARD_ONLY",
         "quality_gate_blocks": [
-          "base_status_not_trade_eligible:NO_TRADE",
-          "dollar_volume_below_1m"
+          "base_status_not_trade_eligible:NO_TRADE"
         ]
       }
     },
