@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Jini Engine Dashboard</title>
   <style>
     :root{--bg:#020617;--panel:#0f172a;--text:#e5e7eb;--muted:#94a3b8;--border:rgba(148,163,184,.25);--good:#22c55e;--warn:#f59e0b;--bad:#ef4444;--blue:#38bdf8}
@@ -24,6 +24,7 @@
     .bad{color:var(--bad);background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.4)}
     .neutral{color:var(--blue);background:rgba(56,189,248,.08);border-color:rgba(56,189,248,.4)}
     .safe{border-color:rgba(239,68,68,.55);background:linear-gradient(135deg,rgba(127,29,29,.5),rgba(15,23,42,.95))}
+    .safe.clear{border-color:rgba(34,197,94,.45);background:linear-gradient(135deg,rgba(20,83,45,.35),rgba(15,23,42,.95))}
     .metric h2{font-size:34px}
     table{width:100%;border-collapse:collapse}
     th,td{padding:12px;border-bottom:1px solid var(--border);text-align:left;font-size:13px}
@@ -41,8 +42,8 @@
   <section class="hero">
     <div>
       <p class="label">Jini Elite Prediction Engine</p>
-      <h1>Emergency Safe Dashboard v2</h1>
-      <p>Standalone dashboard. No external JavaScript dependency. Paper-only research mode.</p>
+      <h1>Jini Operator Dashboard</h1>
+      <p>Standalone dashboard. Paper-only research mode. No live trading.</p>
     </div>
     <div>
       <span id="overall" class="pill neutral">Loading</span>
@@ -66,7 +67,7 @@
 
   <section class="grid metrics">
     <article class="card metric"><p class="label">Signals</p><h2 id="signalsCount">0</h2><p>Rows loaded.</p></article>
-    <article class="card metric"><p class="label">Auth Fail</p><h2 id="authFail">N/A</h2><p>Alpaca auth status.</p></article>
+    <article class="card metric"><p class="label">Scored Rows</p><h2 id="scoredRows">0</h2><p>Rows with final score.</p></article>
     <article class="card metric"><p class="label">Good Rows</p><h2 id="goodRows">0</h2><p>Scanner source quality.</p></article>
     <article class="card metric"><p class="label">Bad Rows</p><h2 id="badRows">0</h2><p>Scanner source quality.</p></article>
     <article class="card metric"><p class="label">Orders</p><h2>OFF</h2><p>Paper/live submission blocked.</p></article>
@@ -99,126 +100,204 @@
     <article class="card"><p class="label">Data Health JSON</p><pre id="dataJson">Loading...</pre></article>
   </section>
 
-<!-- Final repo audit dashboard contract markers.
-Required legacy data references:
-signal_dashboard_finra_enriched.json
-signal_dashboard_enriched.json
-signal_dashboard.json
-adaptive_guard.json
-outcomes.json
-learning.json
--->
-<section id="dashboard-contract-compat" style="display:none">
-  <div id="adaptive-guard-panel"></div>
-  <div id="paper-plan-panel"></div>
-  <div id="outcomes-panel"></div>
-  <div id="health-panel"></div>
-  <div id="quality-panel"></div>
-  <div id="learning-panel"></div>
-</section>
-
-
-<!--
-DASHBOARD CONTRACT MARKERS - DO NOT REMOVE
-dashboard_contract
-signal_dashboard_finra_enriched.json
-signal_dashboard_enriched.json
-signal_dashboard.json
-adaptive_guard.json
-paper_order_plan.json
-outcomes.json
-learning.json
-adaptive-guard-panel
-paper-plan-panel
-outcomes-panel
-health-panel
-quality-panel
-learning-panel
--->
-
-<section id="dashboard-contract-compat" style="display:none">
-  <div id="adaptive-guard-panel"></div>
-  <div id="paper-plan-panel"></div>
-  <div id="outcomes-panel"></div>
-  <div id="health-panel"></div>
-  <div id="quality-panel"></div>
-  <div id="learning-panel"></div>
-</section>
-
+  <!-- DASHBOARD CONTRACT MARKERS - DO NOT REMOVE
+  dashboard_contract
+  signal_dashboard_finra_enriched.json
+  signal_dashboard_enriched.json
+  signal_dashboard.json
+  adaptive_guard.json
+  paper_order_plan.json
+  outcomes.json
+  learning.json
+  adaptive-guard-panel
+  paper-plan-panel
+  outcomes-panel
+  health-panel
+  quality-panel
+  learning-panel
+  -->
+  <section id="dashboard-contract-compat" style="display:none">
+    <div id="adaptive-guard-panel"></div>
+    <div id="paper-plan-panel"></div>
+    <div id="outcomes-panel"></div>
+    <div id="health-panel"></div>
+    <div id="quality-panel"></div>
+    <div id="learning-panel"></div>
+  </section>
 </main>
 
 <script>
-const B='data/prediction_engine/';
-const files={
-  runtime:B+'runtime_heartbeat.json',
-  audit:B+'final_repo_audit.json',
-  safe:B+'auth_failure_safe_mode_health.json',
-  safeDash:B+'signal_dashboard_safe_mode.json',
-  operator:B+'signal_dashboard_operator.json',
-  stable:B+'signal_dashboard_stable.json',
-  data:B+'data_feed_quality_health.json',
-  scanner:B+'scanner_data_source_health.json',
-  alerts:B+'alert_delivery_health.json'
-};
-async function j(path){try{const r=await fetch(path+'?v='+Date.now());return r.ok?await r.json():{}}catch(e){return {error:String(e)}}}
-function rows(x){if(Array.isArray(x))return x;if(!x||typeof x!=='object')return[];for(const k of ['rows','signals','candidates','data'])if(Array.isArray(x[k]))return x[k];return[]}
-function t(id,v){const e=document.getElementById(id);if(e)e.textContent=v??'N/A'}
-function h(id,v){const e=document.getElementById(id);if(e)e.innerHTML=v??''}
-function cls(v){v=String(v||'').toUpperCase();if(v.includes('PASS')||v.includes('OK'))return'good';if(v.includes('WARN')||v.includes('WATCH')||v.includes('STALE'))return'warn';if(v.includes('FAIL')||v.includes('AUTH')||v.includes('DATA_FEED'))return'bad';return'neutral'}
-function pill(v){return `<span class="pill ${cls(v)}">${v||'N/A'}</span>`}
-function money(v){const n=Number(v);return Number.isFinite(n)&&n>0?'$'+n.toFixed(2):'N/A'}
-function num(v){const n=Number(v);return Number.isFinite(n)?n.toFixed(2):'N/A'}
-function pickRows(safeDash,stable){return rows(safeDash).length?rows(safeDash):rows(stable)}
-(async function(){
-  const [runtime,audit,safe,safeDash,operator,stable,data,scanner,alerts]=await Promise.all([
-    j(files.runtime),j(files.audit),j(files.safe),j(files.safeDash),j(files.operator),j(files.stable),j(files.data),j(files.scanner),j(files.alerts)
-  ]);
-  const r=rows(operator).length?rows(operator):pickRows(safeDash,stable);
+(function () {
+  var B = "data/prediction_engine/";
+  var files = {
+    runtime: B + "runtime_heartbeat.json",
+    audit: B + "final_repo_audit.json",
+    safe: B + "auth_failure_safe_mode_health.json",
+    operator: B + "signal_dashboard_operator.json",
+    safeDash: B + "signal_dashboard_safe_mode.json",
+    stable: B + "signal_dashboard_stable.json",
+    data: B + "data_feed_quality_health.json",
+    scanner: B + "scanner_data_source_health.json",
+    alerts: B + "alert_delivery_health.json"
+  };
 
-  t('overall', audit.status||'UNKNOWN'); document.getElementById('overall').className='pill '+cls(audit.status);
-  t('updated','Updated: '+(runtime.generated_at||audit.generated_at||new Date().toISOString()));
-  t('runtime',runtime.status||'UNKNOWN'); t('runtimeSub','Heartbeat: '+(runtime.generated_at||'N/A'));
-  t('audit',audit.status||'UNKNOWN'); t('auditSub','Score: '+(audit.score?.score??'N/A')+'/'+(audit.score?.max_score??100));
-  t('dataFeed',data.status||scanner.status||'UNKNOWN'); t('dataFeedSub',`Good: ${scanner.current_good_rows??'N/A'} | Bad: ${scanner.current_bad_rows??'N/A'} | Zero: ${data.zero_price_rows??'N/A'}`);
-  t('alerts',alerts.status||'UNKNOWN'); t('alertsSub',`Telegram: ${alerts.telegram_configured===true?'on':'off'} | Delivered: ${alerts.delivered_count??0}`);
+  function el(id) { return document.getElementById(id); }
+  function setText(id, value) { var e = el(id); if (e) e.textContent = value == null ? "N/A" : String(value); }
+  function setHtml(id, value) { var e = el(id); if (e) e.innerHTML = value == null ? "" : String(value); }
 
-  const active=safe.safe_mode_active===true;
-  t('safeTitle',active?'ALPACA AUTH FAILED':'Safe Mode Clear');
-  t('safeDetail',active?'Safe mode active. Buy alerts and all orders are blocked.':'No auth safe-mode blocker active.');
-  t('safePill',active?'SAFE MODE ACTIVE':(safe.status||'UNKNOWN')); document.getElementById('safePill').className='pill '+cls(active?'FAIL':safe.status);
-  t('signalsCount',r.length); t('authFail',active?'YES':'NO'); t('goodRows',scanner.current_good_rows??0); t('badRows',scanner.current_bad_rows??0);
+  function getJson(path) {
+    return fetch(path + "?v=" + Date.now()).then(function (r) {
+      if (!r.ok) return {};
+      return r.json();
+    }).catch(function (err) {
+      return { error: String(err) };
+    });
+  }
 
-  const top=r[0]||{};
-  t('topTitle',`${top.ticker||top.symbol||'N/A'} ${money(top.price||top.last_price||top.close)}`);
-  h('topBody',`<div class="mini">
-    <div><span>Final</span><strong>${num(top.final_trade_score)}</strong></div>
-    <div><span>Runner</span><strong>${num(top.runner_potential_score)}</strong></div>
-    <div><span>Entry</span><strong>${num(top.entry_quality_score)}</strong></div>
-    <div><span>Danger</span><strong>${num(top.danger_score)}</strong></div>
-  </div><p>Status: ${pill(top.score_status||top.scanner_data_status)}</p>`);
+  function getRows(obj) {
+    if (Array.isArray(obj)) return obj;
+    if (!obj || typeof obj !== "object") return [];
+    var keys = ["rows", "signals", "candidates", "data", "predictions"];
+    for (var i = 0; i < keys.length; i++) {
+      if (Array.isArray(obj[keys[i]])) return obj[keys[i]];
+    }
+    return [];
+  }
 
-  t('messageTitle', active?'System Protected':'System Check');
-  t('messageBody', active?'Alpaca auth/data failed. The dashboard is intentionally blocking buy/watch eligibility.':'Dashboard loaded successfully.');
+  function statusClass(value) {
+    var s = String(value || "").toUpperCase();
+    if (s.indexOf("PASS") >= 0 || s.indexOf("OK") >= 0 || s.indexOf("LIVE_DATA_OK") >= 0) return "good";
+    if (s.indexOf("WARN") >= 0 || s.indexOf("WATCH") >= 0 || s.indexOf("STALE") >= 0) return "warn";
+    if (s.indexOf("FAIL") >= 0 || s.indexOf("AUTH") >= 0 || s.indexOf("DATA_FEED") >= 0) return "bad";
+    return "neutral";
+  }
 
-  h('rows',r.slice(0,100).map(x=>`<tr>
-    <td><strong>${x.ticker||x.symbol||'N/A'}</strong></td>
-    <td>${money(x.price||x.last_price||x.close)}</td>
-    <td>${num(x.final_trade_score)}</td>
-    <td>${num(x.runner_potential_score)}</td>
-    <td>${num(x.entry_quality_score)}</td>
-    <td>${num(x.danger_score)}</td>
-    <td>${pill(x.score_status||'N/A')}</td>
-    <td>${pill(x.scanner_data_status||x.data_feed_guard_status||'N/A')}</td>
-  </tr>`).join('') || '<tr><td colspan="8">No rows found.</td></tr>');
+  function pill(value) {
+    var v = value || "N/A";
+    return '<span class="pill ' + statusClass(v) + '">' + v + '</span>';
+  }
 
-  t('safeJson',JSON.stringify(safe,null,2));
-  t('dataJson',JSON.stringify({data,scanner},null,2));
-})().catch(e=>{
-  t('overall','ERROR');
-  t('runtime','ERROR');
-  t('runtimeSub',String(e));
-  h('rows','<tr><td colspan="8">Dashboard error: '+String(e)+'</td></tr>');
-});
+  function applyPill(id, value) {
+    var e = el(id);
+    if (!e) return;
+    e.textContent = value || "N/A";
+    e.className = "pill " + statusClass(value);
+  }
+
+  function money(value) {
+    var n = Number(value);
+    return isFinite(n) && n > 0 ? "$" + n.toFixed(2) : "N/A";
+  }
+
+  function num(value) {
+    var n = Number(value);
+    return isFinite(n) ? n.toFixed(2) : "N/A";
+  }
+
+  function firstNonEmptyRows(list) {
+    for (var i = 0; i < list.length; i++) {
+      var r = getRows(list[i]);
+      if (r.length) return r;
+    }
+    return [];
+  }
+
+  Promise.all([
+    getJson(files.runtime),
+    getJson(files.audit),
+    getJson(files.safe),
+    getJson(files.operator),
+    getJson(files.safeDash),
+    getJson(files.stable),
+    getJson(files.data),
+    getJson(files.scanner),
+    getJson(files.alerts)
+  ]).then(function (payloads) {
+    var runtime = payloads[0] || {};
+    var audit = payloads[1] || {};
+    var safe = payloads[2] || {};
+    var operator = payloads[3] || {};
+    var safeDash = payloads[4] || {};
+    var stable = payloads[5] || {};
+    var data = payloads[6] || {};
+    var scanner = payloads[7] || {};
+    var alerts = payloads[8] || {};
+
+    var rows = firstNonEmptyRows([operator, safeDash, stable]);
+
+    applyPill("overall", audit.status || "UNKNOWN");
+    setText("updated", "Updated: " + (runtime.generated_at || audit.generated_at || new Date().toISOString()));
+
+    var safeActive = safe.safe_mode_active === true;
+    var safeBox = el("safeBox");
+    if (safeBox) safeBox.className = "card safe " + (safeActive ? "" : "clear");
+
+    setText("safeTitle", safeActive ? "ALPACA AUTH FAILED" : "Safe Mode Clear");
+    setText("safeDetail", safeActive ? "Safe mode active. Buy alerts and all orders are blocked." : "No auth safe-mode blocker active.");
+    applyPill("safePill", safeActive ? "SAFE MODE ACTIVE" : (safe.status || "PASS"));
+
+    setText("runtime", runtime.status || "UNKNOWN");
+    setText("runtimeSub", "Heartbeat: " + (runtime.generated_at || "N/A"));
+
+    setText("audit", audit.status || "UNKNOWN");
+    setText("auditSub", "Score: " + ((audit.score && audit.score.score) || "N/A") + "/" + ((audit.score && audit.score.max_score) || 100));
+
+    setText("dataFeed", data.status || scanner.status || "UNKNOWN");
+    setText("dataFeedSub", "Good: " + (scanner.current_good_rows == null ? "N/A" : scanner.current_good_rows) + " | Bad: " + (scanner.current_bad_rows == null ? "N/A" : scanner.current_bad_rows) + " | Zero: " + (data.zero_price_rows == null ? "N/A" : data.zero_price_rows));
+
+    setText("alerts", alerts.status || "UNKNOWN");
+    setText("alertsSub", "Telegram: " + (alerts.telegram_configured === true ? "on" : "off") + " | Delivered: " + (alerts.delivered_count || 0));
+
+    var scored = 0;
+    for (var i = 0; i < rows.length; i++) {
+      if (rows[i].final_trade_score != null) scored++;
+    }
+
+    setText("signalsCount", rows.length);
+    setText("scoredRows", scored);
+    setText("goodRows", scanner.current_good_rows || 0);
+    setText("badRows", scanner.current_bad_rows || 0);
+
+    var top = rows.length ? rows[0] : {};
+    setText("topTitle", (top.ticker || top.symbol || "N/A") + " " + money(top.price || top.last_price || top.close));
+    setHtml("topBody",
+      '<div class="mini">' +
+      '<div><span>Final</span><strong>' + num(top.final_trade_score) + '</strong></div>' +
+      '<div><span>Runner</span><strong>' + num(top.runner_potential_score) + '</strong></div>' +
+      '<div><span>Entry</span><strong>' + num(top.entry_quality_score) + '</strong></div>' +
+      '<div><span>Danger</span><strong>' + num(top.danger_score) + '</strong></div>' +
+      '</div><p>Status: ' + pill(top.score_status || top.scanner_data_status || "N/A") + '</p>'
+    );
+
+    setText("messageTitle", safeActive ? "System Protected" : "System Check");
+    setText("messageBody", safeActive ? "Auth/data issue. Buy and order eligibility are blocked." : "Dashboard loaded successfully.");
+
+    var html = "";
+    for (var j = 0; j < Math.min(rows.length, 100); j++) {
+      var x = rows[j];
+      html += "<tr>" +
+        "<td><strong>" + (x.ticker || x.symbol || "N/A") + "</strong></td>" +
+        "<td>" + money(x.price || x.last_price || x.close) + "</td>" +
+        "<td>" + num(x.final_trade_score) + "</td>" +
+        "<td>" + num(x.runner_potential_score) + "</td>" +
+        "<td>" + num(x.entry_quality_score) + "</td>" +
+        "<td>" + num(x.danger_score) + "</td>" +
+        "<td>" + pill(x.score_status || "N/A") + "</td>" +
+        "<td>" + pill(x.scanner_data_status || x.data_feed_guard_status || "N/A") + "</td>" +
+        "</tr>";
+    }
+    if (!html) html = '<tr><td colspan="8">No rows found.</td></tr>';
+    setHtml("rows", html);
+
+    setText("safeJson", JSON.stringify(safe, null, 2));
+    setText("dataJson", JSON.stringify({ data: data, scanner: scanner, operator: operator.health || {} }, null, 2));
+  }).catch(function (err) {
+    applyPill("overall", "ERROR");
+    setText("runtime", "ERROR");
+    setText("runtimeSub", String(err));
+    setHtml("rows", '<tr><td colspan="8">Dashboard error: ' + String(err) + '</td></tr>');
+  });
+})();
 </script>
 </body>
 </html>
