@@ -1,29 +1,25 @@
 {
   "schema_version": "alpaca_source_diagnostic_v1",
-  "generated_at": "2026-05-18T22:24:41.790192+00:00",
-  "status": "FAIL",
-  "blockers": [
-    "alpaca_trading_auth_failed_401",
-    "all_alpaca_data_feed_tests_failed"
-  ],
+  "generated_at": "2026-05-19T04:32:32.687933+00:00",
+  "status": "WARN",
+  "blockers": [],
   "warnings": [
-    "alpaca_auth_failed_401",
     "base_signal_dashboard_has_zero_price_rows"
   ],
   "env": {
     "ALPACA_API_KEY": {
       "exists": true,
-      "length": 20,
-      "starts_with": "your",
-      "ends_with": "here",
+      "length": 26,
+      "starts_with": "PKMA",
+      "ends_with": "PUJB",
       "has_spaces": false,
       "is_placeholder": false
     },
     "ALPACA_SECRET_KEY": {
       "exists": true,
-      "length": 23,
-      "starts_with": "your",
-      "ends_with": "here",
+      "length": 44,
+      "starts_with": "9axv",
+      "ends_with": "e9rW",
       "has_spaces": false,
       "is_placeholder": false
     },
@@ -53,43 +49,53 @@
     }
   },
   "trading_auth": {
-    "ok": false,
-    "reason": "alpaca_auth_failed_401",
-    "error_type": "APIError",
-    "error": "{\"message\": \"unauthorized.\"}\n"
+    "ok": true,
+    "account_status": "AccountStatus.ACTIVE",
+    "paper": true,
+    "cash_present": true
   },
   "data_feeds": {
     "IEX": {
       "feed": "IEX",
       "bars": {
-        "ok": false,
-        "reason": "alpaca_auth_failed_401",
-        "error_type": "APIError",
-        "error": "<html>\r\n<head><title>401 Authorization Required</title></head>\r\n<body>\r\n<center><h1>401 Authorization Required</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+        "ok": true,
+        "symbols": {}
       },
       "quotes": {
-        "ok": false,
-        "reason": "alpaca_auth_failed_401",
-        "error_type": "APIError",
-        "error": "<html>\r\n<head><title>401 Authorization Required</title></head>\r\n<body>\r\n<center><h1>401 Authorization Required</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+        "ok": true,
+        "symbols": {
+          "MSFT": {
+            "bid": 395.77,
+            "ask": 446.04
+          },
+          "AAPL": {
+            "bid": 285.18,
+            "ask": 315.29
+          }
+        }
       },
-      "ok": false
+      "ok": true
     },
     "SIP": {
       "feed": "SIP",
       "bars": {
-        "ok": false,
-        "reason": "alpaca_auth_failed_401",
-        "error_type": "APIError",
-        "error": "<html>\r\n<head><title>401 Authorization Required</title></head>\r\n<body>\r\n<center><h1>401 Authorization Required</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+        "ok": true,
+        "symbols": {}
       },
       "quotes": {
-        "ok": false,
-        "reason": "alpaca_auth_failed_401",
-        "error_type": "APIError",
-        "error": "<html>\r\n<head><title>401 Authorization Required</title></head>\r\n<body>\r\n<center><h1>401 Authorization Required</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+        "ok": true,
+        "symbols": {
+          "AAPL": {
+            "bid": 297.3,
+            "ask": 297.5
+          },
+          "MSFT": {
+            "bid": 423.12,
+            "ask": 423.2
+          }
+        }
       },
-      "ok": false
+      "ok": true
     }
   },
   "scanner_files": {
