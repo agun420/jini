@@ -335,50 +335,6 @@ function renderJson(id, payload) {
   text(id, JSON.stringify(payload || {}, null, 2));
 }
 
-
-function renderSafeModeBanner(authSafeMode) {
-  const active = authSafeMode?.safe_mode_active === true;
-  const status = authSafeMode?.status || "UNKNOWN";
-  const blockers = Array.isArray(authSafeMode?.blockers) ? authSafeMode.blockers : [];
-
-  const existing = document.getElementById("safe-mode-banner");
-  if (existing) existing.remove();
-
-  const banner = document.createElement("section");
-  banner.id = "safe-mode-banner";
-  banner.className = active ? "safe-mode-banner danger" : "safe-mode-banner ok";
-
-  banner.innerHTML = active
-    ? `
-      <div>
-        <p class="label">Safe Mode</p>
-        <h2>ALPACA AUTH FAILED</h2>
-        <p>Safe mode is active. Buy alerts, paper orders, and live orders are blocked until Alpaca auth/data passes.</p>
-        <p class="small-muted">Blockers: ${blockers.length ? blockers.join(", ") : "alpaca auth/data failure"}</p>
-      </div>
-      <span class="status-pill bad">SAFE MODE ACTIVE</span>
-    `
-    : `
-      <div>
-        <p class="label">Safe Mode</p>
-        <h2>Auth Safe Mode Clear</h2>
-        <p>No Alpaca auth safe-mode blocker is active right now.</p>
-      </div>
-      <span class="status-pill good">${status}</span>
-    `;
-
-  const hero = document.querySelector(".hero");
-  if (hero && hero.parentNode) {
-    hero.parentNode.insertBefore(banner, hero.nextSibling);
-  }
-}
-
-function preferSafeModeSignals(safeModeDash, existingSignals) {
-  const rows = rowsFrom(safeModeDash);
-  return rows.length ? rows : existingSignals;
-}
-
-
 async function init() {
   const [
     runtime,
@@ -413,7 +369,6 @@ async function init() {
   ]);
 
   buildMetaMap(metaPredictions);
-  renderSafeModeBanner(authSafeMode);
   allSignals = mergeSignalRows(dataGuardDash,
     rvolDash, secondLegDash, scoredDash);
 
