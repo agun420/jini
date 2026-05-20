@@ -63,7 +63,18 @@
     <article class="card"><p class="label">System Message</p><h2 id="messageTitle">Loading</h2><p id="messageBody"></p></article>
   </section>
 
+  
   <section class="card">
+    <p class="label">Validated Watch Alerts</p>
+    <h2 id="watchTitle">Loading</h2>
+    <p id="watchSub">Watch-only. No paper orders. No live orders.</p>
+    <table>
+      <thead><tr><th>Ticker</th><th>Price</th><th>Score v2</th><th>Setup</th><th>Target</th><th>Stop</th><th>Horizon</th><th>Orders</th></tr></thead>
+      <tbody id="watchRows"><tr><td colspan="8">Loading...</td></tr></tbody>
+    </table>
+  </section>
+
+<section class="card">
     <p class="label">Signal Board</p><h2>Latest Rows</h2>
     <table id="signals-table">
       <thead><tr><th>Ticker</th><th>Price</th><th>Final</th><th>Runner</th><th>Entry</th><th>Danger</th><th>Status</th><th>Data Status</th></tr></thead>
@@ -114,8 +125,8 @@
   function money(v){var n=Number(v);return isFinite(n)&&n>0?'$'+n.toFixed(2):'N/A'}
   function num(v){var n=Number(v);return isFinite(n)?n.toFixed(2):'N/A'}
 
-  Promise.all([j(B+'operator_health.json'),j(B+'operator_dashboard.json'),j(B+'backtest_gate_health.json'),j(B+'operator_dashboard_backtest_gated.json')]).then(function(p){
-    var health=p[0]||{}, dash=p[1]||{}, gate=p[2]||{}, gatedDash=p[3]||{}; var r=rows(gatedDash).length?rows(gatedDash):rows(dash), top=r[0]||{};
+  Promise.all([j(B+'operator_health.json'),j(B+'operator_dashboard.json'),j(B+'backtest_gate_health.json'),j(B+'operator_dashboard_backtest_gated.json'),j(B+'paper_alert_watch_mode_health.json'),j(B+'paper_alert_watch_mode.json')]).then(function(p){
+    var health=p[0]||{}, dash=p[1]||{}, gate=p[2]||{}, gatedDash=p[3]||{}, watchHealth=p[4]||{}, watchDash=p[5]||{}; var watchRows=rows(watchDash).filter(function(x){return x.watch_alert_eligible===true}); var r=watchRows.length?watchRows:(rows(gatedDash).length?rows(gatedDash):rows(dash)), top=r[0]||{};
     apply('overall',health.status||'UNKNOWN'); t('updated','Updated: '+(health.generated_at||dash.generated_at||new Date().toISOString()));
     var safe=health.safe_mode_active===true; var box=e('safeBox'); if(box)box.className='card safe '+(safe?'fail':'clear');
     t('safeTitle',safe?'ALPACA AUTH FAILED':'Safe Mode Clear'); t('safeDetail',safe?'Safe mode active. Buy alerts and orders blocked.':'No auth safe-mode blocker active.'); apply('safePill',safe?'SAFE MODE ACTIVE':'PASS');
@@ -127,10 +138,10 @@
     t('signalsCount',r.length); t('metric-total-signals',r.length); t('scoredRows',health.rows_with_score||0); t('metric-trade-eligible',health.trade_eligible||0); t('watchOnly',health.watch_only||0);
     t('topTitle',(top.ticker||top.symbol||'N/A')+' '+money(top.price||top.last_price||top.close));
     h('topBody','<div class="mini"><div><span>Final</span><strong>'+num(top.final_trade_score)+'</strong></div><div><span>Runner</span><strong>'+num(top.runner_potential_score)+'</strong></div><div><span>Entry</span><strong>'+num(top.entry_quality_score)+'</strong></div><div><span>Danger</span><strong>'+num(top.danger_score)+'</strong></div></div><p>Status: '+pill(top.score_status||top.operator_status||'N/A')+'</p>');
-    t('messageTitle',health.status==='PASS'?'System Ready':'System Check'); t('messageBody',(gate.gate_active===true?'Backtest gate active. Trade eligibility blocked until historical evidence improves. ':'')+'Paper-only. Order submission false. Live trading false.');
-    var html=''; for(var i=0;i<Math.min(r.length,100);i++){var x=r[i];html+='<tr><td><strong>'+(x.ticker||x.symbol||'N/A')+'</strong></td><td>'+money(x.price||x.last_price||x.close)+'</td><td>'+num(x.final_trade_score)+'</td><td>'+num(x.runner_potential_score)+'</td><td>'+num(x.entry_quality_score)+'</td><td>'+num(x.danger_score)+'</td><td>'+pill(x.score_status||x.operator_status||'N/A')+'</td><td>'+pill(x.scanner_data_status||x.data_feed_guard_status||'N/A')+'</td></tr>'}
+    t('messageTitle',health.status==='PASS'?'System Ready':'System Check'); t('messageBody',(watchRows.length?'Validated watch-alert rows are visible. ':'')+(gate.gate_active===true?'Backtest gate active for orders/trade eligibility. ':'')+'Watch-only. Order submission false. Live trading false.');
+    t('watchTitle',(watchRows.length||0)+' Watch Alert Eligible'); t('watchSub','Validated setup: price $10-$75 reclaim_5bar_high_light | Target +0.6% | Stop -0.8% | Horizon 30 min | Orders OFF'); var whtml=''; for(var wi=0;wi<Math.min(watchRows.length,30);wi++){var wx=watchRows[wi];whtml+='<tr><td><strong>'+(wx.ticker||wx.symbol||'N/A')+'</strong></td><td>'+money(wx.price||wx.last_price||wx.close)+'</td><td>'+num(wx.score_v2)+'</td><td>'+(wx.validated_setup||'N/A')+'</td><td>'+num(wx.validated_target_pct)+'%</td><td>'+num(wx.validated_stop_pct)+'%</td><td>'+(wx.validated_horizon_minutes||'N/A')+'m</td><td>'+((wx.paper_order_allowed===false&&wx.live_order_allowed===false)?'OFF':'CHECK')+'</td></tr>'} h('watchRows',whtml||'<tr><td colspan="8">No watch-alert rows right now.</td></tr>'); var html=''; for(var i=0;i<Math.min(r.length,100);i++){var x=r[i];html+='<tr><td><strong>'+(x.ticker||x.symbol||'N/A')+'</strong></td><td>'+money(x.price||x.last_price||x.close)+'</td><td>'+num(x.final_trade_score||x.score_v2)+'</td><td>'+num(x.runner_potential_score)+'</td><td>'+num(x.entry_quality_score)+'</td><td>'+num(x.danger_score)+'</td><td>'+pill(x.watch_mode_status||x.score_status||x.operator_status||'N/A')+'</td><td>'+pill(x.scanner_data_status||x.data_feed_guard_status||'N/A')+'</td></tr>'}
     h('rows',html||'<tr><td colspan="8">No rows found.</td></tr>');
-    t('healthJson',JSON.stringify({operator_health:health,backtest_gate:gate},null,2)); t('topJson',JSON.stringify(top,null,2));
+    t('healthJson',JSON.stringify({operator_health:health,backtest_gate:gate,paper_alert_watch_mode:watchHealth},null,2)); t('topJson',JSON.stringify(top,null,2));
   }).catch(function(err){apply('overall','ERROR');t('runtime','ERROR');t('runtimeSub',String(err));h('rows','<tr><td colspan="8">Dashboard error: '+String(err)+'</td></tr>')});
 })();
 </script>
