@@ -42,6 +42,7 @@ run_once() {
   PYTHONPATH=src:. python scripts/run_auth_failure_safe_mode.py || true
   PYTHONPATH=src:. python scripts/run_operator_signal_resolver.py || true
   PYTHONPATH=src:. python scripts/run_jini_operator_pipeline.py || true
+  PYTHONPATH=src:. python scripts/run_buy_order_alert_outcome_journal.py || true
   PYTHONPATH=src:. python scripts/run_final_repo_audit.py || true
   PYTHONPATH=src:. python scripts/run_backtest_gate.py || true
   PYTHONPATH=src:. python scripts/run_jini_stability_check.py || true
