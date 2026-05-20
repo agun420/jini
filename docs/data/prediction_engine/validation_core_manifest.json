@@ -1,0 +1,100 @@
+{
+  "schema_version": "validation_core_manifest_v1",
+  "generated_at": "2026-05-20T15:20:58.884604+00:00",
+  "mission": "Closed-loop validation core for Jini. Prove edge before changing parameters or enabling paper automation.",
+  "phase": "Phase 9A - Closed-Loop Validation Core",
+  "health": {
+    "schema_version": "validation_core_manifest_health_v1",
+    "generated_at": "2026-05-20T15:20:58.884604+00:00",
+    "status": "PASS",
+    "blockers": [],
+    "warnings": [],
+    "module_count": 4,
+    "validation_core_ready_to_build": true,
+    "trade_journal_ready": false,
+    "blocked_journal_ready": false,
+    "slippage_model_ready": false,
+    "forward_validator_ready": false,
+    "paper_auto_trade_ready": false,
+    "auto_trade_ready": false,
+    "live_trade_ready": false,
+    "order_submission": false,
+    "live_trading": false,
+    "message": "Validation core manifest installed. Modules are planned but not yet active."
+  },
+  "modules": {
+    "trade_journal": {
+      "path": "src/prediction_engine/learning/trade_journal.py",
+      "purpose": "Track simulated/paper trade records and closed outcomes.",
+      "status": "PLANNED",
+      "can_place_orders": false,
+      "can_change_config": false
+    },
+    "blocked_journal": {
+      "path": "src/prediction_engine/learning/blocked_journal.py",
+      "purpose": "Track blocked buy-order alerts and measure missed gains or saved losses.",
+      "status": "PLANNED",
+      "can_place_orders": false,
+      "can_change_config": false
+    },
+    "asymmetric_slippage": {
+      "path": "src/prediction_engine/execution/asymmetric_slip.py",
+      "purpose": "Model chart fill, realistic fill, worst-case fill, spread, volatility, and ATR-bounded slippage.",
+      "status": "PLANNED",
+      "can_place_orders": false,
+      "can_change_config": false
+    },
+    "forward_validator": {
+      "path": "src/prediction_engine/optimization/forward_validator.py",
+      "purpose": "Run purged forward validation and export suggested_config.json only after enough closed outcomes exist.",
+      "status": "PLANNED",
+      "can_place_orders": false,
+      "can_change_config": false
+    }
+  },
+  "outputs": {
+    "trade_journal": {
+      "state": "state/prediction_engine/trade_journal.json",
+      "health": "docs/data/prediction_engine/trade_journal_health.json"
+    },
+    "blocked_journal": {
+      "state": "state/prediction_engine/blocked_journal.json",
+      "health": "docs/data/prediction_engine/blocked_journal_health.json"
+    },
+    "slippage_quality": {
+      "state": "state/prediction_engine/slippage_quality.json",
+      "health": "docs/data/prediction_engine/slippage_quality_health.json"
+    },
+    "forward_validation": {
+      "state": "state/prediction_engine/forward_validation.json",
+      "health": "docs/data/prediction_engine/forward_validation_health.json",
+      "suggested_config": "state/prediction_engine/suggested_config.json"
+    },
+    "validation_status": {
+      "docs": "docs/data/prediction_engine/validation_status.json"
+    }
+  },
+  "hard_rules": [
+    "Validation core is research-only.",
+    "No module can submit orders.",
+    "No module can enable live trading.",
+    "No module can overwrite runtime config automatically.",
+    "Forward validator must require at least 30 closed trade events before suggesting config changes.",
+    "Paper auto-trade remains blocked until 100+ live alert outcomes and 500+ validated setup tests exist.",
+    "Live trading remains blocked until separate manual approval."
+  ],
+  "build_order": [
+    "Package 54 - Trade Journal Core",
+    "Package 55 - Blocked Alert Journal",
+    "Package 56 - Asymmetric Slippage Audit",
+    "Package 57 - Forward Validation Optimizer",
+    "Package 58 - Validation Dashboard Panel",
+    "Package 59 - Auto-Trade Readiness Re-Audit"
+  ],
+  "safety": {
+    "order_submission": false,
+    "live_trading": false,
+    "auto_config_overwrite": false,
+    "purpose": "Research and validation only."
+  }
+}
