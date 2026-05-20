@@ -16,6 +16,7 @@ SLIPPAGE_HEALTH = DOCS / "slippage_quality_health.json"
 FORWARD_VALIDATION_HEALTH = DOCS / "forward_validation_health.json"
 AUTO_TRADE_READINESS = DOCS / "auto_trade_readiness_health.json"
 BUY_ALERT_OUTCOME = DOCS / "buy_order_alert_outcome_journal_health.json"
+FEED_STATUS = DOCS / "feed_status_health.json"
 
 OUT_DOCS = DOCS / "validation_status.json"
 OUT_HEALTH = DOCS / "validation_status_health.json"
@@ -55,6 +56,7 @@ def main() -> None:
     forward = read_json(FORWARD_VALIDATION_HEALTH, {})
     auto = read_json(AUTO_TRADE_READINESS, {})
     outcome = read_json(BUY_ALERT_OUTCOME, {})
+    feed = read_json(FEED_STATUS, {})
 
     blockers: list[str] = []
     warnings: list[str] = []
@@ -67,6 +69,7 @@ def main() -> None:
         "forward_validation": forward,
         "auto_trade_readiness": auto,
         "buy_order_alert_outcome_journal": outcome,
+        "feed_status": feed,
     }
 
     for name, payload in required_files.items():
@@ -89,6 +92,7 @@ def main() -> None:
     closed_alerts = int(outcome.get("closed_alerts") or 0)
     forward_ready = bool(forward.get("forward_validation_ready"))
     slippage_ready = bool(slippage.get("slippage_model_ready"))
+    feed_data_ready = bool(feed.get("can_allow_buy_alerts_from_data"))
 
     # Promotion logic. This is intentionally strict.
     buy_order_alert_ready = bool(auto.get("buy_order_alert_ready"))
@@ -112,6 +116,12 @@ def main() -> None:
 
     if not slippage_ready:
         paper_auto_trade_blockers.append("slippage_model_not_ready")
+
+    if feed.get("status") == "FAIL":
+        paper_auto_trade_blockers.append("feed_status_failed")
+
+    if feed.get("can_allow_buy_alerts_from_data") is not True:
+        paper_auto_trade_blockers.append("feed_data_not_allowed")
 
     if not forward_ready:
         paper_auto_trade_blockers.append("forward_validation_not_ready")
@@ -147,6 +157,10 @@ def main() -> None:
         "closed_alerts": closed_alerts,
         "slippage_model_ready": slippage_ready,
         "forward_validation_ready": forward_ready,
+        "feed_data_ready": feed_data_ready,
+        "feed_status": feed.get("status"),
+        "feed_rows_usable_for_buy_alert": feed.get("rows_usable_for_buy_alert"),
+        "feed_rows_blocked_by_data_quality": feed.get("rows_blocked_by_data_quality"),
         "order_submission": False,
         "live_trading": False,
     }
@@ -163,6 +177,7 @@ def main() -> None:
             "forward_validation": forward,
             "auto_trade_readiness": auto,
             "buy_order_alert_outcome_journal": outcome,
+        "feed_status": feed,
         },
         "promotion_ladder": [
             {

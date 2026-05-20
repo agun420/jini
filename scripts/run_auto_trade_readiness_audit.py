@@ -15,6 +15,7 @@ FINAL_AUDIT = DOCS / "final_repo_audit.json"
 PRICE_REGIME_HEALTH = DOCS / "price_regime_focused_validation_health.json"
 SCORE_V2_HEALTH = DOCS / "score_v2_research_health.json"
 BUY_ALERT_HEALTH = DOCS / "buy_order_alert_mode_health.json"
+FEED_STATUS = DOCS / "feed_status_health.json"
 
 VALIDATION_STATUS = DOCS / "validation_status_health.json"
 VALIDATION_MANIFEST = DOCS / "validation_core_manifest_health.json"
@@ -79,6 +80,7 @@ def main() -> None:
     regime = read_json(PRICE_REGIME_HEALTH, {})
     score_v2 = read_json(SCORE_V2_HEALTH, {})
     buy_alert = read_json(BUY_ALERT_HEALTH, {})
+    feed_status = read_json(FEED_STATUS, {})
 
     validation_status = read_json(VALIDATION_STATUS, {})
     validation_manifest = read_json(VALIDATION_MANIFEST, {})
@@ -133,6 +135,12 @@ def main() -> None:
     add_if(buy_alert.get("status") != "PASS", buy_order_alert_blockers, "buy_order_alert_mode_not_pass")
     add_if(buy_alert.get("order_submission") is not False, buy_order_alert_blockers, "buy_alert_order_submission_not_false")
     add_if(buy_alert.get("live_trading") is not False, buy_order_alert_blockers, "buy_alert_live_trading_not_false")
+
+    # Feed/data quality checks.
+    add_if(feed_status.get("status") == "FAIL", buy_order_alert_blockers, "feed_status_failed")
+    add_if(feed_status.get("can_allow_buy_alerts_from_data") is not True, buy_order_alert_blockers, "feed_data_not_allowed_for_buy_alerts")
+    add_if(feed_status.get("order_submission") is not False, buy_order_alert_blockers, "feed_status_order_submission_not_false")
+    add_if(feed_status.get("live_trading") is not False, buy_order_alert_blockers, "feed_status_live_trading_not_false")
 
     buy_order_alert_ready = len(buy_order_alert_blockers) == 0
 
@@ -215,6 +223,12 @@ def main() -> None:
             "price_regime_total_tests": regime_tests,
             "buy_order_alert_mode_status": buy_alert.get("status"),
             "buy_order_alert_eligible": buy_alert.get("buy_order_alert_eligible"),
+            "feed_status": feed_status.get("status"),
+            "feed_preferred_env": feed_status.get("preferred_feed_env"),
+            "feed_rows_checked": feed_status.get("rows_checked"),
+            "feed_rows_usable_for_buy_alert": feed_status.get("rows_usable_for_buy_alert"),
+            "feed_rows_blocked_by_data_quality": feed_status.get("rows_blocked_by_data_quality"),
+            "feed_can_allow_buy_alerts_from_data": feed_status.get("can_allow_buy_alerts_from_data"),
             "alert_total": total_alerts,
             "alert_closed": closed_alerts,
             "alert_target_hits": target_hits,
