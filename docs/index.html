@@ -151,6 +151,45 @@
   <section id="dashboard-contract-compat" style="display:none">
     <div id="metric-total-signals"></div><div id="adaptive-guard-panel"></div><div id="paper-plan-panel"></div><div id="outcomes-panel"></div><div id="health-panel"></div><div id="quality-panel"></div><div id="learning-panel"></div>
   </section>
+
+  <section class="card">
+    <p class="label">V3 Research Buy Alerts</p>
+    <h2 id="v3ResearchTitle">Loading</h2>
+    <p id="v3ResearchSub">Research-only alert candidates. Strict trade gate unchanged. Orders OFF.</p>
+
+    <div class="grid">
+      <div class="tile"><span>Candidates</span><strong id="v3ResearchCandidates">N/A</strong></div>
+      <div class="tile"><span>Watch</span><strong id="v3ResearchWatch">N/A</strong></div>
+      <div class="tile"><span>Blocked</span><strong id="v3ResearchBlocked">N/A</strong></div>
+      <div class="tile"><span>Top Ticker</span><strong id="v3ResearchTopTicker">N/A</strong></div>
+      <div class="tile"><span>Top Score</span><strong id="v3ResearchTopScore">N/A</strong></div>
+      <div class="tile"><span>Strict Gate Changed</span><strong id="v3ResearchStrictGate">NO</strong></div>
+      <div class="tile"><span>Paper Orders</span><strong id="v3ResearchPaper">OFF</strong></div>
+      <div class="tile"><span>Live Trading</span><strong id="v3ResearchLive">OFF</strong></div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Ticker</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Research</th>
+          <th>Final</th>
+          <th>Runner</th>
+          <th>Entry</th>
+          <th>Danger</th>
+          <th>Move</th>
+          <th>Safety</th>
+        </tr>
+      </thead>
+      <tbody id="v3ResearchRows">
+        <tr><td colspan="10">Loading...</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+
 </main>
 
 <script>
@@ -227,6 +266,77 @@
     slippage_quality: slip,
     forward_validation: forward
   }, null, 2));
+})();
+</script>
+
+
+<script>
+(async function(){
+  const B='data/prediction_engine/';
+  async function j(name){
+    try{
+      const r=await fetch(B+name+'?cb='+Date.now());
+      return await r.json();
+    }catch(e){return {}}
+  }
+  function set(id,v){
+    const el=document.getElementById(id);
+    if(el) el.textContent = (v===true?'YES':v===false?'NO':(v ?? 'N/A'));
+  }
+  function money(v){
+    const n=Number(v);
+    return Number.isFinite(n) ? '$'+n.toFixed(2) : 'N/A';
+  }
+  function num(v){
+    const n=Number(v);
+    return Number.isFinite(n) ? n.toFixed(2) : 'N/A';
+  }
+  function pct(v){
+    const n=Number(v);
+    return Number.isFinite(n) ? n.toFixed(2)+'%' : 'N/A';
+  }
+  function pill(v){
+    return '<span class="pill">'+(v || 'N/A')+'</span>';
+  }
+
+  const health = await j('v3_research_alert_score_health.json');
+  const payload = await j('v3_research_alert_score.json');
+
+  const candidates = Array.isArray(payload.candidates) ? payload.candidates : [];
+  const rows = Array.isArray(payload.rows) ? payload.rows : [];
+  const showRows = candidates.length ? candidates : rows.slice(0, 20);
+
+  set('v3ResearchTitle', (health.status || 'N/A') + ' - Research Alert Layer');
+  set('v3ResearchSub', 'Research-only V3 candidates. Manual review only. Strict gate unchanged. Paper/live orders OFF.');
+  set('v3ResearchCandidates', health.research_buy_alert_candidates);
+  set('v3ResearchWatch', health.research_watch);
+  set('v3ResearchBlocked', health.research_blocked);
+  set('v3ResearchTopTicker', health.top_ticker);
+  set('v3ResearchTopScore', health.top_research_alert_score_v3);
+  set('v3ResearchStrictGate', health.active_strict_gate_changed === false ? 'NO' : 'CHECK');
+  set('v3ResearchPaper', health.order_submission === false ? 'OFF' : 'CHECK');
+  set('v3ResearchLive', health.live_trading === false ? 'OFF' : 'CHECK');
+
+  let html = '';
+  for(const r of showRows.slice(0, 25)){
+    html += '<tr>'
+      + '<td><strong>'+(r.ticker || r.symbol || 'N/A')+'</strong></td>'
+      + '<td>'+money(r.price)+'</td>'
+      + '<td>'+pill(r.research_alert_status_v3)+'</td>'
+      + '<td>'+num(r.research_alert_score_v3)+'</td>'
+      + '<td>'+num(r.final_trade_score_v3)+'</td>'
+      + '<td>'+num(r.runner_potential_v3)+'</td>'
+      + '<td>'+num(r.entry_quality_v3)+'</td>'
+      + '<td>'+num(r.danger_score_v3)+'</td>'
+      + '<td>'+pct(r.day_move_pct)+'</td>'
+      + '<td>'+((r.order_submission===false && r.live_trading===false) ? 'OFF' : 'CHECK')+'</td>'
+      + '</tr>';
+  }
+
+  const body = document.getElementById('v3ResearchRows');
+  if(body){
+    body.innerHTML = html || '<tr><td colspan="10">No V3 research rows available right now.</td></tr>';
+  }
 })();
 </script>
 
