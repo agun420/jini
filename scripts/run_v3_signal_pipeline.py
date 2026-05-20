@@ -23,6 +23,7 @@ OUT_STATE = STATE / "v3_signal_pipeline.json"
 
 
 SCRIPTS = [
+    "scripts/run_alpaca_v3_market_enrichment.py",
     "scripts/run_top_gainer_opportunity_scanner.py",
     "scripts/run_feature_builder_snapshot.py",
     "scripts/run_runner_potential_v3.py",
