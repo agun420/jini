@@ -43,6 +43,13 @@ run_once() {
   PYTHONPATH=src:. python scripts/run_operator_signal_resolver.py || true
   PYTHONPATH=src:. python scripts/run_jini_operator_pipeline.py || true
   PYTHONPATH=src:. python scripts/run_buy_order_alert_outcome_journal.py || true
+  PYTHONPATH=src:. python scripts/run_validation_core_manifest.py || true
+  PYTHONPATH=src:. python scripts/run_trade_journal_health.py || true
+  PYTHONPATH=src:. python scripts/run_blocked_journal_health.py || true
+  PYTHONPATH=src:. python scripts/run_slippage_quality_audit.py || true
+  PYTHONPATH=src:. python scripts/run_forward_validation_optimizer.py || true
+  PYTHONPATH=src:. python scripts/run_validation_status_aggregator.py || true
+  PYTHONPATH=src:. python scripts/run_auto_trade_readiness_audit.py || true
   PYTHONPATH=src:. python scripts/run_final_repo_audit.py || true
   PYTHONPATH=src:. python scripts/run_backtest_gate.py || true
   PYTHONPATH=src:. python scripts/run_jini_stability_check.py || true
