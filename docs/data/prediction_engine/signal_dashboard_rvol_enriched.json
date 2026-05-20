@@ -1,6 +1,6 @@
 {
   "schema_version": "signal_dashboard_rvol_enriched_v1",
-  "generated_at": "2026-05-20T05:54:41.063180+00:00",
+  "generated_at": "2026-05-20T06:00:51.759181+00:00",
   "status": "PASS",
   "rows": [
     {
@@ -11,16 +11,16 @@
       "signal_color": "yellow",
       "meaning": "Early or incomplete setup.",
       "action": "Watch only. No order.",
-      "score": 51.0,
+      "score": 59.0,
       "price": 3.8297,
       "entry": 3.8297,
-      "stop": 3.7938,
+      "stop": 3.7937,
       "target": 3.9446,
-      "risk_reward": 3.2,
+      "risk_reward": 3.19,
       "relative_volume": 0.0,
-      "day_move_percent": -0.0,
+      "day_move_percent": 0.25,
       "gap_pct": -2.3,
-      "vwap": 3.8244,
+      "vwap": 3.8243,
       "vwap_distance_percent": 0.14,
       "volume_acceleration": 1.46,
       "trend_state": "BULLISH_CONTROLLED",
@@ -28,11 +28,11 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21333.14,
+        "data_age_seconds": 21704.03,
         "quality": "GOOD",
         "notes": []
       },
-      "trade_gate_summary": "weak relative volume, above VWAP and controlled, risk/reward acceptable",
+      "trade_gate_summary": "positive day move, weak relative volume, above VWAP and controlled, risk/reward acceptable",
       "no_trade_reasons": [
         "relative_volume_too_low"
       ],
@@ -75,7 +75,7 @@
       "advanced_quality": {
         "advanced_quality_score": 76.0,
         "spread_pct": 1.0417,
-        "dollar_volume": 18175.76,
+        "dollar_volume": 15854.96,
         "spread_score": 7.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -123,11 +123,11 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 13.03,
+      "runner_potential_score": 14.15,
       "entry_quality_score": 70.61,
       "danger_score": 13.2,
       "market_regime_score": 50,
-      "final_trade_score": 37.14,
+      "final_trade_score": 37.58,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
@@ -135,11 +135,11 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 13.03,
+        "runner_potential_score": 14.15,
         "entry_quality_score": 70.61,
         "danger_score": 13.2,
         "market_regime_score": 50,
-        "final_trade_score": 37.14,
+        "final_trade_score": 37.58,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -166,7 +166,7 @@
         "metrics": {
           "pullback_depth_pct": null,
           "volume_cleansing_score": 50.0,
-          "micro_reclaim_score": 52.71
+          "micro_reclaim_score": 52.87
         }
       },
       "second_leg_state": "NO_SETUP",
@@ -178,7 +178,361 @@
       "time_slot_rvol": 1.0,
       "time_slot_rvol_detail": {
         "ticker": "BBAI",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
+        "volume": null,
+        "median_volume_20d_proxy": null,
+        "time_slot_rvol": 1.0,
+        "method": "fallback_estimate"
+      }
+    },
+    {
+      "ticker": "AAPL",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "NO TRADE",
+      "status": "NO_TRADE",
+      "signal_color": "red",
+      "meaning": "Blocked by risk, data, trend, or score rules.",
+      "action": "No new entry.",
+      "score": 39.0,
+      "price": 298.9656,
+      "entry": 298.9656,
+      "stop": 294.4811,
+      "target": 307.9346,
+      "risk_reward": 2.0,
+      "relative_volume": 0.0,
+      "day_move_percent": 0.08,
+      "gap_pct": 0.38,
+      "vwap": 299.0947,
+      "vwap_distance_percent": -0.04,
+      "volume_acceleration": 1.35,
+      "trend_state": "BELOW_VWAP",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 21704.03,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "positive day move, weak relative volume, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": "NOT_CHECKED",
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "AAPL",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260519",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "AAPL",
+        "news_count": 6,
+        "news_catalyst_score": 35,
+        "risk_flags": [],
+        "latest_headline": "AI Trade Faces Make-Or-Break Moment \u2013 Only Nvidia Earnings Will Tell",
+        "latest_url": "https://www.benzinga.com/markets/equities/26/05/52676518/ai-trade-make-or-break-moment-nvidia-earnings-preview"
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 44.0,
+        "spread_pct": 0.0368,
+        "dollar_volume": 1246387.59,
+        "spread_score": 15.0,
+        "liquidity_score": 7.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 0.0,
+        "anti_chase_score": 15.0,
+        "pullback_quality_score": 1.0,
+        "breakout_compression_score": 4.0,
+        "sympathy_score": 0,
+        "theme": null,
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "thin_but_tradeable_dollar_volume",
+          "weak_rvol",
+          "below_vwap",
+          "below_vwap_no_pullback_entry",
+          "breakout_volume_acceleration"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:NO_TRADE"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:NO_TRADE"
+      ],
+      "market_guard": {
+        "halt_luld_proxy_score": 0,
+        "halt_luld_flags": [],
+        "halt_luld_hard_blocks": [],
+        "halt_luld_status": "NORMAL"
+      },
+      "market_circuit_proxy": {
+        "market_circuit_proxy_status": "NORMAL",
+        "block_new_entries": false,
+        "flags": [],
+        "index_day_changes": {},
+        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
+      },
+      "runner_potential_score": 11.04,
+      "entry_quality_score": 40.34,
+      "danger_score": 9.0,
+      "market_regime_score": 50,
+      "final_trade_score": 24.65,
+      "score_status": "WATCH_ONLY",
+      "score_blocks": [
+        "runner_potential_below_80",
+        "entry_quality_below_78",
+        "final_trade_score_below_82"
+      ],
+      "three_score_matrix": {
+        "runner_potential_score": 11.04,
+        "entry_quality_score": 40.34,
+        "danger_score": 9.0,
+        "market_regime_score": 50,
+        "final_trade_score": 24.65,
+        "score_status": "WATCH_ONLY",
+        "score_blocks": [
+          "runner_potential_below_80",
+          "entry_quality_below_78",
+          "final_trade_score_below_82"
+        ],
+        "reason_codes": {
+          "runner": [
+            "volume_acceleration"
+          ],
+          "entry": [
+            "spread_clean"
+          ],
+          "danger": []
+        }
+      },
+      "second_leg": {
+        "state": "NO_SETUP",
+        "confirmed": false,
+        "reasons": [],
+        "blocks": [
+          "no_initial_spike"
+        ],
+        "metrics": {
+          "pullback_depth_pct": null,
+          "volume_cleansing_score": 75.0,
+          "micro_reclaim_score": 22.75
+        }
+      },
+      "second_leg_state": "NO_SETUP",
+      "second_leg_confirmed": false,
+      "second_leg_blocks": [
+        "no_initial_spike"
+      ],
+      "second_leg_reasons": [],
+      "time_slot_rvol": 1.0,
+      "time_slot_rvol_detail": {
+        "ticker": "AAPL",
+        "minute_bucket_utc": "06:07",
+        "volume": null,
+        "median_volume_20d_proxy": null,
+        "time_slot_rvol": 1.0,
+        "method": "fallback_estimate"
+      }
+    },
+    {
+      "ticker": "WULF",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "NO TRADE",
+      "status": "NO_TRADE",
+      "signal_color": "red",
+      "meaning": "Blocked by risk, data, trend, or score rules.",
+      "action": "No new entry.",
+      "score": 39.0,
+      "price": 21.363,
+      "entry": 21.363,
+      "stop": 21.0426,
+      "target": 22.0039,
+      "risk_reward": 2.0,
+      "relative_volume": 0.0,
+      "day_move_percent": 0.15,
+      "gap_pct": 1.05,
+      "vwap": 21.3909,
+      "vwap_distance_percent": -0.13,
+      "volume_acceleration": null,
+      "trend_state": "BELOW_VWAP",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 21884.04,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "positive day move, weak relative volume, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "WULF",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260519",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "WULF",
+        "news_count": 0,
+        "news_catalyst_score": 0,
+        "risk_flags": [],
+        "latest_headline": null,
+        "latest_url": null
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 36.0,
+        "spread_pct": 0.4673,
+        "dollar_volume": 34821.69,
+        "spread_score": 15.0,
+        "liquidity_score": 0.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 0.0,
+        "anti_chase_score": 15.0,
+        "pullback_quality_score": 1.0,
+        "breakout_compression_score": 0,
+        "sympathy_score": 3,
+        "theme": "crypto",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "dollar_volume_too_low",
+          "weak_rvol",
+          "below_vwap",
+          "below_vwap_no_pullback_entry"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:NO_TRADE",
+          "dollar_volume_below_1m"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:NO_TRADE",
+        "dollar_volume_below_1m"
+      ],
+      "market_guard": {
+        "halt_luld_proxy_score": 0,
+        "halt_luld_flags": [],
+        "halt_luld_hard_blocks": [],
+        "halt_luld_status": "NORMAL"
+      },
+      "market_circuit_proxy": {
+        "market_circuit_proxy_status": "NORMAL",
+        "block_new_entries": false,
+        "flags": [],
+        "index_day_changes": {},
+        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
+      },
+      "runner_potential_score": 14.3,
+      "entry_quality_score": 32.1,
+      "danger_score": 9.0,
+      "market_regime_score": 50,
+      "final_trade_score": 22.66,
+      "score_status": "WATCH_ONLY",
+      "score_blocks": [
+        "runner_potential_below_80",
+        "entry_quality_below_78",
+        "final_trade_score_below_82"
+      ],
+      "three_score_matrix": {
+        "runner_potential_score": 14.3,
+        "entry_quality_score": 32.1,
+        "danger_score": 9.0,
+        "market_regime_score": 50,
+        "final_trade_score": 22.66,
+        "score_status": "WATCH_ONLY",
+        "score_blocks": [
+          "runner_potential_below_80",
+          "entry_quality_below_78",
+          "final_trade_score_below_82"
+        ],
+        "reason_codes": {
+          "runner": [],
+          "entry": [
+            "spread_clean"
+          ],
+          "danger": []
+        }
+      },
+      "second_leg": {
+        "state": "NO_SETUP",
+        "confirmed": false,
+        "reasons": [],
+        "blocks": [
+          "no_initial_spike"
+        ],
+        "metrics": {
+          "pullback_depth_pct": null,
+          "volume_cleansing_score": 75.0,
+          "micro_reclaim_score": 19.17
+        }
+      },
+      "second_leg_state": "NO_SETUP",
+      "second_leg_confirmed": false,
+      "second_leg_blocks": [
+        "no_initial_spike"
+      ],
+      "second_leg_reasons": [],
+      "time_slot_rvol": 1.0,
+      "time_slot_rvol_detail": {
+        "ticker": "WULF",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 1.0,
@@ -199,7 +553,7 @@
       "stop": 5.5768,
       "target": 5.7989,
       "risk_reward": 3.17,
-      "relative_volume": 0.14,
+      "relative_volume": 0.16,
       "day_move_percent": 0.0,
       "gap_pct": -1.75,
       "vwap": 5.6218,
@@ -210,7 +564,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21393.14,
+        "data_age_seconds": 21764.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -259,7 +613,7 @@
       "advanced_quality": {
         "advanced_quality_score": 77.0,
         "spread_pct": 0.1775,
-        "dollar_volume": 638644.68,
+        "dollar_volume": 635784.64,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -356,13 +710,13 @@
         "no_initial_spike"
       ],
       "second_leg_reasons": [],
-      "time_slot_rvol": 0.14,
+      "time_slot_rvol": 0.16,
       "time_slot_rvol_detail": {
         "ticker": "LCID",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
-        "time_slot_rvol": 0.14,
+        "time_slot_rvol": 0.16,
         "method": "existing_rvol"
       }
     },
@@ -391,7 +745,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 22713.14,
+        "data_age_seconds": 23084.04,
         "quality": "GOOD",
         "notes": []
       },
@@ -436,11 +790,11 @@
         "latest_url": null
       },
       "advanced_quality": {
-        "advanced_quality_score": 59.0,
-        "spread_pct": 1.7532,
-        "dollar_volume": 2205.0,
-        "spread_score": 0.0,
-        "liquidity_score": 0.0,
+        "advanced_quality_score": 73.0,
+        "spread_pct": null,
+        "dollar_volume": null,
+        "spread_score": 8.0,
+        "liquidity_score": 6.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 18.0,
         "anti_chase_score": 18.0,
@@ -451,8 +805,8 @@
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
-          "spread_too_wide",
-          "dollar_volume_too_low",
+          "spread_missing_neutral_score",
+          "dollar_volume_missing_neutral_score",
           "weak_rvol",
           "vwap_controlled",
           "not_chasing_vwap_controlled",
@@ -462,16 +816,12 @@
         "hard_blocks": [],
         "quality_gate_status": "DASHBOARD_ONLY",
         "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY",
-          "spread_above_1_5",
-          "dollar_volume_below_1m"
+          "base_status_not_trade_eligible:WATCH_ONLY"
         ]
       },
       "quality_gate_status": "DASHBOARD_ONLY",
       "quality_gate_blocks": [
-        "base_status_not_trade_eligible:WATCH_ONLY",
-        "spread_above_1_5",
-        "dollar_volume_below_1m"
+        "base_status_not_trade_eligible:WATCH_ONLY"
       ],
       "market_guard": {
         "halt_luld_proxy_score": 0,
@@ -487,26 +837,24 @@
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
       "runner_potential_score": 15.12,
-      "entry_quality_score": 58.2,
-      "danger_score": 23.45,
+      "entry_quality_score": 69.08,
+      "danger_score": 18.0,
       "market_regime_score": 50,
-      "final_trade_score": 31.98,
+      "final_trade_score": 36.88,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
-        "spread_over_1_5",
         "runner_potential_below_80",
         "entry_quality_below_78",
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
         "runner_potential_score": 15.12,
-        "entry_quality_score": 58.2,
-        "danger_score": 23.45,
+        "entry_quality_score": 69.08,
+        "danger_score": 18.0,
         "market_regime_score": 50,
-        "final_trade_score": 31.98,
+        "final_trade_score": 36.88,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
-          "spread_over_1_5",
           "runner_potential_below_80",
           "entry_quality_below_78",
           "final_trade_score_below_82"
@@ -516,9 +864,7 @@
           "entry": [
             "clean_vwap_zone"
           ],
-          "danger": [
-            "spread_too_wide"
-          ]
+          "danger": []
         }
       },
       "second_leg": {
@@ -531,7 +877,7 @@
         "metrics": {
           "pullback_depth_pct": null,
           "volume_cleansing_score": 75.0,
-          "micro_reclaim_score": 46.56
+          "micro_reclaim_score": 52.09
         }
       },
       "second_leg_state": "NO_SETUP",
@@ -543,7 +889,7 @@
       "time_slot_rvol": 0.09,
       "time_slot_rvol_detail": {
         "ticker": "DNA",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.09,
@@ -575,7 +921,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21333.14,
+        "data_age_seconds": 21704.04,
         "quality": "GOOD",
         "notes": []
       },
@@ -622,7 +968,7 @@
       "advanced_quality": {
         "advanced_quality_score": 72.0,
         "spread_pct": 0.4525,
-        "dollar_volume": 445905.6,
+        "dollar_volume": 439656.96,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -723,7 +1069,7 @@
       "time_slot_rvol": 0.06,
       "time_slot_rvol_detail": {
         "ticker": "GME",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.06,
@@ -755,7 +1101,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21333.14,
+        "data_age_seconds": 21704.04,
         "quality": "GOOD",
         "notes": []
       },
@@ -802,7 +1148,7 @@
       "advanced_quality": {
         "advanced_quality_score": 62.0,
         "spread_pct": 2.5095,
-        "dollar_volume": 4175.8,
+        "dollar_volume": 942.33,
         "spread_score": 0.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -909,189 +1255,10 @@
       "time_slot_rvol": 0.06,
       "time_slot_rvol_detail": {
         "ticker": "FUBO",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.06,
-        "method": "existing_rvol"
-      }
-    },
-    {
-      "ticker": "ZS",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "WATCH ONLY",
-      "status": "WATCH_ONLY",
-      "signal_color": "yellow",
-      "meaning": "Early or incomplete setup.",
-      "action": "Watch only. No order.",
-      "score": 59.0,
-      "price": 174.135,
-      "entry": 174.135,
-      "stop": 172.5,
-      "target": 179.359,
-      "risk_reward": 3.2,
-      "relative_volume": 0.05,
-      "day_move_percent": 0.08,
-      "gap_pct": -0.32,
-      "vwap": 173.8911,
-      "vwap_distance_percent": 0.14,
-      "volume_acceleration": null,
-      "trend_state": "BULLISH_CONTROLLED",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 21513.14,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "positive day move, weak relative volume, above VWAP and controlled, risk/reward acceptable",
-      "no_trade_reasons": [
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "ZS",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260519",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "ZS",
-        "news_count": 0,
-        "news_catalyst_score": 0,
-        "risk_flags": [],
-        "latest_headline": null,
-        "latest_url": null
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 71.0,
-        "spread_pct": 0.5172,
-        "dollar_volume": 202867.27,
-        "spread_score": 12.0,
-        "liquidity_score": 0.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 18.0,
-        "pullback_quality_score": 15.0,
-        "breakout_compression_score": 6.0,
-        "sympathy_score": 0,
-        "theme": null,
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_acceptable",
-          "dollar_volume_too_low",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "near_vwap_pullback_zone",
-          "breakout_not_overextended"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY",
-          "dollar_volume_below_1m"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:WATCH_ONLY",
-        "dollar_volume_below_1m"
-      ],
-      "market_guard": {
-        "halt_luld_proxy_score": 0,
-        "halt_luld_flags": [],
-        "halt_luld_hard_blocks": [],
-        "halt_luld_status": "NORMAL"
-      },
-      "market_circuit_proxy": {
-        "market_circuit_proxy_status": "NORMAL",
-        "block_new_entries": false,
-        "flags": [],
-        "index_day_changes": {},
-        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
-      },
-      "runner_potential_score": 16.13,
-      "entry_quality_score": 71.38,
-      "danger_score": 9.0,
-      "market_regime_score": 50,
-      "final_trade_score": 39.1,
-      "score_status": "WATCH_ONLY",
-      "score_blocks": [
-        "runner_potential_below_80",
-        "entry_quality_below_78",
-        "final_trade_score_below_82"
-      ],
-      "three_score_matrix": {
-        "runner_potential_score": 16.13,
-        "entry_quality_score": 71.38,
-        "danger_score": 9.0,
-        "market_regime_score": 50,
-        "final_trade_score": 39.1,
-        "score_status": "WATCH_ONLY",
-        "score_blocks": [
-          "runner_potential_below_80",
-          "entry_quality_below_78",
-          "final_trade_score_below_82"
-        ],
-        "reason_codes": {
-          "runner": [],
-          "entry": [
-            "clean_vwap_zone",
-            "spread_clean"
-          ],
-          "danger": []
-        }
-      },
-      "second_leg": {
-        "state": "NO_SETUP",
-        "confirmed": false,
-        "reasons": [],
-        "blocks": [
-          "no_initial_spike"
-        ],
-        "metrics": {
-          "pullback_depth_pct": null,
-          "volume_cleansing_score": 75.0,
-          "micro_reclaim_score": 53.67
-        }
-      },
-      "second_leg_state": "NO_SETUP",
-      "second_leg_confirmed": false,
-      "second_leg_blocks": [
-        "no_initial_spike"
-      ],
-      "second_leg_reasons": [],
-      "time_slot_rvol": 0.05,
-      "time_slot_rvol_detail": {
-        "ticker": "ZS",
-        "minute_bucket_utc": "06:01",
-        "volume": null,
-        "median_volume_20d_proxy": null,
-        "time_slot_rvol": 0.05,
         "method": "existing_rvol"
       }
     },
@@ -1106,21 +1273,21 @@
       "score": 57.0,
       "price": 164.4872,
       "entry": 164.4872,
-      "stop": 163.1576,
+      "stop": 163.143,
       "target": 169.4218,
-      "risk_reward": 3.71,
-      "relative_volume": 0.04,
-      "day_move_percent": -0.16,
+      "risk_reward": 3.67,
+      "relative_volume": 0.05,
+      "day_move_percent": -0.27,
       "gap_pct": -1.29,
-      "vwap": 164.4734,
-      "vwap_distance_percent": 0.01,
+      "vwap": 164.4587,
+      "vwap_distance_percent": 0.02,
       "volume_acceleration": 6.21,
       "trend_state": "BULLISH_CONTROLLED",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21333.14,
+        "data_age_seconds": 21704.04,
         "quality": "GOOD",
         "notes": []
       },
@@ -1167,7 +1334,7 @@
       "advanced_quality": {
         "advanced_quality_score": 89.25,
         "spread_pct": 0.6685,
-        "dollar_volume": 5447322.6,
+        "dollar_volume": 5119664.1,
         "spread_score": 12.0,
         "liquidity_score": 12.0,
         "rvol_quality_score": 2.0,
@@ -1269,13 +1436,371 @@
         "no_initial_spike"
       ],
       "second_leg_reasons": [],
-      "time_slot_rvol": 0.04,
+      "time_slot_rvol": 0.05,
       "time_slot_rvol_detail": {
         "ticker": "MSTR",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
-        "time_slot_rvol": 0.04,
+        "time_slot_rvol": 0.05,
+        "method": "existing_rvol"
+      }
+    },
+    {
+      "ticker": "ZS",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "WATCH ONLY",
+      "status": "WATCH_ONLY",
+      "signal_color": "yellow",
+      "meaning": "Early or incomplete setup.",
+      "action": "Watch only. No order.",
+      "score": 59.0,
+      "price": 174.135,
+      "entry": 174.135,
+      "stop": 172.5,
+      "target": 179.359,
+      "risk_reward": 3.2,
+      "relative_volume": 0.05,
+      "day_move_percent": 0.08,
+      "gap_pct": -0.32,
+      "vwap": 173.8911,
+      "vwap_distance_percent": 0.14,
+      "volume_acceleration": null,
+      "trend_state": "BULLISH_CONTROLLED",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 21884.03,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "positive day move, weak relative volume, above VWAP and controlled, risk/reward acceptable",
+      "no_trade_reasons": [
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "ZS",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260519",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "ZS",
+        "news_count": 0,
+        "news_catalyst_score": 0,
+        "risk_flags": [],
+        "latest_headline": null,
+        "latest_url": null
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 71.0,
+        "spread_pct": 0.5172,
+        "dollar_volume": 157592.17,
+        "spread_score": 12.0,
+        "liquidity_score": 0.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 18.0,
+        "pullback_quality_score": 15.0,
+        "breakout_compression_score": 6.0,
+        "sympathy_score": 0,
+        "theme": null,
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_acceptable",
+          "dollar_volume_too_low",
+          "weak_rvol",
+          "vwap_controlled",
+          "not_chasing_vwap_controlled",
+          "near_vwap_pullback_zone",
+          "breakout_not_overextended"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:WATCH_ONLY",
+          "dollar_volume_below_1m"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:WATCH_ONLY",
+        "dollar_volume_below_1m"
+      ],
+      "market_guard": {
+        "halt_luld_proxy_score": 0,
+        "halt_luld_flags": [],
+        "halt_luld_hard_blocks": [],
+        "halt_luld_status": "NORMAL"
+      },
+      "market_circuit_proxy": {
+        "market_circuit_proxy_status": "NORMAL",
+        "block_new_entries": false,
+        "flags": [],
+        "index_day_changes": {},
+        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
+      },
+      "runner_potential_score": 16.13,
+      "entry_quality_score": 71.38,
+      "danger_score": 9.0,
+      "market_regime_score": 50,
+      "final_trade_score": 39.1,
+      "score_status": "WATCH_ONLY",
+      "score_blocks": [
+        "runner_potential_below_80",
+        "entry_quality_below_78",
+        "final_trade_score_below_82"
+      ],
+      "three_score_matrix": {
+        "runner_potential_score": 16.13,
+        "entry_quality_score": 71.38,
+        "danger_score": 9.0,
+        "market_regime_score": 50,
+        "final_trade_score": 39.1,
+        "score_status": "WATCH_ONLY",
+        "score_blocks": [
+          "runner_potential_below_80",
+          "entry_quality_below_78",
+          "final_trade_score_below_82"
+        ],
+        "reason_codes": {
+          "runner": [],
+          "entry": [
+            "clean_vwap_zone",
+            "spread_clean"
+          ],
+          "danger": []
+        }
+      },
+      "second_leg": {
+        "state": "NO_SETUP",
+        "confirmed": false,
+        "reasons": [],
+        "blocks": [
+          "no_initial_spike"
+        ],
+        "metrics": {
+          "pullback_depth_pct": null,
+          "volume_cleansing_score": 75.0,
+          "micro_reclaim_score": 53.67
+        }
+      },
+      "second_leg_state": "NO_SETUP",
+      "second_leg_confirmed": false,
+      "second_leg_blocks": [
+        "no_initial_spike"
+      ],
+      "second_leg_reasons": [],
+      "time_slot_rvol": 0.05,
+      "time_slot_rvol_detail": {
+        "ticker": "ZS",
+        "minute_bucket_utc": "06:07",
+        "volume": null,
+        "median_volume_20d_proxy": null,
+        "time_slot_rvol": 0.05,
+        "method": "existing_rvol"
+      }
+    },
+    {
+      "ticker": "NCLH",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "WATCH ONLY",
+      "status": "WATCH_ONLY",
+      "signal_color": "yellow",
+      "meaning": "Early or incomplete setup.",
+      "action": "Watch only. No order.",
+      "score": 59.0,
+      "price": 14.9,
+      "entry": 14.9,
+      "stop": 14.7528,
+      "target": 15.347,
+      "risk_reward": 3.04,
+      "relative_volume": 0.05,
+      "day_move_percent": 0.07,
+      "gap_pct": -2.36,
+      "vwap": 14.8718,
+      "vwap_distance_percent": 0.19,
+      "volume_acceleration": 0.97,
+      "trend_state": "BULLISH_CONTROLLED",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 21704.04,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "positive day move, weak relative volume, above VWAP and controlled, risk/reward acceptable",
+      "no_trade_reasons": [
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "NCLH",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260519",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "NCLH",
+        "news_count": 1,
+        "news_catalyst_score": 10,
+        "risk_flags": [],
+        "latest_headline": "UBS Maintains Neutral on Norwegian Cruise Line, Lowers Price Target to $17",
+        "latest_url": "https://www.benzinga.com/news/26/05/52667452/ubs-maintains-neutral-on-norwegian-cruise-line-lowers-price-target-to-17"
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 77.0,
+        "spread_pct": 0.4027,
+        "dollar_volume": 443945.5,
+        "spread_score": 15.0,
+        "liquidity_score": 0.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 18.0,
+        "pullback_quality_score": 15.0,
+        "breakout_compression_score": 6.0,
+        "sympathy_score": 3,
+        "theme": "travel_reopen",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "dollar_volume_too_low",
+          "weak_rvol",
+          "vwap_controlled",
+          "not_chasing_vwap_controlled",
+          "near_vwap_pullback_zone",
+          "breakout_not_overextended"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:WATCH_ONLY",
+          "dollar_volume_below_1m"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:WATCH_ONLY",
+        "dollar_volume_below_1m"
+      ],
+      "market_guard": {
+        "halt_luld_proxy_score": 0,
+        "halt_luld_flags": [],
+        "halt_luld_hard_blocks": [],
+        "halt_luld_status": "NORMAL"
+      },
+      "market_circuit_proxy": {
+        "market_circuit_proxy_status": "NORMAL",
+        "block_new_entries": false,
+        "flags": [],
+        "index_day_changes": {},
+        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
+      },
+      "runner_potential_score": 10.51,
+      "entry_quality_score": 73.69,
+      "danger_score": 9.0,
+      "market_regime_score": 50,
+      "final_trade_score": 37.78,
+      "score_status": "WATCH_ONLY",
+      "score_blocks": [
+        "runner_potential_below_80",
+        "entry_quality_below_78",
+        "final_trade_score_below_82"
+      ],
+      "three_score_matrix": {
+        "runner_potential_score": 10.51,
+        "entry_quality_score": 73.69,
+        "danger_score": 9.0,
+        "market_regime_score": 50,
+        "final_trade_score": 37.78,
+        "score_status": "WATCH_ONLY",
+        "score_blocks": [
+          "runner_potential_below_80",
+          "entry_quality_below_78",
+          "final_trade_score_below_82"
+        ],
+        "reason_codes": {
+          "runner": [],
+          "entry": [
+            "clean_vwap_zone",
+            "spread_clean"
+          ],
+          "danger": []
+        }
+      },
+      "second_leg": {
+        "state": "NO_SETUP",
+        "confirmed": false,
+        "reasons": [],
+        "blocks": [
+          "no_initial_spike"
+        ],
+        "metrics": {
+          "pullback_depth_pct": null,
+          "volume_cleansing_score": 75.0,
+          "micro_reclaim_score": 54.01
+        }
+      },
+      "second_leg_state": "NO_SETUP",
+      "second_leg_confirmed": false,
+      "second_leg_blocks": [
+        "no_initial_spike"
+      ],
+      "second_leg_reasons": [],
+      "time_slot_rvol": 0.05,
+      "time_slot_rvol_detail": {
+        "ticker": "NCLH",
+        "minute_bucket_utc": "06:07",
+        "volume": null,
+        "median_volume_20d_proxy": null,
+        "time_slot_rvol": 0.05,
         "method": "existing_rvol"
       }
     },
@@ -1304,7 +1829,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21873.14,
+        "data_age_seconds": 22244.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -1351,7 +1876,7 @@
       "advanced_quality": {
         "advanced_quality_score": 77.0,
         "spread_pct": 0.267,
-        "dollar_volume": 63255.0,
+        "dollar_volume": 38460.0,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -1451,186 +1976,7 @@
       "time_slot_rvol": 0.04,
       "time_slot_rvol_detail": {
         "ticker": "XPEV",
-        "minute_bucket_utc": "06:01",
-        "volume": null,
-        "median_volume_20d_proxy": null,
-        "time_slot_rvol": 0.04,
-        "method": "existing_rvol"
-      }
-    },
-    {
-      "ticker": "NCLH",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "WATCH ONLY",
-      "status": "WATCH_ONLY",
-      "signal_color": "yellow",
-      "meaning": "Early or incomplete setup.",
-      "action": "Watch only. No order.",
-      "score": 51.0,
-      "price": 14.9,
-      "entry": 14.9,
-      "stop": 14.7532,
-      "target": 15.347,
-      "risk_reward": 3.04,
-      "relative_volume": 0.04,
-      "day_move_percent": 0.0,
-      "gap_pct": -2.36,
-      "vwap": 14.8722,
-      "vwap_distance_percent": 0.19,
-      "volume_acceleration": 0.97,
-      "trend_state": "BULLISH_CONTROLLED",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 21333.14,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "weak relative volume, above VWAP and controlled, risk/reward acceptable",
-      "no_trade_reasons": [
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "NCLH",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260519",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "NCLH",
-        "news_count": 1,
-        "news_catalyst_score": 10,
-        "risk_flags": [],
-        "latest_headline": "UBS Maintains Neutral on Norwegian Cruise Line, Lowers Price Target to $17",
-        "latest_url": "https://www.benzinga.com/news/26/05/52667452/ubs-maintains-neutral-on-norwegian-cruise-line-lowers-price-target-to-17"
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 77.0,
-        "spread_pct": 0.4027,
-        "dollar_volume": 458845.5,
-        "spread_score": 15.0,
-        "liquidity_score": 0.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 18.0,
-        "pullback_quality_score": 15.0,
-        "breakout_compression_score": 6.0,
-        "sympathy_score": 3,
-        "theme": "travel_reopen",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "dollar_volume_too_low",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "near_vwap_pullback_zone",
-          "breakout_not_overextended"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY",
-          "dollar_volume_below_1m"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:WATCH_ONLY",
-        "dollar_volume_below_1m"
-      ],
-      "market_guard": {
-        "halt_luld_proxy_score": 0,
-        "halt_luld_flags": [],
-        "halt_luld_hard_blocks": [],
-        "halt_luld_status": "NORMAL"
-      },
-      "market_circuit_proxy": {
-        "market_circuit_proxy_status": "NORMAL",
-        "block_new_entries": false,
-        "flags": [],
-        "index_day_changes": {},
-        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
-      },
-      "runner_potential_score": 9.5,
-      "entry_quality_score": 73.69,
-      "danger_score": 9.0,
-      "market_regime_score": 50,
-      "final_trade_score": 37.38,
-      "score_status": "WATCH_ONLY",
-      "score_blocks": [
-        "runner_potential_below_80",
-        "entry_quality_below_78",
-        "final_trade_score_below_82"
-      ],
-      "three_score_matrix": {
-        "runner_potential_score": 9.5,
-        "entry_quality_score": 73.69,
-        "danger_score": 9.0,
-        "market_regime_score": 50,
-        "final_trade_score": 37.38,
-        "score_status": "WATCH_ONLY",
-        "score_blocks": [
-          "runner_potential_below_80",
-          "entry_quality_below_78",
-          "final_trade_score_below_82"
-        ],
-        "reason_codes": {
-          "runner": [],
-          "entry": [
-            "clean_vwap_zone",
-            "spread_clean"
-          ],
-          "danger": []
-        }
-      },
-      "second_leg": {
-        "state": "NO_SETUP",
-        "confirmed": false,
-        "reasons": [],
-        "blocks": [
-          "no_initial_spike"
-        ],
-        "metrics": {
-          "pullback_depth_pct": null,
-          "volume_cleansing_score": 75.0,
-          "micro_reclaim_score": 53.87
-        }
-      },
-      "second_leg_state": "NO_SETUP",
-      "second_leg_confirmed": false,
-      "second_leg_blocks": [
-        "no_initial_spike"
-      ],
-      "second_leg_reasons": [],
-      "time_slot_rvol": 0.04,
-      "time_slot_rvol_detail": {
-        "ticker": "NCLH",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.04,
@@ -1645,28 +1991,28 @@
       "signal_color": "yellow",
       "meaning": "Early or incomplete setup.",
       "action": "Watch only. No order.",
-      "score": 59.0,
+      "score": 51.0,
       "price": 45.763,
       "entry": 45.763,
-      "stop": 45.3955,
+      "stop": 45.3903,
       "target": 47.1359,
-      "risk_reward": 3.74,
+      "risk_reward": 3.68,
       "relative_volume": 0.04,
-      "day_move_percent": 0.05,
+      "day_move_percent": -0.19,
       "gap_pct": -2.59,
-      "vwap": 45.7616,
-      "vwap_distance_percent": 0.0,
+      "vwap": 45.7564,
+      "vwap_distance_percent": 0.01,
       "volume_acceleration": 0.89,
       "trend_state": "BULLISH_CONTROLLED",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21453.14,
+        "data_age_seconds": 21824.04,
         "quality": "GOOD",
         "notes": []
       },
-      "trade_gate_summary": "positive day move, weak relative volume, above VWAP and controlled, risk/reward acceptable",
+      "trade_gate_summary": "weak relative volume, above VWAP and controlled, risk/reward acceptable",
       "no_trade_reasons": [
         "relative_volume_too_low"
       ],
@@ -1709,7 +2055,7 @@
       "advanced_quality": {
         "advanced_quality_score": 74.0,
         "spread_pct": 0.4585,
-        "dollar_volume": 680404.28,
+        "dollar_volume": 657522.78,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -1755,11 +2101,11 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 9.92,
+      "runner_potential_score": 8.93,
       "entry_quality_score": 72.55,
       "danger_score": 9.0,
       "market_regime_score": 50,
-      "final_trade_score": 37.09,
+      "final_trade_score": 36.69,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
@@ -1767,11 +2113,11 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 9.92,
+        "runner_potential_score": 8.93,
         "entry_quality_score": 72.55,
         "danger_score": 9.0,
         "market_regime_score": 50,
-        "final_trade_score": 37.09,
+        "final_trade_score": 36.69,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -1797,7 +2143,7 @@
         "metrics": {
           "pullback_depth_pct": null,
           "volume_cleansing_score": 75.0,
-          "micro_reclaim_score": 53.37
+          "micro_reclaim_score": 53.23
         }
       },
       "second_leg_state": "NO_SETUP",
@@ -1809,7 +2155,7 @@
       "time_slot_rvol": 0.04,
       "time_slot_rvol_detail": {
         "ticker": "RBLX",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.04,
@@ -1841,7 +2187,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21933.14,
+        "data_age_seconds": 22304.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -1987,7 +2333,7 @@
       "time_slot_rvol": 0.04,
       "time_slot_rvol_detail": {
         "ticker": "ROKU",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.04,
@@ -2009,17 +2355,17 @@
       "target": 140.183,
       "risk_reward": 2.0,
       "relative_volume": 0.04,
-      "day_move_percent": 0.11,
+      "day_move_percent": 0.07,
       "gap_pct": 2.13,
-      "vwap": 136.1279,
-      "vwap_distance_percent": -0.02,
+      "vwap": 136.1347,
+      "vwap_distance_percent": -0.03,
       "volume_acceleration": 1.65,
       "trend_state": "BELOW_VWAP",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21333.14,
+        "data_age_seconds": 21704.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -2067,7 +2413,7 @@
       "advanced_quality": {
         "advanced_quality_score": 44.0,
         "spread_pct": 0.147,
-        "dollar_volume": 2869668.5,
+        "dollar_volume": 1967053.3,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -2110,7 +2456,7 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 15.77,
+      "runner_potential_score": 15.75,
       "entry_quality_score": 39.09,
       "danger_score": 9.0,
       "market_regime_score": 50,
@@ -2122,7 +2468,7 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 15.77,
+        "runner_potential_score": 15.75,
         "entry_quality_score": 39.09,
         "danger_score": 9.0,
         "market_regime_score": 50,
@@ -2165,7 +2511,183 @@
       "time_slot_rvol": 0.04,
       "time_slot_rvol_detail": {
         "ticker": "BABA",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
+        "volume": null,
+        "median_volume_20d_proxy": null,
+        "time_slot_rvol": 0.04,
+        "method": "existing_rvol"
+      }
+    },
+    {
+      "ticker": "SNAP",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "NO TRADE",
+      "status": "NO_TRADE",
+      "signal_color": "red",
+      "meaning": "Blocked by risk, data, trend, or score rules.",
+      "action": "No new entry.",
+      "score": 39.0,
+      "price": 5.5405,
+      "entry": 5.5405,
+      "stop": 5.4574,
+      "target": 5.7067,
+      "risk_reward": 2.0,
+      "relative_volume": 0.04,
+      "day_move_percent": 0.01,
+      "gap_pct": -2.28,
+      "vwap": 5.5432,
+      "vwap_distance_percent": -0.05,
+      "volume_acceleration": 1.18,
+      "trend_state": "BELOW_VWAP",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 21884.04,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "positive day move, weak relative volume, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": "NOT_CHECKED",
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "SNAP",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260519",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "SNAP",
+        "news_count": 0,
+        "news_catalyst_score": 0,
+        "risk_flags": [],
+        "latest_headline": null,
+        "latest_url": null
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 33.0,
+        "spread_pct": 0.3604,
+        "dollar_volume": 133437.4,
+        "spread_score": 15.0,
+        "liquidity_score": 0.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 0.0,
+        "anti_chase_score": 15.0,
+        "pullback_quality_score": 1.0,
+        "breakout_compression_score": 0,
+        "sympathy_score": 0,
+        "theme": null,
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "dollar_volume_too_low",
+          "weak_rvol",
+          "below_vwap",
+          "below_vwap_no_pullback_entry"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:NO_TRADE",
+          "dollar_volume_below_1m"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:NO_TRADE",
+        "dollar_volume_below_1m"
+      ],
+      "market_guard": {
+        "halt_luld_proxy_score": 0,
+        "halt_luld_flags": [],
+        "halt_luld_hard_blocks": [],
+        "halt_luld_status": "NORMAL"
+      },
+      "market_circuit_proxy": {
+        "market_circuit_proxy_status": "NORMAL",
+        "block_new_entries": false,
+        "flags": [],
+        "index_day_changes": {},
+        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
+      },
+      "runner_potential_score": 9.58,
+      "entry_quality_score": 32.8,
+      "danger_score": 9.0,
+      "market_regime_score": 50,
+      "final_trade_score": 21.05,
+      "score_status": "WATCH_ONLY",
+      "score_blocks": [
+        "runner_potential_below_80",
+        "entry_quality_below_78",
+        "final_trade_score_below_82"
+      ],
+      "three_score_matrix": {
+        "runner_potential_score": 9.58,
+        "entry_quality_score": 32.8,
+        "danger_score": 9.0,
+        "market_regime_score": 50,
+        "final_trade_score": 21.05,
+        "score_status": "WATCH_ONLY",
+        "score_blocks": [
+          "runner_potential_below_80",
+          "entry_quality_below_78",
+          "final_trade_score_below_82"
+        ],
+        "reason_codes": {
+          "runner": [],
+          "entry": [
+            "spread_clean"
+          ],
+          "danger": []
+        }
+      },
+      "second_leg": {
+        "state": "NO_SETUP",
+        "confirmed": false,
+        "reasons": [],
+        "blocks": [
+          "no_initial_spike"
+        ],
+        "metrics": {
+          "pullback_depth_pct": null,
+          "volume_cleansing_score": 75.0,
+          "micro_reclaim_score": 18.85
+        }
+      },
+      "second_leg_state": "NO_SETUP",
+      "second_leg_confirmed": false,
+      "second_leg_blocks": [
+        "no_initial_spike"
+      ],
+      "second_leg_reasons": [],
+      "time_slot_rvol": 0.04,
+      "time_slot_rvol_detail": {
+        "ticker": "SNAP",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.04,
@@ -2183,21 +2705,21 @@
       "score": 65.0,
       "price": 14.7503,
       "entry": 14.7503,
-      "stop": 14.6321,
+      "stop": 14.63,
       "target": 15.1928,
-      "risk_reward": 3.74,
+      "risk_reward": 3.68,
       "relative_volume": 0.03,
       "day_move_percent": -0.07,
       "gap_pct": 9.75,
-      "vwap": 14.7501,
-      "vwap_distance_percent": 0.0,
+      "vwap": 14.748,
+      "vwap_distance_percent": 0.02,
       "volume_acceleration": 5.02,
       "trend_state": "BULLISH_CONTROLLED",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21333.14,
+        "data_age_seconds": 21704.04,
         "quality": "GOOD",
         "notes": []
       },
@@ -2244,7 +2766,7 @@
       "advanced_quality": {
         "advanced_quality_score": 80.25,
         "spread_pct": 0.1355,
-        "dollar_volume": 362695.13,
+        "dollar_volume": 297867.56,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -2349,186 +2871,7 @@
       "time_slot_rvol": 0.03,
       "time_slot_rvol_detail": {
         "ticker": "CLSK",
-        "minute_bucket_utc": "06:01",
-        "volume": null,
-        "median_volume_20d_proxy": null,
-        "time_slot_rvol": 0.03,
-        "method": "existing_rvol"
-      }
-    },
-    {
-      "ticker": "LI",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "WATCH ONLY",
-      "status": "WATCH_ONLY",
-      "signal_color": "yellow",
-      "meaning": "Early or incomplete setup.",
-      "action": "Watch only. No order.",
-      "score": 59.0,
-      "price": 16.18,
-      "entry": 16.18,
-      "stop": 16.0442,
-      "target": 16.6654,
-      "risk_reward": 3.57,
-      "relative_volume": 0.03,
-      "day_move_percent": 0.06,
-      "gap_pct": -3.06,
-      "vwap": 16.1736,
-      "vwap_distance_percent": 0.04,
-      "volume_acceleration": null,
-      "trend_state": "BULLISH_CONTROLLED",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 21633.14,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "positive day move, weak relative volume, above VWAP and controlled, risk/reward acceptable",
-      "no_trade_reasons": [
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "LI",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260519",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "LI",
-        "news_count": 0,
-        "news_catalyst_score": 0,
-        "risk_flags": [],
-        "latest_headline": null,
-        "latest_url": null
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 77.0,
-        "spread_pct": 0.1856,
-        "dollar_volume": 14335.48,
-        "spread_score": 15.0,
-        "liquidity_score": 0.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 18.0,
-        "pullback_quality_score": 15.0,
-        "breakout_compression_score": 6.0,
-        "sympathy_score": 3,
-        "theme": "ev",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "dollar_volume_too_low",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "near_vwap_pullback_zone",
-          "breakout_not_overextended"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY",
-          "dollar_volume_below_1m"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:WATCH_ONLY",
-        "dollar_volume_below_1m"
-      ],
-      "market_guard": {
-        "halt_luld_proxy_score": 0,
-        "halt_luld_flags": [],
-        "halt_luld_hard_blocks": [],
-        "halt_luld_status": "NORMAL"
-      },
-      "market_circuit_proxy": {
-        "market_circuit_proxy_status": "NORMAL",
-        "block_new_entries": false,
-        "flags": [],
-        "index_day_changes": {},
-        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
-      },
-      "runner_potential_score": 16.12,
-      "entry_quality_score": 76.15,
-      "danger_score": 9.0,
-      "market_regime_score": 50,
-      "final_trade_score": 41.01,
-      "score_status": "WATCH_ONLY",
-      "score_blocks": [
-        "runner_potential_below_80",
-        "entry_quality_below_78",
-        "final_trade_score_below_82"
-      ],
-      "three_score_matrix": {
-        "runner_potential_score": 16.12,
-        "entry_quality_score": 76.15,
-        "danger_score": 9.0,
-        "market_regime_score": 50,
-        "final_trade_score": 41.01,
-        "score_status": "WATCH_ONLY",
-        "score_blocks": [
-          "runner_potential_below_80",
-          "entry_quality_below_78",
-          "final_trade_score_below_82"
-        ],
-        "reason_codes": {
-          "runner": [],
-          "entry": [
-            "clean_vwap_zone",
-            "spread_clean"
-          ],
-          "danger": []
-        }
-      },
-      "second_leg": {
-        "state": "NO_SETUP",
-        "confirmed": false,
-        "reasons": [],
-        "blocks": [
-          "no_initial_spike"
-        ],
-        "metrics": {
-          "pullback_depth_pct": null,
-          "volume_cleansing_score": 75.0,
-          "micro_reclaim_score": 56.01
-        }
-      },
-      "second_leg_state": "NO_SETUP",
-      "second_leg_confirmed": false,
-      "second_leg_blocks": [
-        "no_initial_spike"
-      ],
-      "second_leg_reasons": [],
-      "time_slot_rvol": 0.03,
-      "time_slot_rvol_detail": {
-        "ticker": "LI",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.03,
@@ -2560,7 +2903,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21633.14,
+        "data_age_seconds": 22004.04,
         "quality": "GOOD",
         "notes": []
       },
@@ -2707,7 +3050,7 @@
       "time_slot_rvol": 0.03,
       "time_slot_rvol_detail": {
         "ticker": "DIS",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.03,
@@ -2739,7 +3082,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21573.14,
+        "data_age_seconds": 21944.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -2786,7 +3129,7 @@
       "advanced_quality": {
         "advanced_quality_score": 74.0,
         "spread_pct": 0.9188,
-        "dollar_volume": 114018.09,
+        "dollar_volume": 34054.8,
         "spread_score": 12.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -2886,185 +3229,7 @@
       "time_slot_rvol": 0.03,
       "time_slot_rvol_detail": {
         "ticker": "AFRM",
-        "minute_bucket_utc": "06:01",
-        "volume": null,
-        "median_volume_20d_proxy": null,
-        "time_slot_rvol": 0.03,
-        "method": "existing_rvol"
-      }
-    },
-    {
-      "ticker": "ENVX",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "WATCH ONLY",
-      "status": "WATCH_ONLY",
-      "signal_color": "yellow",
-      "meaning": "Early or incomplete setup.",
-      "action": "Watch only. No order.",
-      "score": 59.0,
-      "price": 5.55,
-      "entry": 5.55,
-      "stop": 5.4956,
-      "target": 5.7165,
-      "risk_reward": 3.06,
-      "relative_volume": 0.03,
-      "day_move_percent": 0.54,
-      "gap_pct": -6.41,
-      "vwap": 5.5399,
-      "vwap_distance_percent": 0.18,
-      "volume_acceleration": null,
-      "trend_state": "BULLISH_CONTROLLED",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 21333.14,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "positive day move, weak relative volume, above VWAP and controlled, risk/reward acceptable",
-      "no_trade_reasons": [
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "ENVX",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260519",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "ENVX",
-        "news_count": 0,
-        "news_catalyst_score": 0,
-        "risk_flags": [],
-        "latest_headline": null,
-        "latest_url": null
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 66.0,
-        "spread_pct": 1.0753,
-        "dollar_volume": 7281.6,
-        "spread_score": 7.0,
-        "liquidity_score": 0.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 18.0,
-        "pullback_quality_score": 15.0,
-        "breakout_compression_score": 6.0,
-        "sympathy_score": 0,
-        "theme": null,
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_caution",
-          "dollar_volume_too_low",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "near_vwap_pullback_zone",
-          "breakout_not_overextended"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY",
-          "dollar_volume_below_1m"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:WATCH_ONLY",
-        "dollar_volume_below_1m"
-      ],
-      "market_guard": {
-        "halt_luld_proxy_score": 0,
-        "halt_luld_flags": [],
-        "halt_luld_hard_blocks": [],
-        "halt_luld_status": "NORMAL"
-      },
-      "market_circuit_proxy": {
-        "market_circuit_proxy_status": "NORMAL",
-        "block_new_entries": false,
-        "flags": [],
-        "index_day_changes": {},
-        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
-      },
-      "runner_potential_score": 16.42,
-      "entry_quality_score": 64.2,
-      "danger_score": 13.68,
-      "market_regime_score": 50,
-      "final_trade_score": 35.88,
-      "score_status": "WATCH_ONLY",
-      "score_blocks": [
-        "runner_potential_below_80",
-        "entry_quality_below_78",
-        "final_trade_score_below_82"
-      ],
-      "three_score_matrix": {
-        "runner_potential_score": 16.42,
-        "entry_quality_score": 64.2,
-        "danger_score": 13.68,
-        "market_regime_score": 50,
-        "final_trade_score": 35.88,
-        "score_status": "WATCH_ONLY",
-        "score_blocks": [
-          "runner_potential_below_80",
-          "entry_quality_below_78",
-          "final_trade_score_below_82"
-        ],
-        "reason_codes": {
-          "runner": [],
-          "entry": [
-            "clean_vwap_zone"
-          ],
-          "danger": []
-        }
-      },
-      "second_leg": {
-        "state": "NO_SETUP",
-        "confirmed": false,
-        "reasons": [],
-        "blocks": [
-          "no_initial_spike"
-        ],
-        "metrics": {
-          "pullback_depth_pct": null,
-          "volume_cleansing_score": 75.0,
-          "micro_reclaim_score": 50.03
-        }
-      },
-      "second_leg_state": "NO_SETUP",
-      "second_leg_confirmed": false,
-      "second_leg_blocks": [
-        "no_initial_spike"
-      ],
-      "second_leg_reasons": [],
-      "time_slot_rvol": 0.03,
-      "time_slot_rvol_detail": {
-        "ticker": "ENVX",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.03,
@@ -3096,7 +3261,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21933.14,
+        "data_age_seconds": 22304.04,
         "quality": "GOOD",
         "notes": []
       },
@@ -3143,7 +3308,7 @@
       "advanced_quality": {
         "advanced_quality_score": 59.0,
         "spread_pct": 1.6311,
-        "dollar_volume": 78703.42,
+        "dollar_volume": 56730.0,
         "spread_score": 0.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -3248,7 +3413,7 @@
       "time_slot_rvol": 0.03,
       "time_slot_rvol_detail": {
         "ticker": "PINS",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.03,
@@ -3270,17 +3435,17 @@
       "target": 33.5265,
       "risk_reward": 2.0,
       "relative_volume": 0.03,
-      "day_move_percent": 0.15,
+      "day_move_percent": 0.28,
       "gap_pct": -3.1,
-      "vwap": 32.5588,
-      "vwap_distance_percent": -0.03,
+      "vwap": 32.5667,
+      "vwap_distance_percent": -0.05,
       "volume_acceleration": 1.41,
       "trend_state": "BELOW_VWAP",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21453.14,
+        "data_age_seconds": 21824.04,
         "quality": "GOOD",
         "notes": []
       },
@@ -3327,7 +3492,7 @@
       "advanced_quality": {
         "advanced_quality_score": 40.0,
         "spread_pct": 0.2453,
-        "dollar_volume": 407623.65,
+        "dollar_volume": 389949.0,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -3372,11 +3537,11 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 11.33,
+      "runner_potential_score": 11.41,
       "entry_quality_score": 37.3,
       "danger_score": 9.0,
       "market_regime_score": 50,
-      "final_trade_score": 23.55,
+      "final_trade_score": 23.58,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
@@ -3384,11 +3549,11 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 11.33,
+        "runner_potential_score": 11.41,
         "entry_quality_score": 37.3,
         "danger_score": 9.0,
         "market_regime_score": 50,
-        "final_trade_score": 23.55,
+        "final_trade_score": 23.58,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -3415,7 +3580,7 @@
         "metrics": {
           "pullback_depth_pct": null,
           "volume_cleansing_score": 50.0,
-          "micro_reclaim_score": 21.3
+          "micro_reclaim_score": 21.31
         }
       },
       "second_leg_state": "NO_SETUP",
@@ -3427,7 +3592,7 @@
       "time_slot_rvol": 0.03,
       "time_slot_rvol_detail": {
         "ticker": "LUNR",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.03,
@@ -3445,21 +3610,21 @@
       "score": 65.0,
       "price": 5.785,
       "entry": 5.785,
-      "stop": 5.7257,
+      "stop": 5.7267,
       "target": 5.9586,
-      "risk_reward": 2.93,
+      "risk_reward": 2.98,
       "relative_volume": 0.02,
-      "day_move_percent": 0.26,
+      "day_move_percent": 0.35,
       "gap_pct": -1.62,
-      "vwap": 5.7719,
-      "vwap_distance_percent": 0.23,
+      "vwap": 5.7729,
+      "vwap_distance_percent": 0.21,
       "volume_acceleration": 1.55,
       "trend_state": "BULLISH_CONTROLLED",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21393.14,
+        "data_age_seconds": 21764.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -3506,7 +3671,7 @@
       "advanced_quality": {
         "advanced_quality_score": 84.0,
         "spread_pct": 0.1729,
-        "dollar_volume": 179878.79,
+        "dollar_volume": 99554.07,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -3554,22 +3719,22 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 15.52,
+      "runner_potential_score": 15.58,
       "entry_quality_score": 81.82,
       "danger_score": 9.0,
       "market_regime_score": 50,
-      "final_trade_score": 43.04,
+      "final_trade_score": 43.06,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 15.52,
+        "runner_potential_score": 15.58,
         "entry_quality_score": 81.82,
         "danger_score": 9.0,
         "market_regime_score": 50,
-        "final_trade_score": 43.04,
+        "final_trade_score": 43.06,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -3596,7 +3761,7 @@
         "metrics": {
           "pullback_depth_pct": null,
           "volume_cleansing_score": 50.0,
-          "micro_reclaim_score": 58.7
+          "micro_reclaim_score": 58.71
         }
       },
       "second_leg_state": "NO_SETUP",
@@ -3608,7 +3773,186 @@
       "time_slot_rvol": 0.02,
       "time_slot_rvol_detail": {
         "ticker": "NIO",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
+        "volume": null,
+        "median_volume_20d_proxy": null,
+        "time_slot_rvol": 0.02,
+        "method": "existing_rvol"
+      }
+    },
+    {
+      "ticker": "CCL",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "WATCH ONLY",
+      "status": "WATCH_ONLY",
+      "signal_color": "yellow",
+      "meaning": "Early or incomplete setup.",
+      "action": "Watch only. No order.",
+      "score": 59.0,
+      "price": 23.9398,
+      "entry": 23.9398,
+      "stop": 23.7213,
+      "target": 24.658,
+      "risk_reward": 3.29,
+      "relative_volume": 0.02,
+      "day_move_percent": 0.17,
+      "gap_pct": -3.89,
+      "vwap": 23.9126,
+      "vwap_distance_percent": 0.11,
+      "volume_acceleration": null,
+      "trend_state": "BULLISH_CONTROLLED",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 21704.04,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "positive day move, weak relative volume, above VWAP and controlled, risk/reward acceptable",
+      "no_trade_reasons": [
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "CCL",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260519",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "CCL",
+        "news_count": 0,
+        "news_catalyst_score": 0,
+        "risk_flags": [],
+        "latest_headline": null,
+        "latest_url": null
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 77.0,
+        "spread_pct": 0.0418,
+        "dollar_volume": 282178.42,
+        "spread_score": 15.0,
+        "liquidity_score": 0.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 18.0,
+        "pullback_quality_score": 15.0,
+        "breakout_compression_score": 6.0,
+        "sympathy_score": 3,
+        "theme": "travel_reopen",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "dollar_volume_too_low",
+          "weak_rvol",
+          "vwap_controlled",
+          "not_chasing_vwap_controlled",
+          "near_vwap_pullback_zone",
+          "breakout_not_overextended"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:WATCH_ONLY",
+          "dollar_volume_below_1m"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:WATCH_ONLY",
+        "dollar_volume_below_1m"
+      ],
+      "market_guard": {
+        "halt_luld_proxy_score": 0,
+        "halt_luld_flags": [],
+        "halt_luld_hard_blocks": [],
+        "halt_luld_status": "NORMAL"
+      },
+      "market_circuit_proxy": {
+        "market_circuit_proxy_status": "NORMAL",
+        "block_new_entries": false,
+        "flags": [],
+        "index_day_changes": {},
+        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
+      },
+      "runner_potential_score": 16.19,
+      "entry_quality_score": 77.78,
+      "danger_score": 9.0,
+      "market_regime_score": 50,
+      "final_trade_score": 41.69,
+      "score_status": "WATCH_ONLY",
+      "score_blocks": [
+        "runner_potential_below_80",
+        "entry_quality_below_78",
+        "final_trade_score_below_82"
+      ],
+      "three_score_matrix": {
+        "runner_potential_score": 16.19,
+        "entry_quality_score": 77.78,
+        "danger_score": 9.0,
+        "market_regime_score": 50,
+        "final_trade_score": 41.69,
+        "score_status": "WATCH_ONLY",
+        "score_blocks": [
+          "runner_potential_below_80",
+          "entry_quality_below_78",
+          "final_trade_score_below_82"
+        ],
+        "reason_codes": {
+          "runner": [],
+          "entry": [
+            "clean_vwap_zone",
+            "spread_clean"
+          ],
+          "danger": []
+        }
+      },
+      "second_leg": {
+        "state": "NO_SETUP",
+        "confirmed": false,
+        "reasons": [],
+        "blocks": [
+          "no_initial_spike"
+        ],
+        "metrics": {
+          "pullback_depth_pct": null,
+          "volume_cleansing_score": 75.0,
+          "micro_reclaim_score": 56.81
+        }
+      },
+      "second_leg_state": "NO_SETUP",
+      "second_leg_confirmed": false,
+      "second_leg_blocks": [
+        "no_initial_spike"
+      ],
+      "second_leg_reasons": [],
+      "time_slot_rvol": 0.02,
+      "time_slot_rvol_detail": {
+        "ticker": "CCL",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.02,
@@ -3626,21 +3970,21 @@
       "score": 59.0,
       "price": 13.2,
       "entry": 13.2,
-      "stop": 13.09,
+      "stop": 13.0915,
       "target": 13.596,
-      "risk_reward": 3.6,
+      "risk_reward": 3.65,
       "relative_volume": 0.02,
-      "day_move_percent": 0.27,
+      "day_move_percent": 0.08,
       "gap_pct": -1.27,
-      "vwap": 13.1956,
-      "vwap_distance_percent": 0.03,
+      "vwap": 13.1971,
+      "vwap_distance_percent": 0.02,
       "volume_acceleration": null,
       "trend_state": "BULLISH_CONTROLLED",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21573.14,
+        "data_age_seconds": 21944.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -3687,7 +4031,7 @@
       "advanced_quality": {
         "advanced_quality_score": 74.0,
         "spread_pct": 0.1516,
-        "dollar_volume": 63492.0,
+        "dollar_volume": 17859.6,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -3733,11 +4077,11 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 16.25,
+      "runner_potential_score": 16.13,
       "entry_quality_score": 76.03,
       "danger_score": 9.0,
       "market_regime_score": 50,
-      "final_trade_score": 41.01,
+      "final_trade_score": 40.96,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
@@ -3745,11 +4089,11 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 16.25,
+        "runner_potential_score": 16.13,
         "entry_quality_score": 76.03,
         "danger_score": 9.0,
         "market_regime_score": 50,
-        "final_trade_score": 41.01,
+        "final_trade_score": 40.96,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -3775,7 +4119,7 @@
         "metrics": {
           "pullback_depth_pct": null,
           "volume_cleansing_score": 75.0,
-          "micro_reclaim_score": 55.96
+          "micro_reclaim_score": 55.95
         }
       },
       "second_leg_state": "NO_SETUP",
@@ -3787,7 +4131,7 @@
       "time_slot_rvol": 0.02,
       "time_slot_rvol_detail": {
         "ticker": "LYFT",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.02,
@@ -3819,7 +4163,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 22233.14,
+        "data_age_seconds": 22604.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -3966,7 +4310,365 @@
       "time_slot_rvol": 0.02,
       "time_slot_rvol_detail": {
         "ticker": "UPST",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
+        "volume": null,
+        "median_volume_20d_proxy": null,
+        "time_slot_rvol": 0.02,
+        "method": "existing_rvol"
+      }
+    },
+    {
+      "ticker": "LI",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "WATCH ONLY",
+      "status": "WATCH_ONLY",
+      "signal_color": "yellow",
+      "meaning": "Early or incomplete setup.",
+      "action": "Watch only. No order.",
+      "score": 51.0,
+      "price": 16.18,
+      "entry": 16.18,
+      "stop": 16.0474,
+      "target": 16.6654,
+      "risk_reward": 3.66,
+      "relative_volume": 0.02,
+      "day_move_percent": 0.0,
+      "gap_pct": -3.06,
+      "vwap": 16.1768,
+      "vwap_distance_percent": 0.02,
+      "volume_acceleration": null,
+      "trend_state": "BULLISH_CONTROLLED",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 22004.03,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "weak relative volume, above VWAP and controlled, risk/reward acceptable",
+      "no_trade_reasons": [
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "LI",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260519",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "LI",
+        "news_count": 0,
+        "news_catalyst_score": 0,
+        "risk_flags": [],
+        "latest_headline": null,
+        "latest_url": null
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 77.0,
+        "spread_pct": 0.1856,
+        "dollar_volume": 14335.48,
+        "spread_score": 15.0,
+        "liquidity_score": 0.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 18.0,
+        "pullback_quality_score": 15.0,
+        "breakout_compression_score": 6.0,
+        "sympathy_score": 3,
+        "theme": "ev",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "dollar_volume_too_low",
+          "weak_rvol",
+          "vwap_controlled",
+          "not_chasing_vwap_controlled",
+          "near_vwap_pullback_zone",
+          "breakout_not_overextended"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:WATCH_ONLY",
+          "dollar_volume_below_1m"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:WATCH_ONLY",
+        "dollar_volume_below_1m"
+      ],
+      "market_guard": {
+        "halt_luld_proxy_score": 0,
+        "halt_luld_flags": [],
+        "halt_luld_hard_blocks": [],
+        "halt_luld_status": "NORMAL"
+      },
+      "market_circuit_proxy": {
+        "market_circuit_proxy_status": "NORMAL",
+        "block_new_entries": false,
+        "flags": [],
+        "index_day_changes": {},
+        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
+      },
+      "runner_potential_score": 15.12,
+      "entry_quality_score": 76.15,
+      "danger_score": 9.0,
+      "market_regime_score": 50,
+      "final_trade_score": 40.61,
+      "score_status": "WATCH_ONLY",
+      "score_blocks": [
+        "runner_potential_below_80",
+        "entry_quality_below_78",
+        "final_trade_score_below_82"
+      ],
+      "three_score_matrix": {
+        "runner_potential_score": 15.12,
+        "entry_quality_score": 76.15,
+        "danger_score": 9.0,
+        "market_regime_score": 50,
+        "final_trade_score": 40.61,
+        "score_status": "WATCH_ONLY",
+        "score_blocks": [
+          "runner_potential_below_80",
+          "entry_quality_below_78",
+          "final_trade_score_below_82"
+        ],
+        "reason_codes": {
+          "runner": [],
+          "entry": [
+            "clean_vwap_zone",
+            "spread_clean"
+          ],
+          "danger": []
+        }
+      },
+      "second_leg": {
+        "state": "NO_SETUP",
+        "confirmed": false,
+        "reasons": [],
+        "blocks": [
+          "no_initial_spike"
+        ],
+        "metrics": {
+          "pullback_depth_pct": null,
+          "volume_cleansing_score": 75.0,
+          "micro_reclaim_score": 55.87
+        }
+      },
+      "second_leg_state": "NO_SETUP",
+      "second_leg_confirmed": false,
+      "second_leg_blocks": [
+        "no_initial_spike"
+      ],
+      "second_leg_reasons": [],
+      "time_slot_rvol": 0.02,
+      "time_slot_rvol_detail": {
+        "ticker": "LI",
+        "minute_bucket_utc": "06:07",
+        "volume": null,
+        "median_volume_20d_proxy": null,
+        "time_slot_rvol": 0.02,
+        "method": "existing_rvol"
+      }
+    },
+    {
+      "ticker": "DAL",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "NO TRADE",
+      "status": "NO_TRADE",
+      "signal_color": "red",
+      "meaning": "Blocked by risk, data, trend, or score rules.",
+      "action": "No new entry.",
+      "score": 39.0,
+      "price": 67.9,
+      "entry": 67.9,
+      "stop": 66.8815,
+      "target": 69.937,
+      "risk_reward": 2.0,
+      "relative_volume": 0.02,
+      "day_move_percent": 0.04,
+      "gap_pct": -3.33,
+      "vwap": 67.9017,
+      "vwap_distance_percent": -0.0,
+      "volume_acceleration": null,
+      "trend_state": "BELOW_VWAP",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 22124.04,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "positive day move, weak relative volume, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": "NOT_CHECKED",
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "DAL",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260519",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "DAL",
+        "news_count": 0,
+        "news_catalyst_score": 0,
+        "risk_flags": [],
+        "latest_headline": null,
+        "latest_url": null
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 77.0,
+        "spread_pct": 0.0736,
+        "dollar_volume": 84128.1,
+        "spread_score": 15.0,
+        "liquidity_score": 0.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 18.0,
+        "pullback_quality_score": 15.0,
+        "breakout_compression_score": 6.0,
+        "sympathy_score": 3,
+        "theme": "travel_reopen",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "dollar_volume_too_low",
+          "weak_rvol",
+          "vwap_controlled",
+          "not_chasing_vwap_controlled",
+          "near_vwap_pullback_zone",
+          "breakout_not_overextended"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:NO_TRADE",
+          "dollar_volume_below_1m"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:NO_TRADE",
+        "dollar_volume_below_1m"
+      ],
+      "market_guard": {
+        "halt_luld_proxy_score": 0,
+        "halt_luld_flags": [],
+        "halt_luld_hard_blocks": [],
+        "halt_luld_status": "NORMAL"
+      },
+      "market_circuit_proxy": {
+        "market_circuit_proxy_status": "NORMAL",
+        "block_new_entries": false,
+        "flags": [],
+        "index_day_changes": {},
+        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
+      },
+      "runner_potential_score": 13.71,
+      "entry_quality_score": 77.42,
+      "danger_score": 9.0,
+      "market_regime_score": 50,
+      "final_trade_score": 40.55,
+      "score_status": "WATCH_ONLY",
+      "score_blocks": [
+        "runner_potential_below_80",
+        "entry_quality_below_78",
+        "final_trade_score_below_82"
+      ],
+      "three_score_matrix": {
+        "runner_potential_score": 13.71,
+        "entry_quality_score": 77.42,
+        "danger_score": 9.0,
+        "market_regime_score": 50,
+        "final_trade_score": 40.55,
+        "score_status": "WATCH_ONLY",
+        "score_blocks": [
+          "runner_potential_below_80",
+          "entry_quality_below_78",
+          "final_trade_score_below_82"
+        ],
+        "reason_codes": {
+          "runner": [],
+          "entry": [
+            "clean_vwap_zone",
+            "spread_clean"
+          ],
+          "danger": []
+        }
+      },
+      "second_leg": {
+        "state": "NO_SETUP",
+        "confirmed": false,
+        "reasons": [],
+        "blocks": [
+          "no_initial_spike"
+        ],
+        "metrics": {
+          "pullback_depth_pct": null,
+          "volume_cleansing_score": 75.0,
+          "micro_reclaim_score": 56.29
+        }
+      },
+      "second_leg_state": "NO_SETUP",
+      "second_leg_confirmed": false,
+      "second_leg_blocks": [
+        "no_initial_spike"
+      ],
+      "second_leg_reasons": [],
+      "time_slot_rvol": 0.02,
+      "time_slot_rvol_detail": {
+        "ticker": "DAL",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.02,
@@ -3984,21 +4686,21 @@
       "score": 59.0,
       "price": 214.8799,
       "entry": 214.8799,
-      "stop": 212.9915,
+      "stop": 213.0953,
       "target": 221.3263,
-      "risk_reward": 3.41,
+      "risk_reward": 3.61,
       "relative_volume": 0.02,
-      "day_move_percent": 0.15,
+      "day_move_percent": 0.06,
       "gap_pct": -2.6,
-      "vwap": 214.7092,
-      "vwap_distance_percent": 0.08,
+      "vwap": 214.8138,
+      "vwap_distance_percent": 0.03,
       "volume_acceleration": 1.15,
       "trend_state": "BULLISH_CONTROLLED",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21393.14,
+        "data_age_seconds": 21764.04,
         "quality": "GOOD",
         "notes": []
       },
@@ -4045,7 +4747,7 @@
       "advanced_quality": {
         "advanced_quality_score": 77.0,
         "spread_pct": 0.1118,
-        "dollar_volume": 754013.57,
+        "dollar_volume": 412784.29,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -4091,11 +4793,11 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 11.85,
+      "runner_potential_score": 11.8,
       "entry_quality_score": 76.99,
       "danger_score": 9.0,
       "market_regime_score": 50,
-      "final_trade_score": 39.64,
+      "final_trade_score": 39.62,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
@@ -4103,11 +4805,11 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 11.85,
+        "runner_potential_score": 11.8,
         "entry_quality_score": 76.99,
         "danger_score": 9.0,
         "market_regime_score": 50,
-        "final_trade_score": 39.64,
+        "final_trade_score": 39.62,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -4133,7 +4835,7 @@
         "metrics": {
           "pullback_depth_pct": null,
           "volume_cleansing_score": 75.0,
-          "micro_reclaim_score": 55.82
+          "micro_reclaim_score": 55.81
         }
       },
       "second_leg_state": "NO_SETUP",
@@ -4145,7 +4847,7 @@
       "time_slot_rvol": 0.02,
       "time_slot_rvol_detail": {
         "ticker": "BA",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.02,
@@ -4163,13 +4865,13 @@
       "score": 55.0,
       "price": 417.5,
       "entry": 417.5,
-      "stop": 413.5268,
+      "stop": 413.5509,
       "target": 430.025,
-      "risk_reward": 3.15,
+      "risk_reward": 3.17,
       "relative_volume": 0.02,
-      "day_move_percent": 0.38,
+      "day_move_percent": 0.3,
       "gap_pct": -0.83,
-      "vwap": 416.8617,
+      "vwap": 416.886,
       "vwap_distance_percent": 0.15,
       "volume_acceleration": 0.71,
       "trend_state": "BULLISH_CONTROLLED",
@@ -4177,7 +4879,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21333.14,
+        "data_age_seconds": 21704.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -4215,18 +4917,18 @@
       ],
       "alpaca_news": {
         "ticker": "AMD",
-        "news_count": 4,
-        "news_catalyst_score": 31,
+        "news_count": 6,
+        "news_catalyst_score": 43,
         "risk_flags": [],
         "latest_headline": "AI Trade Faces Make-Or-Break Moment \u2013 Only Nvidia Earnings Will Tell",
         "latest_url": "https://www.benzinga.com/markets/equities/26/05/52676518/ai-trade-make-or-break-moment-nvidia-earnings-preview"
       },
       "advanced_quality": {
-        "advanced_quality_score": 87.0,
+        "advanced_quality_score": 84.0,
         "spread_pct": 0.0599,
-        "dollar_volume": 23306102.5,
+        "dollar_volume": 12804725.0,
         "spread_score": 15.0,
-        "liquidity_score": 15.0,
+        "liquidity_score": 12.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 18.0,
         "anti_chase_score": 13.0,
@@ -4238,7 +4940,7 @@
         "market_regime": "NEUTRAL",
         "reasons": [
           "spread_tight",
-          "strong_dollar_volume",
+          "good_dollar_volume",
           "weak_rvol",
           "vwap_controlled",
           "not_chasing_vwap_controlled",
@@ -4269,22 +4971,22 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 8.35,
-      "entry_quality_score": 79.28,
+      "runner_potential_score": 8.3,
+      "entry_quality_score": 78.77,
       "danger_score": 9.0,
       "market_regime_score": 50,
-      "final_trade_score": 39.15,
+      "final_trade_score": 38.93,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 8.35,
-        "entry_quality_score": 79.28,
+        "runner_potential_score": 8.3,
+        "entry_quality_score": 78.77,
         "danger_score": 9.0,
         "market_regime_score": 50,
-        "final_trade_score": 39.15,
+        "final_trade_score": 38.93,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -4309,7 +5011,7 @@
         "metrics": {
           "pullback_depth_pct": null,
           "volume_cleansing_score": 75.0,
-          "micro_reclaim_score": 56.45
+          "micro_reclaim_score": 56.19
         }
       },
       "second_leg_state": "NO_SETUP",
@@ -4321,190 +5023,7 @@
       "time_slot_rvol": 0.02,
       "time_slot_rvol_detail": {
         "ticker": "AMD",
-        "minute_bucket_utc": "06:01",
-        "volume": null,
-        "median_volume_20d_proxy": null,
-        "time_slot_rvol": 0.02,
-        "method": "existing_rvol"
-      }
-    },
-    {
-      "ticker": "QBTS",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "WATCH ONLY",
-      "status": "WATCH_ONLY",
-      "signal_color": "yellow",
-      "meaning": "Early or incomplete setup.",
-      "action": "Watch only. No order.",
-      "score": 51.0,
-      "price": 18.25,
-      "entry": 18.25,
-      "stop": 18.1031,
-      "target": 18.7975,
-      "risk_reward": 3.73,
-      "relative_volume": 0.02,
-      "day_move_percent": -0.11,
-      "gap_pct": -4.25,
-      "vwap": 18.2491,
-      "vwap_distance_percent": 0.01,
-      "volume_acceleration": 1.3,
-      "trend_state": "BULLISH_CONTROLLED",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 21333.14,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "weak relative volume, above VWAP and controlled, risk/reward acceptable",
-      "no_trade_reasons": [
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "QBTS",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260519",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "QBTS",
-        "news_count": 0,
-        "news_catalyst_score": 0,
-        "risk_flags": [],
-        "latest_headline": null,
-        "latest_url": null
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 78.0,
-        "spread_pct": 0.6579,
-        "dollar_volume": 273147.75,
-        "spread_score": 12.0,
-        "liquidity_score": 0.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 18.0,
-        "pullback_quality_score": 18,
-        "breakout_compression_score": 10.0,
-        "sympathy_score": 0,
-        "theme": "quantum",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_acceptable",
-          "dollar_volume_too_low",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "near_vwap_pullback_zone",
-          "volume_returning",
-          "breakout_not_overextended",
-          "breakout_volume_acceleration"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY",
-          "dollar_volume_below_1m"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:WATCH_ONLY",
-        "dollar_volume_below_1m"
-      ],
-      "market_guard": {
-        "halt_luld_proxy_score": 0,
-        "halt_luld_flags": [],
-        "halt_luld_hard_blocks": [],
-        "halt_luld_status": "NORMAL"
-      },
-      "market_circuit_proxy": {
-        "market_circuit_proxy_status": "NORMAL",
-        "block_new_entries": false,
-        "flags": [],
-        "index_day_changes": {},
-        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
-      },
-      "runner_potential_score": 11.88,
-      "entry_quality_score": 75.3,
-      "danger_score": 9.0,
-      "market_regime_score": 50,
-      "final_trade_score": 38.97,
-      "score_status": "WATCH_ONLY",
-      "score_blocks": [
-        "runner_potential_below_80",
-        "entry_quality_below_78",
-        "final_trade_score_below_82"
-      ],
-      "three_score_matrix": {
-        "runner_potential_score": 11.88,
-        "entry_quality_score": 75.3,
-        "danger_score": 9.0,
-        "market_regime_score": 50,
-        "final_trade_score": 38.97,
-        "score_status": "WATCH_ONLY",
-        "score_blocks": [
-          "runner_potential_below_80",
-          "entry_quality_below_78",
-          "final_trade_score_below_82"
-        ],
-        "reason_codes": {
-          "runner": [
-            "volume_acceleration"
-          ],
-          "entry": [
-            "clean_vwap_zone",
-            "spread_clean"
-          ],
-          "danger": []
-        }
-      },
-      "second_leg": {
-        "state": "NO_SETUP",
-        "confirmed": false,
-        "reasons": [],
-        "blocks": [
-          "no_initial_spike"
-        ],
-        "metrics": {
-          "pullback_depth_pct": null,
-          "volume_cleansing_score": 75.0,
-          "micro_reclaim_score": 54.99
-        }
-      },
-      "second_leg_state": "NO_SETUP",
-      "second_leg_confirmed": false,
-      "second_leg_blocks": [
-        "no_initial_spike"
-      ],
-      "second_leg_reasons": [],
-      "time_slot_rvol": 0.02,
-      "time_slot_rvol_detail": {
-        "ticker": "QBTS",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.02,
@@ -4522,13 +5041,13 @@
       "score": 55.0,
       "price": 385.07,
       "entry": 385.07,
-      "stop": 381.9105,
+      "stop": 381.9236,
       "target": 396.6221,
-      "risk_reward": 3.66,
+      "risk_reward": 3.67,
       "relative_volume": 0.02,
-      "day_move_percent": 0.08,
+      "day_move_percent": 0.1,
       "gap_pct": -2.05,
-      "vwap": 384.9904,
+      "vwap": 385.0036,
       "vwap_distance_percent": 0.02,
       "volume_acceleration": 0.66,
       "trend_state": "BULLISH_CONTROLLED",
@@ -4536,7 +5055,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21333.14,
+        "data_age_seconds": 21704.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -4585,7 +5104,7 @@
       "advanced_quality": {
         "advanced_quality_score": 84.0,
         "spread_pct": 0.0156,
-        "dollar_volume": 9301365.85,
+        "dollar_volume": 7693698.6,
         "spread_score": 15.0,
         "liquidity_score": 12.0,
         "rvol_quality_score": 2.0,
@@ -4630,7 +5149,7 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 7.8,
+      "runner_potential_score": 7.81,
       "entry_quality_score": 79.27,
       "danger_score": 9.0,
       "market_regime_score": 50,
@@ -4641,7 +5160,7 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 7.8,
+        "runner_potential_score": 7.81,
         "entry_quality_score": 79.27,
         "danger_score": 9.0,
         "market_regime_score": 50,
@@ -4682,7 +5201,187 @@
       "time_slot_rvol": 0.02,
       "time_slot_rvol_detail": {
         "ticker": "GOOG",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
+        "volume": null,
+        "median_volume_20d_proxy": null,
+        "time_slot_rvol": 0.02,
+        "method": "existing_rvol"
+      }
+    },
+    {
+      "ticker": "JOBY",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "WATCH ONLY",
+      "status": "WATCH_ONLY",
+      "signal_color": "yellow",
+      "meaning": "Early or incomplete setup.",
+      "action": "Watch only. No order.",
+      "score": 55.0,
+      "price": 10.0494,
+      "entry": 10.0494,
+      "stop": 9.9475,
+      "target": 10.3509,
+      "risk_reward": 2.96,
+      "relative_volume": 0.02,
+      "day_move_percent": 0.39,
+      "gap_pct": -2.9,
+      "vwap": 10.0277,
+      "vwap_distance_percent": 0.22,
+      "volume_acceleration": 0.3,
+      "trend_state": "BULLISH_CONTROLLED",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 21704.03,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "positive day move, weak relative volume, volume fading, above VWAP and controlled, risk/reward acceptable",
+      "no_trade_reasons": [
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "JOBY",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260519",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "JOBY",
+        "news_count": 0,
+        "news_catalyst_score": 0,
+        "risk_flags": [],
+        "latest_headline": null,
+        "latest_url": null
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 72.0,
+        "spread_pct": 0.1,
+        "dollar_volume": 165262.38,
+        "spread_score": 15.0,
+        "liquidity_score": 0.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 13.0,
+        "pullback_quality_score": 15.0,
+        "breakout_compression_score": 6.0,
+        "sympathy_score": 3,
+        "theme": "space_air",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "dollar_volume_too_low",
+          "weak_rvol",
+          "vwap_controlled",
+          "not_chasing_vwap_controlled",
+          "volume_fading",
+          "near_vwap_pullback_zone",
+          "breakout_not_overextended"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:WATCH_ONLY",
+          "dollar_volume_below_1m"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:WATCH_ONLY",
+        "dollar_volume_below_1m"
+      ],
+      "market_guard": {
+        "halt_luld_proxy_score": 0,
+        "halt_luld_flags": [],
+        "halt_luld_hard_blocks": [],
+        "halt_luld_status": "NORMAL"
+      },
+      "market_circuit_proxy": {
+        "market_circuit_proxy_status": "NORMAL",
+        "block_new_entries": false,
+        "flags": [],
+        "index_day_changes": {},
+        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
+      },
+      "runner_potential_score": 6.85,
+      "entry_quality_score": 76.27,
+      "danger_score": 9.0,
+      "market_regime_score": 50,
+      "final_trade_score": 37.35,
+      "score_status": "WATCH_ONLY",
+      "score_blocks": [
+        "runner_potential_below_80",
+        "entry_quality_below_78",
+        "final_trade_score_below_82"
+      ],
+      "three_score_matrix": {
+        "runner_potential_score": 6.85,
+        "entry_quality_score": 76.27,
+        "danger_score": 9.0,
+        "market_regime_score": 50,
+        "final_trade_score": 37.35,
+        "score_status": "WATCH_ONLY",
+        "score_blocks": [
+          "runner_potential_below_80",
+          "entry_quality_below_78",
+          "final_trade_score_below_82"
+        ],
+        "reason_codes": {
+          "runner": [],
+          "entry": [
+            "clean_vwap_zone",
+            "spread_clean"
+          ],
+          "danger": []
+        }
+      },
+      "second_leg": {
+        "state": "NO_SETUP",
+        "confirmed": false,
+        "reasons": [],
+        "blocks": [
+          "no_initial_spike"
+        ],
+        "metrics": {
+          "pullback_depth_pct": null,
+          "volume_cleansing_score": 65.0,
+          "micro_reclaim_score": 54.77
+        }
+      },
+      "second_leg_state": "NO_SETUP",
+      "second_leg_confirmed": false,
+      "second_leg_blocks": [
+        "no_initial_spike"
+      ],
+      "second_leg_reasons": [],
+      "time_slot_rvol": 0.02,
+      "time_slot_rvol_detail": {
+        "ticker": "JOBY",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.02,
@@ -4697,16 +5396,16 @@
       "signal_color": "yellow",
       "meaning": "Early or incomplete setup.",
       "action": "Watch only. No order.",
-      "score": 47.0,
+      "score": 55.0,
       "price": 12.07,
       "entry": 12.07,
-      "stop": 11.9708,
+      "stop": 11.9707,
       "target": 12.4321,
       "risk_reward": 3.65,
       "relative_volume": 0.02,
-      "day_move_percent": 0.0,
+      "day_move_percent": 0.01,
       "gap_pct": -2.35,
-      "vwap": 12.0673,
+      "vwap": 12.0672,
       "vwap_distance_percent": 0.02,
       "volume_acceleration": 0.21,
       "trend_state": "BULLISH_CONTROLLED",
@@ -4714,11 +5413,11 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21393.14,
+        "data_age_seconds": 21764.04,
         "quality": "GOOD",
         "notes": []
       },
-      "trade_gate_summary": "weak relative volume, volume fading, above VWAP and controlled, risk/reward acceptable",
+      "trade_gate_summary": "positive day move, weak relative volume, volume fading, above VWAP and controlled, risk/reward acceptable",
       "no_trade_reasons": [
         "relative_volume_too_low"
       ],
@@ -4761,7 +5460,7 @@
       "advanced_quality": {
         "advanced_quality_score": 72.0,
         "spread_pct": 0.0829,
-        "dollar_volume": 358985.94,
+        "dollar_volume": 222510.45,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -4808,11 +5507,11 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 5.64,
+      "runner_potential_score": 6.61,
       "entry_quality_score": 76.47,
       "danger_score": 9.0,
       "market_regime_score": 50,
-      "final_trade_score": 36.94,
+      "final_trade_score": 37.33,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
@@ -4820,11 +5519,11 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 5.64,
+        "runner_potential_score": 6.61,
         "entry_quality_score": 76.47,
         "danger_score": 9.0,
         "market_regime_score": 50,
-        "final_trade_score": 36.94,
+        "final_trade_score": 37.33,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -4850,7 +5549,7 @@
         "metrics": {
           "pullback_depth_pct": null,
           "volume_cleansing_score": 65.0,
-          "micro_reclaim_score": 54.69
+          "micro_reclaim_score": 54.83
         }
       },
       "second_leg_state": "NO_SETUP",
@@ -4862,7 +5561,7 @@
       "time_slot_rvol": 0.02,
       "time_slot_rvol_detail": {
         "ticker": "AAL",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.02,
@@ -4884,17 +5583,17 @@
       "target": 76.5185,
       "risk_reward": 2.0,
       "relative_volume": 0.02,
-      "day_move_percent": 0.11,
+      "day_move_percent": 0.08,
       "gap_pct": -3.71,
-      "vwap": 74.3132,
-      "vwap_distance_percent": -0.03,
+      "vwap": 74.3185,
+      "vwap_distance_percent": -0.04,
       "volume_acceleration": 1.47,
       "trend_state": "BELOW_VWAP",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21333.14,
+        "data_age_seconds": 21704.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -4932,8 +5631,8 @@
       ],
       "alpaca_news": {
         "ticker": "HOOD",
-        "news_count": 1,
-        "news_catalyst_score": 2,
+        "news_count": 2,
+        "news_catalyst_score": 27,
         "risk_flags": [],
         "latest_headline": "Palantir, Robinhood Power GraniteShares' New Yield-Focused ETFs With Monthly Payouts",
         "latest_url": "https://www.benzinga.com/etfs/new-etfs/26/05/52678140/palantir-robinhood-power-graniteshares-new-yield-focused-etfs-with-monthly-payouts"
@@ -4941,7 +5640,7 @@
       "advanced_quality": {
         "advanced_quality_score": 47.0,
         "spread_pct": 0.0135,
-        "dollar_volume": 2444357.29,
+        "dollar_volume": 2008424.74,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -4984,11 +5683,11 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 11.73,
+      "runner_potential_score": 11.71,
       "entry_quality_score": 41.11,
       "danger_score": 9.0,
       "market_regime_score": 50,
-      "final_trade_score": 25.24,
+      "final_trade_score": 25.23,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
@@ -4996,11 +5695,11 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 11.73,
+        "runner_potential_score": 11.71,
         "entry_quality_score": 41.11,
         "danger_score": 9.0,
         "market_regime_score": 50,
-        "final_trade_score": 25.24,
+        "final_trade_score": 25.23,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -5039,7 +5738,7 @@
       "time_slot_rvol": 0.02,
       "time_slot_rvol_detail": {
         "ticker": "HOOD",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.02,
@@ -5063,15 +5762,15 @@
       "relative_volume": 0.02,
       "day_move_percent": 0.03,
       "gap_pct": 1.23,
-      "vwap": 8.4543,
-      "vwap_distance_percent": -0.02,
+      "vwap": 8.4551,
+      "vwap_distance_percent": -0.03,
       "volume_acceleration": 1.52,
       "trend_state": "BELOW_VWAP",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21453.14,
+        "data_age_seconds": 21824.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -5081,10 +5780,9 @@
         "relative_volume_too_low"
       ],
       "sec_catalyst": {
-        "final_label": null,
+        "final_label": "NOT_CHECKED",
         "catalyst_score": 0,
         "filing_risk_score": 0,
-        "latest_filings": [],
         "risk_flags": [],
         "catalyst_flags": []
       },
@@ -5119,7 +5817,7 @@
       "advanced_quality": {
         "advanced_quality_score": 40.0,
         "spread_pct": 0.1181,
-        "dollar_volume": 137131.74,
+        "dollar_volume": 109737.51,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -5219,191 +5917,10 @@
       "time_slot_rvol": 0.02,
       "time_slot_rvol_detail": {
         "ticker": "SOUN",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.02,
-        "method": "existing_rvol"
-      }
-    },
-    {
-      "ticker": "CCL",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "ALERT ONLY",
-      "status": "ALERT_ONLY",
-      "signal_color": "blue",
-      "meaning": "Interesting, but missing at least one key confirmation.",
-      "action": "Track for confirmation.",
-      "score": 65.0,
-      "price": 23.9398,
-      "entry": 23.9398,
-      "stop": 23.7208,
-      "target": 24.658,
-      "risk_reward": 3.28,
-      "relative_volume": 0.01,
-      "day_move_percent": 0.17,
-      "gap_pct": -3.89,
-      "vwap": 23.9121,
-      "vwap_distance_percent": 0.12,
-      "volume_acceleration": 2.75,
-      "trend_state": "BULLISH_CONTROLLED",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 21333.14,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "positive day move, weak relative volume, volume acceleration, above VWAP and controlled, risk/reward acceptable",
-      "no_trade_reasons": [
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "CCL",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260519",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "CCL",
-        "news_count": 0,
-        "news_catalyst_score": 0,
-        "risk_flags": [],
-        "latest_headline": null,
-        "latest_url": null
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 84.0,
-        "spread_pct": 0.0418,
-        "dollar_volume": 282178.42,
-        "spread_score": 15.0,
-        "liquidity_score": 0.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 18.0,
-        "pullback_quality_score": 18,
-        "breakout_compression_score": 10.0,
-        "sympathy_score": 3,
-        "theme": "travel_reopen",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "dollar_volume_too_low",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "near_vwap_pullback_zone",
-          "volume_returning",
-          "breakout_not_overextended",
-          "breakout_volume_acceleration"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:ALERT_ONLY",
-          "dollar_volume_below_1m"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:ALERT_ONLY",
-        "dollar_volume_below_1m"
-      ],
-      "market_guard": {
-        "halt_luld_proxy_score": 0,
-        "halt_luld_flags": [],
-        "halt_luld_hard_blocks": [],
-        "halt_luld_status": "NORMAL"
-      },
-      "market_circuit_proxy": {
-        "market_circuit_proxy_status": "NORMAL",
-        "block_new_entries": false,
-        "flags": [],
-        "index_day_changes": {},
-        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
-      },
-      "runner_potential_score": 24.11,
-      "entry_quality_score": 83.31,
-      "danger_score": 9.0,
-      "market_regime_score": 50,
-      "final_trade_score": 47.07,
-      "score_status": "WATCH_ONLY",
-      "score_blocks": [
-        "runner_potential_below_80",
-        "final_trade_score_below_82"
-      ],
-      "three_score_matrix": {
-        "runner_potential_score": 24.11,
-        "entry_quality_score": 83.31,
-        "danger_score": 9.0,
-        "market_regime_score": 50,
-        "final_trade_score": 47.07,
-        "score_status": "WATCH_ONLY",
-        "score_blocks": [
-          "runner_potential_below_80",
-          "final_trade_score_below_82"
-        ],
-        "reason_codes": {
-          "runner": [
-            "volume_acceleration"
-          ],
-          "entry": [
-            "clean_vwap_zone",
-            "spread_clean"
-          ],
-          "danger": []
-        }
-      },
-      "second_leg": {
-        "state": "NO_SETUP",
-        "confirmed": false,
-        "reasons": [],
-        "blocks": [
-          "no_initial_spike"
-        ],
-        "metrics": {
-          "pullback_depth_pct": null,
-          "volume_cleansing_score": 50.0,
-          "micro_reclaim_score": 60.63
-        }
-      },
-      "second_leg_state": "NO_SETUP",
-      "second_leg_confirmed": false,
-      "second_leg_blocks": [
-        "no_initial_spike"
-      ],
-      "second_leg_reasons": [],
-      "time_slot_rvol": 0.01,
-      "time_slot_rvol_detail": {
-        "ticker": "CCL",
-        "minute_bucket_utc": "06:01",
-        "volume": null,
-        "median_volume_20d_proxy": null,
-        "time_slot_rvol": 0.01,
         "method": "existing_rvol"
       }
     },
@@ -5418,13 +5935,13 @@
       "score": 57.0,
       "price": 181.19,
       "entry": 181.19,
-      "stop": 179.7179,
+      "stop": 179.7188,
       "target": 186.6257,
       "risk_reward": 3.69,
       "relative_volume": 0.01,
-      "day_move_percent": 0.0,
+      "day_move_percent": -0.01,
       "gap_pct": -2.9,
-      "vwap": 181.1672,
+      "vwap": 181.1681,
       "vwap_distance_percent": 0.01,
       "volume_acceleration": 2.73,
       "trend_state": "BULLISH_CONTROLLED",
@@ -5432,7 +5949,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21333.14,
+        "data_age_seconds": 21704.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -5479,7 +5996,7 @@
       "advanced_quality": {
         "advanced_quality_score": 88.0,
         "spread_pct": 0.0773,
-        "dollar_volume": 2095099.97,
+        "dollar_volume": 1760079.66,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -5579,7 +6096,7 @@
       "time_slot_rvol": 0.01,
       "time_slot_rvol_detail": {
         "ticker": "ORCL",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.01,
@@ -5597,21 +6114,21 @@
       "score": 55.0,
       "price": 0.7501,
       "entry": 0.7501,
-      "stop": 0.7432,
+      "stop": 0.7433,
       "target": 0.7726,
-      "risk_reward": 3.26,
+      "risk_reward": 3.31,
       "relative_volume": 0.01,
       "day_move_percent": 0.23,
       "gap_pct": -1.57,
-      "vwap": 0.7492,
-      "vwap_distance_percent": 0.12,
+      "vwap": 0.7493,
+      "vwap_distance_percent": 0.11,
       "volume_acceleration": 2.92,
       "trend_state": "BULLISH_CONTROLLED",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21333.14,
+        "data_age_seconds": 21704.04,
         "quality": "GOOD",
         "notes": []
       },
@@ -5659,7 +6176,7 @@
       "advanced_quality": {
         "advanced_quality_score": 80.25,
         "spread_pct": 0.4125,
-        "dollar_volume": 17047.52,
+        "dollar_volume": 16162.4,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -5764,7 +6281,7 @@
       "time_slot_rvol": 0.01,
       "time_slot_rvol_detail": {
         "ticker": "BYND",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.01,
@@ -5796,7 +6313,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21453.14,
+        "data_age_seconds": 21824.04,
         "quality": "GOOD",
         "notes": []
       },
@@ -5843,7 +6360,7 @@
       "advanced_quality": {
         "advanced_quality_score": 74.0,
         "spread_pct": 0.0554,
-        "dollar_volume": 340762.08,
+        "dollar_volume": 66462.42,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -5943,7 +6460,7 @@
       "time_slot_rvol": 0.01,
       "time_slot_rvol_detail": {
         "ticker": "XOM",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.01,
@@ -5961,21 +6478,21 @@
       "score": 59.0,
       "price": 239.36,
       "entry": 239.36,
-      "stop": 237.2522,
+      "stop": 237.3359,
       "target": 246.5408,
-      "risk_reward": 3.41,
+      "risk_reward": 3.55,
       "relative_volume": 0.01,
-      "day_move_percent": 0.26,
+      "day_move_percent": 0.08,
       "gap_pct": -3.31,
-      "vwap": 239.1655,
-      "vwap_distance_percent": 0.08,
+      "vwap": 239.2499,
+      "vwap_distance_percent": 0.05,
       "volume_acceleration": null,
       "trend_state": "BULLISH_CONTROLLED",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21753.14,
+        "data_age_seconds": 22124.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -6068,11 +6585,11 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 16.24,
+      "runner_potential_score": 16.13,
       "entry_quality_score": 77.27,
       "danger_score": 9.0,
       "market_regime_score": 50,
-      "final_trade_score": 41.5,
+      "final_trade_score": 41.46,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
@@ -6080,11 +6597,11 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 16.24,
+        "runner_potential_score": 16.13,
         "entry_quality_score": 77.27,
         "danger_score": 9.0,
         "market_regime_score": 50,
-        "final_trade_score": 41.5,
+        "final_trade_score": 41.46,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -6110,7 +6627,7 @@
         "metrics": {
           "pullback_depth_pct": null,
           "volume_cleansing_score": 75.0,
-          "micro_reclaim_score": 56.57
+          "micro_reclaim_score": 56.56
         }
       },
       "second_leg_state": "NO_SETUP",
@@ -6122,7 +6639,7 @@
       "time_slot_rvol": 0.01,
       "time_slot_rvol_detail": {
         "ticker": "PANW",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.01,
@@ -6154,7 +6671,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 22113.14,
+        "data_age_seconds": 22484.04,
         "quality": "GOOD",
         "notes": []
       },
@@ -6201,7 +6718,7 @@
       "advanced_quality": {
         "advanced_quality_score": 74.0,
         "spread_pct": 0.1066,
-        "dollar_volume": 294769.15,
+        "dollar_volume": 222210.59,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -6301,7 +6818,7 @@
       "time_slot_rvol": 0.01,
       "time_slot_rvol_detail": {
         "ticker": "CVX",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.01,
@@ -6316,16 +6833,16 @@
       "signal_color": "yellow",
       "meaning": "Early or incomplete setup.",
       "action": "Watch only. No order.",
-      "score": 59.0,
+      "score": 51.0,
       "price": 615.0,
       "entry": 615.0,
-      "stop": 609.8608,
+      "stop": 609.8287,
       "target": 633.45,
-      "risk_reward": 3.59,
+      "risk_reward": 3.57,
       "relative_volume": 0.01,
-      "day_move_percent": 0.03,
+      "day_move_percent": -0.0,
       "gap_pct": -0.62,
-      "vwap": 614.779,
+      "vwap": 614.7467,
       "vwap_distance_percent": 0.04,
       "volume_acceleration": null,
       "trend_state": "BULLISH_CONTROLLED",
@@ -6333,11 +6850,11 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21513.14,
+        "data_age_seconds": 21884.03,
         "quality": "GOOD",
         "notes": []
       },
-      "trade_gate_summary": "positive day move, weak relative volume, above VWAP and controlled, risk/reward acceptable",
+      "trade_gate_summary": "weak relative volume, above VWAP and controlled, risk/reward acceptable",
       "no_trade_reasons": [
         "relative_volume_too_low"
       ],
@@ -6371,8 +6888,8 @@
       ],
       "alpaca_news": {
         "ticker": "CRWD",
-        "news_count": 2,
-        "news_catalyst_score": 12,
+        "news_count": 3,
+        "news_catalyst_score": 14,
         "risk_flags": [],
         "latest_headline": "Truist Securities Maintains Buy on CrowdStrike Holdings, Raises Price Target to $650",
         "latest_url": "https://www.benzinga.com/news/26/05/52671494/truist-securities-maintains-buy-on-crowdstrike-holdings-raises-price-target-to-650"
@@ -6380,7 +6897,7 @@
       "advanced_quality": {
         "advanced_quality_score": 74.0,
         "spread_pct": 0.1073,
-        "dollar_volume": 266910.0,
+        "dollar_volume": 226320.0,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -6426,11 +6943,11 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 16.1,
+      "runner_potential_score": 15.12,
       "entry_quality_score": 76.53,
       "danger_score": 9.0,
       "market_regime_score": 50,
-      "final_trade_score": 41.15,
+      "final_trade_score": 40.76,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
@@ -6438,11 +6955,11 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 16.1,
+        "runner_potential_score": 15.12,
         "entry_quality_score": 76.53,
         "danger_score": 9.0,
         "market_regime_score": 50,
-        "final_trade_score": 41.15,
+        "final_trade_score": 40.76,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -6468,7 +6985,7 @@
         "metrics": {
           "pullback_depth_pct": null,
           "volume_cleansing_score": 75.0,
-          "micro_reclaim_score": 56.19
+          "micro_reclaim_score": 56.05
         }
       },
       "second_leg_state": "NO_SETUP",
@@ -6480,7 +6997,7 @@
       "time_slot_rvol": 0.01,
       "time_slot_rvol_detail": {
         "ticker": "CRWD",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.01,
@@ -6512,7 +7029,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21513.14,
+        "data_age_seconds": 21884.04,
         "quality": "GOOD",
         "notes": []
       },
@@ -6559,7 +7076,7 @@
       "advanced_quality": {
         "advanced_quality_score": 74.0,
         "spread_pct": 0.3768,
-        "dollar_volume": 11699.56,
+        "dollar_volume": 8774.67,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -6659,182 +7176,7 @@
       "time_slot_rvol": 0.01,
       "time_slot_rvol_detail": {
         "ticker": "CELH",
-        "minute_bucket_utc": "06:01",
-        "volume": null,
-        "median_volume_20d_proxy": null,
-        "time_slot_rvol": 0.01,
-        "method": "existing_rvol"
-      }
-    },
-    {
-      "ticker": "TSLA",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "WATCH ONLY",
-      "status": "WATCH_ONLY",
-      "signal_color": "yellow",
-      "meaning": "Early or incomplete setup.",
-      "action": "Watch only. No order.",
-      "score": 55.0,
-      "price": 404.68,
-      "entry": 404.68,
-      "stop": 401.4017,
-      "target": 416.8204,
-      "risk_reward": 3.7,
-      "relative_volume": 0.01,
-      "day_move_percent": 0.14,
-      "gap_pct": -1.3,
-      "vwap": 404.6388,
-      "vwap_distance_percent": 0.01,
-      "volume_acceleration": 0.75,
-      "trend_state": "BULLISH_CONTROLLED",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 21333.14,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "positive day move, weak relative volume, volume fading, above VWAP and controlled, risk/reward acceptable",
-      "no_trade_reasons": [
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "TSLA",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260519",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "TSLA",
-        "news_count": 9,
-        "news_catalyst_score": 18,
-        "risk_flags": [],
-        "latest_headline": "Elon Musk's SpaceX Picks Goldman Sachs To Lead What Could Be The Biggest IPO Ever: Report",
-        "latest_url": "https://www.benzinga.com/markets/ipos/26/05/52682196/elon-musk-spacex-goldman-sachs-lead-ipo-morgan-stanley"
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 92.0,
-        "spread_pct": 0.0099,
-        "dollar_volume": 21009771.56,
-        "spread_score": 15.0,
-        "liquidity_score": 15.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 18.0,
-        "pullback_quality_score": 15.0,
-        "breakout_compression_score": 6.0,
-        "sympathy_score": 3,
-        "theme": "mega_cap_ai",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "strong_dollar_volume",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "near_vwap_pullback_zone",
-          "breakout_not_overextended"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:WATCH_ONLY"
-      ],
-      "market_guard": {
-        "halt_luld_proxy_score": 0,
-        "halt_luld_flags": [],
-        "halt_luld_hard_blocks": [],
-        "halt_luld_status": "NORMAL"
-      },
-      "market_circuit_proxy": {
-        "market_circuit_proxy_status": "NORMAL",
-        "block_new_entries": false,
-        "flags": [],
-        "index_day_changes": {},
-        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
-      },
-      "runner_potential_score": 8.49,
-      "entry_quality_score": 80.69,
-      "danger_score": 9.0,
-      "market_regime_score": 50,
-      "final_trade_score": 39.77,
-      "score_status": "WATCH_ONLY",
-      "score_blocks": [
-        "runner_potential_below_80",
-        "final_trade_score_below_82"
-      ],
-      "three_score_matrix": {
-        "runner_potential_score": 8.49,
-        "entry_quality_score": 80.69,
-        "danger_score": 9.0,
-        "market_regime_score": 50,
-        "final_trade_score": 39.77,
-        "score_status": "WATCH_ONLY",
-        "score_blocks": [
-          "runner_potential_below_80",
-          "final_trade_score_below_82"
-        ],
-        "reason_codes": {
-          "runner": [],
-          "entry": [
-            "clean_vwap_zone",
-            "spread_clean"
-          ],
-          "danger": []
-        }
-      },
-      "second_leg": {
-        "state": "NO_SETUP",
-        "confirmed": false,
-        "reasons": [],
-        "blocks": [
-          "no_initial_spike"
-        ],
-        "metrics": {
-          "pullback_depth_pct": null,
-          "volume_cleansing_score": 75.0,
-          "micro_reclaim_score": 57.16
-        }
-      },
-      "second_leg_state": "NO_SETUP",
-      "second_leg_confirmed": false,
-      "second_leg_blocks": [
-        "no_initial_spike"
-      ],
-      "second_leg_reasons": [],
-      "time_slot_rvol": 0.01,
-      "time_slot_rvol_detail": {
-        "ticker": "TSLA",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.01,
@@ -6852,21 +7194,21 @@
       "score": 59.0,
       "price": 4.3298,
       "entry": 4.3298,
-      "stop": 4.2871,
+      "stop": 4.2877,
       "target": 4.4597,
-      "risk_reward": 3.04,
+      "risk_reward": 3.09,
       "relative_volume": 0.01,
       "day_move_percent": 0.23,
       "gap_pct": 1.16,
-      "vwap": 4.3217,
-      "vwap_distance_percent": 0.19,
+      "vwap": 4.3223,
+      "vwap_distance_percent": 0.17,
       "volume_acceleration": 1.09,
       "trend_state": "BULLISH_CONTROLLED",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21333.14,
+        "data_age_seconds": 21704.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -6913,7 +7255,7 @@
       "advanced_quality": {
         "advanced_quality_score": 74.0,
         "spread_pct": 0.2312,
-        "dollar_volume": 40838.67,
+        "dollar_volume": 24943.98,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -7013,7 +7355,7 @@
       "time_slot_rvol": 0.01,
       "time_slot_rvol_detail": {
         "ticker": "OPEN",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.01,
@@ -7031,21 +7373,21 @@
       "score": 59.0,
       "price": 63.69,
       "entry": 63.69,
-      "stop": 63.1218,
+      "stop": 63.1381,
       "target": 65.6007,
-      "risk_reward": 3.36,
+      "risk_reward": 3.46,
       "relative_volume": 0.01,
-      "day_move_percent": 0.27,
+      "day_move_percent": 0.22,
       "gap_pct": -3.53,
-      "vwap": 63.6308,
-      "vwap_distance_percent": 0.09,
+      "vwap": 63.6473,
+      "vwap_distance_percent": 0.07,
       "volume_acceleration": null,
       "trend_state": "BULLISH_CONTROLLED",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21393.14,
+        "data_age_seconds": 21764.04,
         "quality": "GOOD",
         "notes": []
       },
@@ -7092,7 +7434,7 @@
       "advanced_quality": {
         "advanced_quality_score": 74.0,
         "spread_pct": 0.8179,
-        "dollar_volume": 43627.65,
+        "dollar_volume": 37895.55,
         "spread_score": 12.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -7138,11 +7480,11 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 16.25,
+      "runner_potential_score": 16.22,
       "entry_quality_score": 68.48,
       "danger_score": 9.98,
       "market_regime_score": 50,
-      "final_trade_score": 37.89,
+      "final_trade_score": 37.88,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
@@ -7150,11 +7492,11 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 16.25,
+        "runner_potential_score": 16.22,
         "entry_quality_score": 68.48,
         "danger_score": 9.98,
         "market_regime_score": 50,
-        "final_trade_score": 37.89,
+        "final_trade_score": 37.88,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -7192,187 +7534,7 @@
       "time_slot_rvol": 0.01,
       "time_slot_rvol_detail": {
         "ticker": "CVNA",
-        "minute_bucket_utc": "06:01",
-        "volume": null,
-        "median_volume_20d_proxy": null,
-        "time_slot_rvol": 0.01,
-        "method": "existing_rvol"
-      }
-    },
-    {
-      "ticker": "JOBY",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "WATCH ONLY",
-      "status": "WATCH_ONLY",
-      "signal_color": "yellow",
-      "meaning": "Early or incomplete setup.",
-      "action": "Watch only. No order.",
-      "score": 55.0,
-      "price": 10.0494,
-      "entry": 10.0494,
-      "stop": 9.9476,
-      "target": 10.3509,
-      "risk_reward": 2.96,
-      "relative_volume": 0.01,
-      "day_move_percent": 0.19,
-      "gap_pct": -2.9,
-      "vwap": 10.0278,
-      "vwap_distance_percent": 0.22,
-      "volume_acceleration": 0.3,
-      "trend_state": "BULLISH_CONTROLLED",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 21333.14,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "positive day move, weak relative volume, volume fading, above VWAP and controlled, risk/reward acceptable",
-      "no_trade_reasons": [
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "JOBY",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260519",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "JOBY",
-        "news_count": 0,
-        "news_catalyst_score": 0,
-        "risk_flags": [],
-        "latest_headline": null,
-        "latest_url": null
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 72.0,
-        "spread_pct": 0.1,
-        "dollar_volume": 169141.45,
-        "spread_score": 15.0,
-        "liquidity_score": 0.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 13.0,
-        "pullback_quality_score": 15.0,
-        "breakout_compression_score": 6.0,
-        "sympathy_score": 3,
-        "theme": "space_air",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "dollar_volume_too_low",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "volume_fading",
-          "near_vwap_pullback_zone",
-          "breakout_not_overextended"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY",
-          "dollar_volume_below_1m"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:WATCH_ONLY",
-        "dollar_volume_below_1m"
-      ],
-      "market_guard": {
-        "halt_luld_proxy_score": 0,
-        "halt_luld_flags": [],
-        "halt_luld_hard_blocks": [],
-        "halt_luld_status": "NORMAL"
-      },
-      "market_circuit_proxy": {
-        "market_circuit_proxy_status": "NORMAL",
-        "block_new_entries": false,
-        "flags": [],
-        "index_day_changes": {},
-        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
-      },
-      "runner_potential_score": 6.72,
-      "entry_quality_score": 76.27,
-      "danger_score": 9.0,
-      "market_regime_score": 50,
-      "final_trade_score": 37.3,
-      "score_status": "WATCH_ONLY",
-      "score_blocks": [
-        "runner_potential_below_80",
-        "entry_quality_below_78",
-        "final_trade_score_below_82"
-      ],
-      "three_score_matrix": {
-        "runner_potential_score": 6.72,
-        "entry_quality_score": 76.27,
-        "danger_score": 9.0,
-        "market_regime_score": 50,
-        "final_trade_score": 37.3,
-        "score_status": "WATCH_ONLY",
-        "score_blocks": [
-          "runner_potential_below_80",
-          "entry_quality_below_78",
-          "final_trade_score_below_82"
-        ],
-        "reason_codes": {
-          "runner": [],
-          "entry": [
-            "clean_vwap_zone",
-            "spread_clean"
-          ],
-          "danger": []
-        }
-      },
-      "second_leg": {
-        "state": "NO_SETUP",
-        "confirmed": false,
-        "reasons": [],
-        "blocks": [
-          "no_initial_spike"
-        ],
-        "metrics": {
-          "pullback_depth_pct": null,
-          "volume_cleansing_score": 65.0,
-          "micro_reclaim_score": 54.75
-        }
-      },
-      "second_leg_state": "NO_SETUP",
-      "second_leg_confirmed": false,
-      "second_leg_blocks": [
-        "no_initial_spike"
-      ],
-      "second_leg_reasons": [],
-      "time_slot_rvol": 0.01,
-      "time_slot_rvol_detail": {
-        "ticker": "JOBY",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.01,
@@ -7404,7 +7566,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21333.14,
+        "data_age_seconds": 21704.04,
         "quality": "GOOD",
         "notes": []
       },
@@ -7451,7 +7613,7 @@
       "advanced_quality": {
         "advanced_quality_score": 72.0,
         "spread_pct": 0.3821,
-        "dollar_volume": 349371.33,
+        "dollar_volume": 48322.74,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -7552,7 +7714,7 @@
       "time_slot_rvol": 0.01,
       "time_slot_rvol_detail": {
         "ticker": "F",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.01,
@@ -7570,21 +7732,21 @@
       "score": 51.0,
       "price": 10.5585,
       "entry": 10.5585,
-      "stop": 10.4629,
+      "stop": 10.4634,
       "target": 10.8753,
-      "risk_reward": 3.31,
+      "risk_reward": 3.33,
       "relative_volume": 0.01,
       "day_move_percent": -0.01,
       "gap_pct": -0.77,
-      "vwap": 10.5473,
-      "vwap_distance_percent": 0.11,
+      "vwap": 10.5478,
+      "vwap_distance_percent": 0.1,
       "volume_acceleration": null,
       "trend_state": "BULLISH_CONTROLLED",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21513.14,
+        "data_age_seconds": 21884.04,
         "quality": "GOOD",
         "notes": []
       },
@@ -7730,7 +7892,7 @@
       "time_slot_rvol": 0.01,
       "time_slot_rvol_detail": {
         "ticker": "PATH",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.01,
@@ -7748,21 +7910,21 @@
       "score": 55.0,
       "price": 5.9298,
       "entry": 5.9298,
-      "stop": 5.8718,
+      "stop": 5.8748,
       "target": 6.1077,
-      "risk_reward": 3.07,
+      "risk_reward": 3.23,
       "relative_volume": 0.01,
-      "day_move_percent": 0.34,
+      "day_move_percent": 0.48,
       "gap_pct": 0.17,
-      "vwap": 5.9192,
-      "vwap_distance_percent": 0.18,
+      "vwap": 5.9222,
+      "vwap_distance_percent": 0.13,
       "volume_acceleration": 0.24,
       "trend_state": "BULLISH_CONTROLLED",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21453.14,
+        "data_age_seconds": 21824.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -7811,7 +7973,7 @@
       "advanced_quality": {
         "advanced_quality_score": 69.0,
         "spread_pct": 0.8439,
-        "dollar_volume": 78397.89,
+        "dollar_volume": 47942.43,
         "spread_score": 12.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -7858,11 +8020,11 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 6.9,
+      "runner_potential_score": 6.99,
       "entry_quality_score": 67.33,
       "danger_score": 10.35,
       "market_regime_score": 50,
-      "final_trade_score": 33.66,
+      "final_trade_score": 33.69,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
@@ -7870,11 +8032,11 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 6.9,
+        "runner_potential_score": 6.99,
         "entry_quality_score": 67.33,
         "danger_score": 10.35,
         "market_regime_score": 50,
-        "final_trade_score": 33.66,
+        "final_trade_score": 33.69,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -7900,7 +8062,7 @@
         "metrics": {
           "pullback_depth_pct": null,
           "volume_cleansing_score": 65.0,
-          "micro_reclaim_score": 50.35
+          "micro_reclaim_score": 50.36
         }
       },
       "second_leg_state": "NO_SETUP",
@@ -7912,185 +8074,7 @@
       "time_slot_rvol": 0.01,
       "time_slot_rvol_detail": {
         "ticker": "ACHR",
-        "minute_bucket_utc": "06:01",
-        "volume": null,
-        "median_volume_20d_proxy": null,
-        "time_slot_rvol": 0.01,
-        "method": "existing_rvol"
-      }
-    },
-    {
-      "ticker": "AVGO",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "WATCH ONLY",
-      "status": "WATCH_ONLY",
-      "signal_color": "yellow",
-      "meaning": "Early or incomplete setup.",
-      "action": "Watch only. No order.",
-      "score": 45.0,
-      "price": 411.99,
-      "entry": 411.99,
-      "stop": 405.8102,
-      "target": 424.3497,
-      "risk_reward": 2.0,
-      "relative_volume": 0.01,
-      "day_move_percent": 0.08,
-      "gap_pct": -2.07,
-      "vwap": 412.2735,
-      "vwap_distance_percent": -0.07,
-      "volume_acceleration": 3.08,
-      "trend_state": "BELOW_VWAP",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 21333.14,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "positive day move, weak relative volume, volume acceleration, below VWAP, risk/reward acceptable",
-      "no_trade_reasons": [
-        "below_vwap",
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "AVGO",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260519",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "AVGO",
-        "news_count": 4,
-        "news_catalyst_score": 8,
-        "risk_flags": [],
-        "latest_headline": "Chip Stocks Just Hit A Record Overbought Level: History Shows The Aftermath Is Rough",
-        "latest_url": "https://www.benzinga.com/markets/tech/26/05/52675559/chip-stocks-just-hit-a-record-overbought-level-history-shows-the-aftermath-is-rough"
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 47.0,
-        "spread_pct": 0.1166,
-        "dollar_volume": 4343610.57,
-        "spread_score": 15.0,
-        "liquidity_score": 7.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 0.0,
-        "anti_chase_score": 15.0,
-        "pullback_quality_score": 1.0,
-        "breakout_compression_score": 4.0,
-        "sympathy_score": 3,
-        "theme": "mega_cap_ai",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "thin_but_tradeable_dollar_volume",
-          "weak_rvol",
-          "below_vwap",
-          "below_vwap_no_pullback_entry",
-          "breakout_volume_acceleration"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:WATCH_ONLY"
-      ],
-      "market_guard": {
-        "halt_luld_proxy_score": 0,
-        "halt_luld_flags": [],
-        "halt_luld_hard_blocks": [],
-        "halt_luld_status": "NORMAL"
-      },
-      "market_circuit_proxy": {
-        "market_circuit_proxy_status": "NORMAL",
-        "block_new_entries": false,
-        "flags": [],
-        "index_day_changes": {},
-        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
-      },
-      "runner_potential_score": 23.45,
-      "entry_quality_score": 39.95,
-      "danger_score": 9.0,
-      "market_regime_score": 50,
-      "final_trade_score": 29.46,
-      "score_status": "WATCH_ONLY",
-      "score_blocks": [
-        "runner_potential_below_80",
-        "entry_quality_below_78",
-        "final_trade_score_below_82"
-      ],
-      "three_score_matrix": {
-        "runner_potential_score": 23.45,
-        "entry_quality_score": 39.95,
-        "danger_score": 9.0,
-        "market_regime_score": 50,
-        "final_trade_score": 29.46,
-        "score_status": "WATCH_ONLY",
-        "score_blocks": [
-          "runner_potential_below_80",
-          "entry_quality_below_78",
-          "final_trade_score_below_82"
-        ],
-        "reason_codes": {
-          "runner": [
-            "volume_acceleration"
-          ],
-          "entry": [
-            "spread_clean"
-          ],
-          "danger": []
-        }
-      },
-      "second_leg": {
-        "state": "NO_SETUP",
-        "confirmed": false,
-        "reasons": [],
-        "blocks": [
-          "no_initial_spike"
-        ],
-        "metrics": {
-          "pullback_depth_pct": null,
-          "volume_cleansing_score": 30.0,
-          "micro_reclaim_score": 24.29
-        }
-      },
-      "second_leg_state": "NO_SETUP",
-      "second_leg_confirmed": false,
-      "second_leg_blocks": [
-        "no_initial_spike"
-      ],
-      "second_leg_reasons": [],
-      "time_slot_rvol": 0.01,
-      "time_slot_rvol_detail": {
-        "ticker": "AVGO",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.01,
@@ -8112,9 +8096,9 @@
       "target": 31.5902,
       "risk_reward": 2.0,
       "relative_volume": 0.01,
-      "day_move_percent": 0.26,
+      "day_move_percent": 0.23,
       "gap_pct": -0.58,
-      "vwap": 30.6935,
+      "vwap": 30.6955,
       "vwap_distance_percent": -0.08,
       "volume_acceleration": 3.05,
       "trend_state": "BELOW_VWAP",
@@ -8122,7 +8106,7 @@
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21333.14,
+        "data_age_seconds": 21704.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -8170,7 +8154,7 @@
       "advanced_quality": {
         "advanced_quality_score": 37.0,
         "spread_pct": 0.228,
-        "dollar_volume": 300873.68,
+        "dollar_volume": 290507.19,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -8215,11 +8199,11 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 23.56,
+      "runner_potential_score": 23.54,
       "entry_quality_score": 36.98,
       "danger_score": 9.0,
       "market_regime_score": 50,
-      "final_trade_score": 28.32,
+      "final_trade_score": 28.31,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
@@ -8227,11 +8211,11 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 23.56,
+        "runner_potential_score": 23.54,
         "entry_quality_score": 36.98,
         "danger_score": 9.0,
         "market_regime_score": 50,
-        "final_trade_score": 28.32,
+        "final_trade_score": 28.31,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -8270,184 +8254,7 @@
       "time_slot_rvol": 0.01,
       "time_slot_rvol_detail": {
         "ticker": "SMCI",
-        "minute_bucket_utc": "06:01",
-        "volume": null,
-        "median_volume_20d_proxy": null,
-        "time_slot_rvol": 0.01,
-        "method": "existing_rvol"
-      }
-    },
-    {
-      "ticker": "GOOGL",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "WATCH ONLY",
-      "status": "WATCH_ONLY",
-      "signal_color": "yellow",
-      "meaning": "Early or incomplete setup.",
-      "action": "Watch only. No order.",
-      "score": 45.0,
-      "price": 387.8,
-      "entry": 387.8,
-      "stop": 381.983,
-      "target": 399.434,
-      "risk_reward": 2.0,
-      "relative_volume": 0.01,
-      "day_move_percent": 0.0,
-      "gap_pct": -2.3,
-      "vwap": 387.9537,
-      "vwap_distance_percent": -0.04,
-      "volume_acceleration": 2.1,
-      "trend_state": "BELOW_VWAP",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 21333.14,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "positive day move, weak relative volume, volume acceleration, below VWAP, risk/reward acceptable",
-      "no_trade_reasons": [
-        "below_vwap",
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": "NOT_CHECKED",
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "GOOGL",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260519",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "GOOGL",
-        "news_count": 24,
-        "news_catalyst_score": 71,
-        "risk_flags": [],
-        "latest_headline": "Bernie Sanders Says 70% Americans Think AI Is 'Moving Too Fast' And It's Time Congress Listened To Them \u2014 Not Just The Billionaires Pushing The Tech",
-        "latest_url": "https://www.benzinga.com/markets/tech/26/05/52681853/bernie-sanders-ai-moving-too-fast-billionaires-congress"
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 52.0,
-        "spread_pct": 0.1237,
-        "dollar_volume": 8698354.0,
-        "spread_score": 15.0,
-        "liquidity_score": 12.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 0.0,
-        "anti_chase_score": 15.0,
-        "pullback_quality_score": 1.0,
-        "breakout_compression_score": 4.0,
-        "sympathy_score": 3,
-        "theme": "mega_cap_ai",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "good_dollar_volume",
-          "weak_rvol",
-          "below_vwap",
-          "below_vwap_no_pullback_entry",
-          "breakout_volume_acceleration"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:WATCH_ONLY"
-      ],
-      "market_guard": {
-        "halt_luld_proxy_score": 0,
-        "halt_luld_flags": [],
-        "halt_luld_hard_blocks": [],
-        "halt_luld_status": "NORMAL"
-      },
-      "market_circuit_proxy": {
-        "market_circuit_proxy_status": "NORMAL",
-        "block_new_entries": false,
-        "flags": [],
-        "index_day_changes": {},
-        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
-      },
-      "runner_potential_score": 16.92,
-      "entry_quality_score": 40.72,
-      "danger_score": 9.0,
-      "market_regime_score": 50,
-      "final_trade_score": 27.16,
-      "score_status": "WATCH_ONLY",
-      "score_blocks": [
-        "runner_potential_below_80",
-        "entry_quality_below_78",
-        "final_trade_score_below_82"
-      ],
-      "three_score_matrix": {
-        "runner_potential_score": 16.92,
-        "entry_quality_score": 40.72,
-        "danger_score": 9.0,
-        "market_regime_score": 50,
-        "final_trade_score": 27.16,
-        "score_status": "WATCH_ONLY",
-        "score_blocks": [
-          "runner_potential_below_80",
-          "entry_quality_below_78",
-          "final_trade_score_below_82"
-        ],
-        "reason_codes": {
-          "runner": [
-            "volume_acceleration"
-          ],
-          "entry": [
-            "spread_clean"
-          ],
-          "danger": []
-        }
-      },
-      "second_leg": {
-        "state": "NO_SETUP",
-        "confirmed": false,
-        "reasons": [],
-        "blocks": [
-          "no_initial_spike"
-        ],
-        "metrics": {
-          "pullback_depth_pct": null,
-          "volume_cleansing_score": 50.0,
-          "micro_reclaim_score": 23.76
-        }
-      },
-      "second_leg_state": "NO_SETUP",
-      "second_leg_confirmed": false,
-      "second_leg_blocks": [
-        "no_initial_spike"
-      ],
-      "second_leg_reasons": [],
-      "time_slot_rvol": 0.01,
-      "time_slot_rvol_detail": {
-        "ticker": "GOOGL",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.01,
@@ -8469,17 +8276,17 @@
       "target": 138.8852,
       "risk_reward": 2.0,
       "relative_volume": 0.01,
-      "day_move_percent": 0.13,
+      "day_move_percent": 0.06,
       "gap_pct": -0.22,
-      "vwap": 134.8636,
-      "vwap_distance_percent": -0.02,
+      "vwap": 134.8895,
+      "vwap_distance_percent": -0.04,
       "volume_acceleration": 1.6,
       "trend_state": "BELOW_VWAP",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21333.14,
+        "data_age_seconds": 21704.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -8489,9 +8296,10 @@
         "relative_volume_too_low"
       ],
       "sec_catalyst": {
-        "final_label": "NOT_CHECKED",
+        "final_label": null,
         "catalyst_score": 0,
         "filing_risk_score": 0,
+        "latest_filings": [],
         "risk_flags": [],
         "catalyst_flags": []
       },
@@ -8526,7 +8334,7 @@
       "advanced_quality": {
         "advanced_quality_score": 47.0,
         "spread_pct": 0.0297,
-        "dollar_volume": 2578410.48,
+        "dollar_volume": 1794046.2,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -8569,11 +8377,11 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 13.4,
+      "runner_potential_score": 13.36,
       "entry_quality_score": 40.93,
       "danger_score": 9.0,
       "market_regime_score": 50,
-      "final_trade_score": 25.83,
+      "final_trade_score": 25.82,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
@@ -8581,11 +8389,11 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 13.4,
+        "runner_potential_score": 13.36,
         "entry_quality_score": 40.93,
         "danger_score": 9.0,
         "market_regime_score": 50,
-        "final_trade_score": 25.83,
+        "final_trade_score": 25.82,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -8612,7 +8420,7 @@
         "metrics": {
           "pullback_depth_pct": null,
           "volume_cleansing_score": 50.0,
-          "micro_reclaim_score": 23.37
+          "micro_reclaim_score": 23.36
         }
       },
       "second_leg_state": "NO_SETUP",
@@ -8624,7 +8432,7 @@
       "time_slot_rvol": 0.01,
       "time_slot_rvol_detail": {
         "ticker": "PLTR",
-        "minute_bucket_utc": "06:01",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.01,
@@ -8632,35 +8440,35 @@
       }
     },
     {
-      "ticker": "AMZN",
+      "ticker": "ASTS",
       "source_type": "alpaca_paid_market_scanner",
-      "signal": "NO TRADE",
-      "status": "NO_TRADE",
-      "signal_color": "red",
-      "meaning": "Blocked by risk, data, trend, or score rules.",
-      "action": "No new entry.",
-      "score": 39.0,
-      "price": 259.32,
-      "entry": 259.32,
-      "stop": 255.4302,
-      "target": 267.0996,
+      "signal": "WATCH ONLY",
+      "status": "WATCH_ONLY",
+      "signal_color": "yellow",
+      "meaning": "Early or incomplete setup.",
+      "action": "Watch only. No order.",
+      "score": 45.0,
+      "price": 87.5,
+      "entry": 87.5,
+      "stop": 86.1875,
+      "target": 90.125,
       "risk_reward": 2.0,
       "relative_volume": 0.01,
-      "day_move_percent": 0.09,
-      "gap_pct": -2.09,
-      "vwap": 259.377,
-      "vwap_distance_percent": -0.02,
-      "volume_acceleration": 1.18,
+      "day_move_percent": 0.06,
+      "gap_pct": 0.77,
+      "vwap": 87.6615,
+      "vwap_distance_percent": -0.18,
+      "volume_acceleration": 1.57,
       "trend_state": "BELOW_VWAP",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21393.14,
+        "data_age_seconds": 21704.03,
         "quality": "GOOD",
         "notes": []
       },
-      "trade_gate_summary": "positive day move, weak relative volume, below VWAP, risk/reward acceptable",
+      "trade_gate_summary": "positive day move, weak relative volume, volume acceleration, below VWAP, risk/reward acceptable",
       "no_trade_reasons": [
         "below_vwap",
         "relative_volume_too_low"
@@ -8674,7 +8482,7 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "AMZN",
+        "ticker": "ASTS",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260519",
         "short_volume": null,
@@ -8694,44 +8502,47 @@
         "FINRA short-pressure context attached. Context only, not a buy trigger."
       ],
       "alpaca_news": {
-        "ticker": "AMZN",
-        "news_count": 5,
-        "news_catalyst_score": 33,
+        "ticker": "ASTS",
+        "news_count": 1,
+        "news_catalyst_score": 2,
         "risk_flags": [],
-        "latest_headline": "Bill Ackman's Alphabet Sale Has Cost $641 Million \u2014 Will His New Mag 7 Pick Save The Trade?",
-        "latest_url": "https://www.benzinga.com/markets/tech/26/05/52677820/bill-ackmans-alphabet-sale-has-cost-641-million-will-his-new-mag-7-pick-save-the-trade"
+        "latest_headline": "$100 Invested In AST SpaceMobile 5 Years Ago Would Be Worth This Much Today",
+        "latest_url": "https://www.benzinga.com/insights/news/26/05/52679568/100-invested-in-ast-spacemobile-5-years-ago-would-be-worth-this-much-today"
       },
       "advanced_quality": {
-        "advanced_quality_score": 48.0,
-        "spread_pct": 0.1312,
-        "dollar_volume": 5110678.56,
+        "advanced_quality_score": 40.0,
+        "spread_pct": 0.3549,
+        "dollar_volume": 890662.5,
         "spread_score": 15.0,
-        "liquidity_score": 12.0,
+        "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 0.0,
         "anti_chase_score": 15.0,
         "pullback_quality_score": 1.0,
-        "breakout_compression_score": 0,
+        "breakout_compression_score": 4.0,
         "sympathy_score": 3,
-        "theme": "mega_cap_ai",
+        "theme": "space_air",
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
           "spread_tight",
-          "good_dollar_volume",
+          "dollar_volume_too_low",
           "weak_rvol",
           "below_vwap",
-          "below_vwap_no_pullback_entry"
+          "below_vwap_no_pullback_entry",
+          "breakout_volume_acceleration"
         ],
         "hard_blocks": [],
         "quality_gate_status": "DASHBOARD_ONLY",
         "quality_gate_blocks": [
-          "base_status_not_trade_eligible:NO_TRADE"
+          "base_status_not_trade_eligible:WATCH_ONLY",
+          "dollar_volume_below_1m"
         ]
       },
       "quality_gate_status": "DASHBOARD_ONLY",
       "quality_gate_blocks": [
-        "base_status_not_trade_eligible:NO_TRADE"
+        "base_status_not_trade_eligible:WATCH_ONLY",
+        "dollar_volume_below_1m"
       ],
       "market_guard": {
         "halt_luld_proxy_score": 0,
@@ -8746,11 +8557,11 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 9.63,
-      "entry_quality_score": 37.95,
+      "runner_potential_score": 13.53,
+      "entry_quality_score": 36.06,
       "danger_score": 9.0,
       "market_regime_score": 50,
-      "final_trade_score": 23.13,
+      "final_trade_score": 23.94,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
@@ -8758,11 +8569,11 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 9.63,
-        "entry_quality_score": 37.95,
+        "runner_potential_score": 13.53,
+        "entry_quality_score": 36.06,
         "danger_score": 9.0,
         "market_regime_score": 50,
-        "final_trade_score": 23.13,
+        "final_trade_score": 23.94,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -8770,7 +8581,9 @@
           "final_trade_score_below_82"
         ],
         "reason_codes": {
-          "runner": [],
+          "runner": [
+            "volume_acceleration"
+          ],
           "entry": [
             "spread_clean"
           ],
@@ -8786,8 +8599,8 @@
         ],
         "metrics": {
           "pullback_depth_pct": null,
-          "volume_cleansing_score": 75.0,
-          "micro_reclaim_score": 21.38
+          "volume_cleansing_score": 50.0,
+          "micro_reclaim_score": 21.0
         }
       },
       "second_leg_state": "NO_SETUP",
@@ -8798,8 +8611,8 @@
       "second_leg_reasons": [],
       "time_slot_rvol": 0.01,
       "time_slot_rvol_detail": {
-        "ticker": "AMZN",
-        "minute_bucket_utc": "06:01",
+        "ticker": "ASTS",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.01,
@@ -8807,7 +8620,7 @@
       }
     },
     {
-      "ticker": "WULF",
+      "ticker": "UBER",
       "source_type": "alpaca_paid_market_scanner",
       "signal": "NO TRADE",
       "status": "NO_TRADE",
@@ -8815,23 +8628,23 @@
       "meaning": "Blocked by risk, data, trend, or score rules.",
       "action": "No new entry.",
       "score": 39.0,
-      "price": 21.363,
-      "entry": 21.363,
-      "stop": 21.0426,
-      "target": 22.0039,
+      "price": 74.1617,
+      "entry": 74.1617,
+      "stop": 73.0493,
+      "target": 76.3866,
       "risk_reward": 2.0,
       "relative_volume": 0.01,
-      "day_move_percent": 0.15,
-      "gap_pct": 1.05,
-      "vwap": 21.3782,
-      "vwap_distance_percent": -0.07,
+      "day_move_percent": 0.02,
+      "gap_pct": -1.22,
+      "vwap": 74.1895,
+      "vwap_distance_percent": -0.04,
       "volume_acceleration": null,
       "trend_state": "BELOW_VWAP",
       "candidate_quality": "GOOD",
       "data_quality": {
         "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": 21513.14,
+        "data_age_seconds": 21704.03,
         "quality": "GOOD",
         "notes": []
       },
@@ -8841,15 +8654,14 @@
         "relative_volume_too_low"
       ],
       "sec_catalyst": {
-        "final_label": null,
+        "final_label": "NOT_CHECKED",
         "catalyst_score": 0,
         "filing_risk_score": 0,
-        "latest_filings": [],
         "risk_flags": [],
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "WULF",
+        "ticker": "UBER",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260519",
         "short_volume": null,
@@ -8869,7 +8681,7 @@
         "FINRA short-pressure context attached. Context only, not a buy trigger."
       ],
       "alpaca_news": {
-        "ticker": "WULF",
+        "ticker": "UBER",
         "news_count": 0,
         "news_catalyst_score": 0,
         "risk_flags": [],
@@ -8877,9 +8689,9 @@
         "latest_url": null
       },
       "advanced_quality": {
-        "advanced_quality_score": 36.0,
-        "spread_pct": 0.4673,
-        "dollar_volume": 46250.89,
+        "advanced_quality_score": 33.0,
+        "spread_pct": 0.1213,
+        "dollar_volume": 115024.8,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -8887,8 +8699,8 @@
         "anti_chase_score": 15.0,
         "pullback_quality_score": 1.0,
         "breakout_compression_score": 0,
-        "sympathy_score": 3,
-        "theme": "crypto",
+        "sympathy_score": 0,
+        "theme": null,
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
@@ -8923,11 +8735,11 @@
         "index_day_changes": {},
         "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
       },
-      "runner_potential_score": 14.3,
-      "entry_quality_score": 32.1,
+      "runner_potential_score": 13.69,
+      "entry_quality_score": 35.51,
       "danger_score": 9.0,
       "market_regime_score": 50,
-      "final_trade_score": 22.66,
+      "final_trade_score": 23.78,
       "score_status": "WATCH_ONLY",
       "score_blocks": [
         "runner_potential_below_80",
@@ -8935,11 +8747,11 @@
         "final_trade_score_below_82"
       ],
       "three_score_matrix": {
-        "runner_potential_score": 14.3,
-        "entry_quality_score": 32.1,
+        "runner_potential_score": 13.69,
+        "entry_quality_score": 35.51,
         "danger_score": 9.0,
         "market_regime_score": 50,
-        "final_trade_score": 22.66,
+        "final_trade_score": 23.78,
         "score_status": "WATCH_ONLY",
         "score_blocks": [
           "runner_potential_below_80",
@@ -8964,7 +8776,7 @@
         "metrics": {
           "pullback_depth_pct": null,
           "volume_cleansing_score": 75.0,
-          "micro_reclaim_score": 19.17
+          "micro_reclaim_score": 20.75
         }
       },
       "second_leg_state": "NO_SETUP",
@@ -8975,8 +8787,182 @@
       "second_leg_reasons": [],
       "time_slot_rvol": 0.01,
       "time_slot_rvol_detail": {
-        "ticker": "WULF",
-        "minute_bucket_utc": "06:01",
+        "ticker": "UBER",
+        "minute_bucket_utc": "06:07",
+        "volume": null,
+        "median_volume_20d_proxy": null,
+        "time_slot_rvol": 0.01,
+        "method": "existing_rvol"
+      }
+    },
+    {
+      "ticker": "AMZN",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "NO TRADE",
+      "status": "NO_TRADE",
+      "signal_color": "red",
+      "meaning": "Blocked by risk, data, trend, or score rules.",
+      "action": "No new entry.",
+      "score": 39.0,
+      "price": 259.32,
+      "entry": 259.32,
+      "stop": 255.4302,
+      "target": 267.0996,
+      "risk_reward": 2.0,
+      "relative_volume": 0.01,
+      "day_move_percent": 0.08,
+      "gap_pct": -2.09,
+      "vwap": 259.3997,
+      "vwap_distance_percent": -0.03,
+      "volume_acceleration": 1.18,
+      "trend_state": "BELOW_VWAP",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 21764.03,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "positive day move, weak relative volume, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": "NOT_CHECKED",
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "AMZN",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260519",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "AMZN",
+        "news_count": 7,
+        "news_catalyst_score": 37,
+        "risk_flags": [],
+        "latest_headline": "Bill Ackman's Alphabet Sale Has Cost $641 Million \u2014 Will His New Mag 7 Pick Save The Trade?",
+        "latest_url": "https://www.benzinga.com/markets/tech/26/05/52677820/bill-ackmans-alphabet-sale-has-cost-641-million-will-his-new-mag-7-pick-save-the-trade"
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 43.0,
+        "spread_pct": 0.1312,
+        "dollar_volume": 2948209.08,
+        "spread_score": 15.0,
+        "liquidity_score": 7.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 0.0,
+        "anti_chase_score": 15.0,
+        "pullback_quality_score": 1.0,
+        "breakout_compression_score": 0,
+        "sympathy_score": 3,
+        "theme": "mega_cap_ai",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "thin_but_tradeable_dollar_volume",
+          "weak_rvol",
+          "below_vwap",
+          "below_vwap_no_pullback_entry"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:NO_TRADE"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:NO_TRADE"
+      ],
+      "market_guard": {
+        "halt_luld_proxy_score": 0,
+        "halt_luld_flags": [],
+        "halt_luld_hard_blocks": [],
+        "halt_luld_status": "NORMAL"
+      },
+      "market_circuit_proxy": {
+        "market_circuit_proxy_status": "NORMAL",
+        "block_new_entries": false,
+        "flags": [],
+        "index_day_changes": {},
+        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
+      },
+      "runner_potential_score": 9.63,
+      "entry_quality_score": 37.1,
+      "danger_score": 9.0,
+      "market_regime_score": 50,
+      "final_trade_score": 22.79,
+      "score_status": "WATCH_ONLY",
+      "score_blocks": [
+        "runner_potential_below_80",
+        "entry_quality_below_78",
+        "final_trade_score_below_82"
+      ],
+      "three_score_matrix": {
+        "runner_potential_score": 9.63,
+        "entry_quality_score": 37.1,
+        "danger_score": 9.0,
+        "market_regime_score": 50,
+        "final_trade_score": 22.79,
+        "score_status": "WATCH_ONLY",
+        "score_blocks": [
+          "runner_potential_below_80",
+          "entry_quality_below_78",
+          "final_trade_score_below_82"
+        ],
+        "reason_codes": {
+          "runner": [],
+          "entry": [
+            "spread_clean"
+          ],
+          "danger": []
+        }
+      },
+      "second_leg": {
+        "state": "NO_SETUP",
+        "confirmed": false,
+        "reasons": [],
+        "blocks": [
+          "no_initial_spike"
+        ],
+        "metrics": {
+          "pullback_depth_pct": null,
+          "volume_cleansing_score": 75.0,
+          "micro_reclaim_score": 20.96
+        }
+      },
+      "second_leg_state": "NO_SETUP",
+      "second_leg_confirmed": false,
+      "second_leg_blocks": [
+        "no_initial_spike"
+      ],
+      "second_leg_reasons": [],
+      "time_slot_rvol": 0.01,
+      "time_slot_rvol_detail": {
+        "ticker": "AMZN",
+        "minute_bucket_utc": "06:07",
         "volume": null,
         "median_volume_20d_proxy": null,
         "time_slot_rvol": 0.01,
@@ -8988,15 +8974,15 @@
     "total": 50,
     "trade_eligible": 0,
     "wait_for_pullback": 0,
-    "alert_only": 3,
-    "watch_only": 43,
-    "no_trade": 4,
+    "alert_only": 2,
+    "watch_only": 40,
+    "no_trade": 8,
     "real_rows": 50,
     "placeholder_rows": 0,
     "buy_watch": 0,
-    "strong_watch": 3,
-    "track_only": 43,
-    "avoid_sell_risk": 4
+    "strong_watch": 2,
+    "track_only": 40,
+    "avoid_sell_risk": 8
   },
   "scanner_summary": {
     "candidate_count": 50,
@@ -9017,7 +9003,7 @@
     "allowed_to_trade_status": "TRADE_ELIGIBLE",
     "disclaimer": "Research labels only. Not financial advice."
   },
-  "sec_enriched_at": "2026-05-20T05:54:40.294709+00:00",
+  "sec_enriched_at": "2026-05-20T06:00:50.992415+00:00",
   "sec_enrichment": {
     "enabled": true,
     "source": "docs/data/prediction_engine/sec_catalysts.json",
@@ -9035,7 +9021,7 @@
   "alpaca_news_source": "docs/data/prediction_engine/alpaca_news.json",
   "source_before_news": "docs/data/prediction_engine/signal_dashboard_finra_enriched.json",
   "quality_source": "advanced_signal_quality_v1",
-  "quality_generated_at": "2026-05-20T06:00:52.360185+00:00",
+  "quality_generated_at": "2026-05-20T06:07:03.180088+00:00",
   "market_regime": {
     "regime": "NEUTRAL",
     "market_regime_score": 0,
@@ -9046,22 +9032,12 @@
       "members": [
         "NIO",
         "XPEV",
-        "LI",
         "F",
-        "LCID"
+        "LCID",
+        "LI"
       ],
-      "avg_day_change": 0.12,
+      "avg_day_change": 0.126,
       "count": 5,
-      "sympathy_score": 3
-    },
-    "travel_reopen": {
-      "members": [
-        "CCL",
-        "NCLH",
-        "AAL"
-      ],
-      "avg_day_change": 0.0567,
-      "count": 3,
       "sympathy_score": 3
     },
     "crypto": {
@@ -9071,7 +9047,18 @@
         "WULF",
         "HOOD"
       ],
-      "avg_day_change": 0.0075,
+      "avg_day_change": -0.0275,
+      "count": 4,
+      "sympathy_score": 3
+    },
+    "small_cap_ai": {
+      "members": [
+        "BBAI",
+        "PATH",
+        "PLTR",
+        "SOUN"
+      ],
+      "avg_day_change": 0.0825,
       "count": 4,
       "sympathy_score": 3
     },
@@ -9082,7 +9069,18 @@
         "BYND",
         "GME"
       ],
-      "avg_day_change": 0.1575,
+      "avg_day_change": 0.145,
+      "count": 4,
+      "sympathy_score": 3
+    },
+    "travel_reopen": {
+      "members": [
+        "CCL",
+        "NCLH",
+        "AAL",
+        "DAL"
+      ],
+      "avg_day_change": 0.0725,
       "count": 4,
       "sympathy_score": 3
     },
@@ -9091,10 +9089,11 @@
         "BA",
         "ACHR",
         "JOBY",
+        "ASTS",
         "LUNR"
       ],
-      "avg_day_change": 0.2075,
-      "count": 4,
+      "avg_day_change": 0.254,
+      "count": 5,
       "sympathy_score": 3
     },
     "fintech": {
@@ -9109,37 +9108,15 @@
     "mega_cap_ai": {
       "members": [
         "AMD",
-        "TSLA",
         "GOOG",
-        "AVGO",
-        "GOOGL",
         "AMZN"
       ],
-      "avg_day_change": 0.1283,
-      "count": 6,
+      "avg_day_change": 0.16,
+      "count": 3,
       "sympathy_score": 3
-    },
-    "small_cap_ai": {
-      "members": [
-        "BBAI",
-        "PATH",
-        "PLTR",
-        "SOUN"
-      ],
-      "avg_day_change": 0.0375,
-      "count": 4,
-      "sympathy_score": 3
-    },
-    "quantum": {
-      "members": [
-        "QBTS"
-      ],
-      "avg_day_change": -0.11,
-      "count": 1,
-      "sympathy_score": 0
     }
   },
-  "market_guard_generated_at": "2026-05-20T06:00:52.580767+00:00",
+  "market_guard_generated_at": "2026-05-20T06:07:03.403052+00:00",
   "market_guard_source": "docs/data/prediction_engine/signal_dashboard_quality_enriched.json",
   "market_circuit_proxy": {
     "market_circuit_proxy_status": "NORMAL",
@@ -9149,9 +9126,9 @@
     "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
   },
   "three_score_source": "docs/data/prediction_engine/signal_dashboard_market_guard_enriched.json",
-  "three_score_generated_at": "2026-05-20T06:01:06.254163+00:00",
-  "second_leg_generated_at": "2026-05-20T06:01:06.475675+00:00",
+  "three_score_generated_at": "2026-05-20T06:07:17.264075+00:00",
+  "second_leg_generated_at": "2026-05-20T06:07:17.485672+00:00",
   "second_leg_source": "docs/data/prediction_engine/signal_dashboard_scored.json",
-  "time_slot_rvol_generated_at": "2026-05-20T06:01:06.754517+00:00",
+  "time_slot_rvol_generated_at": "2026-05-20T06:07:17.766303+00:00",
   "time_slot_rvol_source": "docs/data/prediction_engine/signal_dashboard_second_leg_enriched.json"
 }
