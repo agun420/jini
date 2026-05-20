@@ -1,6 +1,6 @@
 {
   "schema_version": "final_repo_audit_v1",
-  "generated_at": "2026-05-20T15:53:46.878745+00:00",
+  "generated_at": "2026-05-20T16:28:08.856587+00:00",
   "status": "PASS",
   "score": {
     "score": 100,
@@ -95,7 +95,7 @@
       "status": "PASS"
     },
     "python_syntax": {
-      "checked_count": 146,
+      "checked_count": 162,
       "failures": [],
       "status": "PASS"
     },
@@ -155,13 +155,17 @@
         "src/prediction_engine/scanners/alpaca_paid_config.py",
         "src/prediction_engine/scanners/free_scanner_normalizer.py",
         "src/prediction_engine/scanners/alpaca_free_market_scanner.py",
+        "src/prediction_engine/scanners/top_gainers.py",
         "src/prediction_engine/dashboard/__init__.py",
         "src/prediction_engine/dashboard/export_free_scanner_dashboard.py",
         "src/prediction_engine/strategy/__init__.py",
         "src/prediction_engine/strategy/second_leg_fsm.py",
+        "src/prediction_engine/features/__init__.py",
+        "src/prediction_engine/features/feature_builder.py",
         "src/prediction_engine/features/volume_profile.py",
         "src/prediction_engine/trade_gate/__init__.py",
         "src/prediction_engine/trade_gate/paper_execution_gate.py",
+        "src/prediction_engine/trade_gate/strict_trade_gate_v3.py",
         "src/prediction_engine/learning/outcome_labeler.py",
         "src/prediction_engine/learning/__init__.py",
         "src/prediction_engine/learning/meta_labeling.py",
@@ -192,7 +196,11 @@
         "src/prediction_engine/optimization/__init__.py",
         "src/prediction_engine/optimization/forward_validator.py",
         "src/prediction_engine/scoring/__init__.py",
-        "src/prediction_engine/scoring/three_score_matrix.py"
+        "src/prediction_engine/scoring/final_trade_score_v3.py",
+        "src/prediction_engine/scoring/three_score_matrix.py",
+        "src/prediction_engine/scoring/entry_quality_v3.py",
+        "src/prediction_engine/scoring/runner_potential_v3.py",
+        "src/prediction_engine/scoring/danger_score_v3.py"
       ],
       "issues": [],
       "status": "PASS"
@@ -211,79 +219,79 @@
           "path": "docs/data/prediction_engine/alpaca_market_scanner_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-20T15:52:53.762192+00:00"
+          "generated_at": "2026-05-20T16:27:12.229682+00:00"
         },
         {
           "path": "docs/data/prediction_engine/scanner_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-20T15:53:01.489684+00:00"
+          "generated_at": "2026-05-20T16:27:19.000315+00:00"
         },
         {
           "path": "docs/data/prediction_engine/sec_catalyst_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-20T15:52:54.864870+00:00"
+          "generated_at": "2026-05-20T16:27:13.275727+00:00"
         },
         {
           "path": "docs/data/prediction_engine/finra_short_pressure_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-20T15:53:01.094796+00:00"
+          "generated_at": "2026-05-20T16:27:18.657427+00:00"
         },
         {
           "path": "docs/data/prediction_engine/alpaca_news_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-20T15:52:54.489078+00:00"
+          "generated_at": "2026-05-20T16:27:12.894062+00:00"
         },
         {
           "path": "docs/data/prediction_engine/advanced_signal_quality_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-20T15:53:01.796020+00:00"
+          "generated_at": "2026-05-20T16:27:19.303565+00:00"
         },
         {
           "path": "docs/data/prediction_engine/halt_luld_circuit_guard_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-20T15:53:02.058982+00:00"
+          "generated_at": "2026-05-20T16:27:19.566317+00:00"
         },
         {
           "path": "docs/data/prediction_engine/signal_journal_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-20T15:53:02.267749+00:00"
+          "generated_at": "2026-05-20T16:27:19.772097+00:00"
         },
         {
           "path": "docs/data/prediction_engine/outcome_labeler_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-20T15:53:11.358914+00:00"
+          "generated_at": "2026-05-20T16:27:28.873230+00:00"
         },
         {
           "path": "docs/data/prediction_engine/adaptive_guard_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-20T15:53:13.095019+00:00"
+          "generated_at": "2026-05-20T16:27:30.658688+00:00"
         },
         {
           "path": "docs/data/prediction_engine/paper_execution_gate_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-20T15:53:13.455587+00:00"
+          "generated_at": "2026-05-20T16:27:31.004748+00:00"
         },
         {
           "path": "docs/data/prediction_engine/slippage_fill_tracker_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-20T15:53:13.655864+00:00"
+          "generated_at": "2026-05-20T16:27:31.171210+00:00"
         },
         {
           "path": "docs/data/prediction_engine/real_money_readiness_guard_health.json",
           "exists": true,
           "status": "PASS",
-          "generated_at": "2026-05-20T15:53:13.956793+00:00"
+          "generated_at": "2026-05-20T16:27:31.472272+00:00"
         }
       ],
       "source": "master_paid_pipeline_health.json"
