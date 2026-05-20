@@ -98,6 +98,24 @@
     </table>
   </section>
 
+
+  <section class="card">
+    <p class="label">Validation Core</p>
+    <h2 id="validationTitle">Loading</h2>
+    <p id="validationSub">Closed-loop evidence layer. No orders. No live trading.</p>
+    <div class="grid">
+      <div class="tile"><span>Buy Alert Ready</span><strong id="valBuyReady">N/A</strong></div>
+      <div class="tile"><span>Paper Auto Trade</span><strong id="valPaperAuto">N/A</strong></div>
+      <div class="tile"><span>Total Alerts</span><strong id="valTotalAlerts">N/A</strong></div>
+      <div class="tile"><span>Closed Alerts</span><strong id="valClosedAlerts">N/A</strong></div>
+      <div class="tile"><span>Closed Trades</span><strong id="valClosedTrades">N/A</strong></div>
+      <div class="tile"><span>Slippage Model</span><strong id="valSlippage">N/A</strong></div>
+      <div class="tile"><span>Forward Validation</span><strong id="valForward">N/A</strong></div>
+      <div class="tile"><span>Orders</span><strong id="valOrders">OFF</strong></div>
+    </div>
+    <pre id="validationJson">Loading validation status...</pre>
+  </section>
+
 <section class="card">
     <p class="label">Signal Board</p><h2>Latest Rows</h2>
     <table id="signals-table">
@@ -169,6 +187,49 @@
   }).catch(function(err){apply('overall','ERROR');t('runtime','ERROR');t('runtimeSub',String(err));h('rows','<tr><td colspan="8">Dashboard error: '+String(err)+'</td></tr>')});
 })();
 </script>
+
+<script>
+(async function(){
+  const B='data/prediction_engine/';
+  async function j(name){
+    try{
+      const r=await fetch(B+name+'?cb='+Date.now());
+      return await r.json();
+    }catch(e){return {}}
+  }
+  function set(id,v){
+    const el=document.getElementById(id);
+    if(el) el.textContent = (v===true?'YES':v===false?'NO':(v ?? 'N/A'));
+  }
+  const validation = await j('validation_status_health.json');
+  const readiness = await j('auto_trade_readiness_health.json');
+  const outcome = await j('buy_order_alert_outcome_journal_health.json');
+  const trade = await j('trade_journal_health.json');
+  const slip = await j('slippage_quality_health.json');
+  const forward = await j('forward_validation_health.json');
+
+  set('validationTitle', (validation.status || 'N/A') + ' - Validation Core');
+  set('validationSub', 'Buy alerts may be ready, but paper auto-trade stays blocked until enough live outcomes, closed trades, slippage, and forward validation pass.');
+  set('valBuyReady', readiness.buy_order_alert_ready);
+  set('valPaperAuto', readiness.paper_auto_trade_ready);
+  set('valTotalAlerts', outcome.total_alerts);
+  set('valClosedAlerts', outcome.closed_alerts);
+  set('valClosedTrades', trade.closed_trades);
+  set('valSlippage', slip.slippage_model_ready);
+  set('valForward', forward.forward_validation_ready);
+  set('valOrders', (readiness.order_submission===false && readiness.live_trading===false) ? 'OFF' : 'CHECK');
+
+  set('validationJson', JSON.stringify({
+    validation_status: validation,
+    auto_trade_readiness: readiness,
+    alert_outcomes: outcome,
+    trade_journal: trade,
+    slippage_quality: slip,
+    forward_validation: forward
+  }, null, 2));
+})();
+</script>
+
 </body>
 </html>
 
