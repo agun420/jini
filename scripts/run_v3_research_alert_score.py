@@ -130,9 +130,22 @@ def score_row(row: dict[str, Any]) -> dict[str, Any]:
     score = base + day_move_bonus + rvol_bonus + momentum_bonus + spread_bonus + quote_bonus
     score = clamp(score)
 
+    # Research candidate gate v2.
+    # This is alert-only. It does not place orders.
+    candidate_ready = (
+        score >= 60
+        and not blockers
+        and day_move >= 3
+        and danger <= 45
+        and 0 <= spread <= 0.012
+        and 0 <= quote_age <= 60
+        and price >= 3
+        and price <= 100
+    )
+
     if blockers:
         status = "RESEARCH_BLOCKED"
-    elif score >= 62:
+    elif candidate_ready:
         status = "RESEARCH_BUY_ALERT_CANDIDATE"
     elif score >= 52:
         status = "RESEARCH_WATCH"
@@ -198,7 +211,7 @@ def main() -> None:
         status = "WARN"
 
     health = {
-        "schema_version": "v3_research_alert_score_health_v1",
+        "schema_version": "v3_research_alert_score_health_v2",
         "generated_at": generated_at,
         "status": status,
         "blockers": blockers,
@@ -218,7 +231,7 @@ def main() -> None:
     }
 
     out = {
-        "schema_version": "v3_research_alert_score_v1",
+        "schema_version": "v3_research_alert_score_v2",
         "generated_at": generated_at,
         "health": health,
         "rows": scored,
