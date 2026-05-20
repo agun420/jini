@@ -1,0 +1,125 @@
+{
+  "schema_version": "auto_trade_readiness_audit_v1",
+  "generated_at": "2026-05-20T04:44:19.959419+00:00",
+  "health": {
+    "schema_version": "auto_trade_readiness_health_v1",
+    "generated_at": "2026-05-20T04:44:19.959419+00:00",
+    "status": "PASS",
+    "buy_order_alert_ready": true,
+    "paper_auto_trade_ready": false,
+    "auto_trade_ready": false,
+    "live_trade_ready": false,
+    "order_submission": false,
+    "live_trading": false,
+    "warnings": [
+      "buy_order_alert_ready_but_auto_trade_blocked"
+    ],
+    "buy_order_alert_blockers": [],
+    "paper_auto_trade_blockers": [
+      "sample_below_paper_auto_trade_threshold_500",
+      "missing_live_alert_outcome_journal_100_plus_alerts",
+      "missing_slippage_and_spread_execution_model",
+      "missing_duplicate_order_lock",
+      "missing_daily_loss_kill_switch",
+      "missing_bracket_order_lifecycle_test"
+    ],
+    "auto_trade_blockers": [
+      "sample_below_auto_trade_threshold_500",
+      "sample_below_paper_auto_trade_threshold_500",
+      "missing_live_alert_outcome_journal_100_plus_alerts",
+      "missing_slippage_and_spread_execution_model",
+      "missing_duplicate_order_lock",
+      "missing_daily_loss_kill_switch",
+      "missing_bracket_order_lifecycle_test",
+      "paper_auto_trade_not_validated_for_multiple_weeks"
+    ],
+    "live_trade_blockers": [
+      "sample_below_live_trade_threshold_500",
+      "sample_below_auto_trade_threshold_500",
+      "sample_below_paper_auto_trade_threshold_500",
+      "missing_live_alert_outcome_journal_100_plus_alerts",
+      "missing_slippage_and_spread_execution_model",
+      "missing_duplicate_order_lock",
+      "missing_daily_loss_kill_switch",
+      "missing_bracket_order_lifecycle_test",
+      "paper_auto_trade_not_validated_for_multiple_weeks",
+      "live_trading_not_approved",
+      "manual_approval_required_before_any_live_order"
+    ],
+    "evidence": {
+      "final_repo_audit_status": "PASS",
+      "final_repo_audit_score": 100,
+      "operator_health_status": "PASS",
+      "operator_stability_status": "WARN",
+      "price_regime_status": "PASS",
+      "price_regime_profit_factor": 1.98387,
+      "price_regime_avg_return_pct": 0.1779,
+      "price_regime_total_tests": 135,
+      "score_v2_status": "WARN"
+    },
+    "decision": {
+      "approved_now": "BUY_ORDER_ALERT_ONLY",
+      "not_approved": [
+        "PAPER_AUTO_TRADE",
+        "LIVE_TRADE",
+        "AUTO_EXECUTION"
+      ],
+      "next_required_package": "Buy Order Alert Gate + Alert Outcome Journal"
+    }
+  },
+  "readiness_ladder": [
+    {
+      "level": 0,
+      "name": "Research only",
+      "status": "COMPLETE"
+    },
+    {
+      "level": 1,
+      "name": "Buy order alerts only",
+      "status": "READY"
+    },
+    {
+      "level": 2,
+      "name": "Alert outcome journal",
+      "status": "NEXT"
+    },
+    {
+      "level": 3,
+      "name": "Paper auto-trade sandbox",
+      "status": "BLOCKED"
+    },
+    {
+      "level": 4,
+      "name": "Paper auto-trade with bracket orders",
+      "status": "BLOCKED"
+    },
+    {
+      "level": 5,
+      "name": "Live-readiness review",
+      "status": "BLOCKED"
+    },
+    {
+      "level": 6,
+      "name": "Live trading",
+      "status": "BLOCKED"
+    }
+  ],
+  "hard_rules_before_paper_auto_trade": [
+    "500+ validated setup tests",
+    "profit_factor >= 1.5",
+    "avg_return_pct > 0",
+    "100+ live buy-order-alert outcomes tracked",
+    "spread/slippage model present",
+    "duplicate order lock present",
+    "daily loss kill switch present",
+    "paper bracket order lifecycle tested",
+    "order_submission remains false until explicit paper sandbox package"
+  ],
+  "hard_rules_before_live_trade": [
+    "several weeks of profitable paper automation",
+    "manual live-readiness approval",
+    "live_trading remains false until separate explicit approval",
+    "max notional and daily loss limits enforced",
+    "broker-side risk controls verified"
+  ]
+}
