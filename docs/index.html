@@ -74,6 +74,30 @@
     </table>
   </section>
 
+
+  <section class="card">
+    <p class="label">Validated Buy Order Alerts</p>
+    <h2 id="buyAlertTitle">Loading</h2>
+    <p id="buyAlertSub">Manual review required. Paper orders OFF. Live orders OFF.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Ticker</th>
+          <th>Price</th>
+          <th>Score v2</th>
+          <th>Setup</th>
+          <th>Target</th>
+          <th>Stop</th>
+          <th>Horizon</th>
+          <th>Orders</th>
+        </tr>
+      </thead>
+      <tbody id="buyAlertRows">
+        <tr><td colspan="8">Loading...</td></tr>
+      </tbody>
+    </table>
+  </section>
+
 <section class="card">
     <p class="label">Signal Board</p><h2>Latest Rows</h2>
     <table id="signals-table">
@@ -138,12 +162,22 @@
     t('signalsCount',r.length); t('metric-total-signals',r.length); t('scoredRows',health.rows_with_score||0); t('metric-trade-eligible',health.trade_eligible||0); t('watchOnly',health.watch_only||0);
     t('topTitle',(top.ticker||top.symbol||'N/A')+' '+money(top.price||top.last_price||top.close));
     h('topBody','<div class="mini"><div><span>Final</span><strong>'+num(top.final_trade_score)+'</strong></div><div><span>Runner</span><strong>'+num(top.runner_potential_score)+'</strong></div><div><span>Entry</span><strong>'+num(top.entry_quality_score)+'</strong></div><div><span>Danger</span><strong>'+num(top.danger_score)+'</strong></div></div><p>Status: '+pill(top.score_status||top.operator_status||'N/A')+'</p>');
-    t('messageTitle',health.status==='PASS'?'System Ready':'System Check'); t('messageBody',(watchRows.length?'Validated watch-alert rows are visible. ':'')+(gate.gate_active===true?'Backtest gate active for orders/trade eligibility. ':'')+'Watch-only. Order submission false. Live trading false.');
+    t('messageTitle',health.status==='PASS'?'System Ready':'System Check'); t('messageBody',(alertRows.length?'Validated BUY ORDER ALERT rows are visible. ':'')+(gate.gate_active===true?'Backtest gate active for orders/trade eligibility. ':'')+'Manual review required. Order submission false. Live trading false.');
     t('watchTitle',(watchRows.length||0)+' Watch Alert Eligible'); t('watchSub','Validated setup: price $10-$75 reclaim_5bar_high_light | Target +0.6% | Stop -0.8% | Horizon 30 min | Orders OFF'); var whtml=''; for(var wi=0;wi<Math.min(watchRows.length,30);wi++){var wx=watchRows[wi];whtml+='<tr><td><strong>'+(wx.ticker||wx.symbol||'N/A')+'</strong></td><td>'+money(wx.price||wx.last_price||wx.close)+'</td><td>'+num(wx.score_v2)+'</td><td>'+(wx.validated_setup||'N/A')+'</td><td>'+num(wx.validated_target_pct)+'%</td><td>'+num(wx.validated_stop_pct)+'%</td><td>'+(wx.validated_horizon_minutes||'N/A')+'m</td><td>'+((wx.paper_order_allowed===false&&wx.live_order_allowed===false)?'OFF':'CHECK')+'</td></tr>'} h('watchRows',whtml||'<tr><td colspan="8">No watch-alert rows right now.</td></tr>'); var html=''; for(var i=0;i<Math.min(r.length,100);i++){var x=r[i];html+='<tr><td><strong>'+(x.ticker||x.symbol||'N/A')+'</strong></td><td>'+money(x.price||x.last_price||x.close)+'</td><td>'+num(x.final_trade_score||x.score_v2)+'</td><td>'+num(x.runner_potential_score)+'</td><td>'+num(x.entry_quality_score)+'</td><td>'+num(x.danger_score)+'</td><td>'+pill(x.watch_mode_status||x.score_status||x.operator_status||'N/A')+'</td><td>'+pill(x.scanner_data_status||x.data_feed_guard_status||'N/A')+'</td></tr>'}
     h('rows',html||'<tr><td colspan="8">No rows found.</td></tr>');
-    t('healthJson',JSON.stringify({operator_health:health,backtest_gate:gate,paper_alert_watch_mode:watchHealth},null,2)); t('topJson',JSON.stringify(top,null,2));
+    t('healthJson',JSON.stringify({operator_health:health,backtest_gate:gate,buy_order_alert_mode:alertHealth,auto_trade_readiness:autoHealth},null,2)); t('topJson',JSON.stringify(top,null,2));
   }).catch(function(err){apply('overall','ERROR');t('runtime','ERROR');t('runtimeSub',String(err));h('rows','<tr><td colspan="8">Dashboard error: '+String(err)+'</td></tr>')});
 })();
 </script>
 </body>
 </html>
+
+<!--
+
+buy_order_alert_mode.json
+buy_order_alert_mode_health.json
+auto_trade_readiness_health.json
+buyAlertRows
+BUY_ORDER_ALERT_ELIGIBLE
+
+-->
