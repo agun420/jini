@@ -1,24 +1,28 @@
 {
   "schema_version": "alpaca_source_diagnostic_v1",
-  "generated_at": "2026-05-20T16:27:38.401842+00:00",
-  "status": "PASS",
-  "blockers": [],
+  "generated_at": "2026-05-20T19:13:38.484343+00:00",
+  "status": "FAIL",
+  "blockers": [
+    "alpaca_key_missing",
+    "alpaca_secret_missing",
+    "all_alpaca_data_feed_tests_failed"
+  ],
   "warnings": [],
   "env": {
     "ALPACA_API_KEY": {
-      "exists": true,
-      "length": 26,
-      "starts_with": "PKMA",
-      "ends_with": "PUJB",
-      "has_spaces": false,
+      "exists": false,
+      "length": 0,
+      "starts_with": null,
+      "ends_with": null,
+      "has_spaces": null,
       "is_placeholder": false
     },
     "ALPACA_SECRET_KEY": {
-      "exists": true,
-      "length": 44,
-      "starts_with": "9axv",
-      "ends_with": "e9rW",
-      "has_spaces": false,
+      "exists": false,
+      "length": 0,
+      "starts_with": null,
+      "ends_with": null,
+      "has_spaces": null,
       "is_placeholder": false
     },
     "APCA_API_KEY_ID": {
@@ -38,129 +42,83 @@
       "is_placeholder": false
     },
     "ALPACA_DATA_FEED": {
-      "exists": true,
-      "length": 3,
-      "starts_with": "sip",
-      "ends_with": "sip",
-      "has_spaces": false,
+      "exists": false,
+      "length": 0,
+      "starts_with": null,
+      "ends_with": null,
+      "has_spaces": null,
       "is_placeholder": false
     }
   },
   "trading_auth": {
-    "ok": true,
-    "account_status": "AccountStatus.ACTIVE",
-    "paper": true,
-    "cash_present": true
+    "ok": false,
+    "reason": "unknown_error",
+    "error_type": "ModuleNotFoundError",
+    "error": "No module named 'alpaca'"
   },
   "data_feeds": {
     "IEX": {
-      "feed": "IEX",
-      "bars": {
-        "ok": true,
-        "symbols": {
-          "AAPL": {
-            "bars": 30,
-            "last_close": 299.42
-          },
-          "MSFT": {
-            "bars": 30,
-            "last_close": 418.05
-          }
-        }
-      },
-      "quotes": {
-        "ok": true,
-        "symbols": {
-          "MSFT": {
-            "bid": 418.86,
-            "ask": 419.3
-          },
-          "AAPL": {
-            "bid": 299.94,
-            "ask": 299.98
-          }
-        }
-      },
-      "ok": true
+      "ok": false,
+      "reason": "unknown_error",
+      "error_type": "ModuleNotFoundError",
+      "error": "No module named 'alpaca'",
+      "feed": "IEX"
     },
     "SIP": {
-      "feed": "SIP",
-      "bars": {
-        "ok": true,
-        "symbols": {
-          "AAPL": {
-            "bars": 30,
-            "last_close": 299.45
-          },
-          "MSFT": {
-            "bars": 30,
-            "last_close": 418.08
-          }
-        }
-      },
-      "quotes": {
-        "ok": true,
-        "symbols": {
-          "MSFT": {
-            "bid": 418.96,
-            "ask": 418.98
-          },
-          "AAPL": {
-            "bid": 299.95,
-            "ask": 299.98
-          }
-        }
-      },
-      "ok": true
+      "ok": false,
+      "reason": "unknown_error",
+      "error_type": "ModuleNotFoundError",
+      "error": "No module named 'alpaca'",
+      "feed": "SIP"
     }
   },
   "scanner_files": {
     "docs/data/prediction_engine/signal_dashboard.json": {
       "exists": true,
       "top_level_status": "PASS",
-      "rows": 38,
-      "good_price_rows": 38,
+      "rows": 33,
+      "good_price_rows": 33,
       "zero_price_rows": 0,
       "missing_price_rows": 0,
       "statuses": {
-        "ALERT_ONLY": 21,
-        "WATCH_ONLY": 11,
-        "NO_TRADE": 6
+        "ALERT_ONLY": 17,
+        "WATCH_ONLY": 12,
+        "NO_TRADE": 4
       }
     },
     "docs/data/prediction_engine/signal_dashboard_stable.json": {
       "exists": true,
       "top_level_status": "PASS",
-      "rows": 38,
-      "good_price_rows": 38,
+      "rows": 33,
+      "good_price_rows": 33,
       "zero_price_rows": 0,
       "missing_price_rows": 0,
       "statuses": {
-        "ALERT_ONLY": 21,
-        "WATCH_ONLY": 11,
-        "NO_TRADE": 6
+        "ALERT_ONLY": 17,
+        "WATCH_ONLY": 12,
+        "NO_TRADE": 4
       }
     },
     "docs/data/prediction_engine/signal_dashboard_data_guard_enriched.json": {
       "exists": true,
       "top_level_status": "FAIL",
-      "rows": 41,
-      "good_price_rows": 41,
+      "rows": 33,
+      "good_price_rows": 33,
       "zero_price_rows": 0,
       "missing_price_rows": 0,
       "statuses": {
-        "DATA_FEED_FAIL": 41
+        "DATA_FEED_FAIL": 33
       }
     },
     "docs/data/prediction_engine/signal_dashboard_rvol_enriched.json": {
       "exists": true,
       "top_level_status": "PASS",
-      "rows": 41,
-      "good_price_rows": 41,
+      "rows": 33,
+      "good_price_rows": 33,
       "zero_price_rows": 0,
       "missing_price_rows": 0,
       "statuses": {
-        "WATCH_ONLY": 41
+        "WATCH_ONLY": 33
       }
     },
     "docs/data/prediction_engine/scanner_data_source_health.json": {
