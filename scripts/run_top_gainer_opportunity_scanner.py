@@ -15,6 +15,7 @@ STATE = Path("state/prediction_engine")
 BUY_ALERT_MODE = DOCS / "buy_order_alert_mode.json"
 OPERATOR_DASH = DOCS / "operator_dashboard.json"
 SCORE_V2_DASH = DOCS / "signal_dashboard_score_v2.json"
+V3_ENRICHED = DOCS / "v3_enriched_rows.json"
 
 OUT_DOCS = DOCS / "opportunities.json"
 OUT_HEALTH = DOCS / "opportunities_health.json"
@@ -53,6 +54,7 @@ def rows_from(payload: Any) -> list[dict[str, Any]]:
 
 def first_rows() -> tuple[str, list[dict[str, Any]]]:
     for name, path in [
+        ("v3_enriched_rows", V3_ENRICHED),
         ("buy_order_alert_mode", BUY_ALERT_MODE),
         ("operator_dashboard", OPERATOR_DASH),
         ("score_v2_dashboard", SCORE_V2_DASH),
