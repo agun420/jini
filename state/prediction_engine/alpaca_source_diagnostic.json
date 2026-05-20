@@ -1,10 +1,8 @@
 {
   "schema_version": "alpaca_source_diagnostic_v1",
-  "generated_at": "2026-05-20T20:36:48.969082+00:00",
-  "status": "FAIL",
-  "blockers": [
-    "all_alpaca_data_feed_tests_failed"
-  ],
+  "generated_at": "2026-05-20T20:44:31.594731+00:00",
+  "status": "PASS",
+  "blockers": [],
   "warnings": [],
   "env": {
     "ALPACA_API_KEY": {
@@ -49,25 +47,71 @@
     }
   },
   "trading_auth": {
-    "ok": false,
-    "reason": "unknown_error",
-    "error_type": "ModuleNotFoundError",
-    "error": "No module named 'alpaca'"
+    "ok": true,
+    "account_status": "AccountStatus.ACTIVE",
+    "paper": true,
+    "cash_present": true
   },
   "data_feeds": {
     "IEX": {
-      "ok": false,
-      "reason": "unknown_error",
-      "error_type": "ModuleNotFoundError",
-      "error": "No module named 'alpaca'",
-      "feed": "IEX"
+      "feed": "IEX",
+      "bars": {
+        "ok": true,
+        "symbols": {
+          "AAPL": {
+            "bars": 8,
+            "last_close": 301.65
+          },
+          "MSFT": {
+            "bars": 7,
+            "last_close": 420.2
+          }
+        }
+      },
+      "quotes": {
+        "ok": true,
+        "symbols": {
+          "MSFT": {
+            "bid": 393.29,
+            "ask": 0.0
+          },
+          "AAPL": {
+            "bid": 282.89,
+            "ask": 0.0
+          }
+        }
+      },
+      "ok": true
     },
     "SIP": {
-      "ok": false,
-      "reason": "unknown_error",
-      "error_type": "ModuleNotFoundError",
-      "error": "No module named 'alpaca'",
-      "feed": "SIP"
+      "feed": "SIP",
+      "bars": {
+        "ok": true,
+        "symbols": {
+          "AAPL": {
+            "bars": 28,
+            "last_close": 301.91
+          },
+          "MSFT": {
+            "bars": 30,
+            "last_close": 420.224
+          }
+        }
+      },
+      "quotes": {
+        "ok": true,
+        "symbols": {
+          "MSFT": {
+            "bid": 420.0,
+            "ask": 420.15
+          },
+          "AAPL": {
+            "bid": 301.95,
+            "ask": 302.05
+          }
+        }
+      },
+      "ok": true
     }
   },
   "scanner_files": {
@@ -79,9 +123,9 @@
       "zero_price_rows": 0,
       "missing_price_rows": 0,
       "statuses": {
-        "ALERT_ONLY": 10,
+        "ALERT_ONLY": 11,
         "WATCH_ONLY": 8,
-        "NO_TRADE": 9
+        "NO_TRADE": 8
       }
     },
     "docs/data/prediction_engine/signal_dashboard_stable.json": {
@@ -92,9 +136,9 @@
       "zero_price_rows": 0,
       "missing_price_rows": 0,
       "statuses": {
-        "ALERT_ONLY": 10,
+        "ALERT_ONLY": 11,
         "WATCH_ONLY": 8,
-        "NO_TRADE": 9
+        "NO_TRADE": 8
       }
     },
     "docs/data/prediction_engine/signal_dashboard_data_guard_enriched.json": {
