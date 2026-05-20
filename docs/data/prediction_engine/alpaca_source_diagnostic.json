@@ -1,9 +1,11 @@
 {
   "schema_version": "alpaca_source_diagnostic_v1",
-  "generated_at": "2026-05-20T06:25:58.500128+00:00",
-  "status": "PASS",
+  "generated_at": "2026-05-20T06:32:13.059638+00:00",
+  "status": "WARN",
   "blockers": [],
-  "warnings": [],
+  "warnings": [
+    "base_signal_dashboard_has_zero_price_rows"
+  ],
   "env": {
     "ALPACA_API_KEY": {
       "exists": true,
@@ -62,13 +64,13 @@
       "quotes": {
         "ok": true,
         "symbols": {
-          "AAPL": {
-            "bid": 281.89,
-            "ask": 311.68
-          },
           "MSFT": {
             "bid": 399.81,
             "ask": 0.0
+          },
+          "AAPL": {
+            "bid": 281.89,
+            "ask": 311.68
           }
         }
       },
@@ -83,13 +85,13 @@
       "quotes": {
         "ok": true,
         "symbols": {
-          "MSFT": {
-            "bid": 416.78,
-            "ask": 417.2
-          },
           "AAPL": {
             "bid": 298.87,
             "ask": 298.98
+          },
+          "MSFT": {
+            "bid": 416.78,
+            "ask": 417.2
           }
         }
       },
@@ -100,27 +102,24 @@
     "docs/data/prediction_engine/signal_dashboard.json": {
       "exists": true,
       "top_level_status": "PASS",
-      "rows": 50,
-      "good_price_rows": 50,
-      "zero_price_rows": 0,
+      "rows": 27,
+      "good_price_rows": 0,
+      "zero_price_rows": 27,
       "missing_price_rows": 0,
       "statuses": {
-        "ALERT_ONLY": 1,
-        "WATCH_ONLY": 36,
-        "NO_TRADE": 13
+        "NO_TRADE": 27
       }
     },
     "docs/data/prediction_engine/signal_dashboard_stable.json": {
       "exists": true,
-      "top_level_status": "PASS",
-      "rows": 50,
-      "good_price_rows": 50,
-      "zero_price_rows": 0,
+      "top_level_status": "WARN",
+      "rows": 27,
+      "good_price_rows": 19,
+      "zero_price_rows": 8,
       "missing_price_rows": 0,
       "statuses": {
-        "ALERT_ONLY": 1,
-        "WATCH_ONLY": 36,
-        "NO_TRADE": 13
+        "STALE_DATA": 19,
+        "DATA_FEED_FAIL": 8
       }
     },
     "docs/data/prediction_engine/signal_dashboard_data_guard_enriched.json": {
@@ -147,7 +146,7 @@
     },
     "docs/data/prediction_engine/scanner_data_source_health.json": {
       "exists": true,
-      "top_level_status": "PASS",
+      "top_level_status": "WARN",
       "rows": 0,
       "good_price_rows": 0,
       "zero_price_rows": 0,
