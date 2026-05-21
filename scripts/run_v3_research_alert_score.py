@@ -130,12 +130,16 @@ def score_row(row: dict[str, Any]) -> dict[str, Any]:
     score = base + day_move_bonus + rvol_bonus + momentum_bonus + spread_bonus + quote_bonus
     score = clamp(score)
 
-    # Research candidate gate v2.
+    # Package 83: early breakout + chase risk guard.
     # This is alert-only. It does not place orders.
-    candidate_ready = (
-        score >= 60
-        and not blockers
-        and day_move >= 3
+    highly_extended = day_move >= 20
+    extended_above_vwap = day_move >= 12 and vwap_dist >= 2.5
+    early_breakout_zone = (
+        2 <= day_move <= 10
+        and rvol >= 0.75
+        and vwap_dist >= -0.25
+        and vwap_dist <= 2.5
+        and momentum_total >= 0
         and danger <= 45
         and 0 <= spread <= 0.012
         and 0 <= quote_age <= 60
@@ -143,8 +147,22 @@ def score_row(row: dict[str, Any]) -> dict[str, Any]:
         and price <= 100
     )
 
+    candidate_ready = (
+        score >= 60
+        and not blockers
+        and early_breakout_zone
+        and not highly_extended
+        and not extended_above_vwap
+    )
+
     if blockers:
         status = "RESEARCH_BLOCKED"
+    elif highly_extended:
+        status = "RESEARCH_CHASE_RISK_EXTENDED"
+        warnings.append("highly_extended_day_move")
+    elif extended_above_vwap:
+        status = "RESEARCH_WAIT_FOR_PULLBACK"
+        warnings.append("extended_above_vwap_wait_for_pullback")
     elif candidate_ready:
         status = "RESEARCH_BUY_ALERT_CANDIDATE"
     elif score >= 52:
