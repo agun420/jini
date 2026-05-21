@@ -17,7 +17,6 @@ OUT_DOCS = DOCS / "v3_research_alert_outcome_journal.json"
 OUT_HEALTH = DOCS / "v3_research_alert_outcome_journal_health.json"
 OUT_STATE = STATE / "v3_research_alert_outcome_journal.json"
 
-
 TARGET_PCT = 0.60
 STOP_PCT = 0.80
 TIME_EXIT_MINUTES = 30
@@ -95,9 +94,54 @@ def current_price_map() -> dict[str, float]:
 
 def make_alert_id(row: dict[str, Any], generated_at: str) -> str:
     sym = ticker(row)
-    # one alert per ticker per generated minute to prevent duplicate spam
     bucket = generated_at[:16].replace(":", "").replace("-", "").replace("T", "_")
     return f"{sym}_{bucket}"
+
+
+def opened_sort_key(alert: dict[str, Any]) -> str:
+    return str(alert.get("opened_at") or "")
+
+
+def dedupe_open_alerts(alerts: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], int]:
+    """
+    Keep only one OPEN alert per ticker.
+    Prefer newest opened_at. Mark older open duplicates as CLOSED/DUPLICATE_REPLACED.
+    This prevents duplicate QBTS/WULF open rows from inflating live outcomes.
+    """
+    latest_open_by_ticker: dict[str, dict[str, Any]] = {}
+    duplicate_count = 0
+
+    for alert in alerts:
+        if alert.get("status") != "OPEN":
+            continue
+
+        sym = str(alert.get("ticker") or "").upper()
+        if not sym:
+            continue
+
+        existing = latest_open_by_ticker.get(sym)
+        if existing is None:
+            latest_open_by_ticker[sym] = alert
+            continue
+
+        current_time = opened_sort_key(alert)
+        existing_time = opened_sort_key(existing)
+
+        if current_time >= existing_time:
+            existing["status"] = "CLOSED"
+            existing["closed_at"] = now_iso()
+            existing["exit_reason"] = "DUPLICATE_REPLACED"
+            existing["return_pct"] = existing.get("unrealized_return_pct")
+            latest_open_by_ticker[sym] = alert
+        else:
+            alert["status"] = "CLOSED"
+            alert["closed_at"] = now_iso()
+            alert["exit_reason"] = "DUPLICATE_REPLACED"
+            alert["return_pct"] = alert.get("unrealized_return_pct")
+
+        duplicate_count += 1
+
+    return alerts, duplicate_count
 
 
 def main() -> None:
@@ -115,30 +159,56 @@ def main() -> None:
     if not isinstance(existing_alerts, list):
         existing_alerts = []
 
-    alerts_by_id = {
-        str(a.get("alert_id")): a
-        for a in existing_alerts
-        if isinstance(a, dict) and a.get("alert_id")
-    }
-
     blockers: list[str] = []
     warnings: list[str] = []
 
     if not all_rows:
         warnings.append("no_research_alert_rows_available")
 
+    # Normalize safety fields on existing alerts.
+    alerts: list[dict[str, Any]] = []
+    seen_ids: set[str] = set()
+
+    for a in existing_alerts:
+        if not isinstance(a, dict):
+            continue
+        alert_id = str(a.get("alert_id") or "")
+        if not alert_id or alert_id in seen_ids:
+            continue
+        seen_ids.add(alert_id)
+
+        a["order_submission"] = False
+        a["live_trading"] = False
+        a["paper_order_allowed"] = False
+        a["live_order_allowed"] = False
+        alerts.append(a)
+
+    # First, de-dupe any current open duplicates before adding new alerts.
+    alerts, duplicate_open_alerts_closed = dedupe_open_alerts(alerts)
+
+    open_tickers = {
+        str(a.get("ticker") or "").upper()
+        for a in alerts
+        if a.get("status") == "OPEN"
+    }
+
     new_alerts = 0
+    skipped_duplicate_open_ticker = 0
 
     for row in candidates:
         sym = ticker(row)
-        entry_price = f(row.get("price"))
+        entry_price = f(row.get("live_price") or row.get("price"))
 
         if not sym or entry_price <= 0:
             continue
 
-        alert_id = make_alert_id(row, str(research_payload.get("generated_at") or generated_at))
+        # Do not open another live research alert for same ticker.
+        if sym in open_tickers:
+            skipped_duplicate_open_ticker += 1
+            continue
 
-        if alert_id in alerts_by_id:
+        alert_id = make_alert_id(row, str(research_payload.get("generated_at") or generated_at))
+        if alert_id in seen_ids:
             continue
 
         target_price = entry_price * (1 + TARGET_PCT / 100)
@@ -157,6 +227,8 @@ def main() -> None:
             "stop_price": round(stop_price, 4),
             "last_price": round(prices.get(sym, entry_price), 4),
             "research_alert_score_v3": row.get("research_alert_score_v3"),
+            "research_confidence": row.get("research_confidence"),
+            "research_confidence_note": row.get("research_confidence_note"),
             "final_trade_score_v3": row.get("final_trade_score_v3"),
             "runner_potential_v3": row.get("runner_potential_v3"),
             "entry_quality_v3": row.get("entry_quality_v3"),
@@ -175,12 +247,14 @@ def main() -> None:
             "live_order_allowed": False,
         }
 
-        alerts_by_id[alert_id] = alert
+        alerts.append(alert)
+        open_tickers.add(sym)
+        seen_ids.add(alert_id)
         new_alerts += 1
 
     closed_now = 0
 
-    for alert in alerts_by_id.values():
+    for alert in alerts:
         if alert.get("status") != "OPEN":
             continue
 
@@ -218,7 +292,10 @@ def main() -> None:
             alert["return_pct"] = round(ret, 4)
             closed_now += 1
 
-    alerts = list(alerts_by_id.values())
+    # Final de-dupe pass after status updates.
+    alerts, duplicate_closed_second_pass = dedupe_open_alerts(alerts)
+    duplicate_open_alerts_closed += duplicate_closed_second_pass
+
     alerts.sort(key=lambda a: str(a.get("opened_at") or ""), reverse=True)
 
     open_alerts = [a for a in alerts if a.get("status") == "OPEN"]
@@ -227,8 +304,15 @@ def main() -> None:
     target_hits = [a for a in closed_alerts if a.get("exit_reason") == "TARGET_HIT"]
     stop_hits = [a for a in closed_alerts if a.get("exit_reason") == "STOP_HIT"]
     time_exits = [a for a in closed_alerts if a.get("exit_reason") == "TIME_EXIT"]
+    duplicate_replaced = [a for a in closed_alerts if a.get("exit_reason") == "DUPLICATE_REPLACED"]
 
-    realized_returns = [f(a.get("return_pct")) for a in closed_alerts if a.get("return_pct") is not None]
+    realized_returns = [
+        f(a.get("return_pct"))
+        for a in closed_alerts
+        if a.get("return_pct") is not None
+        and a.get("exit_reason") in {"TARGET_HIT", "STOP_HIT", "TIME_EXIT"}
+    ]
+
     avg_return = sum(realized_returns) / len(realized_returns) if realized_returns else 0.0
 
     status = "PASS" if not blockers else "FAIL"
@@ -236,23 +320,27 @@ def main() -> None:
         status = "WARN"
 
     health = {
-        "schema_version": "v3_research_alert_outcome_journal_health_v1",
+        "schema_version": "v3_research_alert_outcome_journal_health_v2",
         "generated_at": generated_at,
         "status": status,
         "blockers": blockers,
         "warnings": warnings,
         "new_alerts": new_alerts,
         "closed_now": closed_now,
+        "duplicate_open_alerts_closed": duplicate_open_alerts_closed,
+        "skipped_duplicate_open_ticker": skipped_duplicate_open_ticker,
         "total_alerts": len(alerts),
         "open_alerts": len(open_alerts),
         "closed_alerts": len(closed_alerts),
         "target_hits": len(target_hits),
         "stop_hits": len(stop_hits),
         "time_exits": len(time_exits),
+        "duplicate_replaced": len(duplicate_replaced),
         "avg_closed_return_pct": round(avg_return, 4),
         "target_pct": TARGET_PCT,
         "stop_pct": STOP_PCT,
         "time_exit_minutes": TIME_EXIT_MINUTES,
+        "one_open_alert_per_ticker": True,
         "order_submission": False,
         "live_trading": False,
         "paper_order_allowed": False,
@@ -260,7 +348,7 @@ def main() -> None:
     }
 
     out = {
-        "schema_version": "v3_research_alert_outcome_journal_v1",
+        "schema_version": "v3_research_alert_outcome_journal_v2",
         "generated_at": generated_at,
         "health": health,
         "alerts": alerts,
@@ -268,6 +356,7 @@ def main() -> None:
         "closed_alerts": closed_alerts,
         "safety": {
             "purpose": "Research alert outcome tracking only. Does not trade.",
+            "one_open_alert_per_ticker": True,
             "order_submission": False,
             "live_trading": False,
             "paper_order_allowed": False,

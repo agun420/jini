@@ -152,17 +152,24 @@
     <div id="metric-total-signals"></div><div id="adaptive-guard-panel"></div><div id="paper-plan-panel"></div><div id="outcomes-panel"></div><div id="health-panel"></div><div id="quality-panel"></div><div id="learning-panel"></div>
   </section>
 
+  
   <section class="card">
-    <p class="label">V3 Research Buy Alerts</p>
+    <p class="label">V3 Research Journal Note</p>
+    <h2>Current candidate and journal alerts are separate</h2>
+    <p>The current research candidate is the latest highest-ranked research setup. Open journal alerts are active tracked research signals. Closed journal alerts are historical outcomes. No paper orders or live trades are enabled.</p>
+  </section>
+
+<section class="card">
+    <p class="label">V3 Current Research Candidate</p>
     <h2 id="v3ResearchTitle">Loading</h2>
     <p id="v3ResearchSub">Research-only alert candidates. Strict trade gate unchanged. Orders OFF.</p>
 
     <div class="grid">
-      <div class="tile"><span>Candidates</span><strong id="v3ResearchCandidates">N/A</strong></div>
+      <div class="tile"><span>Current Candidates</span><strong id="v3ResearchCurrent Candidates">N/A</strong></div>
       <div class="tile"><span>Watch</span><strong id="v3ResearchWatch">N/A</strong></div>
       <div class="tile"><span>Blocked</span><strong id="v3ResearchBlocked">N/A</strong></div>
-      <div class="tile"><span>Top Ticker</span><strong id="v3ResearchTopTicker">N/A</strong></div>
-      <div class="tile"><span>Top Score</span><strong id="v3ResearchTopScore">N/A</strong></div>
+      <div class="tile"><span>Current Top Ticker</span><strong id="v3ResearchTopTicker">N/A</strong></div>
+      <div class="tile"><span>Current Top Score</span><strong id="v3ResearchTopScore">N/A</strong></div>
       <div class="tile"><span>Strict Gate Changed</span><strong id="v3ResearchStrictGate">NO</strong></div>
       <div class="tile"><span>Paper Orders</span><strong id="v3ResearchPaper">OFF</strong></div>
       <div class="tile"><span>Live Trading</span><strong id="v3ResearchLive">OFF</strong></div>
@@ -311,8 +318,8 @@ var alertRows = Array.isArray(window.alertRows) ? window.alertRows : [];
   const showRows = candidates.length ? candidates : rows.slice(0, 20);
 
   set('v3ResearchTitle', (health.status || 'N/A') + ' - Research Alert Layer');
-  set('v3ResearchSub', 'Research-only V3 candidates. Manual review only. Strict gate unchanged. Paper/live orders OFF.');
-  set('v3ResearchCandidates', health.research_buy_alert_candidates);
+  set('v3ResearchSub', 'Current research candidate only. Open/closed journal results are tracked separately. Strict gate unchanged. Paper/live orders OFF.');
+  set('v3ResearchCurrent Candidates', health.research_buy_alert_candidates);
   set('v3ResearchWatch', health.research_watch);
   set('v3ResearchBlocked', health.research_blocked);
   set('v3ResearchTopTicker', health.top_ticker);
