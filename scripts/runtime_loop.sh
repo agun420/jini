@@ -43,6 +43,7 @@ run_once() {
   PYTHONPATH=src:. python scripts/run_operator_signal_resolver.py || true
   PYTHONPATH=src:. python scripts/run_jini_operator_pipeline.py || true
   PYTHONPATH=src:. python scripts/run_feed_status_quality.py || true
+  PYTHONPATH=src:. python scripts/run_v3_prebreakout_predictor.py || true
   PYTHONPATH=src:. python scripts/run_v3_signal_pipeline.py || true
   PYTHONPATH=src:. python scripts/run_v3_research_alert_score.py || true
   PYTHONPATH=src:. python scripts/run_v3_research_alert_outcome_journal.py || true
