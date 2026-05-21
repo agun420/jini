@@ -17,9 +17,9 @@ OUT_DOCS = DOCS / "v3_prebreakout_outcome_journal.json"
 OUT_HEALTH = DOCS / "v3_prebreakout_outcome_journal_health.json"
 OUT_STATE = STATE / "v3_prebreakout_outcome_journal.json"
 
-TARGET_PCT = 0.60
-STOP_PCT = 0.80
-TIME_EXIT_MINUTES = 30
+TARGET_PCT = 0.35
+STOP_PCT = 0.45
+TIME_EXIT_MINUTES = 20
 
 VALID_OPEN_STATUSES = {
     "PRE_BREAKOUT_CANDIDATE",
@@ -313,7 +313,7 @@ def main() -> None:
         status = "WARN"
 
     health = {
-        "schema_version": "v3_prebreakout_outcome_journal_health_v1",
+        "schema_version": "v3_prebreakout_outcome_journal_health_v2_tightened",
         "generated_at": generated_at,
         "status": status,
         "blockers": blockers,
@@ -345,7 +345,7 @@ def main() -> None:
     }
 
     out = {
-        "schema_version": "v3_prebreakout_outcome_journal_v1",
+        "schema_version": "v3_prebreakout_outcome_journal_v2_tightened",
         "generated_at": generated_at,
         "health": health,
         "alerts": alerts,

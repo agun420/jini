@@ -127,49 +127,58 @@ def score_row(row: dict[str, Any]) -> dict[str, Any]:
 
     # Pre-breakout conditions.
     # These are looking for pressure before the big candle.
+    # Package 88: tighter early setup.
+    # Old version allowed weak / negative setups that mostly timed out.
     compression_zone = (
-        -1.0 <= day_move <= 3.0
-        and 0.35 <= rvol <= 3.5
-        and -0.75 <= vwap_dist <= 1.25
-        and momentum_total >= -0.10
-        and 0 <= spread <= 0.012
-        and 0 <= quote_age <= 60
-        and danger <= 50
+        1.0 <= day_move <= 3.5
+        and 1.0 <= rvol <= 4.0
+        and 0.0 <= vwap_dist <= 1.50
+        and mom1 >= 0.0
+        and mom5 >= 0.05
+        and momentum_total >= 0.10
+        and 0 <= spread <= 0.010
+        and 0 <= quote_age <= 45
+        and danger <= 45
         and 3 <= price <= 100
     )
 
     vwap_reclaim_zone = (
-        0.0 <= day_move <= 6.0
-        and rvol >= 0.60
-        and -0.25 <= vwap_dist <= 1.75
-        and mom1 >= -0.10
-        and mom5 >= 0
-        and 0 <= spread <= 0.012
-        and 0 <= quote_age <= 60
-        and danger <= 50
+        1.0 <= day_move <= 5.0
+        and rvol >= 1.0
+        and 0.0 <= vwap_dist <= 1.75
+        and mom1 >= 0.0
+        and mom5 >= 0.05
+        and momentum_total >= 0.10
+        and 0 <= spread <= 0.010
+        and 0 <= quote_age <= 45
+        and danger <= 45
         and 3 <= price <= 100
     )
 
     breakout_trigger_zone = (
-        2.0 <= day_move <= 9.0
-        and rvol >= 0.75
-        and -0.10 <= vwap_dist <= 2.25
-        and momentum_total >= 0.0
-        and 0 <= spread <= 0.012
+        2.0 <= day_move <= 5.5
+        and rvol >= 1.0
+        and 0.0 <= vwap_dist <= 2.00
+        and mom1 >= 0.0
+        and mom5 >= 0.05
+        and momentum_total >= 0.15
+        and 0 <= spread <= 0.010
         and 0 <= quote_age <= 45
         and danger <= 45
         and 3 <= price <= 100
     )
 
     high_of_day_pressure = (
-        high_dist <= 1.2
-        and 0.5 <= day_move <= 9.0
-        and rvol >= 0.75
-        and vwap_dist <= 2.25
-        and momentum_total >= 0
+        high_dist <= 1.0
+        and 2.0 <= day_move <= 5.5
+        and rvol >= 1.0
+        and 0.0 <= vwap_dist <= 2.00
+        and mom1 >= 0.0
+        and mom5 >= 0.05
+        and momentum_total >= 0.15
         and danger <= 45
-        and 0 <= spread <= 0.012
-        and 0 <= quote_age <= 60
+        and 0 <= spread <= 0.010
+        and 0 <= quote_age <= 45
         and 3 <= price <= 100
     )
 
@@ -278,9 +287,9 @@ def score_row(row: dict[str, Any]) -> dict[str, Any]:
         status = "CHASE_RISK_EXTENDED"
     elif extended_above_vwap or overheated:
         status = "WAIT_FOR_PULLBACK"
-    elif prebreakout_score >= 72 and (breakout_trigger_zone or high_of_day_pressure):
+    elif prebreakout_score >= 80 and (breakout_trigger_zone or high_of_day_pressure):
         status = "BREAKOUT_TRIGGER_CANDIDATE"
-    elif prebreakout_score >= 66 and (compression_zone or vwap_reclaim_zone):
+    elif prebreakout_score >= 76 and (compression_zone or vwap_reclaim_zone):
         status = "PRE_BREAKOUT_CANDIDATE"
     elif pullback_reclaim_watch and prebreakout_score >= 58:
         status = "PULLBACK_RECLAIM_WATCH"
@@ -406,7 +415,7 @@ def main() -> None:
         status = "WARN"
 
     health = {
-        "schema_version": "v3_prebreakout_predictor_health_v1",
+        "schema_version": "v3_prebreakout_predictor_health_v2_tightened",
         "generated_at": generated_at,
         "status": status,
         "blockers": blockers,
@@ -430,7 +439,7 @@ def main() -> None:
     }
 
     out = {
-        "schema_version": "v3_prebreakout_predictor_v1",
+        "schema_version": "v3_prebreakout_predictor_v2_tightened",
         "generated_at": generated_at,
         "health": health,
         "rows": scored,
