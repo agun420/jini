@@ -1,22 +1,22 @@
 {
   "schema_version": "walk_forward_results_v1",
-  "generated_at": "2026-05-21T20:03:31.763790+00:00",
+  "generated_at": "2026-05-21T20:10:05.872819+00:00",
   "status": "PASS",
   "mode": "slippage_aware_walk_forward",
   "source": {
-    "source": "docs/data/prediction_engine/signal_dashboard_rvol_enriched.json",
-    "journal_source": "none",
+    "source": "docs/data/prediction_engine/slippage_fill_tracker.json",
+    "journal_source": "docs/data/prediction_engine/slippage_fill_tracker.json",
     "dashboard_source": "docs/data/prediction_engine/signal_dashboard_rvol_enriched.json",
-    "used_journal": false,
-    "rows": 26
+    "used_journal": true,
+    "rows": 1
   },
   "windowing": {
     "train_days": 14,
     "embargo_minutes": 10,
     "test_days": 7,
-    "train_rows": 0,
+    "train_rows": 1,
     "embargo_rows": 0,
-    "test_rows": 26
+    "test_rows": 0
   },
   "parameter_grid": [
     {
@@ -47,40 +47,38 @@
       "stop_pct": 0.8
     },
     "train_metrics": {
-      "trade_count": 0,
+      "trade_count": 1,
       "win_count": 0,
-      "loss_count": 0,
+      "loss_count": 1,
       "win_rate_pct": 0.0,
-      "avg_return_pct": 0.0,
+      "avg_return_pct": -0.8,
       "avg_winner_pct": 0.0,
-      "avg_loser_pct": 0.0,
+      "avg_loser_pct": -0.8,
       "gross_profit_pct": 0,
-      "gross_loss_pct": 0,
-      "profit_factor": null,
-      "max_drawdown_pct": 0.0,
-      "setup_counts": {}
+      "gross_loss_pct": 0.8,
+      "profit_factor": 0.0,
+      "max_drawdown_pct": -0.8,
+      "setup_counts": {
+        "PLAN_ONLY": 1
+      }
     },
-    "selection_score": 0.0
+    "selection_score": -8.8
   },
   "forward_test_metrics": {
-    "trade_count": 26,
+    "trade_count": 0,
     "win_count": 0,
-    "loss_count": 26,
+    "loss_count": 0,
     "win_rate_pct": 0.0,
-    "avg_return_pct": -0.8,
+    "avg_return_pct": 0.0,
     "avg_winner_pct": 0.0,
-    "avg_loser_pct": -0.8,
+    "avg_loser_pct": 0.0,
     "gross_profit_pct": 0,
-    "gross_loss_pct": 20.8,
-    "profit_factor": 0.0,
-    "max_drawdown_pct": -20.8,
-    "setup_counts": {
-      "ALERT_ONLY": 14,
-      "NO_TRADE": 4,
-      "WATCH_ONLY": 8
-    }
+    "gross_loss_pct": 0,
+    "profit_factor": null,
+    "max_drawdown_pct": 0.0,
+    "setup_counts": {}
   },
-  "readiness_signal": "NOT_READY",
+  "readiness_signal": "INSUFFICIENT_SAMPLE",
   "safety": {
     "order_submission": false,
     "live_trading": false,
