@@ -193,6 +193,10 @@
 </main>
 
 <script>
+
+/* Dashboard safety fallback: prevents ReferenceError if alertRows is not created by older data loaders. */
+var alertRows = Array.isArray(window.alertRows) ? window.alertRows : [];
+
 (function(){
   var B='data/prediction_engine/';
   function e(id){return document.getElementById(id)}
