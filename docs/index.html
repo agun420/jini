@@ -197,6 +197,62 @@
   </section>
 
 
+
+  <section class="card">
+    <p class="label">V3 Pre-Breakout Predictor</p>
+    <h2 id="prebreakoutTitle">Loading</h2>
+    <p id="prebreakoutSub">Early setup detector. Designed to avoid chasing stocks already up too far. Research only. Orders OFF.</p>
+
+    <div class="grid">
+      <div class="tile"><span>Pre-Breakout</span><strong id="preCandidates">N/A</strong></div>
+      <div class="tile"><span>Breakout Trigger</span><strong id="triggerCandidates">N/A</strong></div>
+      <div class="tile"><span>Wait Pullback</span><strong id="waitPullback">N/A</strong></div>
+      <div class="tile"><span>Chase Risk</span><strong id="chaseRisk">N/A</strong></div>
+      <div class="tile"><span>Top Ticker</span><strong id="preTopTicker">N/A</strong></div>
+      <div class="tile"><span>Top Status</span><strong id="preTopStatus">N/A</strong></div>
+      <div class="tile"><span>Top Score</span><strong id="preTopScore">N/A</strong></div>
+      <div class="tile"><span>Live Trading</span><strong id="preLive">OFF</strong></div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Ticker</th>
+          <th>Live</th>
+          <th>Target</th>
+          <th>Stop</th>
+          <th>Status</th>
+          <th>Score</th>
+          <th>Move</th>
+          <th>VWAP</th>
+          <th>Confidence</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody id="prebreakoutRows">
+        <tr><td colspan="10">Loading...</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card">
+    <p class="label">V3 Outcome Comparison</p>
+    <h2>Reactive vs Pre-Breakout</h2>
+    <p>Use this to see which layer is actually producing better research outcomes. No paper orders or live trades are enabled.</p>
+
+    <div class="grid">
+      <div class="tile"><span>Reactive Closed</span><strong id="reactiveClosed">N/A</strong></div>
+      <div class="tile"><span>Reactive Targets</span><strong id="reactiveTargets">N/A</strong></div>
+      <div class="tile"><span>Reactive Stops</span><strong id="reactiveStops">N/A</strong></div>
+      <div class="tile"><span>Reactive Avg Return</span><strong id="reactiveAvg">N/A</strong></div>
+
+      <div class="tile"><span>Pre-Breakout Closed</span><strong id="preClosed">N/A</strong></div>
+      <div class="tile"><span>Pre-Breakout Targets</span><strong id="preTargets">N/A</strong></div>
+      <div class="tile"><span>Pre-Breakout Stops</span><strong id="preStops">N/A</strong></div>
+      <div class="tile"><span>Pre-Breakout Avg Return</span><strong id="preAvg">N/A</strong></div>
+    </div>
+  </section>
+
 </main>
 
 <script>
@@ -348,6 +404,85 @@ var alertRows = Array.isArray(window.alertRows) ? window.alertRows : [];
   if(body){
     body.innerHTML = html || '<tr><td colspan="9">No V3 research rows available right now.</td></tr>';
   }
+})();
+</script>
+
+
+<script>
+(async function(){
+  const B='data/prediction_engine/';
+  async function j(name){
+    try{
+      const r=await fetch(B+name+'?cb='+Date.now());
+      return await r.json();
+    }catch(e){return {}}
+  }
+  function set(id,v){
+    const el=document.getElementById(id);
+    if(el) el.textContent = (v===true?'YES':v===false?'NO':(v ?? 'N/A'));
+  }
+  function money(v){
+    const n=Number(v);
+    return Number.isFinite(n) ? '$'+n.toFixed(2) : 'N/A';
+  }
+  function num(v){
+    const n=Number(v);
+    return Number.isFinite(n) ? n.toFixed(2) : 'N/A';
+  }
+  function pct(v){
+    const n=Number(v);
+    return Number.isFinite(n) ? n.toFixed(2)+'%' : 'N/A';
+  }
+  function pill(v){
+    return '<span class="pill">'+(v || 'N/A')+'</span>';
+  }
+
+  const pre = await j('v3_prebreakout_predictor.json');
+  const preH = await j('v3_prebreakout_predictor_health.json');
+  const preJ = await j('v3_prebreakout_outcome_journal_health.json');
+  const reactiveJ = await j('v3_research_alert_outcome_journal_health.json');
+
+  set('prebreakoutTitle', (preH.status || 'N/A') + ' - Pre-Breakout Layer');
+  set('preCandidates', preH.prebreakout_candidates);
+  set('triggerCandidates', preH.breakout_trigger_candidates);
+  set('waitPullback', preH.wait_for_pullback);
+  set('chaseRisk', preH.chase_risk_extended);
+  set('preTopTicker', preH.top_ticker);
+  set('preTopStatus', preH.top_status);
+  set('preTopScore', preH.top_score);
+  set('preLive', preH.live_trading === false ? 'OFF' : 'CHECK');
+
+  const rows = Array.isArray(pre.candidates) && pre.candidates.length ? pre.candidates : (Array.isArray(pre.rows) ? pre.rows.slice(0, 20) : []);
+  let html = '';
+  for(const r of rows.slice(0, 25)){
+    html += '<tr>'
+      + '<td><strong>'+(r.ticker || r.symbol || 'N/A')+'</strong></td>'
+      + '<td>'+money(r.live_price || r.price)+'</td>'
+      + '<td>'+money(r.prebreakout_target_price)+'</td>'
+      + '<td>'+money(r.prebreakout_stop_price)+'</td>'
+      + '<td>'+pill(r.prebreakout_status_v3)+'</td>'
+      + '<td>'+num(r.prebreakout_score_v3)+'</td>'
+      + '<td>'+pct(r.day_move_pct)+'</td>'
+      + '<td>'+pct(r.vwap_distance_pct)+'</td>'
+      + '<td>'+pill(r.prebreakout_confidence)+'</td>'
+      + '<td>'+(r.prebreakout_note || 'Research only.')+'</td>'
+      + '</tr>';
+  }
+
+  const body = document.getElementById('prebreakoutRows');
+  if(body){
+    body.innerHTML = html || '<tr><td colspan="10">No pre-breakout rows available.</td></tr>';
+  }
+
+  set('reactiveClosed', reactiveJ.closed_alerts);
+  set('reactiveTargets', reactiveJ.target_hits);
+  set('reactiveStops', reactiveJ.stop_hits);
+  set('reactiveAvg', reactiveJ.avg_closed_return_pct !== undefined ? Number(reactiveJ.avg_closed_return_pct).toFixed(2)+'%' : 'N/A');
+
+  set('preClosed', preJ.closed_alerts);
+  set('preTargets', preJ.target_hits);
+  set('preStops', preJ.stop_hits);
+  set('preAvg', preJ.avg_closed_return_pct !== undefined ? Number(preJ.avg_closed_return_pct).toFixed(2)+'%' : 'N/A');
 })();
 </script>
 
