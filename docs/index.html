@@ -1,500 +1,481 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Jini Operator Dashboard</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jini Research Trading Engine</title>
   <style>
-    :root{--bg:#020617;--panel:#0f172a;--text:#e5e7eb;--muted:#94a3b8;--border:rgba(148,163,184,.25);--good:#22c55e;--warn:#f59e0b;--bad:#ef4444;--blue:#38bdf8}
+    :root{
+      --bg:#080b12;
+      --card:#111827;
+      --card2:#0f172a;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --line:#263244;
+      --good:#22c55e;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+      --blue:#38bdf8;
+      --purple:#a78bfa;
+    }
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif}
-    main{width:min(1450px,calc(100% - 32px));margin:0 auto;padding:28px 0 60px}
-    .hero,.card{background:rgba(15,23,42,.94);border:1px solid var(--border);border-radius:22px;padding:22px;margin-bottom:16px}
-    .hero{display:flex;justify-content:space-between;gap:20px}
-    h1,h2{margin:0 0 8px}
-    p{color:var(--muted);line-height:1.5}
-    .label{color:var(--blue);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin:0 0 8px}
-    .grid{display:grid;gap:16px;margin-bottom:16px}.top{grid-template-columns:repeat(4,1fr)}.metrics{grid-template-columns:repeat(5,1fr)}.two{grid-template-columns:2fr 1fr}
-    .pill{display:inline-flex;border:1px solid var(--border);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800}
-    .good{color:var(--good);background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.4)}
-    .warn{color:var(--warn);background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.4)}
-    .bad{color:var(--bad);background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.4)}
-    .neutral{color:var(--blue);background:rgba(56,189,248,.08);border-color:rgba(56,189,248,.4)}
-    .safe.clear{border-color:rgba(34,197,94,.45);background:linear-gradient(135deg,rgba(20,83,45,.35),rgba(15,23,42,.95))}
-    .safe.fail{border-color:rgba(239,68,68,.55);background:linear-gradient(135deg,rgba(127,29,29,.5),rgba(15,23,42,.95))}
-    .metric h2{font-size:34px}
-    table{width:100%;border-collapse:collapse}th,td{padding:12px;border-bottom:1px solid var(--border);text-align:left;font-size:13px}th{color:var(--muted);font-size:11px;text-transform:uppercase}
-    pre{white-space:pre-wrap;word-break:break-word;color:var(--muted);max-height:320px;overflow:auto}.mini{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.mini div{background:#111827;border:1px solid var(--border);border-radius:14px;padding:12px}.mini span{display:block;color:var(--muted);font-size:12px}.mini strong{font-size:18px}
-    @media(max-width:900px){.top,.metrics,.two,.mini{grid-template-columns:1fr}.hero{flex-direction:column}}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#05070c 0%,#0b1120 100%);
+      color:var(--text);
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+    .wrap{max-width:1500px;margin:0 auto;padding:24px}
+    .hero{
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      align-items:flex-start;
+      margin-bottom:18px;
+    }
+    h1{margin:0;font-size:30px;letter-spacing:-.03em}
+    h2{margin:4px 0 8px;font-size:20px}
+    p{color:var(--muted);line-height:1.45}
+    .sub{margin:8px 0 0;color:var(--muted)}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:12px;
+      margin:14px 0;
+    }
+    .grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .card{
+      background:rgba(17,24,39,.88);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      margin:14px 0;
+      box-shadow:0 12px 28px rgba(0,0,0,.22);
+    }
+    .tile{
+      background:rgba(15,23,42,.92);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px;
+      min-height:82px;
+    }
+    .tile span{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+    .tile strong{display:block;margin-top:8px;font-size:22px}
+    .label{
+      margin:0 0 6px;
+      color:var(--blue);
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    .statusbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:12px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border-radius:999px;
+      padding:6px 10px;
+      border:1px solid var(--line);
+      color:var(--text);
+      background:#0b1220;
+      font-size:12px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+    .pill.good{border-color:rgba(34,197,94,.45);color:#86efac}
+    .pill.warn{border-color:rgba(245,158,11,.45);color:#fcd34d}
+    .pill.bad{border-color:rgba(239,68,68,.45);color:#fca5a5}
+    .pill.blue{border-color:rgba(56,189,248,.45);color:#7dd3fc}
+    table{
+      width:100%;
+      border-collapse:collapse;
+      overflow:hidden;
+      border-radius:14px;
+      margin-top:12px;
+    }
+    th,td{
+      border-bottom:1px solid var(--line);
+      padding:10px;
+      text-align:left;
+      font-size:13px;
+      vertical-align:top;
+    }
+    th{
+      color:#cbd5e1;
+      background:#0b1220;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+    }
+    td{color:#e5e7eb}
+    .note{color:#cbd5e1;max-width:520px}
+    .muted{color:var(--muted)}
+    .right{text-align:right}
+    .hide{display:none}
+    .footer{color:var(--muted);font-size:12px;margin:24px 0}
+    @media(max-width:1000px){
+      .grid,.grid.two,.grid.three{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .hero{display:block}
+    }
+    @media(max-width:640px){
+      .grid,.grid.two,.grid.three{grid-template-columns:1fr}
+      .wrap{padding:14px}
+      table{display:block;overflow-x:auto}
+    }
   </style>
 </head>
 <body>
-<main>
-  <section class="hero">
-    <div>
-      <p class="label">Jini Elite Prediction Engine</p>
-      <h1>Jini Operator Dashboard</h1>
-      <p>Canonical paper-only dashboard. Reads one operator health file and one operator signal file.</p>
-    </div>
-    <div><span id="overall" class="pill neutral">Loading</span><p id="updated">Waiting for data...</p></div>
-  </section>
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <h1>Jini Research Trading Engine</h1>
+        <p class="sub">Pre-breakout research scanner. Manual review only. Paper orders and live trading are OFF.</p>
+        <div class="statusbar">
+          <span id="runtimeStatus" class="pill blue">Loading runtime</span>
+          <span id="orderStatus" class="pill good">Orders OFF</span>
+          <span id="liveStatus" class="pill good">Live OFF</span>
+          <span id="updatedAt" class="pill">Updated: Loading</span>
+        </div>
+      </div>
+      <div class="card" style="min-width:280px;margin:0">
+        <p class="label">Core Rule</p>
+        <h2>No chase mode</h2>
+        <p class="sub">Names already highly extended should move to wait-for-pullback or chase-risk, not clean candidates.</p>
+      </div>
+    </section>
 
-  <section id="safeBox" class="card safe">
-    <p class="label">Safe Mode</p><h2 id="safeTitle">Loading</h2><p id="safeDetail"></p><span id="safePill" class="pill neutral">Loading</span>
-  </section>
+    <section class="card">
+      <p class="label">Safety</p>
+      <h2>Trading controls</h2>
+      <div class="grid">
+        <div class="tile"><span>Order Submission</span><strong id="safeOrders">OFF</strong></div>
+        <div class="tile"><span>Live Trading</span><strong id="safeLive">OFF</strong></div>
+        <div class="tile"><span>Paper Auto Trade</span><strong id="safePaper">OFF</strong></div>
+        <div class="tile"><span>Strict V3 Gate</span><strong id="strictGate">Blocked</strong></div>
+      </div>
+    </section>
 
-  <section class="grid top">
-    <article class="card"><p class="label">Runtime</p><h2 id="runtime">Loading</h2><p id="runtimeSub"></p></article>
-    <article class="card"><p class="label">Operator Health</p><h2 id="operatorHealth">Loading</h2><p id="operatorSub"></p></article>
-    <article class="card"><p class="label">Data Feed</p><h2 id="dataFeed">Loading</h2><p id="dataFeedSub"></p></article>
-    <article class="card"><p class="label">Alerts</p><h2 id="alerts">Loading</h2><p id="alertsSub"></p></article>
-  </section>
+    <section class="card">
+      <p class="label">Main Engine</p>
+      <h2>V3 Pre-Breakout Predictor</h2>
+      <p class="sub">This is the primary section. It looks for earlier setups and avoids chasing stocks already extended.</p>
 
-  <section class="grid metrics">
-    <article class="card metric"><p class="label">Signals</p><h2 id="signalsCount">0</h2><p>Rows loaded.</p></article>
-    <article class="card metric"><p class="label">Scored Rows</p><h2 id="scoredRows">0</h2><p>Rows with final score.</p></article>
-    <article class="card metric"><p class="label">Trade Eligible</p><h2 id="metric-trade-eligible">0</h2><p>Strict gate pass.</p></article>
-    <article class="card metric"><p class="label">Watch Only</p><h2 id="watchOnly">0</h2><p>Tracked only.</p></article>
-    <article class="card metric"><p class="label">Orders</p><h2>OFF</h2><p>Paper/live submission blocked.</p></article>
-  </section>
+      <div class="grid">
+        <div class="tile"><span>Total Candidates</span><strong id="preTotal">N/A</strong></div>
+        <div class="tile"><span>Pre-Breakout</span><strong id="preCount">N/A</strong></div>
+        <div class="tile"><span>Breakout Trigger</span><strong id="triggerCount">N/A</strong></div>
+        <div class="tile"><span>Wait Pullback</span><strong id="waitCount">N/A</strong></div>
+        <div class="tile"><span>Chase Risk</span><strong id="chaseCount">N/A</strong></div>
+        <div class="tile"><span>Top Ticker</span><strong id="preTopTicker">N/A</strong></div>
+        <div class="tile"><span>Top Status</span><strong id="preTopStatus">N/A</strong></div>
+        <div class="tile"><span>Top Score</span><strong id="preTopScore">N/A</strong></div>
+      </div>
 
-  <section class="grid two">
-    <article class="card"><p class="label">Top Candidate</p><h2 id="topTitle">Loading</h2><div id="topBody"></div></article>
-    <article class="card"><p class="label">System Message</p><h2 id="messageTitle">Loading</h2><p id="messageBody"></p></article>
-  </section>
+      <table>
+        <thead>
+          <tr>
+            <th>Ticker</th>
+            <th>Live</th>
+            <th>Target</th>
+            <th>Stop</th>
+            <th>Status</th>
+            <th>Score</th>
+            <th>Move</th>
+            <th>VWAP</th>
+            <th>Confidence</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody id="preRows">
+          <tr><td colspan="10">Loading...</td></tr>
+        </tbody>
+      </table>
+    </section>
 
-  
-  <section class="card">
-    <p class="label">Validated Watch Alerts</p>
-    <h2 id="watchTitle">Loading</h2>
-    <p id="watchSub">Watch-only. No paper orders. No live orders.</p>
-    <table>
-      <thead><tr><th>Ticker</th><th>Price</th><th>Score v2</th><th>Setup</th><th>Target</th><th>Stop</th><th>Horizon</th><th>Orders</th></tr></thead>
-      <tbody id="watchRows"><tr><td colspan="8">Loading...</td></tr></tbody>
-    </table>
-  </section>
+    <section class="card">
+      <p class="label">Secondary Engine</p>
+      <h2>V3 Reactive Research Alerts</h2>
+      <p class="sub">This layer finds momentum already moving. It is useful, but can chase. Compare it against pre-breakout outcomes.</p>
 
+      <div class="grid">
+        <div class="tile"><span>Current Candidates</span><strong id="reactiveCandidates">N/A</strong></div>
+        <div class="tile"><span>Watch</span><strong id="reactiveWatch">N/A</strong></div>
+        <div class="tile"><span>Top Ticker</span><strong id="reactiveTopTicker">N/A</strong></div>
+        <div class="tile"><span>Top Score</span><strong id="reactiveTopScore">N/A</strong></div>
+      </div>
 
-  <section class="card">
-    <p class="label">Validated Buy Order Alerts</p>
-    <h2 id="buyAlertTitle">Loading</h2>
-    <p id="buyAlertSub">Manual review required. Paper orders OFF. Live orders OFF.</p>
-    <table>
-      <thead>
-        <tr>
-          <th>Ticker</th>
-          <th>Price</th>
-          <th>Score v2</th>
-          <th>Setup</th>
-          <th>Target</th>
-          <th>Stop</th>
-          <th>Horizon</th>
-          <th>Orders</th>
-        </tr>
-      </thead>
-      <tbody id="buyAlertRows">
-        <tr><td colspan="8">Loading...</td></tr>
-      </tbody>
-    </table>
-  </section>
+      <table>
+        <thead>
+          <tr>
+            <th>Ticker</th>
+            <th>Live</th>
+            <th>Target</th>
+            <th>Stop</th>
+            <th>Status</th>
+            <th>Score</th>
+            <th>Move</th>
+            <th>Confidence</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody id="reactiveRows">
+          <tr><td colspan="9">Loading...</td></tr>
+        </tbody>
+      </table>
+    </section>
 
+    <section class="card">
+      <p class="label">Outcome Board</p>
+      <h2>Reactive vs Pre-Breakout Results</h2>
+      <p class="sub">Use this to decide which layer is actually better. Do not tune based on one alert.</p>
 
-  <section class="card">
-    <p class="label">Validation Core</p>
-    <h2 id="validationTitle">Loading</h2>
-    <p id="validationSub">Closed-loop evidence layer. No orders. No live trading.</p>
-    <div class="grid">
-      <div class="tile"><span>Buy Alert Ready</span><strong id="valBuyReady">N/A</strong></div>
-      <div class="tile"><span>Paper Auto Trade</span><strong id="valPaperAuto">N/A</strong></div>
-      <div class="tile"><span>Total Alerts</span><strong id="valTotalAlerts">N/A</strong></div>
-      <div class="tile"><span>Closed Alerts</span><strong id="valClosedAlerts">N/A</strong></div>
-      <div class="tile"><span>Closed Trades</span><strong id="valClosedTrades">N/A</strong></div>
-      <div class="tile"><span>Slippage Model</span><strong id="valSlippage">N/A</strong></div>
-      <div class="tile"><span>Forward Validation</span><strong id="valForward">N/A</strong></div>
-      <div class="tile"><span>Orders</span><strong id="valOrders">OFF</strong></div>
-    </div>
-    <pre id="validationJson">Loading validation status...</pre>
-  </section>
+      <div class="grid">
+        <div class="tile"><span>Reactive Closed</span><strong id="reactiveClosed">N/A</strong></div>
+        <div class="tile"><span>Reactive Targets</span><strong id="reactiveTargets">N/A</strong></div>
+        <div class="tile"><span>Reactive Stops</span><strong id="reactiveStops">N/A</strong></div>
+        <div class="tile"><span>Reactive Avg Return</span><strong id="reactiveAvg">N/A</strong></div>
 
-<section class="card">
-    <p class="label">Signal Board</p><h2>Latest Rows</h2>
-    <table id="signals-table">
-      <thead><tr><th>Ticker</th><th>Price</th><th>Final</th><th>Runner</th><th>Entry</th><th>Danger</th><th>Status</th><th>Data Status</th></tr></thead>
-      <tbody id="rows"><tr><td colspan="8">Loading...</td></tr></tbody>
-    </table>
-  </section>
+        <div class="tile"><span>Pre-Breakout Closed</span><strong id="preClosed">N/A</strong></div>
+        <div class="tile"><span>Pre-Breakout Targets</span><strong id="preTargets">N/A</strong></div>
+        <div class="tile"><span>Pre-Breakout Stops</span><strong id="preStops">N/A</strong></div>
+        <div class="tile"><span>Pre-Breakout Avg Return</span><strong id="preAvg">N/A</strong></div>
+      </div>
+    </section>
 
-  <section class="grid two">
-    <article class="card"><p class="label">Operator Health JSON</p><pre id="healthJson">Loading...</pre></article>
-    <article class="card"><p class="label">Top Row JSON</p><pre id="topJson">Loading...</pre></article>
-  </section>
+    <section class="card">
+      <p class="label">Open Research Alerts</p>
+      <h2>Currently tracked alerts</h2>
+      <p class="sub">One open alert per ticker. Research tracking only.</p>
 
-  <!-- DASHBOARD CONTRACT MARKERS - DO NOT REMOVE
-  dashboard_contract
-  metric-total-signals
-  metric-trade-eligible
-  signals-table
-  signal_dashboard_finra_enriched.json
-  signal_dashboard_enriched.json
-  signal_dashboard.json
-  adaptive_guard.json
-  paper_order_plan.json
-  outcomes.json
-  learning.json
-  adaptive-guard-panel
-  paper-plan-panel
-  outcomes-panel
-  health-panel
-  quality-panel
-  learning-panel
-  -->
-  <section id="dashboard-contract-compat" style="display:none">
-    <div id="metric-total-signals"></div><div id="adaptive-guard-panel"></div><div id="paper-plan-panel"></div><div id="outcomes-panel"></div><div id="health-panel"></div><div id="quality-panel"></div><div id="learning-panel"></div>
-  </section>
+      <table>
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Ticker</th>
+            <th>Entry</th>
+            <th>Last</th>
+            <th>Target</th>
+            <th>Stop</th>
+            <th>Return</th>
+            <th>Age</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="openRows">
+          <tr><td colspan="9">Loading...</td></tr>
+        </tbody>
+      </table>
+    </section>
 
-  
-  <section class="card">
-    <p class="label">V3 Research Journal Note</p>
-    <h2>Current candidate and journal alerts are separate</h2>
-    <p>The current research candidate is the latest highest-ranked research setup. Open journal alerts are active tracked research signals. Closed journal alerts are historical outcomes. No paper orders or live trades are enabled.</p>
-  </section>
+    <section class="card">
+      <p class="label">System Health</p>
+      <h2>Runtime checks</h2>
+      <div class="grid">
+        <div class="tile"><span>V3 Enrichment</span><strong id="enrichHealth">N/A</strong></div>
+        <div class="tile"><span>V3 Pipeline</span><strong id="pipelineHealth">N/A</strong></div>
+        <div class="tile"><span>Pre-Breakout</span><strong id="preHealth">N/A</strong></div>
+        <div class="tile"><span>Reactive</span><strong id="reactiveHealth">N/A</strong></div>
+      </div>
+    </section>
 
-<section class="card">
-    <p class="label">V3 Current Research Candidate</p>
-    <h2 id="v3ResearchTitle">Loading</h2>
-    <p id="v3ResearchSub">Research-only alert candidates. Strict trade gate unchanged. Orders OFF.</p>
+    <p class="footer">
+      Research dashboard only. Not financial advice. Order submission is disabled. Live trading is disabled.
+    </p>
+  </main>
 
-    <div class="grid">
-      <div class="tile"><span>Current Candidates</span><strong id="v3ResearchCurrent Candidates">N/A</strong></div>
-      <div class="tile"><span>Watch</span><strong id="v3ResearchWatch">N/A</strong></div>
-      <div class="tile"><span>Blocked</span><strong id="v3ResearchBlocked">N/A</strong></div>
-      <div class="tile"><span>Current Top Ticker</span><strong id="v3ResearchTopTicker">N/A</strong></div>
-      <div class="tile"><span>Current Top Score</span><strong id="v3ResearchTopScore">N/A</strong></div>
-      <div class="tile"><span>Strict Gate Changed</span><strong id="v3ResearchStrictGate">NO</strong></div>
-      <div class="tile"><span>Paper Orders</span><strong id="v3ResearchPaper">OFF</strong></div>
-      <div class="tile"><span>Live Trading</span><strong id="v3ResearchLive">OFF</strong></div>
-    </div>
+  <script>
+    const B = 'data/prediction_engine/';
 
-    <table>
-      <thead>
-        <tr>
-          <th>Ticker</th>
-          <th>Live Price</th>
-          <th>Target</th>
-          <th>Stop</th>
-          <th>Status</th>
-          <th>Research</th>
-          <th>Confidence</th>
-          <th>Move</th>
-          <th>Note</th>
-          <th>Safety</th>
-        </tr>
-      </thead>
-      <tbody id="v3ResearchRows">
-        <tr><td colspan="9">Loading...</td></tr>
-      </tbody>
-    </table>
-  </section>
+    async function getJson(name){
+      try{
+        const r = await fetch(B + name + '?cb=' + Date.now());
+        if(!r.ok) return {};
+        return await r.json();
+      }catch(e){
+        return {};
+      }
+    }
 
+    function set(id, value){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.textContent = value === true ? 'YES' : value === false ? 'NO' : (value ?? 'N/A');
+    }
 
+    function money(v){
+      const n = Number(v);
+      return Number.isFinite(n) ? '$' + n.toFixed(2) : 'N/A';
+    }
 
-  <section class="card">
-    <p class="label">V3 Pre-Breakout Predictor</p>
-    <h2 id="prebreakoutTitle">Loading</h2>
-    <p id="prebreakoutSub">Early setup detector. Designed to avoid chasing stocks already up too far. Research only. Orders OFF.</p>
+    function num(v){
+      const n = Number(v);
+      return Number.isFinite(n) ? n.toFixed(2) : 'N/A';
+    }
 
-    <div class="grid">
-      <div class="tile"><span>Pre-Breakout</span><strong id="preCandidates">N/A</strong></div>
-      <div class="tile"><span>Breakout Trigger</span><strong id="triggerCandidates">N/A</strong></div>
-      <div class="tile"><span>Wait Pullback</span><strong id="waitPullback">N/A</strong></div>
-      <div class="tile"><span>Chase Risk</span><strong id="chaseRisk">N/A</strong></div>
-      <div class="tile"><span>Top Ticker</span><strong id="preTopTicker">N/A</strong></div>
-      <div class="tile"><span>Top Status</span><strong id="preTopStatus">N/A</strong></div>
-      <div class="tile"><span>Top Score</span><strong id="preTopScore">N/A</strong></div>
-      <div class="tile"><span>Live Trading</span><strong id="preLive">OFF</strong></div>
-    </div>
+    function pct(v){
+      const n = Number(v);
+      return Number.isFinite(n) ? n.toFixed(2) + '%' : 'N/A';
+    }
 
-    <table>
-      <thead>
-        <tr>
-          <th>Ticker</th>
-          <th>Live</th>
-          <th>Target</th>
-          <th>Stop</th>
-          <th>Status</th>
-          <th>Score</th>
-          <th>Move</th>
-          <th>VWAP</th>
-          <th>Confidence</th>
-          <th>Note</th>
-        </tr>
-      </thead>
-      <tbody id="prebreakoutRows">
-        <tr><td colspan="10">Loading...</td></tr>
-      </tbody>
-    </table>
-  </section>
+    function pillClass(v){
+      const s = String(v || '').toUpperCase();
+      if(s.includes('PASS') || s.includes('CANDIDATE') || s.includes('TARGET')) return 'good';
+      if(s.includes('WARN') || s.includes('WATCH') || s.includes('WAIT') || s.includes('PULLBACK')) return 'warn';
+      if(s.includes('BLOCK') || s.includes('STOP') || s.includes('CHASE') || s.includes('FAIL')) return 'bad';
+      return 'blue';
+    }
 
-  <section class="card">
-    <p class="label">V3 Outcome Comparison</p>
-    <h2>Reactive vs Pre-Breakout</h2>
-    <p>Use this to see which layer is actually producing better research outcomes. No paper orders or live trades are enabled.</p>
+    function pill(v){
+      return '<span class="pill ' + pillClass(v) + '">' + (v || 'N/A') + '</span>';
+    }
 
-    <div class="grid">
-      <div class="tile"><span>Reactive Closed</span><strong id="reactiveClosed">N/A</strong></div>
-      <div class="tile"><span>Reactive Targets</span><strong id="reactiveTargets">N/A</strong></div>
-      <div class="tile"><span>Reactive Stops</span><strong id="reactiveStops">N/A</strong></div>
-      <div class="tile"><span>Reactive Avg Return</span><strong id="reactiveAvg">N/A</strong></div>
+    function cleanNote(v){
+      return String(v || 'Research only.').replace(/[<>]/g,'');
+    }
 
-      <div class="tile"><span>Pre-Breakout Closed</span><strong id="preClosed">N/A</strong></div>
-      <div class="tile"><span>Pre-Breakout Targets</span><strong id="preTargets">N/A</strong></div>
-      <div class="tile"><span>Pre-Breakout Stops</span><strong id="preStops">N/A</strong></div>
-      <div class="tile"><span>Pre-Breakout Avg Return</span><strong id="preAvg">N/A</strong></div>
-    </div>
-  </section>
+    function rowTicker(r){
+      return r.ticker || r.symbol || 'N/A';
+    }
 
-</main>
+    function sortOpen(a,b){
+      return String(b.opened_at || '').localeCompare(String(a.opened_at || ''));
+    }
 
-<script>
+    async function main(){
+      const [
+        enrichH,
+        pipeH,
+        pre,
+        preH,
+        preJ,
+        reactive,
+        reactiveH,
+        reactiveJ
+      ] = await Promise.all([
+        getJson('v3_enriched_rows_health.json'),
+        getJson('v3_signal_pipeline_health.json'),
+        getJson('v3_prebreakout_predictor.json'),
+        getJson('v3_prebreakout_predictor_health.json'),
+        getJson('v3_prebreakout_outcome_journal.json'),
+        getJson('v3_research_alert_score.json'),
+        getJson('v3_research_alert_score_health.json'),
+        getJson('v3_research_alert_outcome_journal.json')
+      ]);
 
-/* Dashboard safety fallback: prevents ReferenceError if alertRows is not created by older data loaders. */
-var alertRows = Array.isArray(window.alertRows) ? window.alertRows : [];
+      const latest = preH.generated_at || reactiveH.generated_at || pipeH.generated_at || enrichH.generated_at || 'N/A';
 
-(function(){
-  var B='data/prediction_engine/';
-  function e(id){return document.getElementById(id)}
-  function t(id,v){var x=e(id);if(x)x.textContent=v==null?'N/A':String(v)}
-  function h(id,v){var x=e(id);if(x)x.innerHTML=v==null?'':String(v)}
-  function j(path){return fetch(path+'?v='+Date.now()).then(function(r){return r.ok?r.json():{}}).catch(function(err){return {error:String(err)}})}
-  function rows(x){if(Array.isArray(x))return x;if(x&&Array.isArray(x.rows))return x.rows;return[]}
-  function cls(v){v=String(v||'').toUpperCase();if(v.indexOf('PASS')>=0||v.indexOf('OK')>=0||v.indexOf('LIVE_DATA_OK')>=0)return'good';if(v.indexOf('WARN')>=0||v.indexOf('WATCH')>=0||v.indexOf('STALE')>=0)return'warn';if(v.indexOf('FAIL')>=0||v.indexOf('AUTH')>=0||v.indexOf('DATA_FEED')>=0)return'bad';return'neutral'}
-  function apply(id,v){var x=e(id);if(x){x.textContent=v||'N/A';x.className='pill '+cls(v)}}
-  function pill(v){return '<span class="pill '+cls(v)+'">'+(v||'N/A')+'</span>'}
-  function money(v){var n=Number(v);return isFinite(n)&&n>0?'$'+n.toFixed(2):'N/A'}
-  function num(v){var n=Number(v);return isFinite(n)?n.toFixed(2):'N/A'}
+      set('runtimeStatus', 'Runtime: ' + (pipeH.status || 'N/A'));
+      set('updatedAt', 'Updated: ' + latest);
+      set('safeOrders', (pipeH.order_submission === false && reactiveH.order_submission === false && preH.order_submission === false) ? 'OFF' : 'CHECK');
+      set('safeLive', (pipeH.live_trading === false && reactiveH.live_trading === false && preH.live_trading === false) ? 'OFF' : 'CHECK');
+      set('safePaper', pipeH.paper_auto_trade_ready === false ? 'OFF' : 'CHECK');
+      set('strictGate', (pipeH.v3_buy_order_alert_ready || 0) > 0 ? 'READY' : 'Blocked');
 
-  Promise.all([j(B+'operator_health.json'),j(B+'operator_dashboard.json'),j(B+'backtest_gate_health.json'),j(B+'operator_dashboard_backtest_gated.json'),j(B+'paper_alert_watch_mode_health.json'),j(B+'paper_alert_watch_mode.json')]).then(function(p){
-    var health=p[0]||{}, dash=p[1]||{}, gate=p[2]||{}, gatedDash=p[3]||{}, watchHealth=p[4]||{}, watchDash=p[5]||{}; var watchRows=rows(watchDash).filter(function(x){return x.watch_alert_eligible===true}); var r=watchRows.length?watchRows:(rows(gatedDash).length?rows(gatedDash):rows(dash)), top=r[0]||{};
-    apply('overall',health.status||'UNKNOWN'); t('updated','Updated: '+(health.generated_at||dash.generated_at||new Date().toISOString()));
-    var safe=health.safe_mode_active===true; var box=e('safeBox'); if(box)box.className='card safe '+(safe?'fail':'clear');
-    t('safeTitle',safe?'ALPACA AUTH FAILED':'Safe Mode Clear'); t('safeDetail',safe?'Safe mode active. Buy alerts and orders blocked.':'No auth safe-mode blocker active.'); apply('safePill',safe?'SAFE MODE ACTIVE':'PASS');
-    t('runtime',health.runtime_status||'UNKNOWN'); t('runtimeSub','Generated: '+(health.generated_at||'N/A'));
-    t('operatorHealth',health.status||'UNKNOWN'); t('operatorSub','Blockers: '+((health.blockers||[]).join(', ')||'none'));
-    t('dataFeed',(Number(health.rows_with_price)>0&&Number(health.zero_price_rows)===0)?'PASS':(health.status||'UNKNOWN'));
-    t('dataFeedSub','Priced: '+(health.rows_with_price||0)+' | Scored: '+(health.rows_with_score||0)+' | Zero: '+(health.zero_price_rows||0));
-    t('alerts',health.telegram_configured===true?'PASS':'OFF'); t('alertsSub','Delivered: '+(health.alert_delivered_count||0));
-    t('signalsCount',r.length); t('metric-total-signals',r.length); t('scoredRows',health.rows_with_score||0); t('metric-trade-eligible',health.trade_eligible||0); t('watchOnly',health.watch_only||0);
-    t('topTitle',(top.ticker||top.symbol||'N/A')+' '+money(top.price||top.last_price||top.close));
-    h('topBody','<div class="mini"><div><span>Final</span><strong>'+num(top.final_trade_score)+'</strong></div><div><span>Runner</span><strong>'+num(top.runner_potential_score)+'</strong></div><div><span>Entry</span><strong>'+num(top.entry_quality_score)+'</strong></div><div><span>Danger</span><strong>'+num(top.danger_score)+'</strong></div></div><p>Status: '+pill(top.score_status||top.operator_status||'N/A')+'</p>');
-    t('messageTitle',health.status==='PASS'?'System Ready':'System Check'); t('messageBody',(alertRows.length?'Validated BUY ORDER ALERT rows are visible. ':'')+(gate.gate_active===true?'Backtest gate active for orders/trade eligibility. ':'')+'Manual review required. Order submission false. Live trading false.');
-    t('watchTitle',(watchRows.length||0)+' Watch Alert Eligible'); t('watchSub','Validated setup: price $10-$75 reclaim_5bar_high_light | Target +0.6% | Stop -0.8% | Horizon 30 min | Orders OFF'); var whtml=''; for(var wi=0;wi<Math.min(watchRows.length,30);wi++){var wx=watchRows[wi];whtml+='<tr><td><strong>'+(wx.ticker||wx.symbol||'N/A')+'</strong></td><td>'+money(wx.price||wx.last_price||wx.close)+'</td><td>'+num(wx.score_v2)+'</td><td>'+(wx.validated_setup||'N/A')+'</td><td>'+num(wx.validated_target_pct)+'%</td><td>'+num(wx.validated_stop_pct)+'%</td><td>'+(wx.validated_horizon_minutes||'N/A')+'m</td><td>'+((wx.paper_order_allowed===false&&wx.live_order_allowed===false)?'OFF':'CHECK')+'</td></tr>'} h('watchRows',whtml||'<tr><td colspan="8">No watch-alert rows right now.</td></tr>'); var html=''; for(var i=0;i<Math.min(r.length,100);i++){var x=r[i];html+='<tr><td><strong>'+(x.ticker||x.symbol||'N/A')+'</strong></td><td>'+money(x.price||x.last_price||x.close)+'</td><td>'+num(x.final_trade_score||x.score_v2)+'</td><td>'+num(x.runner_potential_score)+'</td><td>'+num(x.entry_quality_score)+'</td><td>'+num(x.danger_score)+'</td><td>'+pill(x.watch_mode_status||x.score_status||x.operator_status||'N/A')+'</td><td>'+pill(x.scanner_data_status||x.data_feed_guard_status||'N/A')+'</td></tr>'}
-    h('rows',html||'<tr><td colspan="8">No rows found.</td></tr>');
-    t('healthJson',JSON.stringify({operator_health:health,backtest_gate:gate,buy_order_alert_mode:alertHealth,auto_trade_readiness:autoHealth},null,2)); t('topJson',JSON.stringify(top,null,2));
-  }).catch(function(err){apply('overall','ERROR');t('runtime','ERROR');t('runtimeSub',String(err));h('rows','<tr><td colspan="8">Dashboard error: '+String(err)+'</td></tr>')});
-})();
-</script>
+      set('orderStatus', 'Orders ' + ((pipeH.order_submission === false && reactiveH.order_submission === false && preH.order_submission === false) ? 'OFF' : 'CHECK'));
+      set('liveStatus', 'Live ' + ((pipeH.live_trading === false && reactiveH.live_trading === false && preH.live_trading === false) ? 'OFF' : 'CHECK'));
 
-<script>
-(async function(){
-  const B='data/prediction_engine/';
-  async function j(name){
-    try{
-      const r=await fetch(B+name+'?cb='+Date.now());
-      return await r.json();
-    }catch(e){return {}}
-  }
-  function set(id,v){
-    const el=document.getElementById(id);
-    if(el) el.textContent = (v===true?'YES':v===false?'NO':(v ?? 'N/A'));
-  }
-  const validation = await j('validation_status_health.json');
-  const readiness = await j('auto_trade_readiness_health.json');
-  const outcome = await j('buy_order_alert_outcome_journal_health.json');
-  const trade = await j('trade_journal_health.json');
-  const slip = await j('slippage_quality_health.json');
-  const forward = await j('forward_validation_health.json');
+      set('preTotal', preH.total_candidates);
+      set('preCount', preH.prebreakout_candidates);
+      set('triggerCount', preH.breakout_trigger_candidates);
+      set('waitCount', preH.wait_for_pullback);
+      set('chaseCount', preH.chase_risk_extended);
+      set('preTopTicker', preH.top_ticker);
+      set('preTopStatus', preH.top_status);
+      set('preTopScore', preH.top_score);
 
-  set('validationTitle', (validation.status || 'N/A') + ' - Validation Core');
-  set('validationSub', 'Buy alerts may be ready, but paper auto-trade stays blocked until enough live outcomes, closed trades, slippage, and forward validation pass.');
-  set('valBuyReady', readiness.buy_order_alert_ready);
-  set('valPaperAuto', readiness.paper_auto_trade_ready);
-  set('valTotalAlerts', outcome.total_alerts);
-  set('valClosedAlerts', outcome.closed_alerts);
-  set('valClosedTrades', trade.closed_trades);
-  set('valSlippage', slip.slippage_model_ready);
-  set('valForward', forward.forward_validation_ready);
-  set('valOrders', (readiness.order_submission===false && readiness.live_trading===false) ? 'OFF' : 'CHECK');
+      const preRows = Array.isArray(pre.candidates) && pre.candidates.length
+        ? pre.candidates
+        : Array.isArray(pre.rows) ? pre.rows.slice(0, 20) : [];
 
-  set('validationJson', JSON.stringify({
-    validation_status: validation,
-    auto_trade_readiness: readiness,
-    alert_outcomes: outcome,
-    trade_journal: trade,
-    slippage_quality: slip,
-    forward_validation: forward
-  }, null, 2));
-})();
-</script>
+      let preHtml = '';
+      for(const r of preRows.slice(0, 20)){
+        preHtml += '<tr>'
+          + '<td><strong>' + rowTicker(r) + '</strong></td>'
+          + '<td>' + money(r.live_price || r.price) + '</td>'
+          + '<td>' + money(r.prebreakout_target_price) + '</td>'
+          + '<td>' + money(r.prebreakout_stop_price) + '</td>'
+          + '<td>' + pill(r.prebreakout_status_v3) + '</td>'
+          + '<td>' + num(r.prebreakout_score_v3) + '</td>'
+          + '<td>' + pct(r.day_move_pct) + '</td>'
+          + '<td>' + pct(r.vwap_distance_pct) + '</td>'
+          + '<td>' + pill(r.prebreakout_confidence) + '</td>'
+          + '<td class="note">' + cleanNote(r.prebreakout_note) + '</td>'
+          + '</tr>';
+      }
+      document.getElementById('preRows').innerHTML = preHtml || '<tr><td colspan="10">No pre-breakout rows available.</td></tr>';
 
+      set('reactiveCandidates', reactiveH.research_buy_alert_candidates);
+      set('reactiveWatch', reactiveH.research_watch);
+      set('reactiveTopTicker', reactiveH.top_ticker);
+      set('reactiveTopScore', reactiveH.top_research_alert_score_v3);
 
-<script>
-(async function(){
-  const B='data/prediction_engine/';
-  async function j(name){
-    try{
-      const r=await fetch(B+name+'?cb='+Date.now());
-      return await r.json();
-    }catch(e){return {}}
-  }
-  function set(id,v){
-    const el=document.getElementById(id);
-    if(el) el.textContent = (v===true?'YES':v===false?'NO':(v ?? 'N/A'));
-  }
-  function money(v){
-    const n=Number(v);
-    return Number.isFinite(n) ? '$'+n.toFixed(2) : 'N/A';
-  }
-  function num(v){
-    const n=Number(v);
-    return Number.isFinite(n) ? n.toFixed(2) : 'N/A';
-  }
-  function pct(v){
-    const n=Number(v);
-    return Number.isFinite(n) ? n.toFixed(2)+'%' : 'N/A';
-  }
-  function pill(v){
-    return '<span class="pill">'+(v || 'N/A')+'</span>';
-  }
+      const reactiveRows = Array.isArray(reactive.candidates) && reactive.candidates.length
+        ? reactive.candidates
+        : Array.isArray(reactive.rows) ? reactive.rows.slice(0, 12) : [];
 
-  const health = await j('v3_research_alert_score_health.json');
-  const payload = await j('v3_research_alert_score.json');
+      let reactiveHtml = '';
+      for(const r of reactiveRows.slice(0, 12)){
+        reactiveHtml += '<tr>'
+          + '<td><strong>' + rowTicker(r) + '</strong></td>'
+          + '<td>' + money(r.live_price || r.price) + '</td>'
+          + '<td>' + money(r.research_target_price) + '</td>'
+          + '<td>' + money(r.research_stop_price) + '</td>'
+          + '<td>' + pill(r.research_alert_status_v3) + '</td>'
+          + '<td>' + num(r.research_alert_score_v3) + '</td>'
+          + '<td>' + pct(r.day_move_pct) + '</td>'
+          + '<td>' + pill(r.research_confidence) + '</td>'
+          + '<td class="note">' + cleanNote(r.research_confidence_note) + '</td>'
+          + '</tr>';
+      }
+      document.getElementById('reactiveRows').innerHTML = reactiveHtml || '<tr><td colspan="9">No reactive rows available.</td></tr>';
 
-  const candidates = Array.isArray(payload.candidates) ? payload.candidates : [];
-  const rows = Array.isArray(payload.rows) ? payload.rows : [];
-  const showRows = candidates.length ? candidates : rows.slice(0, 20);
+      const preJH = preJ.health || {};
+      const reactiveJH = reactiveJ.health || {};
 
-  set('v3ResearchTitle', (health.status || 'N/A') + ' - Research Alert Layer');
-  set('v3ResearchSub', 'Current research candidate only. Open/closed journal results are tracked separately. Strict gate unchanged. Paper/live orders OFF.');
-  set('v3ResearchCurrent Candidates', health.research_buy_alert_candidates);
-  set('v3ResearchWatch', health.research_watch);
-  set('v3ResearchBlocked', health.research_blocked);
-  set('v3ResearchTopTicker', health.top_ticker);
-  set('v3ResearchTopScore', health.top_research_alert_score_v3);
-  set('v3ResearchStrictGate', health.active_strict_gate_changed === false ? 'NO' : 'CHECK');
-  set('v3ResearchPaper', health.order_submission === false ? 'OFF' : 'CHECK');
-  set('v3ResearchLive', health.live_trading === false ? 'OFF' : 'CHECK');
+      set('reactiveClosed', reactiveJH.closed_alerts);
+      set('reactiveTargets', reactiveJH.target_hits);
+      set('reactiveStops', reactiveJH.stop_hits);
+      set('reactiveAvg', reactiveJH.avg_closed_return_pct !== undefined ? Number(reactiveJH.avg_closed_return_pct).toFixed(2) + '%' : 'N/A');
 
-  let html = '';
-  for(const r of showRows.slice(0, 25)){
-    html += '<tr>'
-      + '<td><strong>'+(r.ticker || r.symbol || 'N/A')+'</strong></td>'
-      + '<td>'+money(r.live_price ?? r.price)+'</td>'
-      + '<td>'+money(r.research_target_price)+'</td>'
-      + '<td>'+money(r.research_stop_price)+'</td>'
-      + '<td>'+pill(r.research_alert_status_v3)+'</td>'
-      + '<td>'+num(r.research_alert_score_v3)+'</td>'
-      + '<td>'+pill(r.research_confidence)+'</td>'
-      + '<td>'+pct(r.day_move_pct)+'</td>'
-      + '<td>'+(r.research_confidence_note || 'Manual review only.')+'</td>'
-      + '<td>'+((r.order_submission===false && r.live_trading===false) ? 'OFF' : 'CHECK')+'</td>'
-      + '</tr>';
-  }
+      set('preClosed', preJH.closed_alerts);
+      set('preTargets', preJH.target_hits);
+      set('preStops', preJH.stop_hits);
+      set('preAvg', preJH.avg_closed_return_pct !== undefined ? Number(preJH.avg_closed_return_pct).toFixed(2) + '%' : 'N/A');
 
-  const body = document.getElementById('v3ResearchRows');
-  if(body){
-    body.innerHTML = html || '<tr><td colspan="9">No V3 research rows available right now.</td></tr>';
-  }
-})();
-</script>
+      const openReactive = Array.isArray(reactiveJ.open_alerts) ? reactiveJ.open_alerts.map(x => ({...x, layer:'Reactive'})) : [];
+      const openPre = Array.isArray(preJ.open_alerts) ? preJ.open_alerts.map(x => ({...x, layer:'Pre-Breakout'})) : [];
+      const openAll = openReactive.concat(openPre).sort(sortOpen);
 
+      let openHtml = '';
+      for(const a of openAll.slice(0, 20)){
+        openHtml += '<tr>'
+          + '<td>' + pill(a.layer) + '</td>'
+          + '<td><strong>' + (a.ticker || 'N/A') + '</strong></td>'
+          + '<td>' + money(a.entry_price) + '</td>'
+          + '<td>' + money(a.last_price) + '</td>'
+          + '<td>' + money(a.target_price) + '</td>'
+          + '<td>' + money(a.stop_price) + '</td>'
+          + '<td>' + pct(a.unrealized_return_pct) + '</td>'
+          + '<td>' + num(a.age_minutes) + 'm</td>'
+          + '<td>' + pill(a.status) + '</td>'
+          + '</tr>';
+      }
+      document.getElementById('openRows').innerHTML = openHtml || '<tr><td colspan="9">No open alerts right now.</td></tr>';
 
-<script>
-(async function(){
-  const B='data/prediction_engine/';
-  async function j(name){
-    try{
-      const r=await fetch(B+name+'?cb='+Date.now());
-      return await r.json();
-    }catch(e){return {}}
-  }
-  function set(id,v){
-    const el=document.getElementById(id);
-    if(el) el.textContent = (v===true?'YES':v===false?'NO':(v ?? 'N/A'));
-  }
-  function money(v){
-    const n=Number(v);
-    return Number.isFinite(n) ? '$'+n.toFixed(2) : 'N/A';
-  }
-  function num(v){
-    const n=Number(v);
-    return Number.isFinite(n) ? n.toFixed(2) : 'N/A';
-  }
-  function pct(v){
-    const n=Number(v);
-    return Number.isFinite(n) ? n.toFixed(2)+'%' : 'N/A';
-  }
-  function pill(v){
-    return '<span class="pill">'+(v || 'N/A')+'</span>';
-  }
+      set('enrichHealth', enrichH.status);
+      set('pipelineHealth', pipeH.status);
+      set('preHealth', preH.status);
+      set('reactiveHealth', reactiveH.status);
+    }
 
-  const pre = await j('v3_prebreakout_predictor.json');
-  const preH = await j('v3_prebreakout_predictor_health.json');
-  const preJ = await j('v3_prebreakout_outcome_journal_health.json');
-  const reactiveJ = await j('v3_research_alert_outcome_journal_health.json');
-
-  set('prebreakoutTitle', (preH.status || 'N/A') + ' - Pre-Breakout Layer');
-  set('preCandidates', preH.prebreakout_candidates);
-  set('triggerCandidates', preH.breakout_trigger_candidates);
-  set('waitPullback', preH.wait_for_pullback);
-  set('chaseRisk', preH.chase_risk_extended);
-  set('preTopTicker', preH.top_ticker);
-  set('preTopStatus', preH.top_status);
-  set('preTopScore', preH.top_score);
-  set('preLive', preH.live_trading === false ? 'OFF' : 'CHECK');
-
-  const rows = Array.isArray(pre.candidates) && pre.candidates.length ? pre.candidates : (Array.isArray(pre.rows) ? pre.rows.slice(0, 20) : []);
-  let html = '';
-  for(const r of rows.slice(0, 25)){
-    html += '<tr>'
-      + '<td><strong>'+(r.ticker || r.symbol || 'N/A')+'</strong></td>'
-      + '<td>'+money(r.live_price || r.price)+'</td>'
-      + '<td>'+money(r.prebreakout_target_price)+'</td>'
-      + '<td>'+money(r.prebreakout_stop_price)+'</td>'
-      + '<td>'+pill(r.prebreakout_status_v3)+'</td>'
-      + '<td>'+num(r.prebreakout_score_v3)+'</td>'
-      + '<td>'+pct(r.day_move_pct)+'</td>'
-      + '<td>'+pct(r.vwap_distance_pct)+'</td>'
-      + '<td>'+pill(r.prebreakout_confidence)+'</td>'
-      + '<td>'+(r.prebreakout_note || 'Research only.')+'</td>'
-      + '</tr>';
-  }
-
-  const body = document.getElementById('prebreakoutRows');
-  if(body){
-    body.innerHTML = html || '<tr><td colspan="10">No pre-breakout rows available.</td></tr>';
-  }
-
-  set('reactiveClosed', reactiveJ.closed_alerts);
-  set('reactiveTargets', reactiveJ.target_hits);
-  set('reactiveStops', reactiveJ.stop_hits);
-  set('reactiveAvg', reactiveJ.avg_closed_return_pct !== undefined ? Number(reactiveJ.avg_closed_return_pct).toFixed(2)+'%' : 'N/A');
-
-  set('preClosed', preJ.closed_alerts);
-  set('preTargets', preJ.target_hits);
-  set('preStops', preJ.stop_hits);
-  set('preAvg', preJ.avg_closed_return_pct !== undefined ? Number(preJ.avg_closed_return_pct).toFixed(2)+'%' : 'N/A');
-})();
-</script>
-
+    main();
+  </script>
 </body>
 </html>
-
-<!--
-
-buy_order_alert_mode.json
-buy_order_alert_mode_health.json
-auto_trade_readiness_health.json
-buyAlertRows
-BUY_ORDER_ALERT_ELIGIBLE
-
--->
