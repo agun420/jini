@@ -152,9 +152,47 @@ def score_row(row: dict[str, Any]) -> dict[str, Any]:
     else:
         status = "RESEARCH_TRACK_ONLY"
 
+    target_pct = 0.60
+    stop_pct = 0.80
+    live_price = price
+    target_price = live_price * (1 + target_pct / 100) if live_price > 0 else 0.0
+    stop_price = live_price * (1 - stop_pct / 100) if live_price > 0 else 0.0
+
+    if blockers:
+        confidence = "BLOCKED"
+        confidence_note = "Blocked by hard safety/data rules. Do not use as a buy alert."
+    elif score >= 65 and danger <= 37 and day_move >= 3 and quote_age <= 30 and spread <= 0.012:
+        confidence = "HIGH RESEARCH"
+        confidence_note = "Strong research setup. Fresh quote, tight spread, positive move, and controlled danger. Manual review only."
+    elif score >= 60 and danger <= 45 and day_move >= 3 and quote_age <= 60 and spread <= 0.012:
+        confidence = "MEDIUM RESEARCH"
+        confidence_note = "Valid research candidate. Momentum is present, but still needs manual entry review."
+    elif score >= 52:
+        confidence = "WATCH"
+        confidence_note = "Watch only. Setup has some strength but does not fully clear the research candidate gate."
+    else:
+        confidence = "LOW"
+        confidence_note = "Track only. Score is not strong enough for a research buy alert."
+
+    if "low_recent_volume_ratio" in warnings:
+        confidence_note += " Recent volume ratio is low, so avoid chasing without confirmation."
+
+    if "outside_preferred_research_price_range" in warnings:
+        confidence_note += " Price is outside the preferred research range."
+
+    if day_move >= 10:
+        confidence_note += " Stock is already highly extended today, so pullback/reclaim confirmation matters."
+
     out = dict(row)
     out.update(
         {
+            "live_price": round(live_price, 4),
+            "research_target_pct": target_pct,
+            "research_stop_pct": stop_pct,
+            "research_target_price": round(target_price, 4),
+            "research_stop_price": round(stop_price, 4),
+            "research_confidence": confidence,
+            "research_confidence_note": confidence_note,
             "research_alert_score_v3": round(score, 4),
             "research_alert_status_v3": status,
             "research_alert_candidate_v3": status == "RESEARCH_BUY_ALERT_CANDIDATE",

@@ -172,19 +172,19 @@
       <thead>
         <tr>
           <th>Ticker</th>
-          <th>Price</th>
+          <th>Live Price</th>
+          <th>Target</th>
+          <th>Stop</th>
           <th>Status</th>
           <th>Research</th>
-          <th>Final</th>
-          <th>Runner</th>
-          <th>Entry</th>
-          <th>Danger</th>
+          <th>Confidence</th>
           <th>Move</th>
+          <th>Note</th>
           <th>Safety</th>
         </tr>
       </thead>
       <tbody id="v3ResearchRows">
-        <tr><td colspan="10">Loading...</td></tr>
+        <tr><td colspan="9">Loading...</td></tr>
       </tbody>
     </table>
   </section>
@@ -325,21 +325,21 @@ var alertRows = Array.isArray(window.alertRows) ? window.alertRows : [];
   for(const r of showRows.slice(0, 25)){
     html += '<tr>'
       + '<td><strong>'+(r.ticker || r.symbol || 'N/A')+'</strong></td>'
-      + '<td>'+money(r.price)+'</td>'
+      + '<td>'+money(r.live_price ?? r.price)+'</td>'
+      + '<td>'+money(r.research_target_price)+'</td>'
+      + '<td>'+money(r.research_stop_price)+'</td>'
       + '<td>'+pill(r.research_alert_status_v3)+'</td>'
       + '<td>'+num(r.research_alert_score_v3)+'</td>'
-      + '<td>'+num(r.final_trade_score_v3)+'</td>'
-      + '<td>'+num(r.runner_potential_v3)+'</td>'
-      + '<td>'+num(r.entry_quality_v3)+'</td>'
-      + '<td>'+num(r.danger_score_v3)+'</td>'
+      + '<td>'+pill(r.research_confidence)+'</td>'
       + '<td>'+pct(r.day_move_pct)+'</td>'
+      + '<td>'+(r.research_confidence_note || 'Manual review only.')+'</td>'
       + '<td>'+((r.order_submission===false && r.live_trading===false) ? 'OFF' : 'CHECK')+'</td>'
       + '</tr>';
   }
 
   const body = document.getElementById('v3ResearchRows');
   if(body){
-    body.innerHTML = html || '<tr><td colspan="10">No V3 research rows available right now.</td></tr>';
+    body.innerHTML = html || '<tr><td colspan="9">No V3 research rows available right now.</td></tr>';
   }
 })();
 </script>
