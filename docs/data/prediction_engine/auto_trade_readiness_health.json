@@ -1,27 +1,30 @@
 {
   "schema_version": "auto_trade_readiness_health_v2",
-  "generated_at": "2026-05-22T06:27:31.789433+00:00",
-  "status": "PASS",
-  "buy_order_alert_ready": true,
+  "generated_at": "2026-05-22T06:34:31.276531+00:00",
+  "status": "WARN",
+  "buy_order_alert_ready": false,
   "paper_auto_trade_ready": false,
   "auto_trade_ready": false,
   "live_trade_ready": false,
   "order_submission": false,
   "live_trading": false,
-  "warnings": [
-    "buy_order_alert_ready_but_auto_trade_blocked"
+  "warnings": [],
+  "buy_order_alert_blockers": [
+    "zero_price_rows_detected"
   ],
-  "buy_order_alert_blockers": [],
   "paper_auto_trade_blockers": [
+    "buy_order_alert_not_ready",
     "closed_trade_sample_below_30",
     "forward_validation_not_ready",
     "missing_bracket_order_lifecycle_test",
     "missing_daily_loss_kill_switch",
     "missing_duplicate_order_lock",
     "missing_paper_execution_sandbox",
-    "validated_setup_sample_below_500"
+    "validated_setup_sample_below_500",
+    "zero_price_rows_detected"
   ],
   "auto_trade_blockers": [
+    "buy_order_alert_not_ready",
     "closed_trade_sample_below_30",
     "forward_validation_not_ready",
     "missing_bracket_order_lifecycle_test",
@@ -29,9 +32,11 @@
     "missing_duplicate_order_lock",
     "missing_paper_execution_sandbox",
     "paper_auto_trade_not_validated_for_multiple_weeks",
-    "validated_setup_sample_below_500"
+    "validated_setup_sample_below_500",
+    "zero_price_rows_detected"
   ],
   "live_trade_blockers": [
+    "buy_order_alert_not_ready",
     "closed_trade_sample_below_30",
     "forward_validation_not_ready",
     "live_trading_not_approved",
@@ -41,12 +46,13 @@
     "missing_duplicate_order_lock",
     "missing_paper_execution_sandbox",
     "paper_auto_trade_not_validated_for_multiple_weeks",
-    "validated_setup_sample_below_500"
+    "validated_setup_sample_below_500",
+    "zero_price_rows_detected"
   ],
   "evidence": {
     "final_repo_audit_status": "PASS",
     "final_repo_audit_score": 100,
-    "operator_health_status": "PASS",
+    "operator_health_status": "WARN",
     "operator_stability_status": "WARN",
     "price_regime_status": "PASS",
     "price_regime_profit_factor": 1.98387,
@@ -60,7 +66,7 @@
     "feed_rows_usable_for_buy_alert": 50,
     "feed_rows_blocked_by_data_quality": 2,
     "feed_can_allow_buy_alerts_from_data": true,
-    "alert_total": 1157,
+    "alert_total": 1176,
     "alert_closed": 772,
     "alert_target_hits": 625,
     "alert_stop_hits": 68,
@@ -72,7 +78,7 @@
     "score_v2_status": "WARN"
   },
   "decision": {
-    "approved_now": "BUY_ORDER_ALERT_ONLY",
+    "approved_now": "RESEARCH_ONLY",
     "not_approved": [
       "PAPER_AUTO_TRADE",
       "LIVE_TRADE",
