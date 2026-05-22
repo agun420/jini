@@ -1,26 +1,26 @@
 {
   "schema_version": "v3_daily_research_report_v1",
-  "generated_at": "2026-05-22T13:04:56.093496+00:00",
+  "generated_at": "2026-05-22T13:12:05.699865+00:00",
   "health": {
     "schema_version": "v3_daily_research_report_health_v1",
-    "generated_at": "2026-05-22T13:04:56.093496+00:00",
+    "generated_at": "2026-05-22T13:12:05.699865+00:00",
     "status": "PASS",
     "blockers": [],
     "warnings": [],
     "winning_layer": "REACTIVE",
-    "avg_return_gap_pct": 0.0042,
+    "avg_return_gap_pct": 0.0153,
     "promotion_decision": "BOTH_LAYERS_RESEARCH_VALIDATED_KEEP_COLLECTING",
-    "prebreakout_closed": 79,
-    "prebreakout_target_hit_rate_pct": 40.51,
-    "prebreakout_avg_return_pct": 0.183,
+    "prebreakout_closed": 80,
+    "prebreakout_target_hit_rate_pct": 40.0,
+    "prebreakout_avg_return_pct": 0.1719,
     "reactive_closed": 73,
     "reactive_target_hit_rate_pct": 41.1,
     "reactive_avg_return_pct": 0.1872,
-    "current_prebreakout_top_ticker": "AAL",
-    "current_prebreakout_top_status": "BREAKOUT_TRIGGER_CANDIDATE",
+    "current_prebreakout_top_ticker": "AMD",
+    "current_prebreakout_top_status": "WATCH",
     "current_reactive_top_ticker": "QBTS",
     "market_regime": "RISK_ON",
-    "market_regime_score": 71.102,
+    "market_regime_score": 69.5352,
     "market_regime_recommendation": "Allow normal research alerting. Momentum conditions are supportive.",
     "regime_outcome_status": "PASS",
     "regime_outcome_recommendation": [
@@ -36,7 +36,7 @@
   "executive_summary": {
     "read": "Both layers are positive. Keep pre-breakout as the main research view and reactive as the secondary scalp view until more market days validate the edge.",
     "winning_layer": "REACTIVE",
-    "avg_return_gap_pct": 0.0042,
+    "avg_return_gap_pct": 0.0153,
     "promotion_decision": "BOTH_LAYERS_RESEARCH_VALIDATED_KEEP_COLLECTING",
     "paper_trade_decision": "DO_NOT_ENABLE_PAPER_ORDERS_YET",
     "paper_trade_reason": "Need 3 to 5 clean market days and 100+ closed alerts per layer before paper-order activation."
@@ -44,17 +44,17 @@
   "layer_summary": {
     "prebreakout": {
       "total_alerts": 83,
-      "closed_alerts": 79,
+      "closed_alerts": 80,
       "target_hits": 32,
-      "stop_hits": 10,
+      "stop_hits": 11,
       "time_exits": 37,
-      "target_hit_rate_pct": 40.51,
-      "stop_hit_rate_pct": 12.66,
-      "time_exit_rate_pct": 46.84,
-      "avg_return_pct": 0.183,
-      "win_rate_pct": 56.96,
+      "target_hit_rate_pct": 40.0,
+      "stop_hit_rate_pct": 13.75,
+      "time_exit_rate_pct": 46.25,
+      "avg_return_pct": 0.1719,
+      "win_rate_pct": 56.25,
       "avg_win_pct": 0.603,
-      "avg_loss_pct": -0.373
+      "avg_loss_pct": -0.3825
     },
     "reactive": {
       "total_alerts": 76,
@@ -74,7 +74,7 @@
   "reason_counts": {
     "prebreakout": {
       "TARGET_HIT": 32,
-      "STOP_HIT": 10,
+      "STOP_HIT": 11,
       "TIME_EXIT": 37
     },
     "reactive": {
@@ -299,6 +299,20 @@
           "closed_at": "2026-05-21T17:46:05.172141+00:00"
         },
         {
+          "ticker": "BBAI",
+          "setup_status": "BREAKOUT_TRIGGER_CANDIDATE",
+          "entry_price": 4.2399,
+          "exit_price": 4.21,
+          "exit_reason": "STOP_HIT",
+          "return_pct": -0.7052,
+          "score": 100.0,
+          "day_move_pct": 3.9191,
+          "relative_volume": 1.2212,
+          "vwap_distance_pct": 0.7439,
+          "opened_at": "2026-05-22T12:57:39.494170+00:00",
+          "closed_at": "2026-05-22T13:12:00.372914+00:00"
+        },
+        {
           "ticker": "MARA",
           "setup_status": "BREAKOUT_TRIGGER_CANDIDATE",
           "entry_price": 13.56,
@@ -353,20 +367,6 @@
           "vwap_distance_pct": 0.4105,
           "opened_at": "2026-05-22T11:31:48.968843+00:00",
           "closed_at": "2026-05-22T11:53:12.086820+00:00"
-        },
-        {
-          "ticker": "JOBY",
-          "setup_status": "BREAKOUT_TRIGGER_CANDIDATE",
-          "entry_price": 10.4,
-          "exit_price": 10.35,
-          "exit_reason": "STOP_HIT",
-          "return_pct": -0.4808,
-          "score": 96.7437,
-          "day_move_pct": 3.2771,
-          "relative_volume": 8.2479,
-          "vwap_distance_pct": 1.9155,
-          "opened_at": "2026-05-21T20:10:14.087464+00:00",
-          "closed_at": "2026-05-21T20:36:40.582525+00:00"
         }
       ]
     },
@@ -660,24 +660,26 @@
   "current_state": {
     "prebreakout_health": {
       "schema_version": "v3_prebreakout_predictor_health_v2_tightened",
-      "generated_at": "2026-05-22T13:04:50.480317+00:00",
-      "status": "PASS",
+      "generated_at": "2026-05-22T13:11:59.980352+00:00",
+      "status": "WARN",
       "blockers": [],
-      "warnings": [],
+      "warnings": [
+        "no_prebreakout_candidates_currently"
+      ],
       "rows": 80,
       "prebreakout_candidates": 0,
-      "breakout_trigger_candidates": 1,
-      "total_candidates": 1,
+      "breakout_trigger_candidates": 0,
+      "total_candidates": 0,
       "pullback_reclaim_watch": 1,
       "wait_for_pullback": 0,
-      "chase_risk_extended": 1,
-      "watch": 49,
-      "blocked": 22,
-      "top_ticker": "AAL",
-      "top_status": "BREAKOUT_TRIGGER_CANDIDATE",
-      "top_score": 100.0,
+      "chase_risk_extended": 0,
+      "watch": 62,
+      "blocked": 14,
+      "top_ticker": "AMD",
+      "top_status": "WATCH",
+      "top_score": 78.9466,
       "market_regime": "RISK_ON",
-      "market_regime_score": 71.102,
+      "market_regime_score": 69.5352,
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
@@ -706,24 +708,24 @@
     },
     "market_regime": {
       "schema_version": "v3_market_regime_filter_health_v1",
-      "generated_at": "2026-05-22T13:04:50.299142+00:00",
+      "generated_at": "2026-05-22T13:11:59.877027+00:00",
       "status": "WARN",
       "blockers": [],
       "warnings": [
         "no_market_index_rows_found_using_universe_proxy"
       ],
       "regime": "RISK_ON",
-      "regime_score": 71.102,
+      "regime_score": 69.5352,
       "recommendation": "Allow normal research alerting. Momentum conditions are supportive.",
       "source": "universe_proxy",
       "source_rows": 80,
-      "avg_day_move_pct": 1.7404,
-      "avg_vwap_distance_pct": 0.182,
-      "avg_momentum_1m": 0.0294,
-      "avg_momentum_5m": 0.1008,
+      "avg_day_move_pct": 1.7597,
+      "avg_vwap_distance_pct": 0.1847,
+      "avg_momentum_1m": 0.0073,
+      "avg_momentum_5m": 0.0532,
       "positive_move_pct": 67.5,
-      "above_vwap_pct": 77.5,
-      "positive_momentum_pct": 60.0,
+      "above_vwap_pct": 76.25,
+      "positive_momentum_pct": 52.5,
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
