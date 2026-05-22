@@ -1,12 +1,15 @@
 {
   "schema_version": "v3_hard_safety_lock_v2",
-  "generated_at": "2026-05-22T14:53:10.177990+00:00",
+  "generated_at": "2026-05-22T14:55:35.680079+00:00",
   "health": {
     "schema_version": "v3_hard_safety_lock_health_v2",
-    "generated_at": "2026-05-22T14:53:10.177990+00:00",
+    "generated_at": "2026-05-22T14:55:35.680079+00:00",
     "status": "FAIL",
     "blockers": [
-      "tomorrow_pack_fail"
+      "package_100_fail",
+      "morning_fail",
+      "tomorrow_pack_fail",
+      "package_100_not_pass"
     ],
     "warnings": [],
     "safe_for_research": false,
@@ -31,7 +34,7 @@
     "package_100": {
       "path": "docs/data/prediction_engine/v3_package_100_validation_health.json",
       "exists": true,
-      "status": "WARN",
+      "status": "FAIL",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": null,
@@ -41,12 +44,14 @@
     "morning": {
       "path": "docs/data/prediction_engine/v3_morning_readiness_report_health.json",
       "exists": true,
-      "status": "WARN",
+      "status": "FAIL",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
       "paper_trade_ready": false,
-      "blockers": []
+      "blockers": [
+        "package_100_not_passing"
+      ]
     },
     "tomorrow_pack": {
       "path": "docs/data/prediction_engine/v3_tomorrow_morning_command_pack_health.json",
@@ -58,6 +63,7 @@
       "paper_trade_ready": false,
       "blockers": [
         "script_failed_scripts_run_v3_research_alert_score.py",
+        "script_failed_scripts_run_v3_package_100_validation.py",
         "package_100_not_pass"
       ]
     },
