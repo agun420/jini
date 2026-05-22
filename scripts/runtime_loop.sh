@@ -51,6 +51,7 @@ run_once() {
   PYTHONPATH=src:. python scripts/run_v3_research_alert_outcome_journal.py || true
   PYTHONPATH=src:. python scripts/run_v3_outcome_quality_audit.py || true
   PYTHONPATH=src:. python scripts/run_v3_daily_research_report.py || true
+  PYTHONPATH=src:. python scripts/run_v3_paper_plan_export.py || true
   PYTHONPATH=src:. python scripts/run_v3_regime_outcome_audit.py || true
   PYTHONPATH=src:. python scripts/run_buy_order_alert_outcome_journal.py || true
   PYTHONPATH=src:. python scripts/run_validation_core_manifest.py || true
