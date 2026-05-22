@@ -61,6 +61,18 @@ def clamp(x: float, lo: float = 0.0, hi: float = 100.0) -> float:
     return max(lo, min(hi, x))
 
 
+
+def get_market_regime() -> dict[str, Any]:
+    payload = read_json(DOCS / "v3_market_regime_filter_health.json", {})
+    if not isinstance(payload, dict):
+        payload = {}
+    return {
+        "regime": str(payload.get("regime") or "UNKNOWN"),
+        "regime_score": f(payload.get("regime_score")),
+        "recommendation": payload.get("recommendation"),
+    }
+
+
 def score_row(row: dict[str, Any]) -> dict[str, Any]:
     price = f(row.get("price"))
     final = f(row.get("final_trade_score_v3"))

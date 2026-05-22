@@ -1,0 +1,119 @@
+{
+  "schema_version": "v3_hard_safety_lock_v2",
+  "generated_at": "2026-05-22T14:53:10.177990+00:00",
+  "health": {
+    "schema_version": "v3_hard_safety_lock_health_v2",
+    "generated_at": "2026-05-22T14:53:10.177990+00:00",
+    "status": "FAIL",
+    "blockers": [
+      "tomorrow_pack_fail"
+    ],
+    "warnings": [],
+    "safe_for_research": false,
+    "safe_for_paper_plan_only": false,
+    "safe_for_paper_submission": false,
+    "safe_for_live_trading": false,
+    "env_live_trading": null,
+    "env_paper_order_submission_enabled": "false",
+    "paper_trade_ready": false,
+    "paper_order_allowed": false,
+    "order_submission": false,
+    "live_trading": false
+  },
+  "env_checks": {
+    "PAPER_ORDER_SUBMISSION_ENABLED": "false",
+    "ORDER_SUBMISSION_ENABLED": null,
+    "LIVE_TRADING": null,
+    "REAL_MONEY_TRADING": null,
+    "ALPACA_PAPER": null
+  },
+  "checks": {
+    "package_100": {
+      "path": "docs/data/prediction_engine/v3_package_100_validation_health.json",
+      "exists": true,
+      "status": "WARN",
+      "order_submission": false,
+      "live_trading": false,
+      "paper_order_allowed": null,
+      "paper_trade_ready": false,
+      "blockers": []
+    },
+    "morning": {
+      "path": "docs/data/prediction_engine/v3_morning_readiness_report_health.json",
+      "exists": true,
+      "status": "WARN",
+      "order_submission": false,
+      "live_trading": false,
+      "paper_order_allowed": false,
+      "paper_trade_ready": false,
+      "blockers": []
+    },
+    "tomorrow_pack": {
+      "path": "docs/data/prediction_engine/v3_tomorrow_morning_command_pack_health.json",
+      "exists": true,
+      "status": "FAIL",
+      "order_submission": false,
+      "live_trading": false,
+      "paper_order_allowed": false,
+      "paper_trade_ready": false,
+      "blockers": [
+        "script_failed_scripts_run_v3_research_alert_score.py",
+        "package_100_not_pass"
+      ]
+    },
+    "paper_plan": {
+      "path": "docs/data/prediction_engine/v3_paper_order_plan_health.json",
+      "exists": true,
+      "status": "PASS",
+      "order_submission": false,
+      "live_trading": false,
+      "paper_order_allowed": false,
+      "paper_trade_ready": null,
+      "blockers": []
+    },
+    "edge_model": {
+      "path": "docs/data/prediction_engine/v3_mathematical_edge_model_health.json",
+      "exists": true,
+      "status": "PASS",
+      "order_submission": false,
+      "live_trading": false,
+      "paper_order_allowed": false,
+      "paper_trade_ready": null,
+      "blockers": []
+    },
+    "daily_report": {
+      "path": "docs/data/prediction_engine/v3_daily_research_report_health.json",
+      "exists": true,
+      "status": "PASS",
+      "order_submission": false,
+      "live_trading": false,
+      "paper_order_allowed": null,
+      "paper_trade_ready": false,
+      "blockers": []
+    },
+    "final_repo_audit": {
+      "path": "docs/data/prediction_engine/final_repo_audit.json",
+      "exists": true,
+      "status": "PASS",
+      "order_submission": null,
+      "live_trading": null,
+      "paper_order_allowed": null,
+      "paper_trade_ready": null,
+      "blockers": []
+    }
+  },
+  "decision": {
+    "run_mode": "RESEARCH_ONLY_AND_PAPER_PLAN_ONLY",
+    "safe_for_research": false,
+    "safe_for_paper_plan_only": false,
+    "safe_for_paper_submission": false,
+    "safe_for_live_trading": false,
+    "reason": "Hard safety lock keeps all submissions disabled until multi-day validation is complete."
+  },
+  "safety": {
+    "paper_trade_ready": false,
+    "paper_order_allowed": false,
+    "order_submission": false,
+    "live_trading": false
+  }
+}
