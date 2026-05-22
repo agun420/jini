@@ -63,6 +63,7 @@ run_once() {
   PYTHONPATH=src:. python scripts/run_validation_status_aggregator.py || true
   PYTHONPATH=src:. python scripts/run_auto_trade_readiness_audit.py || true
   PYTHONPATH=src:. python scripts/run_final_repo_audit.py || true
+  PYTHONPATH=src:. python scripts/run_v3_package_100_validation.py || true
   PYTHONPATH=src:. python scripts/run_backtest_gate.py || true
   PYTHONPATH=src:. python scripts/run_jini_stability_check.py || true
 
