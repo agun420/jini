@@ -53,6 +53,7 @@ run_once() {
   PYTHONPATH=src:. python scripts/run_v3_daily_research_report.py || true
   PYTHONPATH=src:. python scripts/run_v3_paper_plan_export.py || true
   PYTHONPATH=src:. python scripts/run_v3_regime_outcome_audit.py || true
+  PYTHONPATH=src:. python scripts/run_v3_mathematical_edge_model.py || true
   PYTHONPATH=src:. python scripts/run_buy_order_alert_outcome_journal.py || true
   PYTHONPATH=src:. python scripts/run_validation_core_manifest.py || true
   PYTHONPATH=src:. python scripts/run_trade_journal_health.py || true
