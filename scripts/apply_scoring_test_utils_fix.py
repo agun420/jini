@@ -2,7 +2,6 @@ from pathlib import Path
 
 ROOT = Path(".").resolve()
 
-# 1. Shared utils
 utils = ROOT / "src/prediction_engine/utils.py"
 utils.parent.mkdir(parents=True, exist_ok=True)
 utils.write_text('''"""Shared low-level utilities for the prediction engine."""
@@ -77,9 +76,7 @@ def write_json(path: Path, payload: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2, sort_keys=False), encoding="utf-8")
 ''', encoding="utf-8")
-print("created src/prediction_engine/utils.py")
 
-# 2. Pytest config
 Path("pytest.ini").write_text('''[pytest]
 testpaths = tests
 addopts = -v --tb=short
@@ -113,7 +110,6 @@ pytest>=7.4
 pytest-timeout>=2.1
 ''', encoding="utf-8")
 
-# 3. Test fixtures
 tests = Path("tests")
 tests.mkdir(exist_ok=True)
 
@@ -214,4 +210,4 @@ def test_score_sort_order_descending(minimal_row):
     assert scores == sorted(scores, reverse=True)
 ''', encoding="utf-8")
 
-print("created pytest config and scoring pipeline tests")
+print("Applied shared utilities and scoring tests.")
