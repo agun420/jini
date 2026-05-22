@@ -87,3 +87,4 @@ done
 
 # V3 phase-gate verdict layer
   PYTHONPATH=src:. python scripts/run_v3_phase_gate_verdict.py || true
+  PYTHONPATH=src:. python scripts/run_v3_loss_learning_runner_gate.py || true
