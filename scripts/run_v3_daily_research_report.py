@@ -15,6 +15,8 @@ REACTIVE_JOURNAL = DOCS / "v3_research_alert_outcome_journal.json"
 PRE_HEALTH = DOCS / "v3_prebreakout_predictor_health.json"
 REACTIVE_HEALTH = DOCS / "v3_research_alert_score_health.json"
 MARKET_REGIME_HEALTH = DOCS / "v3_market_regime_filter_health.json"
+REGIME_OUTCOME_AUDIT = DOCS / "v3_regime_outcome_audit.json"
+REGIME_OUTCOME_AUDIT_HEALTH = DOCS / "v3_regime_outcome_audit_health.json"
 FINAL_REPO_AUDIT_HEALTH = DOCS / "final_repo_audit.json"
 
 OUT_DOCS = DOCS / "v3_daily_research_report.json"
@@ -122,6 +124,8 @@ def main() -> None:
     pre_health = read_json(PRE_HEALTH, {})
     reactive_health = read_json(REACTIVE_HEALTH, {})
     market_regime = read_json(MARKET_REGIME_HEALTH, {})
+    regime_outcome = read_json(REGIME_OUTCOME_AUDIT, {})
+    regime_outcome_health = read_json(REGIME_OUTCOME_AUDIT_HEALTH, {})
     final_repo = read_json(FINAL_REPO_AUDIT_HEALTH, {})
 
     summary = audit.get("summary", {})
@@ -221,6 +225,8 @@ def main() -> None:
         "market_regime": market_regime.get("regime"),
         "market_regime_score": market_regime.get("regime_score"),
         "market_regime_recommendation": market_regime.get("recommendation"),
+        "regime_outcome_status": regime_outcome_health.get("status"),
+        "regime_outcome_recommendation": regime_outcome_health.get("recommendation"),
         "paper_trade_ready": paper_trade_ready,
         "paper_trade_reason": paper_trade_reason,
         "order_submission": False,
@@ -266,6 +272,7 @@ def main() -> None:
             "Keep pre-breakout as the primary dashboard layer.",
             "Keep reactive as the secondary scalp layer with no-chase protection.",
             "Collect at least 3 to 5 market days before paper-order activation.",
+            "Use regime outcome audit to decide if alerts should tighten or loosen by market condition.",
             "Fix any final repo audit blockers before considering paper submission.",
             "Do not enable live trading.",
         ],
