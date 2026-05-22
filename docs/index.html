@@ -304,7 +304,94 @@
     </div>
   </section>
 
-  <section class="card" style="margin-top:16px;">
+  
+  <section class="card" id="lossRunnerPanel" style="margin-top:16px;">
+    <h2>Loss Learning + Runner Gate</h2>
+    <p class="sub">Uses today’s wins/losses to block repeat mistakes and surface only elite runner-watch candidates. Review only. No orders.</p>
+
+    <section class="grid metrics" style="margin-top:14px;">
+      <div class="metric">
+        <p class="label">Runner Watch</p>
+        <p id="lrRunnerCount" class="value">Loading</p>
+        <div id="lrTopRunner" class="small">Top: Loading</div>
+      </div>
+      <div class="metric">
+        <p class="label">Active Cooldowns</p>
+        <p id="lrCooldownCount" class="value">Loading</p>
+        <div id="lrCooldownNote" class="small">Post-win / post-stop controls</div>
+      </div>
+      <div class="metric">
+        <p class="label">Late-Day Risk</p>
+        <p id="lrLateDay" class="value">Loading</p>
+        <div id="lrVeryLateDay" class="small">Very late: Loading</div>
+      </div>
+      <div class="metric">
+        <p class="label">Learning Layer</p>
+        <p id="lrWinningLayer" class="value">Loading</p>
+        <div id="lrPromotion" class="small">Promotion: Loading</div>
+      </div>
+    </section>
+
+    <h2 style="margin-top:18px;">Runner Watch Candidates</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Ticker</th>
+          <th>Status</th>
+          <th>EV%</th>
+          <th>Edge</th>
+          <th>RVOL</th>
+          <th>Day Move</th>
+          <th>First Target</th>
+          <th>Runner Target</th>
+          <th>Max Target</th>
+          <th>Submission</th>
+        </tr>
+      </thead>
+      <tbody id="lrRunnerRows">
+        <tr><td colspan="10">Loading runner watch...</td></tr>
+      </tbody>
+    </table>
+
+    <h2 style="margin-top:18px;">Active Cooldowns</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Ticker</th>
+          <th>Reason</th>
+          <th>Minutes Left</th>
+          <th>Last Result</th>
+          <th>Last Return</th>
+          <th>Failed Alerts</th>
+          <th>Avg Return</th>
+        </tr>
+      </thead>
+      <tbody id="lrCooldownRows">
+        <tr><td colspan="7">Loading cooldowns...</td></tr>
+      </tbody>
+    </table>
+
+    <h2 style="margin-top:18px;">Blocked Runner Candidates</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Ticker</th>
+          <th>Blockers</th>
+          <th>Warnings</th>
+          <th>EV%</th>
+          <th>Edge</th>
+          <th>RVOL</th>
+          <th>Day Move</th>
+        </tr>
+      </thead>
+      <tbody id="lrBlockedRows">
+        <tr><td colspan="7">Loading blocked candidates...</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+
+<section class="card" style="margin-top:16px;">
     <h2>Paper Plan Only</h2>
     <p class="sub">Review only. This dashboard does not submit orders.</p>
     <table>
@@ -555,5 +642,140 @@ init().catch(err => {
   }
 });
 </script>
+
+<script id="lossRunnerDashboardScriptV1">
+(function(){
+  const LR_BASE = "data/prediction_engine/";
+
+  function lrSafe(v, fallback="N/A"){
+    return (v === undefined || v === null || v === "" || Number.isNaN(v)) ? fallback : v;
+  }
+  function lrNum(v, digits=2){
+    const n = Number(v);
+    return Number.isFinite(n) ? n.toFixed(digits) : "N/A";
+  }
+  function lrPct(v, digits=2){
+    const n = Number(v);
+    return Number.isFinite(n) ? n.toFixed(digits) + "%" : "N/A";
+  }
+  function lrSet(id, val){
+    const el = document.getElementById(id);
+    if(el) el.textContent = lrSafe(val);
+  }
+  function lrPillClass(value){
+    const v = String(value || "").toUpperCase();
+    if(v.includes("PASS") || v.includes("RUNNER WATCH") || v.includes("READY") || v.includes("PRE_BREAKOUT")) return "good";
+    if(v.includes("WARN") || v.includes("WATCH") || v.includes("COOLDOWN") || v.includes("LATE")) return "warn";
+    if(v.includes("FAIL") || v.includes("BLOCK") || v.includes("STOP") || v.includes("LOCKOUT")) return "bad";
+    return "info";
+  }
+  function lrPill(value){
+    const v = lrSafe(value);
+    return '<span class="pill ' + lrPillClass(v) + '">' + String(v) + '</span>';
+  }
+  async function lrGet(file){
+    try{
+      const res = await fetch(LR_BASE + file + "?v=" + Date.now(), {cache:"no-store"});
+      if(!res.ok) return {};
+      return await res.json();
+    }catch(e){
+      return {};
+    }
+  }
+  function lrTicker(r){
+    return lrSafe(r.ticker || r.symbol);
+  }
+  function lrList(items){
+    if(!Array.isArray(items) || !items.length) return "None";
+    return items.join(", ");
+  }
+
+  async function renderLossRunnerPanel(){
+    const [data, health] = await Promise.all([
+      lrGet("v3_loss_learning_runner_gate.json"),
+      lrGet("v3_loss_learning_runner_gate_health.json")
+    ]);
+
+    lrSet("lrRunnerCount", health.runner_watch_count ?? 0);
+    lrSet("lrTopRunner", "Top: " + lrSafe(health.top_runner_ticker));
+    lrSet("lrCooldownCount", health.cooldown_active_count ?? 0);
+    lrSet("lrLateDay", health.late_day === true ? "YES" : "NO");
+    lrSet("lrVeryLateDay", "Very late: " + lrSafe(health.very_late_day));
+    lrSet("lrWinningLayer", health.winning_layer || "N/A");
+    lrSet("lrPromotion", "Promotion: " + lrSafe(health.promotion_decision));
+
+    const runnerRows = Array.isArray(data.runner_watch) ? data.runner_watch : [];
+    const runnerBody = document.getElementById("lrRunnerRows");
+    if(runnerBody){
+      if(!runnerRows.length){
+        runnerBody.innerHTML = '<tr><td colspan="10">No runner watch candidates right now. This is okay. Do not force trades.</td></tr>';
+      }else{
+        runnerBody.innerHTML = runnerRows.slice(0, 20).map(r => {
+          const safeFlag = (r.order_submission === false && r.live_trading === false) ? "OFF" : "CHECK";
+          return '<tr>'
+            + '<td><strong>' + lrTicker(r) + '</strong></td>'
+            + '<td>' + lrPill(r.runner_status) + '</td>'
+            + '<td>' + lrPct(r.expected_value_pct, 4) + '</td>'
+            + '<td>' + lrNum(r.edge_score, 2) + '</td>'
+            + '<td>' + lrNum(r.relative_volume, 2) + '</td>'
+            + '<td>' + lrPct(r.day_move_pct, 2) + '</td>'
+            + '<td>' + lrPct(r.runner_first_target_pct, 2) + '</td>'
+            + '<td>' + lrPct(r.runner_target_pct, 2) + '</td>'
+            + '<td>' + lrPct(r.runner_max_target_pct, 2) + '</td>'
+            + '<td>' + lrPill(safeFlag) + '</td>'
+            + '</tr>';
+        }).join("");
+      }
+    }
+
+    const cooldownRows = Array.isArray(data.active_cooldowns) ? data.active_cooldowns : [];
+    const cooldownBody = document.getElementById("lrCooldownRows");
+    if(cooldownBody){
+      if(!cooldownRows.length){
+        cooldownBody.innerHTML = '<tr><td colspan="7">No active cooldowns right now.</td></tr>';
+      }else{
+        cooldownBody.innerHTML = cooldownRows.slice(0, 30).map(r => {
+          return '<tr>'
+            + '<td><strong>' + lrTicker(r) + '</strong></td>'
+            + '<td>' + lrPill(r.cooldown_reason) + '</td>'
+            + '<td>' + lrNum(r.cooldown_minutes_left, 1) + '</td>'
+            + '<td>' + lrPill(r.last_reason) + '</td>'
+            + '<td>' + lrPct(r.last_return_pct, 4) + '</td>'
+            + '<td>' + lrSafe(r.failed_alerts) + '</td>'
+            + '<td>' + lrPct(r.avg_return_pct, 4) + '</td>'
+            + '</tr>';
+        }).join("");
+      }
+    }
+
+    const blockedRows = Array.isArray(data.blocked_runner_candidates) ? data.blocked_runner_candidates : [];
+    const blockedBody = document.getElementById("lrBlockedRows");
+    if(blockedBody){
+      if(!blockedRows.length){
+        blockedBody.innerHTML = '<tr><td colspan="7">No blocked runner candidates listed.</td></tr>';
+      }else{
+        blockedBody.innerHTML = blockedRows.slice(0, 30).map(r => {
+          return '<tr>'
+            + '<td><strong>' + lrTicker(r) + '</strong></td>'
+            + '<td class="muted">' + lrList(r.blockers) + '</td>'
+            + '<td class="muted">' + lrList(r.warnings) + '</td>'
+            + '<td>' + lrPct(r.expected_value_pct, 4) + '</td>'
+            + '<td>' + lrNum(r.edge_score, 2) + '</td>'
+            + '<td>' + lrNum(r.relative_volume, 2) + '</td>'
+            + '<td>' + lrPct(r.day_move_pct, 2) + '</td>'
+            + '</tr>';
+        }).join("");
+      }
+    }
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", renderLossRunnerPanel);
+  }else{
+    renderLossRunnerPanel();
+  }
+})();
+</script>
+
 </body>
 </html>
