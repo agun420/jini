@@ -14,6 +14,7 @@ PRE_JOURNAL = DOCS / "v3_prebreakout_outcome_journal.json"
 REACTIVE_JOURNAL = DOCS / "v3_research_alert_outcome_journal.json"
 PRE_HEALTH = DOCS / "v3_prebreakout_predictor_health.json"
 REACTIVE_HEALTH = DOCS / "v3_research_alert_score_health.json"
+MARKET_REGIME_HEALTH = DOCS / "v3_market_regime_filter_health.json"
 FINAL_REPO_AUDIT_HEALTH = DOCS / "final_repo_audit.json"
 
 OUT_DOCS = DOCS / "v3_daily_research_report.json"
@@ -120,6 +121,7 @@ def main() -> None:
     reactive_journal = read_json(REACTIVE_JOURNAL, {})
     pre_health = read_json(PRE_HEALTH, {})
     reactive_health = read_json(REACTIVE_HEALTH, {})
+    market_regime = read_json(MARKET_REGIME_HEALTH, {})
     final_repo = read_json(FINAL_REPO_AUDIT_HEALTH, {})
 
     summary = audit.get("summary", {})
@@ -158,6 +160,8 @@ def main() -> None:
         warnings.append("reactive_avg_not_positive")
     if final_repo.get("status") == "FAIL":
         warnings.append("final_repo_audit_has_blockers")
+    if market_regime.get("regime") == "RISK_OFF":
+        warnings.append("market_regime_risk_off")
 
     # Promotion decision.
     promotion_decision = "KEEP_RESEARCH_ONLY"
@@ -214,6 +218,9 @@ def main() -> None:
         "current_prebreakout_top_ticker": pre_health.get("top_ticker"),
         "current_prebreakout_top_status": pre_health.get("top_status"),
         "current_reactive_top_ticker": reactive_health.get("top_ticker"),
+        "market_regime": market_regime.get("regime"),
+        "market_regime_score": market_regime.get("regime_score"),
+        "market_regime_recommendation": market_regime.get("recommendation"),
         "paper_trade_ready": paper_trade_ready,
         "paper_trade_reason": paper_trade_reason,
         "order_submission": False,
@@ -250,6 +257,7 @@ def main() -> None:
         "current_state": {
             "prebreakout_health": pre_health,
             "reactive_health": reactive_health,
+            "market_regime": market_regime,
             "final_repo_audit_status": final_repo.get("status"),
             "final_repo_audit_blockers": final_repo.get("score", {}).get("blockers", []),
         },

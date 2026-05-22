@@ -162,6 +162,20 @@
       </div>
     </section>
 
+
+    <section class="card">
+      <p class="label">Market Regime</p>
+      <h2 id="marketRegimeTitle">Loading</h2>
+      <p id="marketRegimeNote" class="sub">Market context for research alerts. Does not trade.</p>
+
+      <div class="grid">
+        <div class="tile"><span>Regime</span><strong id="marketRegime">N/A</strong></div>
+        <div class="tile"><span>Score</span><strong id="marketRegimeScore">N/A</strong></div>
+        <div class="tile"><span>Positive Move</span><strong id="marketPositiveMove">N/A</strong></div>
+        <div class="tile"><span>Above VWAP</span><strong id="marketAboveVwap">N/A</strong></div>
+      </div>
+    </section>
+
     <section class="card">
       <p class="label">Main Engine</p>
       <h2>V3 Pre-Breakout Predictor</h2>
@@ -412,7 +426,8 @@
         preJ,
         reactive,
         reactiveH,
-        reactiveJ
+        reactiveJ,
+        marketH
       ] = await Promise.all([
         getJson('v3_enriched_rows_health.json'),
         getJson('v3_signal_pipeline_health.json'),
@@ -421,7 +436,8 @@
         getJson('v3_prebreakout_outcome_journal.json'),
         getJson('v3_research_alert_score.json'),
         getJson('v3_research_alert_score_health.json'),
-        getJson('v3_research_alert_outcome_journal.json')
+        getJson('v3_research_alert_outcome_journal.json'),
+        getJson('v3_market_regime_filter_health.json')
       ]);
 
       const latest = preH.generated_at || reactiveH.generated_at || pipeH.generated_at || enrichH.generated_at || 'N/A';
