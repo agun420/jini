@@ -3,713 +3,552 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Jini Research Trading Engine</title>
+  <title>Jini V3 Operator Dashboard</title>
   <style>
     :root{
-      --bg:#080b12;
-      --card:#111827;
-      --card2:#0f172a;
-      --text:#e5e7eb;
-      --muted:#9ca3af;
-      --line:#263244;
-      --good:#22c55e;
-      --warn:#f59e0b;
-      --bad:#ef4444;
-      --blue:#38bdf8;
-      --purple:#a78bfa;
+      --bg:#0b0f17;
+      --card:#121826;
+      --card2:#171f31;
+      --text:#eef3ff;
+      --muted:#9aa7bd;
+      --line:#243047;
+      --good:#26d07c;
+      --warn:#ffd166;
+      --bad:#ff5c7a;
+      --info:#69a7ff;
+      --chip:#22304a;
+      --shadow:0 18px 40px rgba(0,0,0,.28);
+      --radius:18px;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
-      background:linear-gradient(180deg,#05070c 0%,#0b1120 100%);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      background:linear-gradient(180deg,#08101d 0%,#0b0f17 35%,#080b11 100%);
       color:var(--text);
-      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     }
-    .wrap{max-width:1500px;margin:0 auto;padding:24px}
-    .hero{
+    header{
+      padding:28px 22px 12px;
+      max-width:1320px;
+      margin:0 auto;
+    }
+    .topbar{
       display:flex;
-      justify-content:space-between;
       gap:16px;
       align-items:flex-start;
-      margin-bottom:18px;
+      justify-content:space-between;
+      flex-wrap:wrap;
     }
-    h1{margin:0;font-size:30px;letter-spacing:-.03em}
-    h2{margin:4px 0 8px;font-size:20px}
-    p{color:var(--muted);line-height:1.45}
-    .sub{margin:8px 0 0;color:var(--muted)}
+    h1{
+      margin:0;
+      font-size:30px;
+      letter-spacing:-.04em;
+      line-height:1.05;
+    }
+    .sub{
+      margin:8px 0 0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.45;
+    }
+    main{
+      max-width:1320px;
+      margin:0 auto;
+      padding:12px 22px 40px;
+    }
     .grid{
       display:grid;
+      gap:16px;
+    }
+    .grid.metrics{
       grid-template-columns:repeat(4,minmax(0,1fr));
-      gap:12px;
-      margin:14px 0;
     }
-    .grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .grid.two{
+      grid-template-columns:1.1fr .9fr;
+    }
     .card{
-      background:rgba(17,24,39,.88);
+      background:linear-gradient(180deg,var(--card) 0%,#101725 100%);
       border:1px solid var(--line);
-      border-radius:18px;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
       padding:18px;
-      margin:14px 0;
-      box-shadow:0 12px 28px rgba(0,0,0,.22);
+      overflow:hidden;
     }
-    .tile{
-      background:rgba(15,23,42,.92);
+    .metric{
+      background:linear-gradient(180deg,var(--card2),#111827);
       border:1px solid var(--line);
-      border-radius:14px;
-      padding:14px;
-      min-height:82px;
+      border-radius:16px;
+      padding:16px;
+      min-height:104px;
     }
-    .tile span{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
-    .tile strong{display:block;margin-top:8px;font-size:22px}
     .label{
-      margin:0 0 6px;
-      color:var(--blue);
+      color:var(--muted);
       font-size:12px;
-      font-weight:700;
-      text-transform:uppercase;
       letter-spacing:.08em;
+      text-transform:uppercase;
+      margin:0 0 8px;
     }
-    .statusbar{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:12px;
+    .value{
+      font-size:26px;
+      font-weight:800;
+      letter-spacing:-.03em;
+      margin:0;
+      word-break:break-word;
     }
-    .pill{
+    .small{
+      color:var(--muted);
+      font-size:13px;
+      margin-top:6px;
+      line-height:1.35;
+    }
+    .card h2{
+      margin:0 0 12px;
+      font-size:19px;
+      letter-spacing:-.025em;
+    }
+    .status{
       display:inline-flex;
       align-items:center;
-      gap:6px;
+      gap:7px;
       border-radius:999px;
       padding:6px 10px;
-      border:1px solid var(--line);
-      color:var(--text);
-      background:#0b1220;
       font-size:12px;
-      font-weight:700;
+      font-weight:800;
+      background:var(--chip);
+      border:1px solid var(--line);
       white-space:nowrap;
     }
-    .pill.good{border-color:rgba(34,197,94,.45);color:#86efac}
-    .pill.warn{border-color:rgba(245,158,11,.45);color:#fcd34d}
-    .pill.bad{border-color:rgba(239,68,68,.45);color:#fca5a5}
-    .pill.blue{border-color:rgba(56,189,248,.45);color:#7dd3fc}
+    .dot{
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:var(--muted);
+    }
+    .pass .dot,.good .dot{background:var(--good)}
+    .warn .dot,.watch .dot{background:var(--warn)}
+    .fail .dot,.bad .dot{background:var(--bad)}
+    .info .dot{background:var(--info)}
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin:8px 0 0;
+    }
     table{
       width:100%;
-      border-collapse:collapse;
-      overflow:hidden;
-      border-radius:14px;
+      border-collapse:separate;
+      border-spacing:0;
       margin-top:12px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      border-radius:14px;
     }
     th,td{
-      border-bottom:1px solid var(--line);
-      padding:10px;
+      padding:11px 10px;
       text-align:left;
+      border-bottom:1px solid var(--line);
       font-size:13px;
       vertical-align:top;
     }
     th{
-      color:#cbd5e1;
-      background:#0b1220;
+      color:#c7d3e8;
+      background:#162035;
       font-size:11px;
+      letter-spacing:.06em;
       text-transform:uppercase;
-      letter-spacing:.05em;
     }
-    td{color:#e5e7eb}
-    .note{color:#cbd5e1;max-width:520px}
+    tr:last-child td{border-bottom:none}
+    td{color:#eef3ff}
     .muted{color:var(--muted)}
-    .right{text-align:right}
-    .hide{display:none}
-    .footer{color:var(--muted);font-size:12px;margin:24px 0}
-    @media(max-width:1000px){
-      .grid,.grid.two,.grid.three{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .hero{display:block}
+    .pill{
+      display:inline-block;
+      padding:5px 8px;
+      border-radius:999px;
+      background:#22304a;
+      border:1px solid #31405f;
+      font-size:11px;
+      font-weight:800;
+      white-space:nowrap;
     }
-    @media(max-width:640px){
-      .grid,.grid.two,.grid.three{grid-template-columns:1fr}
-      .wrap{padding:14px}
-      table{display:block;overflow-x:auto}
+    .pill.good{background:rgba(38,208,124,.12);border-color:rgba(38,208,124,.45);color:#9ff0c4}
+    .pill.warn{background:rgba(255,209,102,.12);border-color:rgba(255,209,102,.45);color:#ffe5a3}
+    .pill.bad{background:rgba(255,92,122,.12);border-color:rgba(255,92,122,.45);color:#ffadc0}
+    .pill.info{background:rgba(105,167,255,.12);border-color:rgba(105,167,255,.45);color:#b7d4ff}
+    .phase-list{
+      display:grid;
+      gap:9px;
+      margin-top:12px;
+    }
+    .phase{
+      background:#0f1625;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .phase strong{display:block;font-size:13px}
+    .phase span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+    .footer-note{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:18px;
+      line-height:1.4;
+    }
+    .hide{display:none!important}
+    @media(max-width:980px){
+      .grid.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .grid.two{grid-template-columns:1fr}
+      h1{font-size:25px}
+    }
+    @media(max-width:620px){
+      .grid.metrics{grid-template-columns:1fr}
+      header,main{padding-left:14px;padding-right:14px}
+      table{display:block;overflow-x:auto;white-space:nowrap}
     }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <section class="hero">
-      <div>
-        <h1>Jini Research Trading Engine</h1>
-        <p class="sub">Pre-breakout research scanner. Manual review only. Paper orders and live trading are OFF.</p>
-        <div class="statusbar">
-          <span id="runtimeStatus" class="pill blue">Loading runtime</span>
-          <span id="orderStatus" class="pill good">Orders OFF</span>
-          <span id="liveStatus" class="pill good">Live OFF</span>
-          <span id="updatedAt" class="pill">Updated: Loading</span>
+<header>
+  <div class="topbar">
+    <div>
+      <h1>Jini V3 Operator Dashboard</h1>
+      <p class="sub">Phase-gate verdict board. Research-only and paper-plan-only. No order submission. No live trading.</p>
+    </div>
+    <div class="row">
+      <span id="overallStatus" class="status info"><span class="dot"></span>Loading</span>
+      <span id="lastUpdated" class="status info"><span class="dot"></span>Updated: Loading</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="grid metrics">
+    <div class="metric">
+      <p class="label">Top Verdict</p>
+      <p id="topVerdict" class="value">Loading</p>
+      <div id="topTicker" class="small">Ticker: Loading</div>
+    </div>
+    <div class="metric">
+      <p class="label">Market Regime</p>
+      <p id="marketRegime" class="value">Loading</p>
+      <div id="marketScore" class="small">Score: Loading</div>
+    </div>
+    <div class="metric">
+      <p class="label">Positive Edge</p>
+      <p id="positiveEdge" class="value">Loading</p>
+      <div id="paperPlans" class="small">Paper plans: Loading</div>
+    </div>
+    <div class="metric">
+      <p class="label">Safety</p>
+      <p id="safetyMode" class="value">Loading</p>
+      <div id="safetyDetail" class="small">Orders/live: Loading</div>
+    </div>
+  </section>
+
+  <section class="card" style="margin-top:16px;">
+    <h2>Phase-Gate Verdicts</h2>
+    <p class="sub">Each ticker must pass data quality, market regime, setup, math edge, paper plan, and safety before it can show as a plan-only buy setup.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Ticker</th>
+          <th>Final Verdict</th>
+          <th>Action</th>
+          <th>Price</th>
+          <th>Day Move</th>
+          <th>RVOL</th>
+          <th>EV%</th>
+          <th>Edge</th>
+          <th>Target</th>
+          <th>Stop</th>
+          <th>Safety</th>
+        </tr>
+      </thead>
+      <tbody id="verdictRows">
+        <tr><td colspan="11">Loading verdicts...</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="grid two" style="margin-top:16px;">
+    <div class="card">
+      <h2>Top Ticker Phase Gates</h2>
+      <p id="phaseTickerNote" class="sub">Loading phase gates...</p>
+      <div id="phaseGateList" class="phase-list"></div>
+    </div>
+
+    <div class="card">
+      <h2>System Health</h2>
+      <div class="phase-list">
+        <div class="phase">
+          <div><strong>Hard Safety Lock</strong><span id="hardSafetyText">Loading</span></div>
+          <span id="hardSafetyPill" class="pill info">Loading</span>
+        </div>
+        <div class="phase">
+          <div><strong>Tomorrow Command Pack</strong><span id="tomorrowPackText">Loading</span></div>
+          <span id="tomorrowPackPill" class="pill info">Loading</span>
+        </div>
+        <div class="phase">
+          <div><strong>Math Edge Model</strong><span id="mathEdgeText">Loading</span></div>
+          <span id="mathEdgePill" class="pill info">Loading</span>
+        </div>
+        <div class="phase">
+          <div><strong>Paper Plan Only</strong><span id="paperPlanText">Loading</span></div>
+          <span id="paperPlanPill" class="pill info">Loading</span>
         </div>
       </div>
-      <div class="card" style="min-width:280px;margin:0">
-        <p class="label">Core Rule</p>
-        <h2>No chase mode</h2>
-        <p class="sub">Names already highly extended should move to wait-for-pullback or chase-risk, not clean candidates.</p>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="card">
-      <p class="label">Safety</p>
-      <h2>Trading controls</h2>
-      <div class="grid">
-        <div class="tile"><span>Order Submission</span><strong id="safeOrders">OFF</strong></div>
-        <div class="tile"><span>Live Trading</span><strong id="safeLive">OFF</strong></div>
-        <div class="tile"><span>Paper Auto Trade</span><strong id="safePaper">OFF</strong></div>
-        <div class="tile"><span>Strict V3 Gate</span><strong id="strictGate">Blocked</strong></div>
-      </div>
-    </section>
+  <section class="card" style="margin-top:16px;">
+    <h2>Paper Plan Only</h2>
+    <p class="sub">Review only. This dashboard does not submit orders.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Ticker</th>
+          <th>Layer</th>
+          <th>Edge</th>
+          <th>EV%</th>
+          <th>Win Prob.</th>
+          <th>Shares</th>
+          <th>Notional</th>
+          <th>Target</th>
+          <th>Stop</th>
+          <th>Submission</th>
+        </tr>
+      </thead>
+      <tbody id="paperPlanRows">
+        <tr><td colspan="10">Loading paper plans...</td></tr>
+      </tbody>
+    </table>
+  </section>
 
+  <p class="footer-note">
+    Final verdict logic: DATA QUALITY → MARKET REGIME → PRE-BREAKOUT / REACTIVE → MATH EDGE → PAPER PLAN → SAFETY LOCK.
+    Current mode remains research-only and paper-plan-only.
+  </p>
 
-
-
-    <section class="card">
-      <p class="label">Tomorrow Command Pack</p>
-      <h2 id="tomorrowPackTitle">Loading</h2>
-      <p class="sub">One-glance morning command result. Research-only and paper-plan-only. No order submission.</p>
-
-      <div class="grid">
-        <div class="tile"><span>Status</span><strong id="tomorrowPackStatus">N/A</strong></div>
-        <div class="tile"><span>Scripts Failed</span><strong id="tomorrowScriptsFailed">N/A</strong></div>
-        <div class="tile"><span>Package 100</span><strong id="tomorrowPkg100">N/A</strong></div>
-        <div class="tile"><span>Readiness</span><strong id="tomorrowReadiness">N/A</strong></div>
-        <div class="tile"><span>Market Regime</span><strong id="tomorrowRegime">N/A</strong></div>
-        <div class="tile"><span>Positive Edge</span><strong id="tomorrowPositiveEdge">N/A</strong></div>
-        <div class="tile"><span>Paper Plans</span><strong id="tomorrowPlanCount">N/A</strong></div>
-        <div class="tile"><span>Orders / Live</span><strong id="tomorrowSafety">OFF</strong></div>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Ticker</th>
-            <th>Layer</th>
-            <th>Edge</th>
-            <th>EV%</th>
-            <th>Win Prob.</th>
-            <th>R/R</th>
-            <th>Price</th>
-            <th>Shares</th>
-            <th>Target</th>
-            <th>Stop</th>
-          </tr>
-        </thead>
-        <tbody id="tomorrowPackRows">
-          <tr><td colspan="10">Loading...</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="card">
-      <p class="label">Morning Readiness</p>
-      <h2 id="morningTitle">Loading</h2>
-      <p class="sub">Pre-market readiness check and locked watchlist. Research-only. No paper or live orders.</p>
-
-      <div class="grid">
-        <div class="tile"><span>Readiness</span><strong id="morningReadiness">N/A</strong></div>
-        <div class="tile"><span>Package 100</span><strong id="morningPkg100">N/A</strong></div>
-        <div class="tile"><span>Market Regime</span><strong id="morningRegime">N/A</strong></div>
-        <div class="tile"><span>Positive Edge</span><strong id="morningPositiveEdge">N/A</strong></div>
-        <div class="tile"><span>Paper Plans</span><strong id="morningPlanCount">N/A</strong></div>
-        <div class="tile"><span>Locked Watchlist</span><strong id="morningWatchCount">N/A</strong></div>
-        <div class="tile"><span>Order Submission</span><strong id="morningOrders">OFF</strong></div>
-        <div class="tile"><span>Live Trading</span><strong id="morningLive">OFF</strong></div>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Ticker</th>
-            <th>Layer</th>
-            <th>Edge</th>
-            <th>EV%</th>
-            <th>Win Prob.</th>
-            <th>R/R</th>
-            <th>Price</th>
-            <th>Shares</th>
-            <th>Target</th>
-            <th>Stop</th>
-          </tr>
-        </thead>
-        <tbody id="morningWatchRows">
-          <tr><td colspan="10">Loading...</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="card">
-      <p class="label">Market Regime</p>
-      <h2 id="marketRegimeTitle">Loading</h2>
-      <p id="marketRegimeNote" class="sub">Market context for research alerts. Does not trade.</p>
-
-      <div class="grid">
-        <div class="tile"><span>Regime</span><strong id="marketRegime">N/A</strong></div>
-        <div class="tile"><span>Score</span><strong id="marketRegimeScore">N/A</strong></div>
-        <div class="tile"><span>Positive Move</span><strong id="marketPositiveMove">N/A</strong></div>
-        <div class="tile"><span>Above VWAP</span><strong id="marketAboveVwap">N/A</strong></div>
-      </div>
-    </section>
-
-    <section class="card">
-      <p class="label">Main Engine</p>
-      <h2>V3 Pre-Breakout Predictor</h2>
-      <p class="sub">This is the primary section. It looks for earlier setups and avoids chasing stocks already extended.</p>
-
-      <div class="grid">
-        <div class="tile"><span>Total Candidates</span><strong id="preTotal">N/A</strong></div>
-        <div class="tile"><span>Pre-Breakout</span><strong id="preCount">N/A</strong></div>
-        <div class="tile"><span>Breakout Trigger</span><strong id="triggerCount">N/A</strong></div>
-        <div class="tile"><span>Wait Pullback</span><strong id="waitCount">N/A</strong></div>
-        <div class="tile"><span>Chase Risk</span><strong id="chaseCount">N/A</strong></div>
-        <div class="tile"><span>Top Ticker</span><strong id="preTopTicker">N/A</strong></div>
-        <div class="tile"><span>Top Status</span><strong id="preTopStatus">N/A</strong></div>
-        <div class="tile"><span>Top Score</span><strong id="preTopScore">N/A</strong></div>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Ticker</th>
-            <th>Live</th>
-            <th>Target</th>
-            <th>Stop</th>
-            <th>Status</th>
-            <th>Score</th>
-            <th>Move</th>
-            <th>VWAP</th>
-            <th>Confidence</th>
-            <th>Note</th>
-          </tr>
-        </thead>
-        <tbody id="preRows">
-          <tr><td colspan="10">Loading...</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="card">
-      <p class="label">Secondary Engine</p>
-      <h2>V3 Reactive Research Alerts</h2>
-      <p class="sub">This layer finds momentum already moving. It is useful, but can chase. Compare it against pre-breakout outcomes.</p>
-
-      <div class="grid">
-        <div class="tile"><span>Current Candidates</span><strong id="reactiveCandidates">N/A</strong></div>
-        <div class="tile"><span>Watch</span><strong id="reactiveWatch">N/A</strong></div>
-        <div class="tile"><span>Top Ticker</span><strong id="reactiveTopTicker">N/A</strong></div>
-        <div class="tile"><span>Top Score</span><strong id="reactiveTopScore">N/A</strong></div>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Ticker</th>
-            <th>Live</th>
-            <th>Target</th>
-            <th>Stop</th>
-            <th>Status</th>
-            <th>Score</th>
-            <th>Move</th>
-            <th>Confidence</th>
-            <th>Note</th>
-          </tr>
-        </thead>
-        <tbody id="reactiveRows">
-          <tr><td colspan="9">Loading...</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-
-    <section class="card">
-      <p class="label">Mathematical Edge Model</p>
-      <h2 id="edgeTitle">Loading</h2>
-      <p class="sub">Positive expected value filter. Research only. No paper or live orders are submitted.</p>
-
-      <div class="grid">
-        <div class="tile"><span>Positive Edge</span><strong id="edgePositive">N/A</strong></div>
-        <div class="tile"><span>Small Edge Watch</span><strong id="edgeSmall">N/A</strong></div>
-        <div class="tile"><span>Rejected</span><strong id="edgeRejected">N/A</strong></div>
-        <div class="tile"><span>Top EV</span><strong id="edgeTopEv">N/A</strong></div>
-        <div class="tile"><span>Top Ticker</span><strong id="edgeTopTicker">N/A</strong></div>
-        <div class="tile"><span>Top Edge Status</span><strong id="edgeTopStatus">N/A</strong></div>
-        <div class="tile"><span>Top Score</span><strong id="edgeTopScore">N/A</strong></div>
-        <div class="tile"><span>Orders</span><strong id="edgeOrders">OFF</strong></div>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Ticker</th>
-            <th>Layer</th>
-            <th>Edge</th>
-            <th>EV%</th>
-            <th>Win Prob.</th>
-            <th>R/R</th>
-            <th>Price</th>
-            <th>Target</th>
-            <th>Stop</th>
-            <th>Safety</th>
-          </tr>
-        </thead>
-        <tbody id="edgeRows">
-          <tr><td colspan="10">Loading...</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="card">
-      <p class="label">Paper Plan Only</p>
-      <h2 id="paperPlanTitle">Loading</h2>
-      <p class="sub">Review-only order plan. This does not submit orders. Use it to inspect what the model would consider later.</p>
-
-      <div class="grid">
-        <div class="tile"><span>Plan Count</span><strong id="paperPlanCount">N/A</strong></div>
-        <div class="tile"><span>Market Regime</span><strong id="paperPlanRegime">N/A</strong></div>
-        <div class="tile"><span>Max Notional</span><strong id="paperPlanMax">N/A</strong></div>
-        <div class="tile"><span>Order Submission</span><strong id="paperPlanOrders">OFF</strong></div>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Ticker</th>
-            <th>Layer</th>
-            <th>Edge</th>
-            <th>EV%</th>
-            <th>Win Prob.</th>
-            <th>Shares</th>
-            <th>Notional</th>
-            <th>Target</th>
-            <th>Stop</th>
-            <th>Safety</th>
-          </tr>
-        </thead>
-        <tbody id="paperPlanRows">
-          <tr><td colspan="10">Loading...</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="card">
-      <p class="label">Outcome Board</p>
-      <h2>Reactive vs Pre-Breakout Results</h2>
-      <p class="sub">Use this to decide which layer is actually better. Do not tune based on one alert.</p>
-
-      <div class="grid">
-        <div class="tile"><span>Reactive Closed</span><strong id="reactiveClosed">N/A</strong></div>
-        <div class="tile"><span>Reactive Targets</span><strong id="reactiveTargets">N/A</strong></div>
-        <div class="tile"><span>Reactive Stops</span><strong id="reactiveStops">N/A</strong></div>
-        <div class="tile"><span>Reactive Avg Return</span><strong id="reactiveAvg">N/A</strong></div>
-
-        <div class="tile"><span>Pre-Breakout Closed</span><strong id="preClosed">N/A</strong></div>
-        <div class="tile"><span>Pre-Breakout Targets</span><strong id="preTargets">N/A</strong></div>
-        <div class="tile"><span>Pre-Breakout Stops</span><strong id="preStops">N/A</strong></div>
-        <div class="tile"><span>Pre-Breakout Avg Return</span><strong id="preAvg">N/A</strong></div>
-      </div>
-    </section>
-
-    <section class="card">
-      <p class="label">Open Research Alerts</p>
-      <h2>Currently tracked alerts</h2>
-      <p class="sub">One open alert per ticker. Research tracking only.</p>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Layer</th>
-            <th>Ticker</th>
-            <th>Entry</th>
-            <th>Last</th>
-            <th>Target</th>
-            <th>Stop</th>
-            <th>Return</th>
-            <th>Age</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="openRows">
-          <tr><td colspan="9">Loading...</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="card">
-      <p class="label">System Health</p>
-      <h2>Runtime checks</h2>
-      <div class="grid">
-        <div class="tile"><span>V3 Enrichment</span><strong id="enrichHealth">N/A</strong></div>
-        <div class="tile"><span>V3 Pipeline</span><strong id="pipelineHealth">N/A</strong></div>
-        <div class="tile"><span>Pre-Breakout</span><strong id="preHealth">N/A</strong></div>
-        <div class="tile"><span>Reactive</span><strong id="reactiveHealth">N/A</strong></div>
-      </div>
-    </section>
-
-    <p class="footer">
-      Research dashboard only. Not financial advice. Order submission is disabled. Live trading is disabled.
-    </p>
-  
-<!-- Final repo audit dashboard contract compatibility.
-     Hidden on purpose. Keeps the cleaned dashboard while preserving required legacy IDs. -->
-<section id="dashboardContractCompatibility" class="hide" aria-hidden="true">
-  <div id="validatedWatchAlerts">Dashboard contract placeholder</div>
-  <div id="operatorHealthJson">Dashboard contract placeholder</div>
-  <div id="topRowJson">Dashboard contract placeholder</div>
-  <div id="messageTitle">Dashboard contract placeholder</div>
-  <div id="messageBody">Dashboard contract placeholder</div>
-  <div id="v3ResearchRows">Dashboard contract placeholder</div>
-  <div id="v3ResearchTitle">Dashboard contract placeholder</div>
-  <div id="v3ResearchCandidates">0</div>
-  <div id="v3ResearchWatch">0</div>
-  <div id="v3ResearchBlocked">0</div>
-  <div id="v3ResearchTopTicker">N/A</div>
-  <div id="v3ResearchTopScore">N/A</div>
-  <div id="v3ResearchStrictGate">NO</div>
-  <div id="v3ResearchPaper">OFF</div>
-  <div id="v3ResearchLive">OFF</div>
-</section>
-
-
-<section class="card" id="finalRepoAuditDashboardContract">
-  <p class="label">Validated Watch Alerts</p>
-  <h2>Validated Watch Alerts</h2>
-  <p id="messageTitle">System Ready</p>
-  <p id="messageBody">Manual review required. Order submission false. Live trading false.</p>
-
-  <div class="grid">
-    <div class="tile"><span>Operator Health JSON</span><strong id="operatorHealthJson">Available</strong></div>
-    <div class="tile"><span>Top Row JSON</span><strong id="topRowJson">Available</strong></div>
-    <div class="tile"><span>Validated Watch Alerts</span><strong id="validatedWatchAlerts">Available</strong></div>
-    <div class="tile"><span>Safety</span><strong>Orders OFF</strong></div>
-  </div>
-</section>
-
-
-<!-- Final repo audit required dashboard contract IDs.
-     Kept hidden so the cleaned dashboard stays focused. -->
-<section id="finalRepoRequiredDashboardIds" class="hide" aria-hidden="true">
-  <div id="metric-total-signals">0</div>
-  <div id="metric-trade-eligible">0</div>
-  <div id="adaptive-guard-panel">Adaptive guard panel placeholder</div>
-  <div id="paper-plan-panel">Paper plan panel placeholder</div>
-  <div id="outcomes-panel">Outcomes panel placeholder</div>
-  <table id="signals-table">
-    <tbody>
-      <tr><td>Signals table placeholder</td></tr>
-    </tbody>
-  </table>
-  <div id="health-panel">Health panel placeholder</div>
-  <div id="quality-panel">Quality panel placeholder</div>
-  <div id="learning-panel">Learning panel placeholder</div>
-</section>
-
+  <!-- Final repo audit required dashboard contract IDs. Hidden compatibility section. -->
+  <section id="finalRepoRequiredDashboardIds" class="hide" aria-hidden="true">
+    <div id="metric-total-signals">0</div>
+    <div id="metric-trade-eligible">0</div>
+    <div id="adaptive-guard-panel">Adaptive guard panel placeholder</div>
+    <div id="paper-plan-panel">Paper plan panel placeholder</div>
+    <div id="outcomes-panel">Outcomes panel placeholder</div>
+    <table id="signals-table"><tbody><tr><td>Signals table placeholder</td></tr></tbody></table>
+    <div id="health-panel">Health panel placeholder</div>
+    <div id="quality-panel">Quality panel placeholder</div>
+    <div id="learning-panel">Learning panel placeholder</div>
+  </section>
 </main>
 
-  <script>
-    const B = 'data/prediction_engine/';
+<script>
+const BASE = "data/prediction_engine/";
 
-    async function getJson(name){
-      try{
-        const r = await fetch(B + name + '?cb=' + Date.now());
-        if(!r.ok) return {};
-        return await r.json();
-      }catch(e){
-        return {};
-      }
-    }
+function safe(v, fallback="N/A"){
+  return (v === undefined || v === null || v === "" || Number.isNaN(v)) ? fallback : v;
+}
+function num(v, digits=2){
+  const n = Number(v);
+  return Number.isFinite(n) ? n.toFixed(digits) : "N/A";
+}
+function pct(v, digits=2){
+  const n = Number(v);
+  return Number.isFinite(n) ? n.toFixed(digits) + "%" : "N/A";
+}
+function money(v){
+  const n = Number(v);
+  return Number.isFinite(n) ? "$" + n.toFixed(2) : "N/A";
+}
+function setText(id, val){
+  const el = document.getElementById(id);
+  if(el) el.textContent = safe(val);
+}
+function pillClass(value){
+  const v = String(value || "").toUpperCase();
+  if(v.includes("PASS") || v.includes("BUY SETUP") || v.includes("POSITIVE") || v.includes("READY")) return "good";
+  if(v.includes("WARN") || v.includes("WATCH") || v.includes("PULLBACK") || v.includes("SCALP") || v.includes("NEUTRAL")) return "warn";
+  if(v.includes("FAIL") || v.includes("BLOCK") || v.includes("NEGATIVE") || v.includes("RISK_OFF")) return "bad";
+  return "info";
+}
+function pill(value){
+  const v = safe(value);
+  return '<span class="pill ' + pillClass(v) + '">' + String(v) + '</span>';
+}
+function statusClass(value){
+  return "status " + pillClass(value);
+}
+async function getJson(file){
+  try{
+    const res = await fetch(BASE + file + "?v=" + Date.now(), {cache:"no-store"});
+    if(!res.ok) return {};
+    return await res.json();
+  }catch(e){
+    return {};
+  }
+}
+function rowTicker(r){
+  return safe(r.ticker || r.symbol);
+}
 
-    function set(id, value){
-      const el = document.getElementById(id);
-      if(!el) return;
-      el.textContent = value === true ? 'YES' : value === false ? 'NO' : (value ?? 'N/A');
-    }
+function renderVerdicts(verdictData){
+  const rows = Array.isArray(verdictData.verdicts) ? verdictData.verdicts : [];
+  const body = document.getElementById("verdictRows");
+  if(!body) return;
 
-    function money(v){
-      const n = Number(v);
-      return Number.isFinite(n) ? '$' + n.toFixed(2) : 'N/A';
-    }
+  if(!rows.length){
+    body.innerHTML = '<tr><td colspan="11">No phase-gate verdicts available yet. Runtime may still be generating data.</td></tr>';
+    return;
+  }
 
-    function num(v){
-      const n = Number(v);
-      return Number.isFinite(n) ? n.toFixed(2) : 'N/A';
-    }
+  body.innerHTML = rows.slice(0, 20).map(r => {
+    const safeFlag = (r.order_submission === false && r.live_trading === false) ? "OFF" : "CHECK";
+    return '<tr>'
+      + '<td><strong>' + rowTicker(r) + '</strong></td>'
+      + '<td>' + pill(r.final_verdict) + '</td>'
+      + '<td class="muted">' + safe(r.action) + '</td>'
+      + '<td>' + money(r.price) + '</td>'
+      + '<td>' + pct(r.day_move_pct) + '</td>'
+      + '<td>' + num(r.relative_volume, 2) + '</td>'
+      + '<td>' + pct(r.expected_value_pct, 4) + '</td>'
+      + '<td>' + num(r.edge_score, 2) + '</td>'
+      + '<td>' + money(r.target_price) + '</td>'
+      + '<td>' + money(r.stop_price) + '</td>'
+      + '<td>' + pill(safeFlag) + '</td>'
+      + '</tr>';
+  }).join("");
+}
 
-    function pct(v){
-      const n = Number(v);
-      return Number.isFinite(n) ? n.toFixed(2) + '%' : 'N/A';
-    }
+function renderTopPhases(verdictData){
+  const rows = Array.isArray(verdictData.verdicts) ? verdictData.verdicts : [];
+  const top = rows[0] || {};
+  const gates = top.phase_gates || {};
+  setText("phaseTickerNote", top.ticker ? ("Top ticker: " + top.ticker + " | Verdict: " + top.final_verdict) : "No top ticker available yet.");
 
-    function pillClass(v){
-      const s = String(v || '').toUpperCase();
-      if(s.includes('PASS') || s.includes('CANDIDATE') || s.includes('TARGET')) return 'good';
-      if(s.includes('WARN') || s.includes('WATCH') || s.includes('WAIT') || s.includes('PULLBACK')) return 'warn';
-      if(s.includes('BLOCK') || s.includes('STOP') || s.includes('CHASE') || s.includes('FAIL')) return 'bad';
-      return 'blue';
-    }
+  const names = [
+    ["data_quality","Data Quality"],
+    ["market_regime","Market Regime"],
+    ["pre_breakout","Pre-Breakout"],
+    ["reactive_momentum","Reactive Momentum"],
+    ["math_edge","Math Edge"],
+    ["paper_plan_only","Paper Plan Only"],
+    ["safety_lock","Safety Lock"]
+  ];
 
-    function pill(v){
-      return '<span class="pill ' + pillClass(v) + '">' + (v || 'N/A') + '</span>';
-    }
+  const box = document.getElementById("phaseGateList");
+  if(!box) return;
 
-    function cleanNote(v){
-      return String(v || 'Research only.').replace(/[<>]/g,'');
-    }
+  box.innerHTML = names.map(([key,label]) => {
+    const g = gates[key] || {};
+    return '<div class="phase">'
+      + '<div><strong>' + label + '</strong><span>' + safe(g.reason, "Not available yet") + '</span></div>'
+      + pill(g.status || "N/A")
+      + '</div>';
+  }).join("");
+}
 
-    function rowTicker(r){
-      return r.ticker || r.symbol || 'N/A';
-    }
+function renderPaperPlans(planData){
+  const rows = Array.isArray(planData.plans) ? planData.plans : [];
+  const body = document.getElementById("paperPlanRows");
+  if(!body) return;
 
-    function sortOpen(a,b){
-      return String(b.opened_at || '').localeCompare(String(a.opened_at || ''));
-    }
+  if(!rows.length){
+    body.innerHTML = '<tr><td colspan="10">No paper-plan-only rows available right now.</td></tr>';
+    return;
+  }
 
-    async function main(){
-      const [
-        enrichH,
-        pipeH,
-        pre,
-        preH,
-        preJ,
-        reactive,
-        reactiveH,
-        reactiveJ,
-        marketH,
-        edge,
-        edgeH,
-        paperPlan,
-        paperPlanH,
-        morning,
-        morningH,
-        tomorrowPack,
-        tomorrowPackH
-      ] = await Promise.all([
-        getJson('v3_enriched_rows_health.json'),
-        getJson('v3_signal_pipeline_health.json'),
-        getJson('v3_prebreakout_predictor.json'),
-        getJson('v3_prebreakout_predictor_health.json'),
-        getJson('v3_prebreakout_outcome_journal.json'),
-        getJson('v3_research_alert_score.json'),
-        getJson('v3_research_alert_score_health.json'),
-        getJson('v3_research_alert_outcome_journal.json'),
-        getJson('v3_market_regime_filter_health.json'),
-        getJson('v3_mathematical_edge_model.json'),
-        getJson('v3_mathematical_edge_model_health.json'),
-        getJson('v3_paper_order_plan.json'),
-        getJson('v3_paper_order_plan_health.json'),
-        getJson('v3_morning_readiness_report.json'),
-        getJson('v3_morning_readiness_report_health.json'),
-        getJson('v3_tomorrow_morning_command_pack.json'),
-        getJson('v3_tomorrow_morning_command_pack_health.json')
-      ]);
+  body.innerHTML = rows.slice(0, 20).map(r => {
+    const safeFlag = (r.order_submission === false && r.live_trading === false) ? "OFF" : "CHECK";
+    const win = Number(r.estimated_win_probability);
+    return '<tr>'
+      + '<td><strong>' + rowTicker(r) + '</strong></td>'
+      + '<td>' + pill(r.layer) + '</td>'
+      + '<td>' + pill(r.edge_status) + '</td>'
+      + '<td>' + pct(r.expected_value_pct, 4) + '</td>'
+      + '<td>' + (Number.isFinite(win) ? pct(win * 100, 2) : "N/A") + '</td>'
+      + '<td>' + safe(r.planned_shares) + '</td>'
+      + '<td>' + money(r.planned_notional) + '</td>'
+      + '<td>' + money(r.target_price) + '</td>'
+      + '<td>' + money(r.stop_price) + '</td>'
+      + '<td>' + pill(safeFlag) + '</td>'
+      + '</tr>';
+  }).join("");
+}
 
-      const latest = preH.generated_at || reactiveH.generated_at || pipeH.generated_at || enrichH.generated_at || 'N/A';
+async function init(){
+  const [
+    verdict,
+    verdictH,
+    safetyH,
+    tomorrowH,
+    regimeH,
+    edgeH,
+    paperH,
+    paper
+  ] = await Promise.all([
+    getJson("v3_phase_gate_verdict.json"),
+    getJson("v3_phase_gate_verdict_health.json"),
+    getJson("v3_hard_safety_lock_health.json"),
+    getJson("v3_tomorrow_morning_command_pack_health.json"),
+    getJson("v3_market_regime_filter_health.json"),
+    getJson("v3_mathematical_edge_model_health.json"),
+    getJson("v3_paper_order_plan_health.json"),
+    getJson("v3_paper_order_plan.json")
+  ]);
 
-      set('runtimeStatus', 'Runtime: ' + (pipeH.status || 'N/A'));
-      set('updatedAt', 'Updated: ' + latest);
-      set('safeOrders', (pipeH.order_submission === false && reactiveH.order_submission === false && preH.order_submission === false) ? 'OFF' : 'CHECK');
-      set('safeLive', (pipeH.live_trading === false && reactiveH.live_trading === false && preH.live_trading === false) ? 'OFF' : 'CHECK');
-      set('safePaper', pipeH.paper_auto_trade_ready === false ? 'OFF' : 'CHECK');
-      set('strictGate', (pipeH.v3_buy_order_alert_ready || 0) > 0 ? 'READY' : 'Blocked');
+  const overall = document.getElementById("overallStatus");
+  const status = verdictH.status || safetyH.status || "N/A";
+  if(overall){
+    overall.className = statusClass(status);
+    overall.innerHTML = '<span class="dot"></span>' + status;
+  }
 
-      set('orderStatus', 'Orders ' + ((pipeH.order_submission === false && reactiveH.order_submission === false && preH.order_submission === false) ? 'OFF' : 'CHECK'));
-      set('liveStatus', 'Live ' + ((pipeH.live_trading === false && reactiveH.live_trading === false && preH.live_trading === false) ? 'OFF' : 'CHECK'));
+  const latest = verdictH.generated_at || safetyH.generated_at || tomorrowH.generated_at || "N/A";
+  setText("lastUpdated", "Updated: " + latest);
 
-      set('preTotal', preH.total_candidates);
-      set('preCount', preH.prebreakout_candidates);
-      set('triggerCount', preH.breakout_trigger_candidates);
-      set('waitCount', preH.wait_for_pullback);
-      set('chaseCount', preH.chase_risk_extended);
-      set('preTopTicker', preH.top_ticker);
-      set('preTopStatus', preH.top_status);
-      set('preTopScore', preH.top_score);
+  setText("topVerdict", verdictH.top_verdict || "No Verdict");
+  setText("topTicker", "Ticker: " + safe(verdictH.top_ticker));
+  setText("marketRegime", regimeH.regime || verdictH.market_regime || "N/A");
+  setText("marketScore", "Score: " + safe(regimeH.regime_score));
+  setText("positiveEdge", safe(edgeH.positive_edge_count, 0));
+  setText("paperPlans", "Paper plans: " + safe(paperH.plan_count, 0));
 
-      const preRows = Array.isArray(pre.candidates) && pre.candidates.length
-        ? pre.candidates
-        : Array.isArray(pre.rows) ? pre.rows.slice(0, 20) : [];
+  const safetyPass = safetyH.status === "PASS" && safetyH.safe_for_research === true;
+  setText("safetyMode", safetyPass ? "SAFE" : safe(safetyH.status, "CHECK"));
+  setText("safetyDetail", "Orders: " + safe(safetyH.order_submission) + " | Live: " + safe(safetyH.live_trading));
 
-      let preHtml = '';
-      for(const r of preRows.slice(0, 20)){
-        preHtml += '<tr>'
-          + '<td><strong>' + rowTicker(r) + '</strong></td>'
-          + '<td>' + money(r.live_price || r.price) + '</td>'
-          + '<td>' + money(r.prebreakout_target_price) + '</td>'
-          + '<td>' + money(r.prebreakout_stop_price) + '</td>'
-          + '<td>' + pill(r.prebreakout_status_v3) + '</td>'
-          + '<td>' + num(r.prebreakout_score_v3) + '</td>'
-          + '<td>' + pct(r.day_move_pct) + '</td>'
-          + '<td>' + pct(r.vwap_distance_pct) + '</td>'
-          + '<td>' + pill(r.prebreakout_confidence) + '</td>'
-          + '<td class="note">' + cleanNote(r.prebreakout_note) + '</td>'
-          + '</tr>';
-      }
-      document.getElementById('preRows').innerHTML = preHtml || '<tr><td colspan="10">No pre-breakout rows available.</td></tr>';
+  setText("hardSafetyText", "Research: " + safe(safetyH.safe_for_research) + " | Paper submission: " + safe(safetyH.safe_for_paper_submission));
+  const hardPill = document.getElementById("hardSafetyPill");
+  if(hardPill){ hardPill.className = "pill " + pillClass(safetyH.status); hardPill.textContent = safe(safetyH.status); }
 
-      set('reactiveCandidates', reactiveH.research_buy_alert_candidates);
-      set('reactiveWatch', reactiveH.research_watch);
-      set('reactiveTopTicker', reactiveH.top_ticker);
-      set('reactiveTopScore', reactiveH.top_research_alert_score_v3);
+  setText("tomorrowPackText", "Scripts failed: " + safe(tomorrowH.scripts_failed, 0) + " | Package 100: " + safe(tomorrowH.package_100_score));
+  const tomorrowPill = document.getElementById("tomorrowPackPill");
+  if(tomorrowPill){ tomorrowPill.className = "pill " + pillClass(tomorrowH.status); tomorrowPill.textContent = safe(tomorrowH.status); }
 
-      const reactiveRows = Array.isArray(reactive.candidates) && reactive.candidates.length
-        ? reactive.candidates
-        : Array.isArray(reactive.rows) ? reactive.rows.slice(0, 12) : [];
+  setText("mathEdgeText", "Positive edge: " + safe(edgeH.positive_edge_count, 0) + " | Top: " + safe(edgeH.top_ticker));
+  const edgePill = document.getElementById("mathEdgePill");
+  if(edgePill){ edgePill.className = "pill " + pillClass(edgeH.status); edgePill.textContent = safe(edgeH.status); }
 
-      let reactiveHtml = '';
-      for(const r of reactiveRows.slice(0, 12)){
-        reactiveHtml += '<tr>'
-          + '<td><strong>' + rowTicker(r) + '</strong></td>'
-          + '<td>' + money(r.live_price || r.price) + '</td>'
-          + '<td>' + money(r.research_target_price) + '</td>'
-          + '<td>' + money(r.research_stop_price) + '</td>'
-          + '<td>' + pill(r.research_alert_status_v3) + '</td>'
-          + '<td>' + num(r.research_alert_score_v3) + '</td>'
-          + '<td>' + pct(r.day_move_pct) + '</td>'
-          + '<td>' + pill(r.research_confidence) + '</td>'
-          + '<td class="note">' + cleanNote(r.research_confidence_note) + '</td>'
-          + '</tr>';
-      }
-      document.getElementById('reactiveRows').innerHTML = reactiveHtml || '<tr><td colspan="9">No reactive rows available.</td></tr>';
+  setText("paperPlanText", "Plan count: " + safe(paperH.plan_count, 0) + " | Max notional: " + money(paperH.max_notional_per_plan));
+  const paperPill = document.getElementById("paperPlanPill");
+  if(paperPill){ paperPill.className = "pill " + pillClass(paperH.status); paperPill.textContent = safe(paperH.status); }
 
-      const preJH = preJ.health || {};
-      const reactiveJH = reactiveJ.health || {};
+  renderVerdicts(verdict);
+  renderTopPhases(verdict);
+  renderPaperPlans(paper);
+}
 
-      set('reactiveClosed', reactiveJH.closed_alerts);
-      set('reactiveTargets', reactiveJH.target_hits);
-      set('reactiveStops', reactiveJH.stop_hits);
-      set('reactiveAvg', reactiveJH.avg_closed_return_pct !== undefined ? Number(reactiveJH.avg_closed_return_pct).toFixed(2) + '%' : 'N/A');
-
-      set('preClosed', preJH.closed_alerts);
-      set('preTargets', preJH.target_hits);
-      set('preStops', preJH.stop_hits);
-      set('preAvg', preJH.avg_closed_return_pct !== undefined ? Number(preJH.avg_closed_return_pct).toFixed(2) + '%' : 'N/A');
-
-      const openReactive = Array.isArray(reactiveJ.open_alerts) ? reactiveJ.open_alerts.map(x => ({...x, layer:'Reactive'})) : [];
-      const openPre = Array.isArray(preJ.open_alerts) ? preJ.open_alerts.map(x => ({...x, layer:'Pre-Breakout'})) : [];
-      const openAll = openReactive.concat(openPre).sort(sortOpen);
-
-      let openHtml = '';
-      for(const a of openAll.slice(0, 20)){
-        openHtml += '<tr>'
-          + '<td>' + pill(a.layer) + '</td>'
-          + '<td><strong>' + (a.ticker || 'N/A') + '</strong></td>'
-          + '<td>' + money(a.entry_price) + '</td>'
-          + '<td>' + money(a.last_price) + '</td>'
-          + '<td>' + money(a.target_price) + '</td>'
-          + '<td>' + money(a.stop_price) + '</td>'
-          + '<td>' + pct(a.unrealized_return_pct) + '</td>'
-          + '<td>' + num(a.age_minutes) + 'm</td>'
-          + '<td>' + pill(a.status) + '</td>'
-          + '</tr>';
-      }
-      document.getElementById('openRows').innerHTML = openHtml || '<tr><td colspan="9">No open alerts right now.</td></tr>';
-
-      set('enrichHealth', enrichH.status);
-      set('pipelineHealth', pipeH.status);
-      set('preHealth', preH.status);
-      set('reactiveHealth', reactiveH.status);
-    }
-
-    main();
-  </script>
+init().catch(err => {
+  const body = document.getElementById("verdictRows");
+  if(body){
+    body.innerHTML = '<tr><td colspan="11">Dashboard render error: ' + String(err) + '</td></tr>';
+  }
+});
+</script>
 </body>
 </html>
