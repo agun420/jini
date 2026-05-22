@@ -84,3 +84,6 @@ while true; do
   run_once
   sleep "${INTERVAL}"
 done
+
+# V3 phase-gate verdict layer
+  PYTHONPATH=src:. python scripts/run_v3_phase_gate_verdict.py || true
