@@ -1,0 +1,585 @@
+{
+  "schema_version": "v3_workflow_consolidation_audit_v1",
+  "generated_at": "2026-05-22T15:10:06.455936+00:00",
+  "health": {
+    "schema_version": "v3_workflow_consolidation_audit_health_v1",
+    "generated_at": "2026-05-22T15:10:06.455936+00:00",
+    "status": "WARN",
+    "blockers": [],
+    "warnings": [
+      "duplicate_script_usage_across_workflows"
+    ],
+    "workflow_count": 15,
+    "scheduled_workflows": 2,
+    "writer_workflows": 13,
+    "scheduled_writer_workflows": 2,
+    "duplicate_script_count": 11,
+    "suggested_keep_scheduled_count": 3,
+    "suggested_manual_only_count": 10,
+    "order_submission": false,
+    "live_trading": false
+  },
+  "workflows": [
+    {
+      "file": ".github/workflows/adaptive-guard.yml",
+      "filename": "adaptive-guard.yml",
+      "name": "Adaptive Guard",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_adaptive_guard.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/advanced-signal-quality.yml",
+      "filename": "advanced-signal-quality.yml",
+      "name": "Advanced Signal Quality",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_advanced_signal_quality.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/alpaca-free-market-scanner.yml",
+      "filename": "alpaca-free-market-scanner.yml",
+      "name": "Alpaca Free Market Scanner",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_alpaca_free_market_scanner.py",
+        "scripts/validate_alpaca_free_market_scanner.py"
+      ],
+      "script_count": 2,
+      "recommendation": "KEEP_REVIEW"
+    },
+    {
+      "file": ".github/workflows/final-repo-audit.yml",
+      "filename": "final-repo-audit.yml",
+      "name": "Final Repo Audit",
+      "scheduled": true,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [
+        "30 21 * * 1-5"
+      ],
+      "scripts": [
+        "scripts/run_final_repo_audit.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_SCHEDULED"
+    },
+    {
+      "file": ".github/workflows/finra-short-pressure-scanner.yml",
+      "filename": "finra-short-pressure-scanner.yml",
+      "name": "FINRA Short-Pressure Scanner",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/validate_finra_short_pressure_package.py",
+        "scripts/run_finra_short_pressure_scanner.py"
+      ],
+      "script_count": 2,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/free-scanner-normalizer.yml",
+      "filename": "free-scanner-normalizer.yml",
+      "name": "Free Scanner Normalizer",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_free_scanner_normalizer.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/full-validation-suite.yml",
+      "filename": "full-validation-suite.yml",
+      "name": "Full Validation Suite",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": false,
+      "contents_write": false,
+      "git_commit_push": false,
+      "crons": [],
+      "scripts": [
+        "scripts/run_full_validation_suite.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_REVIEW"
+    },
+    {
+      "file": ".github/workflows/market-rule-risk-update.yml",
+      "filename": "market-rule-risk-update.yml",
+      "name": "Market Rule Risk Update",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_halt_luld_circuit_guard.py",
+        "scripts/run_slippage_fill_tracker.py",
+        "scripts/run_real_money_readiness_guard.py"
+      ],
+      "script_count": 3,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/master-free-scanner-pipeline.yml",
+      "filename": "master-free-scanner-pipeline.yml",
+      "name": "Master Free Scanner Pipeline",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_master_free_scanner_pipeline.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/master-paid-alpaca-pipeline.yml",
+      "filename": "master-paid-alpaca-pipeline.yml",
+      "name": "Master Paid Alpaca Pipeline",
+      "scheduled": true,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [
+        "30-59/5 13 * * 1-5",
+        "*/5 14-19 * * 1-5",
+        "10 21 * * 1-5"
+      ],
+      "scripts": [
+        "scripts/run_alpaca_paid_market_scanner.py",
+        "scripts/run_sec_catalyst_scanner.py",
+        "scripts/repair_sec_health.py",
+        "scripts/run_finra_short_pressure_scanner.py",
+        "scripts/run_alpaca_news_scanner.py",
+        "scripts/run_advanced_signal_quality.py",
+        "scripts/run_halt_luld_circuit_guard.py",
+        "scripts/run_signal_journal.py",
+        "scripts/run_outcome_labeler.py",
+        "scripts/run_adaptive_guard.py",
+        "scripts/run_paper_execution_gate.py",
+        "scripts/run_slippage_fill_tracker.py",
+        "scripts/run_real_money_readiness_guard.py",
+        "scripts/run_final_repo_audit.py"
+      ],
+      "script_count": 14,
+      "recommendation": "KEEP_SCHEDULED"
+    },
+    {
+      "file": ".github/workflows/outcome-labeler.yml",
+      "filename": "outcome-labeler.yml",
+      "name": "Outcome Labeler",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_outcome_labeler.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/paper-execution-gate.yml",
+      "filename": "paper-execution-gate.yml",
+      "name": "Paper Execution Gate",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_paper_execution_gate.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/runtime-worker-validation.yml",
+      "filename": "runtime-worker-validation.yml",
+      "name": "Runtime Worker Validation",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": false,
+      "contents_write": false,
+      "git_commit_push": false,
+      "crons": [],
+      "scripts": [
+        "scripts/validate_runtime_worker_package.py",
+        "scripts/run_runtime_worker.py"
+      ],
+      "script_count": 2,
+      "recommendation": "KEEP_SCHEDULED"
+    },
+    {
+      "file": ".github/workflows/sec-catalyst-scanner.yml",
+      "filename": "sec-catalyst-scanner.yml",
+      "name": "SEC Catalyst Scanner",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/validate_sec_catalyst_package.py",
+        "scripts/run_sec_catalyst_scanner.py"
+      ],
+      "script_count": 2,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/signal-journal.yml",
+      "filename": "signal-journal.yml",
+      "name": "Signal Journal Learning Base",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_signal_journal.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    }
+  ],
+  "scheduled_writers": [
+    "final-repo-audit.yml",
+    "master-paid-alpaca-pipeline.yml"
+  ],
+  "duplicate_scripts": {
+    "scripts/run_adaptive_guard.py": [
+      "adaptive-guard.yml",
+      "master-paid-alpaca-pipeline.yml"
+    ],
+    "scripts/run_advanced_signal_quality.py": [
+      "advanced-signal-quality.yml",
+      "master-paid-alpaca-pipeline.yml"
+    ],
+    "scripts/run_final_repo_audit.py": [
+      "final-repo-audit.yml",
+      "master-paid-alpaca-pipeline.yml"
+    ],
+    "scripts/run_finra_short_pressure_scanner.py": [
+      "finra-short-pressure-scanner.yml",
+      "master-paid-alpaca-pipeline.yml"
+    ],
+    "scripts/run_halt_luld_circuit_guard.py": [
+      "market-rule-risk-update.yml",
+      "master-paid-alpaca-pipeline.yml"
+    ],
+    "scripts/run_outcome_labeler.py": [
+      "master-paid-alpaca-pipeline.yml",
+      "outcome-labeler.yml"
+    ],
+    "scripts/run_paper_execution_gate.py": [
+      "master-paid-alpaca-pipeline.yml",
+      "paper-execution-gate.yml"
+    ],
+    "scripts/run_real_money_readiness_guard.py": [
+      "market-rule-risk-update.yml",
+      "master-paid-alpaca-pipeline.yml"
+    ],
+    "scripts/run_sec_catalyst_scanner.py": [
+      "master-paid-alpaca-pipeline.yml",
+      "sec-catalyst-scanner.yml"
+    ],
+    "scripts/run_signal_journal.py": [
+      "master-paid-alpaca-pipeline.yml",
+      "signal-journal.yml"
+    ],
+    "scripts/run_slippage_fill_tracker.py": [
+      "market-rule-risk-update.yml",
+      "master-paid-alpaca-pipeline.yml"
+    ]
+  },
+  "suggested_keep_scheduled": [
+    {
+      "file": ".github/workflows/final-repo-audit.yml",
+      "filename": "final-repo-audit.yml",
+      "name": "Final Repo Audit",
+      "scheduled": true,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [
+        "30 21 * * 1-5"
+      ],
+      "scripts": [
+        "scripts/run_final_repo_audit.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_SCHEDULED"
+    },
+    {
+      "file": ".github/workflows/master-paid-alpaca-pipeline.yml",
+      "filename": "master-paid-alpaca-pipeline.yml",
+      "name": "Master Paid Alpaca Pipeline",
+      "scheduled": true,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [
+        "30-59/5 13 * * 1-5",
+        "*/5 14-19 * * 1-5",
+        "10 21 * * 1-5"
+      ],
+      "scripts": [
+        "scripts/run_alpaca_paid_market_scanner.py",
+        "scripts/run_sec_catalyst_scanner.py",
+        "scripts/repair_sec_health.py",
+        "scripts/run_finra_short_pressure_scanner.py",
+        "scripts/run_alpaca_news_scanner.py",
+        "scripts/run_advanced_signal_quality.py",
+        "scripts/run_halt_luld_circuit_guard.py",
+        "scripts/run_signal_journal.py",
+        "scripts/run_outcome_labeler.py",
+        "scripts/run_adaptive_guard.py",
+        "scripts/run_paper_execution_gate.py",
+        "scripts/run_slippage_fill_tracker.py",
+        "scripts/run_real_money_readiness_guard.py",
+        "scripts/run_final_repo_audit.py"
+      ],
+      "script_count": 14,
+      "recommendation": "KEEP_SCHEDULED"
+    },
+    {
+      "file": ".github/workflows/runtime-worker-validation.yml",
+      "filename": "runtime-worker-validation.yml",
+      "name": "Runtime Worker Validation",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": false,
+      "contents_write": false,
+      "git_commit_push": false,
+      "crons": [],
+      "scripts": [
+        "scripts/validate_runtime_worker_package.py",
+        "scripts/run_runtime_worker.py"
+      ],
+      "script_count": 2,
+      "recommendation": "KEEP_SCHEDULED"
+    }
+  ],
+  "suggested_manual_only": [
+    {
+      "file": ".github/workflows/adaptive-guard.yml",
+      "filename": "adaptive-guard.yml",
+      "name": "Adaptive Guard",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_adaptive_guard.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/advanced-signal-quality.yml",
+      "filename": "advanced-signal-quality.yml",
+      "name": "Advanced Signal Quality",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_advanced_signal_quality.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/finra-short-pressure-scanner.yml",
+      "filename": "finra-short-pressure-scanner.yml",
+      "name": "FINRA Short-Pressure Scanner",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/validate_finra_short_pressure_package.py",
+        "scripts/run_finra_short_pressure_scanner.py"
+      ],
+      "script_count": 2,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/free-scanner-normalizer.yml",
+      "filename": "free-scanner-normalizer.yml",
+      "name": "Free Scanner Normalizer",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_free_scanner_normalizer.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/market-rule-risk-update.yml",
+      "filename": "market-rule-risk-update.yml",
+      "name": "Market Rule Risk Update",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_halt_luld_circuit_guard.py",
+        "scripts/run_slippage_fill_tracker.py",
+        "scripts/run_real_money_readiness_guard.py"
+      ],
+      "script_count": 3,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/master-free-scanner-pipeline.yml",
+      "filename": "master-free-scanner-pipeline.yml",
+      "name": "Master Free Scanner Pipeline",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_master_free_scanner_pipeline.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/outcome-labeler.yml",
+      "filename": "outcome-labeler.yml",
+      "name": "Outcome Labeler",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_outcome_labeler.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/paper-execution-gate.yml",
+      "filename": "paper-execution-gate.yml",
+      "name": "Paper Execution Gate",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_paper_execution_gate.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/sec-catalyst-scanner.yml",
+      "filename": "sec-catalyst-scanner.yml",
+      "name": "SEC Catalyst Scanner",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/validate_sec_catalyst_package.py",
+        "scripts/run_sec_catalyst_scanner.py"
+      ],
+      "script_count": 2,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    },
+    {
+      "file": ".github/workflows/signal-journal.yml",
+      "filename": "signal-journal.yml",
+      "name": "Signal Journal Learning Base",
+      "scheduled": false,
+      "workflow_dispatch": true,
+      "writes": true,
+      "contents_write": true,
+      "git_commit_push": true,
+      "crons": [],
+      "scripts": [
+        "scripts/run_signal_journal.py"
+      ],
+      "script_count": 1,
+      "recommendation": "KEEP_MANUAL_ONLY"
+    }
+  ],
+  "recommendation": {
+    "main_read": "Consolidate scheduled jobs into master pipeline plus runtime validation/final audit/pages. Make package-level scanners manual-only or called from master pipeline.",
+    "do_not_delete_yet": true,
+    "next_step": "Review recommendations, then patch workflow schedules safely."
+  },
+  "safety": {
+    "audit_only": true,
+    "order_submission": false,
+    "live_trading": false
+  }
+}
