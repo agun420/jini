@@ -73,7 +73,10 @@ def get_market_regime() -> dict[str, Any]:
     }
 
 
-def score_row(row: dict[str, Any]) -> dict[str, Any]:
+def score_row(row: dict[str, Any], market: dict[str, Any] | None = None) -> dict[str, Any]:
+    market = market or {"regime": "UNKNOWN", "regime_score": 0, "recommendation": None}
+    regime = str(market.get("regime") or "UNKNOWN")
+    regime_score = safe_float(market.get("regime_score")) if "safe_float" in globals() else f(market.get("regime_score"))
     price = f(row.get("price"))
     final = f(row.get("final_trade_score_v3"))
     runner = f(row.get("runner_potential_v3"))
