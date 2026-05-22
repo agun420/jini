@@ -164,6 +164,44 @@
 
 
 
+
+    <section class="card">
+      <p class="label">Tomorrow Command Pack</p>
+      <h2 id="tomorrowPackTitle">Loading</h2>
+      <p class="sub">One-glance morning command result. Research-only and paper-plan-only. No order submission.</p>
+
+      <div class="grid">
+        <div class="tile"><span>Status</span><strong id="tomorrowPackStatus">N/A</strong></div>
+        <div class="tile"><span>Scripts Failed</span><strong id="tomorrowScriptsFailed">N/A</strong></div>
+        <div class="tile"><span>Package 100</span><strong id="tomorrowPkg100">N/A</strong></div>
+        <div class="tile"><span>Readiness</span><strong id="tomorrowReadiness">N/A</strong></div>
+        <div class="tile"><span>Market Regime</span><strong id="tomorrowRegime">N/A</strong></div>
+        <div class="tile"><span>Positive Edge</span><strong id="tomorrowPositiveEdge">N/A</strong></div>
+        <div class="tile"><span>Paper Plans</span><strong id="tomorrowPlanCount">N/A</strong></div>
+        <div class="tile"><span>Orders / Live</span><strong id="tomorrowSafety">OFF</strong></div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Ticker</th>
+            <th>Layer</th>
+            <th>Edge</th>
+            <th>EV%</th>
+            <th>Win Prob.</th>
+            <th>R/R</th>
+            <th>Price</th>
+            <th>Shares</th>
+            <th>Target</th>
+            <th>Stop</th>
+          </tr>
+        </thead>
+        <tbody id="tomorrowPackRows">
+          <tr><td colspan="10">Loading...</td></tr>
+        </tbody>
+      </table>
+    </section>
+
     <section class="card">
       <p class="label">Morning Readiness</p>
       <h2 id="morningTitle">Loading</h2>
@@ -542,7 +580,9 @@
         paperPlan,
         paperPlanH,
         morning,
-        morningH
+        morningH,
+        tomorrowPack,
+        tomorrowPackH
       ] = await Promise.all([
         getJson('v3_enriched_rows_health.json'),
         getJson('v3_signal_pipeline_health.json'),
@@ -558,7 +598,9 @@
         getJson('v3_paper_order_plan.json'),
         getJson('v3_paper_order_plan_health.json'),
         getJson('v3_morning_readiness_report.json'),
-        getJson('v3_morning_readiness_report_health.json')
+        getJson('v3_morning_readiness_report_health.json'),
+        getJson('v3_tomorrow_morning_command_pack.json'),
+        getJson('v3_tomorrow_morning_command_pack_health.json')
       ]);
 
       const latest = preH.generated_at || reactiveH.generated_at || pipeH.generated_at || enrichH.generated_at || 'N/A';
