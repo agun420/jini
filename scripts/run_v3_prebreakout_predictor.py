@@ -11,6 +11,7 @@ DOCS = Path("docs/data/prediction_engine")
 STATE = Path("state/prediction_engine")
 
 ENRICHED = DOCS / "v3_enriched_rows.json"
+MARKET_REGIME = DOCS / "v3_market_regime_filter_health.json"
 
 OUT_DOCS = DOCS / "v3_prebreakout_predictor.json"
 OUT_HEALTH = DOCS / "v3_prebreakout_predictor_health.json"
@@ -66,7 +67,21 @@ def ticker(row: dict[str, Any]) -> str:
     return str(row.get("ticker") or row.get("symbol") or "").upper().strip()
 
 
-def score_row(row: dict[str, Any]) -> dict[str, Any]:
+def get_market_regime() -> dict[str, Any]:
+    payload = read_json(MARKET_REGIME, {})
+    if not isinstance(payload, dict):
+        payload = {}
+    return {
+        "regime": str(payload.get("regime") or "UNKNOWN"),
+        "regime_score": f(payload.get("regime_score")),
+        "recommendation": payload.get("recommendation"),
+    }
+
+
+def score_row(row: dict[str, Any], market: dict[str, Any] | None = None) -> dict[str, Any]:
+    market = market or get_market_regime()
+    regime = str(market.get("regime") or "UNKNOWN")
+    regime_score = f(market.get("regime_score"))
     sym = ticker(row)
 
     price = f(row.get("live_price") or row.get("price"))
@@ -280,6 +295,23 @@ def score_row(row: dict[str, Any]) -> dict[str, Any]:
     )
     prebreakout_score = clamp(prebreakout_score)
 
+    # Package 93: market regime-aware gating.
+    regime_risk_off = regime == "RISK_OFF"
+    regime_neutral = regime == "NEUTRAL"
+    regime_risk_on = regime == "RISK_ON"
+
+    if regime_risk_off:
+        warnings.append("market_regime_risk_off_stricter_gate")
+        # In risk-off, only very strong breakout triggers are allowed.
+        if prebreakout_score < 90 or not breakout_trigger_zone:
+            blockers.append("blocked_by_risk_off_regime")
+
+    elif regime_neutral:
+        warnings.append("market_regime_neutral_normal_tight_gate")
+
+    elif regime_risk_on:
+        warnings.append("market_regime_risk_on_normal_gate")
+
     # Final status.
     if blockers:
         status = "BLOCKED"
@@ -345,6 +377,8 @@ def score_row(row: dict[str, Any]) -> dict[str, Any]:
             "prebreakout_note": note,
             "prebreakout_blockers_v3": blockers,
             "prebreakout_warnings_v3": warnings,
+            "market_regime": regime,
+            "market_regime_score": round(regime_score, 4),
             "prebreakout_features_v3": {
                 "compression_zone": compression_zone,
                 "vwap_reclaim_zone": vwap_reclaim_zone,
@@ -388,7 +422,8 @@ def main() -> None:
     if not rows:
         blockers.append("no_enriched_rows")
 
-    scored = [score_row(r) for r in rows]
+    market = get_market_regime()
+    scored = [score_row(r, market) for r in rows]
     scored.sort(
         key=lambda r: (
             r.get("prebreakout_candidate_v3") is True,
@@ -432,6 +467,8 @@ def main() -> None:
         "top_ticker": scored[0].get("ticker") if scored else None,
         "top_status": scored[0].get("prebreakout_status_v3") if scored else None,
         "top_score": scored[0].get("prebreakout_score_v3") if scored else None,
+        "market_regime": market.get("regime"),
+        "market_regime_score": market.get("regime_score"),
         "order_submission": False,
         "live_trading": False,
         "paper_order_allowed": False,

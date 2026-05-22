@@ -11,6 +11,7 @@ DOCS = Path("docs/data/prediction_engine")
 STATE = Path("state/prediction_engine")
 
 PIPELINE = DOCS / "v3_signal_pipeline.json"
+MARKET_REGIME = DOCS / "v3_market_regime_filter_health.json"
 
 OUT_DOCS = DOCS / "v3_research_alert_score.json"
 OUT_HEALTH = DOCS / "v3_research_alert_score_health.json"
@@ -216,6 +217,8 @@ def score_row(row: dict[str, Any]) -> dict[str, Any]:
             "research_alert_candidate_v3": status == "RESEARCH_BUY_ALERT_CANDIDATE",
             "research_alert_blockers_v3": blockers,
             "research_alert_warnings_v3": warnings,
+            "market_regime": regime,
+            "market_regime_score": round(regime_score, 4),
             "research_alert_components_v3": {
                 "base_from_existing_scores": round(base, 4),
                 "day_move_bonus": round(day_move_bonus, 4),
@@ -244,7 +247,8 @@ def main() -> None:
     if not rows:
         blockers.append("no_v3_pipeline_rows")
 
-    scored = [score_row(r) for r in rows]
+    market = get_market_regime()
+    scored = [score_row(r, market) for r in rows]
     scored.sort(
         key=lambda r: (
             r.get("research_alert_candidate_v3") is True,
@@ -279,6 +283,8 @@ def main() -> None:
         "research_blocked": len(blocked),
         "top_ticker": scored[0].get("ticker") if scored else None,
         "top_research_alert_score_v3": scored[0].get("research_alert_score_v3") if scored else None,
+        "market_regime": market.get("regime"),
+        "market_regime_score": market.get("regime_score"),
         "active_strict_gate_changed": False,
         "paper_order_allowed": False,
         "live_order_allowed": False,
