@@ -1,60 +1,78 @@
 {
   "schema_version": "free_scanner_normalizer_v1_finra_enriched_v1",
-  "generated_at": "2026-05-23T02:02:30.588710+00:00",
+  "generated_at": "2026-05-23T02:10:00.791761+00:00",
   "status": "PASS",
   "mode": "paper_only_research",
   "sources_used": [
-    "placeholder_universe"
+    "state/prediction_engine/dynamic_alpaca_candidates.json"
   ],
-  "used_placeholders": true,
+  "used_placeholders": false,
   "counts": {
-    "total": 27,
-    "real_rows": 0,
-    "placeholder_rows": 27,
-    "trade_eligible": 0,
+    "total": 50,
+    "real_rows": 50,
+    "placeholder_rows": 0,
+    "trade_eligible": 1,
     "wait_for_pullback": 0,
-    "alert_only": 0,
-    "watch_only": 0,
-    "no_trade": 27
+    "alert_only": 6,
+    "watch_only": 31,
+    "no_trade": 12
   },
-  "best_trade_eligible": null,
+  "best_trade_eligible": {
+    "ticker": "CVNA",
+    "status": "TRADE_ELIGIBLE",
+    "score": 88.0,
+    "price": 68.22,
+    "gap_pct": 5.95,
+    "day_change_pct": 1.65,
+    "relative_volume": 2.08,
+    "vwap": 67.9573,
+    "vwap_distance_pct": 0.39,
+    "volume_acceleration": 3.51,
+    "trend_state": "BULLISH_CONTROLLED",
+    "entry": 68.22,
+    "stop": 67.4136,
+    "target": 70.2666,
+    "risk_reward": 2.54,
+    "reason": "positive day move, healthy gap, strong relative volume, volume acceleration, above VWAP and controlled, risk/reward acceptable",
+    "no_trade_reasons": [],
+    "data_quality": {
+      "primary_source": "alpaca_sip",
+      "fallback_used": false,
+      "data_age_seconds": 7913.02,
+      "quality": "GOOD",
+      "notes": []
+    },
+    "source_type": "alpaca_paid_market_scanner",
+    "generated_at": "2026-05-23T02:09:53.310018+00:00"
+  },
   "rows": [
     {
-      "ticker": "AAPL",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
-      "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
-      ],
+      "ticker": "CVNA",
+      "status": "TRADE_ELIGIBLE",
+      "score": 88.0,
+      "price": 68.22,
+      "gap_pct": 5.95,
+      "day_change_pct": 1.65,
+      "relative_volume": 2.08,
+      "vwap": 67.9573,
+      "vwap_distance_pct": 0.39,
+      "volume_acceleration": 3.51,
+      "trend_state": "BULLISH_CONTROLLED",
+      "entry": 68.22,
+      "stop": 67.4136,
+      "target": 70.2666,
+      "risk_reward": 2.54,
+      "reason": "positive day move, healthy gap, strong relative volume, volume acceleration, above VWAP and controlled, risk/reward acceptable",
+      "no_trade_reasons": [],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
+        "data_age_seconds": 7913.02,
+        "quality": "GOOD",
+        "notes": []
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.264129+00:00",
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.310018+00:00",
       "sec_catalyst": {
         "final_label": null,
         "catalyst_score": 0,
@@ -64,7 +82,7 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "AAPL",
+        "ticker": "CVNA",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260522",
         "short_volume": null,
@@ -85,41 +103,34 @@
       ]
     },
     {
-      "ticker": "MSFT",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "ticker": "XPEV",
+      "status": "ALERT_ONLY",
+      "score": 80.0,
+      "price": 15.62,
+      "gap_pct": -0.06,
+      "day_change_pct": 1.13,
+      "relative_volume": 2.73,
+      "vwap": 15.543,
+      "vwap_distance_pct": 0.5,
+      "volume_acceleration": 6.67,
+      "trend_state": "BULLISH_CONTROLLED",
+      "entry": 15.62,
+      "stop": 15.4187,
+      "target": 16.0886,
+      "risk_reward": 2.33,
+      "reason": "positive day move, strong relative volume, volume acceleration, above VWAP and controlled, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "needs_stronger_confirmation"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
+        "data_age_seconds": 7853.01,
+        "quality": "GOOD",
+        "notes": []
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.264318+00:00",
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.309809+00:00",
       "sec_catalyst": {
         "final_label": "NOT_CHECKED",
         "catalyst_score": 0,
@@ -128,7 +139,7 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "MSFT",
+        "ticker": "XPEV",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260522",
         "short_volume": null,
@@ -149,169 +160,34 @@
       ]
     },
     {
-      "ticker": "NVDA",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "ticker": "FUBO",
+      "status": "ALERT_ONLY",
+      "score": 74.0,
+      "price": 9.8,
+      "gap_pct": 7.22,
+      "day_change_pct": 0.69,
+      "relative_volume": 1.6,
+      "vwap": 9.7522,
+      "vwap_distance_pct": 0.49,
+      "volume_acceleration": 0.77,
+      "trend_state": "BULLISH_CONTROLLED",
+      "entry": 9.8,
+      "stop": 9.6742,
+      "target": 10.094,
+      "risk_reward": 2.34,
+      "reason": "positive day move, healthy gap, moderate relative volume, above VWAP and controlled, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "needs_stronger_confirmation"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
+        "data_age_seconds": 10133.02,
+        "quality": "GOOD",
+        "notes": []
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.264480+00:00",
-      "sec_catalyst": {
-        "final_label": "NOT_CHECKED",
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "NVDA",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260522",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ]
-    },
-    {
-      "ticker": "TSLA",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
-      "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
-      ],
-      "data_quality": {
-        "primary_source": "placeholder_universe",
-        "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
-      },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.264622+00:00",
-      "sec_catalyst": {
-        "final_label": "NOT_CHECKED",
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "TSLA",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260522",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ]
-    },
-    {
-      "ticker": "AMD",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
-      "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
-      ],
-      "data_quality": {
-        "primary_source": "placeholder_universe",
-        "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
-      },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.264760+00:00",
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.311023+00:00",
       "sec_catalyst": {
         "final_label": null,
         "catalyst_score": 0,
@@ -321,7 +197,7 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "AMD",
+        "ticker": "FUBO",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260522",
         "short_volume": null,
@@ -342,233 +218,34 @@
       ]
     },
     {
-      "ticker": "META",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "ticker": "LUNR",
+      "status": "ALERT_ONLY",
+      "score": 73.0,
+      "price": 38.2629,
+      "gap_pct": 11.75,
+      "day_change_pct": 1.52,
+      "relative_volume": 0.45,
+      "vwap": 38.1575,
+      "vwap_distance_pct": 0.28,
+      "volume_acceleration": 1.67,
+      "trend_state": "BULLISH_CONTROLLED",
+      "entry": 38.2629,
+      "stop": 37.8522,
+      "target": 39.4108,
+      "risk_reward": 2.79,
+      "reason": "positive day move, healthy gap, weak relative volume, volume acceleration, above VWAP and controlled, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "relative_volume_too_low"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
+        "data_age_seconds": 7973.02,
+        "quality": "GOOD",
+        "notes": []
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.264899+00:00",
-      "sec_catalyst": {
-        "final_label": "NOT_CHECKED",
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "META",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260522",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ]
-    },
-    {
-      "ticker": "AMZN",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
-      "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
-      ],
-      "data_quality": {
-        "primary_source": "placeholder_universe",
-        "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
-      },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.265058+00:00",
-      "sec_catalyst": {
-        "final_label": "NOT_CHECKED",
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "AMZN",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260522",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ]
-    },
-    {
-      "ticker": "GOOGL",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
-      "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
-      ],
-      "data_quality": {
-        "primary_source": "placeholder_universe",
-        "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
-      },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.265198+00:00",
-      "sec_catalyst": {
-        "final_label": "NOT_CHECKED",
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "GOOGL",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260522",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ]
-    },
-    {
-      "ticker": "PLTR",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
-      "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
-      ],
-      "data_quality": {
-        "primary_source": "placeholder_universe",
-        "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
-      },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.265336+00:00",
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.310599+00:00",
       "sec_catalyst": {
         "final_label": null,
         "catalyst_score": 0,
@@ -578,7 +255,7 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "PLTR",
+        "ticker": "LUNR",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260522",
         "short_volume": null,
@@ -599,105 +276,34 @@
       ]
     },
     {
-      "ticker": "SMCI",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "ticker": "ASTS",
+      "status": "ALERT_ONLY",
+      "score": 73.0,
+      "price": 105.65,
+      "gap_pct": 9.79,
+      "day_change_pct": 1.22,
+      "relative_volume": 0.55,
+      "vwap": 105.5291,
+      "vwap_distance_pct": 0.11,
+      "volume_acceleration": 5.0,
+      "trend_state": "BULLISH_CONTROLLED",
+      "entry": 105.65,
+      "stop": 104.6849,
+      "target": 108.8195,
+      "risk_reward": 3.28,
+      "reason": "positive day move, healthy gap, weak relative volume, volume acceleration, above VWAP and controlled, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "relative_volume_too_low"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
+        "data_age_seconds": 7853.02,
+        "quality": "GOOD",
+        "notes": []
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.265487+00:00",
-      "sec_catalyst": {
-        "final_label": "NOT_CHECKED",
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "SMCI",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260522",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ]
-    },
-    {
-      "ticker": "SOFI",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
-      "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
-      ],
-      "data_quality": {
-        "primary_source": "placeholder_universe",
-        "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
-      },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.265626+00:00",
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.310459+00:00",
       "sec_catalyst": {
         "final_label": null,
         "catalyst_score": 0,
@@ -707,7 +313,7 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "SOFI",
+        "ticker": "ASTS",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260522",
         "short_volume": null,
@@ -728,41 +334,34 @@
       ]
     },
     {
-      "ticker": "RIVN",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "ticker": "XOM",
+      "status": "ALERT_ONLY",
+      "score": 72.0,
+      "price": 155.3,
+      "gap_pct": 0.01,
+      "day_change_pct": 0.1,
+      "relative_volume": 1.94,
+      "vwap": 154.8248,
+      "vwap_distance_pct": 0.31,
+      "volume_acceleration": 2.36,
+      "trend_state": "BULLISH_CONTROLLED",
+      "entry": 155.3,
+      "stop": 153.5862,
+      "target": 159.959,
+      "risk_reward": 2.72,
+      "reason": "positive day move, moderate relative volume, volume acceleration, above VWAP and controlled, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "needs_stronger_confirmation"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
+        "data_age_seconds": 7913.05,
+        "quality": "GOOD",
+        "notes": []
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.265762+00:00",
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.310165+00:00",
       "sec_catalyst": {
         "final_label": "NOT_CHECKED",
         "catalyst_score": 0,
@@ -771,7 +370,7 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "RIVN",
+        "ticker": "XOM",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260522",
         "short_volume": null,
@@ -792,41 +391,34 @@
       ]
     },
     {
-      "ticker": "MARA",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "ticker": "PATH",
+      "status": "ALERT_ONLY",
+      "score": 67.0,
+      "price": 10.8999,
+      "gap_pct": 3.12,
+      "day_change_pct": 0.41,
+      "relative_volume": 0.48,
+      "vwap": 10.8958,
+      "vwap_distance_pct": 0.04,
+      "volume_acceleration": 1.36,
+      "trend_state": "BULLISH_CONTROLLED",
+      "entry": 10.8999,
+      "stop": 10.8086,
+      "target": 11.2269,
+      "risk_reward": 3.58,
+      "reason": "positive day move, healthy gap, weak relative volume, above VWAP and controlled, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "relative_volume_too_low"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
+        "data_age_seconds": 7853.02,
+        "quality": "GOOD",
+        "notes": []
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.265900+00:00",
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.310871+00:00",
       "sec_catalyst": {
         "final_label": null,
         "catalyst_score": 0,
@@ -836,7 +428,7 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "MARA",
+        "ticker": "PATH",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260522",
         "short_volume": null,
@@ -857,41 +449,34 @@
       ]
     },
     {
-      "ticker": "RIOT",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "ticker": "CVX",
+      "status": "WATCH_ONLY",
+      "score": 66.0,
+      "price": 191.6,
+      "gap_pct": 0.31,
+      "day_change_pct": -0.18,
+      "relative_volume": 2.1,
+      "vwap": 191.4305,
+      "vwap_distance_pct": 0.09,
+      "volume_acceleration": 0.97,
+      "trend_state": "BULLISH_CONTROLLED",
+      "entry": 191.6,
+      "stop": 189.8991,
+      "target": 197.348,
+      "risk_reward": 3.38,
+      "reason": "strong relative volume, above VWAP and controlled, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "score_not_high_enough"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
+        "data_age_seconds": 8093.06,
+        "quality": "GOOD",
+        "notes": []
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.266057+00:00",
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.310304+00:00",
       "sec_catalyst": {
         "final_label": null,
         "catalyst_score": 0,
@@ -901,7 +486,7 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "RIOT",
+        "ticker": "CVX",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260522",
         "short_volume": null,
@@ -922,105 +507,34 @@
       ]
     },
     {
-      "ticker": "COIN",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "ticker": "ENVX",
+      "status": "WATCH_ONLY",
+      "score": 60.0,
+      "price": 6.61,
+      "gap_pct": 4.92,
+      "day_change_pct": -0.6,
+      "relative_volume": 2.41,
+      "vwap": 6.6727,
+      "vwap_distance_pct": -0.94,
+      "volume_acceleration": 3.2,
+      "trend_state": "BELOW_VWAP",
+      "entry": 6.61,
+      "stop": 6.5109,
+      "target": 6.8083,
+      "risk_reward": 2.0,
+      "reason": "healthy gap, strong relative volume, volume acceleration, below VWAP, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "below_vwap"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
+        "data_age_seconds": 7913.02,
+        "quality": "GOOD",
+        "notes": []
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.266196+00:00",
-      "sec_catalyst": {
-        "final_label": "NOT_CHECKED",
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "COIN",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260522",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ]
-    },
-    {
-      "ticker": "HOOD",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
-      "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
-      ],
-      "data_quality": {
-        "primary_source": "placeholder_universe",
-        "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
-      },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.266334+00:00",
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.311585+00:00",
       "sec_catalyst": {
         "final_label": null,
         "catalyst_score": 0,
@@ -1030,7 +544,7 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "HOOD",
+        "ticker": "ENVX",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260522",
         "short_volume": null,
@@ -1051,172 +565,34 @@
       ]
     },
     {
-      "ticker": "NIO",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "ticker": "UBER",
+      "status": "WATCH_ONLY",
+      "score": 59.0,
+      "price": 71.893,
+      "gap_pct": -2.33,
+      "day_change_pct": 0.09,
+      "relative_volume": 0.81,
+      "vwap": 71.8661,
+      "vwap_distance_pct": 0.04,
+      "volume_acceleration": 0.97,
+      "trend_state": "BULLISH_CONTROLLED",
+      "entry": 71.893,
+      "stop": 71.2912,
+      "target": 74.0498,
+      "risk_reward": 3.58,
+      "reason": "positive day move, weak relative volume, above VWAP and controlled, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "relative_volume_too_low"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
+        "data_age_seconds": 7913.01,
+        "quality": "GOOD",
+        "notes": []
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.266482+00:00",
-      "sec_catalyst": {
-        "final_label": "NOT_CHECKED",
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "NIO",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260522",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ]
-    },
-    {
-      "ticker": "LCID",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
-      "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
-      ],
-      "data_quality": {
-        "primary_source": "placeholder_universe",
-        "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
-      },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.266619+00:00",
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [
-          "possible_dilution_or_offering:424B5"
-        ],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "LCID",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260522",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ]
-    },
-    {
-      "ticker": "SOUN",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
-      "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
-      ],
-      "data_quality": {
-        "primary_source": "placeholder_universe",
-        "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
-      },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.266755+00:00",
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.312279+00:00",
       "sec_catalyst": {
         "final_label": null,
         "catalyst_score": 0,
@@ -1226,7 +602,7 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "SOUN",
+        "ticker": "UBER",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260522",
         "short_volume": null,
@@ -1247,50 +623,44 @@
       ]
     },
     {
-      "ticker": "IONQ",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "ticker": "F",
+      "status": "WATCH_ONLY",
+      "score": 59.0,
+      "price": 14.9,
+      "gap_pct": 9.0,
+      "day_change_pct": -0.03,
+      "relative_volume": 0.72,
+      "vwap": 14.8983,
+      "vwap_distance_pct": 0.01,
+      "volume_acceleration": 1.01,
+      "trend_state": "BULLISH_CONTROLLED",
+      "entry": 14.9,
+      "stop": 14.7791,
+      "target": 15.347,
+      "risk_reward": 3.7,
+      "reason": "healthy gap, weak relative volume, above VWAP and controlled, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "relative_volume_too_low"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
+        "data_age_seconds": 7853.05,
+        "quality": "GOOD",
+        "notes": []
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.266892+00:00",
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.312699+00:00",
       "sec_catalyst": {
-        "final_label": "NOT_CHECKED",
+        "final_label": null,
         "catalyst_score": 0,
         "filing_risk_score": 0,
+        "latest_filings": [],
         "risk_flags": [],
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "IONQ",
+        "ticker": "F",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260522",
         "short_volume": null,
@@ -1311,41 +681,615 @@
       ]
     },
     {
-      "ticker": "QBTS",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "ticker": "CELH",
+      "status": "WATCH_ONLY",
+      "score": 55.0,
+      "price": 30.22,
+      "gap_pct": 1.75,
+      "day_change_pct": 1.34,
+      "relative_volume": 1.06,
+      "vwap": 30.1073,
+      "vwap_distance_pct": 0.37,
+      "volume_acceleration": 0.26,
+      "trend_state": "BULLISH_CONTROLLED",
+      "entry": 30.22,
+      "stop": 29.8664,
+      "target": 31.1266,
+      "risk_reward": 2.56,
+      "reason": "positive day move, weak relative volume, volume fading, above VWAP and controlled, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "relative_volume_too_low"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
+        "data_age_seconds": 7853.02,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.311447+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "CELH",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
         "notes": [
-          "placeholder_only",
-          "missing_price"
+          "symbol_not_found_in_latest_finra_file"
         ]
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.267048+00:00",
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "AMC",
+      "status": "WATCH_ONLY",
+      "score": 55.0,
+      "price": 1.53,
+      "gap_pct": -1.92,
+      "day_change_pct": 0.99,
+      "relative_volume": 0.22,
+      "vwap": 1.5155,
+      "vwap_distance_pct": 0.96,
+      "volume_acceleration": 5.74,
+      "trend_state": "BULLISH_CONTROLLED",
+      "entry": 1.53,
+      "stop": 1.5071,
+      "target": 1.5759,
+      "risk_reward": 2.0,
+      "reason": "positive day move, weak relative volume, volume acceleration, above VWAP and controlled, below minimum price, risk/reward acceptable",
+      "no_trade_reasons": [
+        "price_below_3",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.02,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.311297+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "AMC",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "OXY",
+      "status": "WATCH_ONLY",
+      "score": 55.0,
+      "price": 59.1597,
+      "gap_pct": 0.56,
+      "day_change_pct": 0.27,
+      "relative_volume": 1.12,
+      "vwap": 58.8262,
+      "vwap_distance_pct": 0.57,
+      "volume_acceleration": 0.63,
+      "trend_state": "BULLISH_CONTROLLED",
+      "entry": 59.1597,
+      "stop": 58.3556,
+      "target": 60.9345,
+      "risk_reward": 2.21,
+      "reason": "positive day move, weak relative volume, volume fading, above VWAP and controlled, risk/reward acceptable",
+      "no_trade_reasons": [
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.06,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.311720+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "OXY",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "LI",
+      "status": "WATCH_ONLY",
+      "score": 54.0,
+      "price": 15.88,
+      "gap_pct": -1.98,
+      "day_change_pct": 0.06,
+      "relative_volume": 2.2,
+      "vwap": 15.8866,
+      "vwap_distance_pct": -0.04,
+      "volume_acceleration": 1.23,
+      "trend_state": "BELOW_VWAP",
+      "entry": 15.88,
+      "stop": 15.6418,
+      "target": 16.3564,
+      "risk_reward": 2.0,
+      "reason": "positive day move, strong relative volume, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7973.01,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.313822+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "LI",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "DKNG",
+      "status": "WATCH_ONLY",
+      "score": 52.0,
+      "price": 25.05,
+      "gap_pct": -1.38,
+      "day_change_pct": 0.24,
+      "relative_volume": 1.55,
+      "vwap": 25.0889,
+      "vwap_distance_pct": -0.16,
+      "volume_acceleration": 3.3,
+      "trend_state": "BELOW_VWAP",
+      "entry": 25.05,
+      "stop": 24.6743,
+      "target": 25.8015,
+      "risk_reward": 2.0,
+      "reason": "positive day move, moderate relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.02,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.312983+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "DKNG",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "DIS",
+      "status": "WATCH_ONLY",
+      "score": 52.0,
+      "price": 102.96,
+      "gap_pct": -0.6,
+      "day_change_pct": -0.27,
+      "relative_volume": 2.86,
+      "vwap": 103.0422,
+      "vwap_distance_pct": -0.08,
+      "volume_acceleration": 1.57,
+      "trend_state": "BELOW_VWAP",
+      "entry": 102.96,
+      "stop": 101.4156,
+      "target": 106.0488,
+      "risk_reward": 2.0,
+      "reason": "strong relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 10073.02,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.311161+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "DIS",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "AFRM",
+      "status": "WATCH_ONLY",
+      "score": 52.0,
+      "price": 65.0,
+      "gap_pct": -3.25,
+      "day_change_pct": -0.27,
+      "relative_volume": 2.02,
+      "vwap": 65.1581,
+      "vwap_distance_pct": -0.24,
+      "volume_acceleration": 2.02,
+      "trend_state": "BELOW_VWAP",
+      "entry": 65.0,
+      "stop": 64.025,
+      "target": 66.95,
+      "risk_reward": 2.0,
+      "reason": "strong relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 8333.01,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.312426+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "AFRM",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "DAL",
+      "status": "WATCH_ONLY",
+      "score": 52.0,
+      "price": 76.07,
+      "gap_pct": 0.56,
+      "day_change_pct": -0.48,
+      "relative_volume": 2.01,
+      "vwap": 76.184,
+      "vwap_distance_pct": -0.15,
+      "volume_acceleration": 1.53,
+      "trend_state": "BELOW_VWAP",
+      "entry": 76.07,
+      "stop": 74.9289,
+      "target": 78.3521,
+      "risk_reward": 2.0,
+      "reason": "strong relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 8333.06,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.312562+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "DAL",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "LYFT",
+      "status": "WATCH_ONLY",
+      "score": 50.0,
+      "price": 13.82,
+      "gap_pct": 2.52,
+      "day_change_pct": 0.51,
+      "relative_volume": 1.65,
+      "vwap": 13.8842,
+      "vwap_distance_pct": -0.46,
+      "volume_acceleration": 0.46,
+      "trend_state": "BELOW_VWAP",
+      "entry": 13.82,
+      "stop": 13.6127,
+      "target": 14.2346,
+      "risk_reward": 2.0,
+      "reason": "positive day move, healthy gap, moderate relative volume, volume fading, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.01,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.315494+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "LYFT",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "PINS",
+      "status": "WATCH_ONLY",
+      "score": 50.0,
+      "price": 19.1899,
+      "gap_pct": 1.8,
+      "day_change_pct": 0.18,
+      "relative_volume": 2.63,
+      "vwap": 19.2609,
+      "vwap_distance_pct": -0.37,
+      "volume_acceleration": 0.08,
+      "trend_state": "BELOW_VWAP",
+      "entry": 19.1899,
+      "stop": 18.9021,
+      "target": 19.7656,
+      "risk_reward": 2.0,
+      "reason": "positive day move, strong relative volume, volume fading, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 8093.02,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.313545+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "PINS",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "ZS",
+      "status": "WATCH_ONLY",
+      "score": 50.0,
+      "price": 181.1001,
+      "gap_pct": 5.9,
+      "day_change_pct": -0.14,
+      "relative_volume": 3.4,
+      "vwap": 182.2369,
+      "vwap_distance_pct": -0.62,
+      "volume_acceleration": 0.52,
+      "trend_state": "BELOW_VWAP",
+      "entry": 181.1001,
+      "stop": 178.3836,
+      "target": 186.5331,
+      "risk_reward": 2.0,
+      "reason": "healthy gap, strong relative volume, volume fading, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 8033.01,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.312145+00:00",
       "sec_catalyst": {
         "final_label": "NOT_CHECKED",
         "catalyst_score": 0,
@@ -1354,7 +1298,182 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "QBTS",
+        "ticker": "ZS",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "GM",
+      "status": "WATCH_ONLY",
+      "score": 50.0,
+      "price": 78.77,
+      "gap_pct": 2.02,
+      "day_change_pct": -0.15,
+      "relative_volume": 3.46,
+      "vwap": 78.7736,
+      "vwap_distance_pct": -0.0,
+      "volume_acceleration": 0.01,
+      "trend_state": "BELOW_VWAP",
+      "entry": 78.77,
+      "stop": 77.5884,
+      "target": 81.1331,
+      "risk_reward": 2.0,
+      "reason": "healthy gap, strong relative volume, volume fading, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 9413.05,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.311857+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "GM",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "DNA",
+      "status": "WATCH_ONLY",
+      "score": 50.0,
+      "price": 8.3601,
+      "gap_pct": 3.47,
+      "day_change_pct": -0.95,
+      "relative_volume": 2.11,
+      "vwap": 8.4045,
+      "vwap_distance_pct": -0.53,
+      "volume_acceleration": 0.17,
+      "trend_state": "BELOW_VWAP",
+      "entry": 8.3601,
+      "stop": 8.2347,
+      "target": 8.6109,
+      "risk_reward": 2.0,
+      "reason": "healthy gap, strong relative volume, volume fading, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 9413.02,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.314247+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "DNA",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "BYND",
+      "status": "WATCH_ONLY",
+      "score": 49.0,
+      "price": 0.77,
+      "gap_pct": -2.35,
+      "day_change_pct": 1.0,
+      "relative_volume": 0.17,
+      "vwap": 0.7662,
+      "vwap_distance_pct": 0.49,
+      "volume_acceleration": 0.89,
+      "trend_state": "BULLISH_CONTROLLED",
+      "entry": 0.77,
+      "stop": 0.7601,
+      "target": 0.7931,
+      "risk_reward": 2.33,
+      "reason": "positive day move, weak relative volume, above VWAP and controlled, below minimum price, risk/reward acceptable",
+      "no_trade_reasons": [
+        "price_below_3",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.02,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.313256+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "BYND",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260522",
         "short_volume": null,
@@ -1376,40 +1495,34 @@
     },
     {
       "ticker": "ACHR",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "status": "WATCH_ONLY",
+      "score": 47.0,
+      "price": 6.29,
+      "gap_pct": 2.78,
+      "day_change_pct": 1.29,
+      "relative_volume": 0.36,
+      "vwap": 6.2995,
+      "vwap_distance_pct": -0.15,
+      "volume_acceleration": 0.95,
+      "trend_state": "BELOW_VWAP",
+      "entry": 6.29,
+      "stop": 6.1956,
+      "target": 6.4787,
+      "risk_reward": 2.0,
+      "reason": "positive day move, healthy gap, weak relative volume, below VWAP, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "below_vwap",
+        "relative_volume_too_low"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
+        "data_age_seconds": 7853.02,
+        "quality": "GOOD",
+        "notes": []
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.267186+00:00",
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.357273+00:00",
       "sec_catalyst": {
         "final_label": null,
         "catalyst_score": 0,
@@ -1442,41 +1555,389 @@
       ]
     },
     {
-      "ticker": "JOBY",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "ticker": "LCID",
+      "status": "WATCH_ONLY",
+      "score": 45.0,
+      "price": 5.8413,
+      "gap_pct": 0.02,
+      "day_change_pct": 0.11,
+      "relative_volume": 0.46,
+      "vwap": 5.8433,
+      "vwap_distance_pct": -0.03,
+      "volume_acceleration": 2.55,
+      "trend_state": "BELOW_VWAP",
+      "entry": 5.8413,
+      "stop": 5.7537,
+      "target": 6.0165,
+      "risk_reward": 2.0,
+      "reason": "positive day move, weak relative volume, volume acceleration, below VWAP, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "below_vwap",
+        "relative_volume_too_low"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
+        "data_age_seconds": 8093.01,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.315356+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [
+          "possible_dilution_or_offering:424B5"
+        ],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "LCID",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
         "notes": [
-          "placeholder_only",
-          "missing_price"
+          "symbol_not_found_in_latest_finra_file"
         ]
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.267383+00:00",
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "RBLX",
+      "status": "WATCH_ONLY",
+      "score": 45.0,
+      "price": 48.08,
+      "gap_pct": 4.2,
+      "day_change_pct": -0.01,
+      "relative_volume": 0.86,
+      "vwap": 48.1749,
+      "vwap_distance_pct": -0.2,
+      "volume_acceleration": 2.54,
+      "trend_state": "BELOW_VWAP",
+      "entry": 48.08,
+      "stop": 47.3588,
+      "target": 49.5224,
+      "risk_reward": 2.0,
+      "reason": "healthy gap, weak relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 8033.02,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.314113+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "RBLX",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "AMD",
+      "status": "WATCH_ONLY",
+      "score": 45.0,
+      "price": 462.81,
+      "gap_pct": 2.94,
+      "day_change_pct": -1.32,
+      "relative_volume": 0.17,
+      "vwap": 467.5214,
+      "vwap_distance_pct": -1.01,
+      "volume_acceleration": 1.63,
+      "trend_state": "BELOW_VWAP",
+      "entry": 462.81,
+      "stop": 455.8678,
+      "target": 476.6943,
+      "risk_reward": 2.0,
+      "reason": "healthy gap, weak relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.01,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.354979+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "AMD",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "NCLH",
+      "status": "WATCH_ONLY",
+      "score": 44.0,
+      "price": 16.3,
+      "gap_pct": -1.03,
+      "day_change_pct": -0.18,
+      "relative_volume": 1.68,
+      "vwap": 16.3108,
+      "vwap_distance_pct": -0.07,
+      "volume_acceleration": 1.62,
+      "trend_state": "BELOW_VWAP",
+      "entry": 16.3,
+      "stop": 16.0555,
+      "target": 16.789,
+      "risk_reward": 2.0,
+      "reason": "moderate relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7913.06,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.312832+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "NCLH",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "SHOP",
+      "status": "WATCH_ONLY",
+      "score": 44.0,
+      "price": 103.2163,
+      "gap_pct": -1.57,
+      "day_change_pct": -0.77,
+      "relative_volume": 1.56,
+      "vwap": 103.2767,
+      "vwap_distance_pct": -0.06,
+      "volume_acceleration": 1.59,
+      "trend_state": "BELOW_VWAP",
+      "entry": 103.2163,
+      "stop": 101.6681,
+      "target": 106.3128,
+      "risk_reward": 2.0,
+      "reason": "moderate relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.01,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.313121+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "SHOP",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "QBTS",
+      "status": "WATCH_ONLY",
+      "score": 43.0,
+      "price": 28.65,
+      "gap_pct": 11.31,
+      "day_change_pct": 0.7,
+      "relative_volume": 0.73,
+      "vwap": 29.1941,
+      "vwap_distance_pct": -1.86,
+      "volume_acceleration": 0.48,
+      "trend_state": "BELOW_VWAP",
+      "entry": 28.65,
+      "stop": 28.2202,
+      "target": 29.5095,
+      "risk_reward": 2.0,
+      "reason": "positive day move, healthy gap, weak relative volume, volume fading, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.02,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.356227+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "QBTS",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "JOBY",
+      "status": "WATCH_ONLY",
+      "score": 43.0,
+      "price": 10.8403,
+      "gap_pct": 4.23,
+      "day_change_pct": 0.14,
+      "relative_volume": 0.27,
+      "vwap": 10.8813,
+      "vwap_distance_pct": -0.38,
+      "volume_acceleration": 0.58,
+      "trend_state": "BELOW_VWAP",
+      "entry": 10.8403,
+      "stop": 10.6777,
+      "target": 11.1655,
+      "risk_reward": 2.0,
+      "reason": "positive day move, healthy gap, weak relative volume, volume fading, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.02,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.358461+00:00",
       "sec_catalyst": {
         "final_label": "NOT_CHECKED",
         "catalyst_score": 0,
@@ -1506,41 +1967,34 @@
       ]
     },
     {
-      "ticker": "RKLB",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "ticker": "U",
+      "status": "WATCH_ONLY",
+      "score": 42.0,
+      "price": 25.43,
+      "gap_pct": -0.43,
+      "day_change_pct": 0.03,
+      "relative_volume": 1.8,
+      "vwap": 25.4903,
+      "vwap_distance_pct": -0.24,
+      "volume_acceleration": 0.71,
+      "trend_state": "BELOW_VWAP",
+      "entry": 25.43,
+      "stop": 25.0485,
+      "target": 26.1929,
+      "risk_reward": 2.0,
+      "reason": "positive day move, moderate relative volume, volume fading, below VWAP, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "below_vwap"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
+        "data_age_seconds": 8093.02,
+        "quality": "GOOD",
+        "notes": []
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.267539+00:00",
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.314934+00:00",
       "sec_catalyst": {
         "final_label": "NOT_CHECKED",
         "catalyst_score": 0,
@@ -1549,7 +2003,7 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "RKLB",
+        "ticker": "U",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260522",
         "short_volume": null,
@@ -1570,41 +2024,34 @@
       ]
     },
     {
-      "ticker": "OPEN",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "ticker": "DDOG",
+      "status": "WATCH_ONLY",
+      "score": 42.0,
+      "price": 222.1,
+      "gap_pct": 1.86,
+      "day_change_pct": -0.09,
+      "relative_volume": 4.36,
+      "vwap": 222.3208,
+      "vwap_distance_pct": -0.1,
+      "volume_acceleration": 0.01,
+      "trend_state": "BELOW_VWAP",
+      "entry": 222.1,
+      "stop": 218.7685,
+      "target": 228.763,
+      "risk_reward": 2.0,
+      "reason": "strong relative volume, volume fading, below VWAP, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "below_vwap"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
+        "data_age_seconds": 16913.01,
+        "quality": "GOOD",
+        "notes": []
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.267677+00:00",
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.310737+00:00",
       "sec_catalyst": {
         "final_label": null,
         "catalyst_score": 0,
@@ -1614,7 +2061,7 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "OPEN",
+        "ticker": "DDOG",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260522",
         "short_volume": null,
@@ -1635,41 +2082,34 @@
       ]
     },
     {
-      "ticker": "UPST",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "ticker": "GE",
+      "status": "WATCH_ONLY",
+      "score": 42.0,
+      "price": 302.0,
+      "gap_pct": 0.08,
+      "day_change_pct": -0.18,
+      "relative_volume": 2.54,
+      "vwap": 302.4994,
+      "vwap_distance_pct": -0.17,
+      "volume_acceleration": 0.23,
+      "trend_state": "BELOW_VWAP",
+      "entry": 302.0,
+      "stop": 297.47,
+      "target": 311.06,
+      "risk_reward": 2.0,
+      "reason": "strong relative volume, volume fading, below VWAP, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "below_vwap"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
+        "data_age_seconds": 8153.02,
+        "quality": "GOOD",
+        "notes": []
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.267814+00:00",
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.313687+00:00",
       "sec_catalyst": {
         "final_label": "NOT_CHECKED",
         "catalyst_score": 0,
@@ -1678,7 +2118,7 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "UPST",
+        "ticker": "GE",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260522",
         "short_volume": null,
@@ -1699,41 +2139,34 @@
       ]
     },
     {
-      "ticker": "AFRM",
-      "status": "NO_TRADE",
-      "score": 0.0,
-      "price": 0.0,
-      "gap_pct": null,
-      "day_change_pct": null,
-      "relative_volume": null,
-      "vwap": null,
-      "vwap_distance_pct": null,
-      "volume_acceleration": null,
-      "trend_state": "UNKNOWN",
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "risk_reward": null,
-      "reason": "data quality risk",
+      "ticker": "PANW",
+      "status": "WATCH_ONLY",
+      "score": 42.0,
+      "price": 260.0,
+      "gap_pct": 2.8,
+      "day_change_pct": -0.23,
+      "relative_volume": 1.88,
+      "vwap": 260.6382,
+      "vwap_distance_pct": -0.24,
+      "volume_acceleration": 0.43,
+      "trend_state": "BELOW_VWAP",
+      "entry": 260.0,
+      "stop": 256.1,
+      "target": 267.8,
+      "risk_reward": 2.0,
+      "reason": "healthy gap, moderate relative volume, volume fading, below VWAP, risk/reward acceptable",
       "no_trade_reasons": [
-        "missing_price",
-        "data_not_tradeable",
-        "missing_vwap",
-        "missing_relative_volume",
-        "risk_reward_below_2"
+        "below_vwap"
       ],
       "data_quality": {
-        "primary_source": "placeholder_universe",
+        "primary_source": "alpaca_sip",
         "fallback_used": false,
-        "data_age_seconds": null,
-        "quality": "BAD",
-        "notes": [
-          "placeholder_only",
-          "missing_price"
-        ]
+        "data_age_seconds": 8153.01,
+        "quality": "GOOD",
+        "notes": []
       },
-      "source_type": "placeholder_universe",
-      "generated_at": "2026-05-23T02:02:18.267949+00:00",
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.314529+00:00",
       "sec_catalyst": {
         "final_label": null,
         "catalyst_score": 0,
@@ -1743,7 +2176,774 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "AFRM",
+        "ticker": "PANW",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "ROKU",
+      "status": "WATCH_ONLY",
+      "score": 42.0,
+      "price": 123.7,
+      "gap_pct": -1.1,
+      "day_change_pct": -1.34,
+      "relative_volume": 3.41,
+      "vwap": 125.509,
+      "vwap_distance_pct": -1.44,
+      "volume_acceleration": 0.0,
+      "trend_state": "BELOW_VWAP",
+      "entry": 123.7,
+      "stop": 121.8445,
+      "target": 127.411,
+      "risk_reward": 2.0,
+      "reason": "strong relative volume, volume fading, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 9533.01,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.312008+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "ROKU",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "HIMS",
+      "status": "NO_TRADE",
+      "score": 39.0,
+      "price": 23.67,
+      "gap_pct": -1.42,
+      "day_change_pct": 0.83,
+      "relative_volume": 0.42,
+      "vwap": 23.6836,
+      "vwap_distance_pct": -0.06,
+      "volume_acceleration": 0.79,
+      "trend_state": "BELOW_VWAP",
+      "entry": 23.67,
+      "stop": 23.3149,
+      "target": 24.3801,
+      "risk_reward": 2.0,
+      "reason": "positive day move, weak relative volume, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.02,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.357155+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "HIMS",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "AVGO",
+      "status": "NO_TRADE",
+      "score": 39.0,
+      "price": 413.035,
+      "gap_pct": -0.37,
+      "day_change_pct": 0.16,
+      "relative_volume": 0.57,
+      "vwap": 413.4686,
+      "vwap_distance_pct": -0.1,
+      "volume_acceleration": 1.16,
+      "trend_state": "BELOW_VWAP",
+      "entry": 413.035,
+      "stop": 406.8395,
+      "target": 425.4261,
+      "risk_reward": 2.0,
+      "reason": "positive day move, weak relative volume, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.01,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.356891+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "AVGO",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "NIO",
+      "status": "NO_TRADE",
+      "score": 39.0,
+      "price": 5.19,
+      "gap_pct": -7.32,
+      "day_change_pct": 0.1,
+      "relative_volume": 0.59,
+      "vwap": 5.2043,
+      "vwap_distance_pct": -0.28,
+      "volume_acceleration": 1.18,
+      "trend_state": "BELOW_VWAP",
+      "entry": 5.19,
+      "stop": 5.1122,
+      "target": 5.3457,
+      "risk_reward": 2.0,
+      "reason": "positive day move, weak relative volume, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.01,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.356486+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "NIO",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "AI",
+      "status": "NO_TRADE",
+      "score": 38.0,
+      "price": 9.2,
+      "gap_pct": -1.39,
+      "day_change_pct": -0.38,
+      "relative_volume": 1.81,
+      "vwap": 9.274,
+      "vwap_distance_pct": -0.8,
+      "volume_acceleration": 0.86,
+      "trend_state": "BELOW_VWAP",
+      "entry": 9.2,
+      "stop": 9.062,
+      "target": 9.476,
+      "risk_reward": 2.0,
+      "reason": "moderate relative volume, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.02,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.314800+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "AI",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "AAPL",
+      "status": "NO_TRADE",
+      "score": 37.0,
+      "price": 308.4105,
+      "gap_pct": 1.12,
+      "day_change_pct": -0.12,
+      "relative_volume": 0.57,
+      "vwap": 308.9447,
+      "vwap_distance_pct": -0.17,
+      "volume_acceleration": 1.56,
+      "trend_state": "BELOW_VWAP",
+      "entry": 308.4105,
+      "stop": 303.7843,
+      "target": 317.6628,
+      "risk_reward": 2.0,
+      "reason": "weak relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.0,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.314664+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "AAPL",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "GOOG",
+      "status": "NO_TRADE",
+      "score": 37.0,
+      "price": 378.68,
+      "gap_pct": -1.25,
+      "day_change_pct": -0.14,
+      "relative_volume": 0.42,
+      "vwap": 379.5558,
+      "vwap_distance_pct": -0.23,
+      "volume_acceleration": 1.5,
+      "trend_state": "BELOW_VWAP",
+      "entry": 378.68,
+      "stop": 372.9998,
+      "target": 390.0404,
+      "risk_reward": 2.0,
+      "reason": "weak relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.01,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.315740+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [
+          "possible_dilution_or_offering:424B5"
+        ],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "GOOG",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "SOFI",
+      "status": "NO_TRADE",
+      "score": 37.0,
+      "price": 15.56,
+      "gap_pct": -0.58,
+      "day_change_pct": -0.25,
+      "relative_volume": 0.13,
+      "vwap": 15.6165,
+      "vwap_distance_pct": -0.36,
+      "volume_acceleration": 2.08,
+      "trend_state": "BELOW_VWAP",
+      "entry": 15.56,
+      "stop": 15.3266,
+      "target": 16.0268,
+      "risk_reward": 2.0,
+      "reason": "weak relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.01,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.355227+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "SOFI",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "BBAI",
+      "status": "NO_TRADE",
+      "score": 37.0,
+      "price": 4.1713,
+      "gap_pct": -0.68,
+      "day_change_pct": -0.33,
+      "relative_volume": 0.23,
+      "vwap": 4.1877,
+      "vwap_distance_pct": -0.39,
+      "volume_acceleration": 3.33,
+      "trend_state": "BELOW_VWAP",
+      "entry": 4.1713,
+      "stop": 4.1087,
+      "target": 4.2964,
+      "risk_reward": 2.0,
+      "reason": "weak relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.02,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.354831+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "BBAI",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "CCL",
+      "status": "NO_TRADE",
+      "score": 37.0,
+      "price": 25.9,
+      "gap_pct": -1.07,
+      "day_change_pct": -0.4,
+      "relative_volume": 0.9,
+      "vwap": 25.9811,
+      "vwap_distance_pct": -0.31,
+      "volume_acceleration": 1.94,
+      "trend_state": "BELOW_VWAP",
+      "entry": 25.9,
+      "stop": 25.5115,
+      "target": 26.677,
+      "risk_reward": 2.0,
+      "reason": "weak relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.06,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.313956+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "CCL",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "MARA",
+      "status": "NO_TRADE",
+      "score": 37.0,
+      "price": 13.76,
+      "gap_pct": 1.55,
+      "day_change_pct": -0.4,
+      "relative_volume": 0.25,
+      "vwap": 13.7943,
+      "vwap_distance_pct": -0.25,
+      "volume_acceleration": 2.49,
+      "trend_state": "BELOW_VWAP",
+      "entry": 13.76,
+      "stop": 13.5536,
+      "target": 14.1728,
+      "risk_reward": 2.0,
+      "reason": "weak relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.01,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.354712+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "MARA",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "HOOD",
+      "status": "NO_TRADE",
+      "score": 37.0,
+      "price": 73.32,
+      "gap_pct": -3.42,
+      "day_change_pct": -0.53,
+      "relative_volume": 0.26,
+      "vwap": 73.563,
+      "vwap_distance_pct": -0.33,
+      "volume_acceleration": 3.16,
+      "trend_state": "BELOW_VWAP",
+      "entry": 73.32,
+      "stop": 72.2202,
+      "target": 75.5196,
+      "risk_reward": 2.0,
+      "reason": "weak relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7853.01,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.316379+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "HOOD",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260522",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ]
+    },
+    {
+      "ticker": "CRM",
+      "status": "NO_TRADE",
+      "score": 37.0,
+      "price": 179.79,
+      "gap_pct": 1.97,
+      "day_change_pct": -0.55,
+      "relative_volume": 1.45,
+      "vwap": 180.1756,
+      "vwap_distance_pct": -0.21,
+      "volume_acceleration": 2.49,
+      "trend_state": "BELOW_VWAP",
+      "entry": 179.79,
+      "stop": 177.0931,
+      "target": 185.1837,
+      "risk_reward": 2.0,
+      "reason": "weak relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 7913.01,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "source_type": "alpaca_paid_market_scanner",
+      "generated_at": "2026-05-23T02:09:53.313395+00:00",
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "CRM",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260522",
         "short_volume": null,
@@ -1809,7 +3009,7 @@
       "no auto-buy"
     ]
   },
-  "sec_enriched_at": "2026-05-23T02:02:29.955441+00:00",
+  "sec_enriched_at": "2026-05-23T02:09:59.810212+00:00",
   "sec_enrichment": {
     "enabled": true,
     "source": "docs/data/prediction_engine/sec_catalysts.json",
@@ -1819,7 +3019,7 @@
   "finra_enrichment": {
     "status": "PASS",
     "source_file": "docs/data/prediction_engine/finra_short_pressure.json",
-    "rows_enriched": 27,
+    "rows_enriched": 50,
     "matched_finra_rows": 0,
     "context_only": true,
     "order_submission": false
