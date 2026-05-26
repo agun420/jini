@@ -3,12 +3,12 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-
 
 DOCS_DIR = Path("docs/data/prediction_engine")
 STATE_DIR = Path("state/prediction_engine")
@@ -93,8 +93,22 @@ def f(value: Any, default: float | None = None) -> float | None:
         return default
 
 
+def is_valid_telegram_token(token: str | None) -> bool:
+    if not token:
+        return False
+    return bool(re.match(r"^[0-9]+:[a-zA-Z0-9_-]+$", token))
+
+
+def is_valid_telegram_chat_id(chat_id: str | None) -> bool:
+    if not chat_id:
+        return False
+    return bool(re.match(r"^-?\d+$", chat_id))
+
+
 def telegram_configured() -> bool:
-    return bool(os.getenv("TELEGRAM_BOT_TOKEN") and os.getenv("TELEGRAM_CHAT_ID"))
+    token = os.getenv("TELEGRAM_BOT_TOKEN")
+    chat_id = os.getenv("TELEGRAM_CHAT_ID")
+    return is_valid_telegram_token(token) and is_valid_telegram_chat_id(chat_id)
 
 
 def send_telegram(text: str) -> dict[str, Any]:
@@ -107,12 +121,20 @@ def send_telegram(text: str) -> dict[str, Any]:
             "reason": "telegram_not_configured",
         }
 
+    if not is_valid_telegram_token(token) or not is_valid_telegram_chat_id(chat_id):
+        return {
+            "sent": False,
+            "reason": "invalid_telegram_credentials",
+        }
+
     url = f"https://api.telegram.org/bot{token}/sendMessage"
-    data = urllib.parse.urlencode({
-        "chat_id": chat_id,
-        "text": text,
-        "disable_web_page_preview": "true",
-    }).encode("utf-8")
+    data = urllib.parse.urlencode(
+        {
+            "chat_id": chat_id,
+            "text": text,
+            "disable_web_page_preview": "true",
+        }
+    ).encode("utf-8")
 
     try:
         req = urllib.request.Request(url, data=data, method="POST")
@@ -144,49 +166,55 @@ def build_system_alerts() -> list[dict[str, Any]]:
     warnings = monitor.get("warnings", []) if isinstance(monitor, dict) else []
 
     if monitor_status == "FAIL":
-        alerts.append({
-            "kind": "SYSTEM_HEALTH_ALERT",
-            "severity": "HIGH",
-            "key": "production_monitor_fail",
-            "title": "SYSTEM HEALTH ALERT: Production monitor failed",
-            "message": (
-                "SYSTEM HEALTH ALERT\n"
-                "Production monitor status: FAIL\n"
-                f"Blockers: {', '.join(blockers) if blockers else 'None listed'}\n"
-                f"Warnings: {', '.join(warnings) if warnings else 'None listed'}\n"
-                f"Dashboard: {DASHBOARD_URL}\n"
-                "Paper/research only. No live order submitted."
-            ),
-        })
+        alerts.append(
+            {
+                "kind": "SYSTEM_HEALTH_ALERT",
+                "severity": "HIGH",
+                "key": "production_monitor_fail",
+                "title": "SYSTEM HEALTH ALERT: Production monitor failed",
+                "message": (
+                    "SYSTEM HEALTH ALERT\n"
+                    "Production monitor status: FAIL\n"
+                    f"Blockers: {', '.join(blockers) if blockers else 'None listed'}\n"
+                    f"Warnings: {', '.join(warnings) if warnings else 'None listed'}\n"
+                    f"Dashboard: {DASHBOARD_URL}\n"
+                    "Paper/research only. No live order submitted."
+                ),
+            }
+        )
 
     if monitor_status == "WARN":
-        alerts.append({
-            "kind": "SYSTEM_HEALTH_ALERT",
-            "severity": "MEDIUM",
-            "key": "production_monitor_warn",
-            "title": "SYSTEM HEALTH ALERT: Production monitor warning",
-            "message": (
-                "SYSTEM HEALTH ALERT\n"
-                "Production monitor status: WARN\n"
-                f"Warnings: {', '.join(warnings) if warnings else 'None listed'}\n"
-                f"Dashboard: {DASHBOARD_URL}\n"
-                "Paper/research only. No live order submitted."
-            ),
-        })
+        alerts.append(
+            {
+                "kind": "SYSTEM_HEALTH_ALERT",
+                "severity": "MEDIUM",
+                "key": "production_monitor_warn",
+                "title": "SYSTEM HEALTH ALERT: Production monitor warning",
+                "message": (
+                    "SYSTEM HEALTH ALERT\n"
+                    "Production monitor status: WARN\n"
+                    f"Warnings: {', '.join(warnings) if warnings else 'None listed'}\n"
+                    f"Dashboard: {DASHBOARD_URL}\n"
+                    "Paper/research only. No live order submitted."
+                ),
+            }
+        )
 
     if audit_status != "PASS":
-        alerts.append({
-            "kind": "SYSTEM_HEALTH_ALERT",
-            "severity": "HIGH",
-            "key": "final_audit_not_pass",
-            "title": "SYSTEM HEALTH ALERT: Final audit not PASS",
-            "message": (
-                "SYSTEM HEALTH ALERT\n"
-                f"Final repo audit status: {audit_status or 'UNKNOWN'}\n"
-                f"Dashboard: {DASHBOARD_URL}\n"
-                "Paper/research only. No live order submitted."
-            ),
-        })
+        alerts.append(
+            {
+                "kind": "SYSTEM_HEALTH_ALERT",
+                "severity": "HIGH",
+                "key": "final_audit_not_pass",
+                "title": "SYSTEM HEALTH ALERT: Final audit not PASS",
+                "message": (
+                    "SYSTEM HEALTH ALERT\n"
+                    f"Final repo audit status: {audit_status or 'UNKNOWN'}\n"
+                    f"Dashboard: {DASHBOARD_URL}\n"
+                    "Paper/research only. No live order submitted."
+                ),
+            }
+        )
 
     return alerts
 
@@ -227,7 +255,12 @@ def build_buy_setup_alerts() -> list[dict[str, Any]]:
         rvol = f(signal.get("time_slot_rvol"), 0.0) or 0.0
         score_status = str(signal.get("score_status") or "")
         second_leg = str(signal.get("second_leg_state") or "N/A")
-        price = signal.get("price") or signal.get("last_price") or signal.get("close") or "N/A"
+        price = (
+            signal.get("price")
+            or signal.get("last_price")
+            or signal.get("close")
+            or "N/A"
+        )
         target = item.get("selected_target_pct", "N/A")
         stop = item.get("selected_stop_pct", "N/A")
 
@@ -237,7 +270,8 @@ def build_buy_setup_alerts() -> list[dict[str, Any]]:
             and entry >= 78
             and danger <= 25
             and probability >= 65
-            and score_status in {"TRADE_ELIGIBLE_SCORE_APPROVED", "WAIT_FOR_PULLBACK", "ALERT_ONLY"}
+            and score_status
+            in {"TRADE_ELIGIBLE_SCORE_APPROVED", "WAIT_FOR_PULLBACK", "ALERT_ONLY"}
         )
 
         strong_gate = (
@@ -264,28 +298,30 @@ def build_buy_setup_alerts() -> list[dict[str, Any]]:
         reasons = item.get("model_reasons") or []
         blocks = signal.get("score_blocks") or signal.get("second_leg_blocks") or []
 
-        alerts.append({
-            "kind": kind,
-            "severity": severity,
-            "key": ticker,
-            "title": f"{label}: {ticker}",
-            "ticker": ticker,
-            "message": (
-                f"{label}: {ticker}\n"
-                f"Price: {price}\n"
-                f"ML probability: {probability:.2f}%\n"
-                f"Final score: {final_score:.2f}\n"
-                f"Runner: {runner:.2f} | Entry: {entry:.2f} | Danger: {danger:.2f}\n"
-                f"Time-slot RVOL: {rvol:.2f}\n"
-                f"Second-leg state: {second_leg}\n"
-                f"Score status: {score_status or 'N/A'}\n"
-                f"Target/stop profile: +{target}% / -{stop}%\n"
-                f"Reasons: {', '.join(map(str, reasons)) if reasons else 'None listed'}\n"
-                f"Blocks: {', '.join(map(str, blocks)) if blocks else 'None listed'}\n"
-                f"Dashboard: {DASHBOARD_URL}\n"
-                "Paper/research only. Not financial advice. No live order submitted."
-            ),
-        })
+        alerts.append(
+            {
+                "kind": kind,
+                "severity": severity,
+                "key": ticker,
+                "title": f"{label}: {ticker}",
+                "ticker": ticker,
+                "message": (
+                    f"{label}: {ticker}\n"
+                    f"Price: {price}\n"
+                    f"ML probability: {probability:.2f}%\n"
+                    f"Final score: {final_score:.2f}\n"
+                    f"Runner: {runner:.2f} | Entry: {entry:.2f} | Danger: {danger:.2f}\n"
+                    f"Time-slot RVOL: {rvol:.2f}\n"
+                    f"Second-leg state: {second_leg}\n"
+                    f"Score status: {score_status or 'N/A'}\n"
+                    f"Target/stop profile: +{target}% / -{stop}%\n"
+                    f"Reasons: {', '.join(map(str, reasons)) if reasons else 'None listed'}\n"
+                    f"Blocks: {', '.join(map(str, blocks)) if blocks else 'None listed'}\n"
+                    f"Dashboard: {DASHBOARD_URL}\n"
+                    "Paper/research only. Not financial advice. No live order submitted."
+                ),
+            }
+        )
 
     return alerts
 
@@ -389,7 +425,12 @@ def export(send_enabled: bool = True) -> dict[str, Any]:
 
 
 def main() -> None:
-    send_enabled = os.getenv("ALERT_SEND_ENABLED", "true").strip().lower() in {"1", "true", "yes", "on"}
+    send_enabled = os.getenv("ALERT_SEND_ENABLED", "true").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }
     print(json.dumps(export(send_enabled=send_enabled), indent=2))
 
 
