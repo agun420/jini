@@ -11,11 +11,15 @@ from prediction_engine.optimization.forward_validator import ForwardValidationOp
 DOCS = Path("docs/data/prediction_engine")
 STATE = Path("state/prediction_engine")
 
-TRADE_JOURNAL = STATE / "trade_journal.json"
+# Primary: V3 outcome journals — 213 real paper-simulation closed trades.
+V3_PRE_JOURNAL      = DOCS / "v3_prebreakout_outcome_journal.json"
+V3_REACTIVE_JOURNAL = DOCS / "v3_research_alert_outcome_journal.json"
+# Fallback: paper-executed trade journal (usually empty pre-paper-activation).
+TRADE_JOURNAL       = STATE / "trade_journal.json"
 
-OUT_DOCS = DOCS / "forward_validation.json"
+OUT_DOCS   = DOCS / "forward_validation.json"
 OUT_HEALTH = DOCS / "forward_validation_health.json"
-OUT_STATE = STATE / "forward_validation.json"
+OUT_STATE  = STATE / "forward_validation.json"
 
 
 def now() -> str:
@@ -49,11 +53,60 @@ def trade_records_from(payload: Any) -> list[dict[str, Any]]:
     return []
 
 
+def _v3_alerts_to_records(journal: Any, layer: str) -> list[dict[str, Any]]:
+    """
+    Convert V3 outcome journal alerts into the record format expected by
+    ForwardValidationOptimizer. Each closed alert maps to a synthetic
+    closed trade record with the fields the optimizer reads.
+    """
+    alerts = journal.get("alerts", []) if isinstance(journal, dict) else []
+    records = []
+    for alert in alerts:
+        if not isinstance(alert, dict):
+            continue
+        if alert.get("status") != "CLOSED":
+            continue
+        return_pct = alert.get("return_pct")
+        if return_pct is None:
+            continue
+        records.append({
+            "record_type": "TRADE",
+            "status": "CLOSED",
+            "layer": layer,
+            "ticker": alert.get("ticker"),
+            "return_pct": return_pct,
+            "outcome_pnl": return_pct,   # proxy — optimizer uses this to detect closed trades
+            # V3 scoring fields the forward validator reads.
+            "final_trade_score_v3": alert.get("final_trade_score_v3")
+                                    or alert.get("prebreakout_score_v3")
+                                    or alert.get("research_alert_score_v3", 70.0),
+            "runner_potential_v3": alert.get("runner_potential_v3", 60.0),
+            "vwap_distance_pct": alert.get("vwap_distance_pct", 0.5),
+            "relative_volume": alert.get("relative_volume", 1.5),
+            "day_move_pct": alert.get("day_move_pct", 2.0),
+            "exit_reason": alert.get("exit_reason"),
+            "opened_at": alert.get("opened_at"),
+            "closed_at": alert.get("closed_at"),
+            "order_submission": False,
+            "live_trading": False,
+        })
+    return records
+
+
 def main() -> None:
     generated_at = now()
 
-    journal = read_json(TRADE_JOURNAL, {})
-    records = trade_records_from(journal)
+    # Build record set: V3 journals first, supplement with paper trade journal.
+    pre_journal      = read_json(V3_PRE_JOURNAL, {})
+    reactive_journal = read_json(V3_REACTIVE_JOURNAL, {})
+    paper_journal    = read_json(TRADE_JOURNAL, {})
+
+    v3_pre_records      = _v3_alerts_to_records(pre_journal, "prebreakout")
+    v3_reactive_records = _v3_alerts_to_records(reactive_journal, "reactive")
+    paper_records       = trade_records_from(paper_journal)
+
+    # Merge: V3 records are the primary dataset; paper records are additive.
+    records = v3_pre_records + v3_reactive_records + paper_records
 
     optimizer = ForwardValidationOptimizer(
         current_config_path=STATE / "runner_config.json",

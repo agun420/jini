@@ -60,10 +60,15 @@ class DangerScoreScorerV3:
         blockers.append("quote_stale")
         return 22.0
 
-    def _exhaustion_penalty(self, day_move: float, rvol: float, momentum_sum: float, warnings: list[str]) -> float:
-        # High RVOL + positive momentum = explosive confirmation, not exhaustion
-        if rvol >= 3.0 and momentum_sum > 0:
-            return 1.0
+    def _exhaustion_penalty(self, day_move: float, rvol: float, momentum_sum: float, vwap_dist: float, warnings: list[str]) -> float:
+        # Explosive confirmation ONLY valid when entry is also tight to VWAP.
+        # Backtest data: CVNA (RVOL 6.9x, vwap 0.39%) +2.89% WIN;
+        #                SOFI (RVOL 20x, vwap 0.71-0.85%) -0.53% to -1.13% LOSS.
+        # High RVOL extended from VWAP is dangerous, not explosive confirmation.
+        if rvol >= 3.0 and momentum_sum > 0 and vwap_dist <= 1.0:
+            return 1.0   # truly explosive: tight VWAP + high RVOL + positive momentum
+        if rvol >= 3.0 and momentum_sum > 0 and vwap_dist <= 2.0:
+            return 5.0   # high RVOL but extended entry — partial danger
         if day_move >= 20 and momentum_sum <= 0:
             warnings.append("large_move_with_weak_momentum")
             return 14.0
@@ -155,7 +160,7 @@ class DangerScoreScorerV3:
         extension_penalty = self._extension_penalty(vwap_dist, warnings)
         spread_penalty = self._spread_penalty(spread, blockers, warnings)
         stale_quote_penalty = self._stale_quote_penalty(quote_age, blockers, warnings)
-        exhaustion_penalty = self._exhaustion_penalty(day_move, rvol, momentum_sum, warnings)
+        exhaustion_penalty = self._exhaustion_penalty(day_move, rvol, momentum_sum, vwap_dist, warnings)
         failed_breakout_penalty = self._failed_breakout_penalty(hod_dist, warnings)
         pullback_penalty = self._pullback_penalty(pullback_depth, warnings)
         volume_failure_penalty = self._volume_failure_penalty(volume_reexpansion, warnings)
