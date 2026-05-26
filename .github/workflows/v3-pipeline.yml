@@ -2,10 +2,6 @@ name: V3 Pipeline
 
 on:
   workflow_dispatch:
-  schedule:
-    # Weekdays at 22:30 UTC — after final-repo-audit (21:30) commits its output,
-    # which hard_safety_lock reads as a check.
-    - cron: "30 22 * * 1-5"
 
 permissions:
   contents: write
