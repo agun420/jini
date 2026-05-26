@@ -1,8 +1,21 @@
 from __future__ import annotations
 
 import math
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
+
+
+@dataclass
+class StrictTradeGateV3Config:
+    min_final_score: float = 70.0
+    min_runner_score: float = 60.0
+    min_entry_score: float = 55.0
+    max_danger_score: float = 50.0
+    price_min: float = 10.0
+    price_max: float = 75.0
+    max_spread_pct: float = 0.025
+    max_quote_age_sec: float = 60.0
 
 
 def utc_now_iso() -> str:
@@ -31,25 +44,8 @@ class StrictTradeGateV3:
     It cannot enable live trading.
     """
 
-    def __init__(
-        self,
-        min_final_score: float = 70.0,
-        min_runner_score: float = 60.0,
-        min_entry_score: float = 55.0,
-        max_danger_score: float = 50.0,
-        price_min: float = 10.0,
-        price_max: float = 75.0,
-        max_spread_pct: float = 0.025,
-        max_quote_age_sec: float = 60.0,
-    ):
-        self.min_final_score = min_final_score
-        self.min_runner_score = min_runner_score
-        self.min_entry_score = min_entry_score
-        self.max_danger_score = max_danger_score
-        self.price_min = price_min
-        self.price_max = price_max
-        self.max_spread_pct = max_spread_pct
-        self.max_quote_age_sec = max_quote_age_sec
+    def __init__(self, config: StrictTradeGateV3Config | None = None):
+        self.config = config or StrictTradeGateV3Config()
 
     def evaluate_row(self, row: dict[str, Any]) -> dict[str, Any]:
         ticker = str(row.get("ticker") or row.get("symbol") or "").upper().strip()
@@ -74,29 +70,29 @@ class StrictTradeGateV3:
         if price <= 0:
             blockers.append("missing_price")
 
-        if price < self.price_min or price > self.price_max:
+        if price < self.config.price_min or price > self.config.price_max:
             blockers.append("outside_validated_price_regime")
 
-        if final_score < self.min_final_score:
+        if final_score < self.config.min_final_score:
             blockers.append("final_score_below_gate")
 
-        if runner < self.min_runner_score:
+        if runner < self.config.min_runner_score:
             blockers.append("runner_score_below_gate")
 
-        if entry < self.min_entry_score:
+        if entry < self.config.min_entry_score:
             blockers.append("entry_score_below_gate")
 
-        if danger > self.max_danger_score:
+        if danger > self.config.max_danger_score:
             blockers.append("danger_score_above_gate")
 
         if spread < 0:
             warnings.append("spread_missing")
-        elif spread > self.max_spread_pct:
+        elif spread > self.config.max_spread_pct:
             blockers.append("spread_too_wide")
 
         if quote_age < 0:
             warnings.append("quote_age_missing")
-        elif quote_age > self.max_quote_age_sec:
+        elif quote_age > self.config.max_quote_age_sec:
             blockers.append("quote_stale")
 
         if day_move <= 0:
