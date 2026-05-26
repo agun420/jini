@@ -38,6 +38,27 @@ def test_blocked_row_creates_at_least_one_blocker(blocked_row):
     assert len(all_blockers) > 0
 
 
+def test_below_vwap_penalizes_runner_score(minimal_row):
+    """Below-VWAP stocks must score 2 (not 6) on vwap_position — regression guard for
+    the unreachable-branch bug where vwap_dist < 0 was caught by 'vwap_dist <= 8' first."""
+    above = RunnerPotentialScorerV3().score_row({**minimal_row, "vwap_distance_pct": 2.0})
+    below = RunnerPotentialScorerV3().score_row({**minimal_row, "vwap_distance_pct": -3.0})
+    assert above["runner_potential_v3"] > below["runner_potential_v3"]
+    assert "below_vwap" in below["runner_potential_warnings_v3"]
+    assert "vwap_extension_risk" not in below["runner_potential_warnings_v3"]
+
+
+def test_high_danger_suppresses_final_score(minimal_row):
+    """High-danger stocks must be meaningfully penalized in the final score."""
+    low_danger = {**minimal_row, "danger_score_v3": 10.0, "runner_potential_v3": 80.0, "entry_quality_v3": 75.0}
+    high_danger = {**minimal_row, "danger_score_v3": 75.0, "runner_potential_v3": 80.0, "entry_quality_v3": 75.0}
+    scorer = FinalTradeScoreScorerV3()
+    score_low = scorer.score_row(low_danger)["final_trade_score_v3"]
+    score_high = scorer.score_row(high_danger)["final_trade_score_v3"]
+    # 0.20 danger weight means high danger (75 vs 10) costs 13 points
+    assert score_low - score_high >= 10.0
+
+
 def test_score_sort_order_descending(minimal_row):
     rows = [
         {**minimal_row, "ticker": "LOW", "day_move_pct": 1.0, "relative_volume": 0.5},

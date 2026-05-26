@@ -34,14 +34,14 @@ class RunnerPotentialScorerV3:
         return 1.0
 
     def _vwap_position_score(self, vwap_dist: float, warnings: list[str]) -> float:
-        if 0 <= vwap_dist <= 4:
+        if vwap_dist < 0:
+            warnings.append("below_vwap")
+            return 2.0
+        if vwap_dist <= 4:
             return 10.0
         if vwap_dist <= 8:
             warnings.append("vwap_extension_risk")
             return 6.0
-        if vwap_dist < 0:
-            warnings.append("below_vwap")
-            return 2.0
         warnings.append("high_vwap_extension")
         return 3.0
 

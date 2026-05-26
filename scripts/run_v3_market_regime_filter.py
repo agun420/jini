@@ -115,6 +115,12 @@ def main() -> None:
     regime_score += (above_vwap_pct - 50) * 0.15
     regime_score += (positive_mom_pct - 50) * 0.15
 
+    # When SPY/QQQ/IWM are absent, the universe is high-RVOL small caps that
+    # can run even during market selloffs — apply a conservative downward bias
+    # so we don't call RISK_ON based on momentum-stock averages alone.
+    if not market_rows:
+        regime_score -= 8.0
+
     regime_score = max(0.0, min(100.0, regime_score))
 
     if regime_score >= 62:

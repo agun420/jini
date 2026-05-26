@@ -94,12 +94,14 @@ def valid_closed(payload: dict[str, Any]) -> list[dict[str, Any]]:
 def journal_stats(payload: dict[str, Any]) -> dict[str, float]:
     rows = valid_closed(payload)
     if not rows:
+        # Conservative blind prior — avoids false POSITIVE_EDGE when no history.
         return {
             "closed": 0,
-            "target_hit_rate": 0.50,
+            "target_hit_rate": 0.42,
             "avg_return_pct": 0.0,
-            "stop_hit_rate": 0.25,
+            "stop_hit_rate": 0.33,
             "time_exit_rate": 0.25,
+            "low_confidence": True,
         }
 
     targets = [r for r in rows if r.get("exit_reason") == "TARGET_HIT"]
@@ -107,12 +109,18 @@ def journal_stats(payload: dict[str, Any]) -> dict[str, float]:
     time_exits = [r for r in rows if r.get("exit_reason") == "TIME_EXIT"]
     returns = [f(r.get("return_pct")) for r in rows]
 
+    # Blend empirical rate toward conservative prior until 30+ trades.
+    empirical_rate = len(targets) / len(rows)
+    weight = min(len(rows) / 30.0, 1.0)
+    blended_rate = 0.42 * (1 - weight) + empirical_rate * weight
+
     return {
         "closed": len(rows),
-        "target_hit_rate": len(targets) / len(rows),
+        "target_hit_rate": blended_rate,
         "avg_return_pct": sum(returns) / len(returns) if returns else 0.0,
         "stop_hit_rate": len(stops) / len(rows),
         "time_exit_rate": len(time_exits) / len(rows),
+        "low_confidence": len(rows) < 30,
     }
 
 
@@ -232,7 +240,9 @@ def build_edge(row: dict[str, Any], layer: str, stats: dict[str, float], regime:
         execution_quality -= 25
     execution_quality = clamp(execution_quality)
 
-    ev_component = clamp((expected_value_pct + 0.25) * 160)
+    # EV component is zero when EV is negative — don't let other components
+    # rescue a negative-EV candidate into POSITIVE_EDGE territory.
+    ev_component = clamp((expected_value_pct + 0.25) * 160) if expected_value_pct >= 0 else 0.0
     win_component = clamp(win_p * 100)
     rr_component = clamp(risk_reward * 50)
 
@@ -336,6 +346,9 @@ def main() -> None:
     if status == "PASS" and warnings:
         status = "WARN"
 
+    if pre_stats.get("low_confidence") or reactive_stats.get("low_confidence"):
+        warnings.append("win_probability_low_confidence_fewer_than_30_trades")
+
     health = {
         "schema_version": "v3_mathematical_edge_model_health_v1",
         "generated_at": generated_at,
@@ -343,6 +356,7 @@ def main() -> None:
         "blockers": blockers,
         "warnings": warnings,
         "market_regime": regime,
+        "journal_low_confidence": pre_stats.get("low_confidence", True) or reactive_stats.get("low_confidence", True),
         "candidate_count": len(candidates),
         "positive_edge_count": len(positive),
         "small_edge_watch_count": len(small),

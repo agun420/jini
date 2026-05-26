@@ -87,10 +87,10 @@ class FinalTradeScoreScorerV3:
             blockers.append("danger_blocked")
 
         raw_score = (
-            runner * 0.40
-            + entry * 0.40
-            + opportunity * 0.10
-            - danger * 0.10
+            runner * 0.38
+            + entry * 0.38
+            + opportunity * 0.04
+            - danger * 0.20
         )
 
         final_score = clamp(raw_score)
