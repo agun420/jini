@@ -82,6 +82,10 @@ run_once() {
   PYTHONPATH=src:. python scripts/run_v3_hard_safety_lock.py || true
   PYTHONPATH=src:. python scripts/run_v3_phase_gate_verdict.py || true
 
+  # Package 111: Final Operator Decision Layer — reads EOD winner directly from
+  # daily research report; phase gate is a supporting input only, not sole authority.
+  PYTHONPATH=src:. python scripts/run_v3_package_111_operator_decision.py || true
+
   # Loss learning, backtest gate, stability check.
   PYTHONPATH=src:. python scripts/run_v3_loss_learning_runner_gate.py || true
   PYTHONPATH=src:. python scripts/run_backtest_gate.py || true

@@ -75,6 +75,12 @@ jobs:
       - name: Run V3 Phase Gate Verdict
         run: python scripts/run_v3_phase_gate_verdict.py || true
 
+      # Package 111: Final Operator Decision Layer.
+      # Reads EOD winner directly from daily research report.
+      # Phase gate is a supporting input only, not the sole authority.
+      - name: Run V3 Package 111 Operator Decision
+        run: python scripts/run_v3_package_111_operator_decision.py || true
+
       # Commit all generated JSON so GitHub Pages serves fresh data.
       - name: Commit V3 pipeline data
         run: |
