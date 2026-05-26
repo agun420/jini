@@ -54,7 +54,7 @@ class FinalTradeScoreScorerV3:
             rvol = safe_float(row.get("relative_volume"), 1.0)
             dollar_volume = safe_float(row.get("dollar_volume"))
             move_score = min(max(day_move, 0), 30) / 30 * 40
-            rvol_score = min(max(rvol, 0), 5) / 5 * 35
+            rvol_score = min(max(rvol, 0), 10) / 10 * 40
             liquidity_score = min(max(dollar_volume, 0), 25_000_000) / 25_000_000 * 25
             opportunity = move_score + rvol_score + liquidity_score
 
@@ -87,10 +87,10 @@ class FinalTradeScoreScorerV3:
             blockers.append("danger_blocked")
 
         raw_score = (
-            runner * 0.38
-            + entry * 0.38
-            + opportunity * 0.04
-            - danger * 0.20
+            runner * 0.35
+            + entry * 0.35
+            + opportunity * 0.12
+            - danger * 0.18
         )
 
         final_score = clamp(raw_score)
@@ -100,6 +100,8 @@ class FinalTradeScoreScorerV3:
             status = "FINAL_BLOCKED"
         elif final_score >= 82 and runner >= 80 and entry >= 78 and danger <= 25:
             status = "BUY_ALERT_READY_STRONG"
+        elif final_score >= 80 and runner >= 78 and entry >= 72 and danger <= 28:
+            status = "BUY_ALERT_EXPLOSIVE"
         elif final_score >= 70 and runner >= 65 and entry >= 62 and danger <= 45:
             status = "BUY_ALERT_WATCH"
         elif final_score >= 55:
@@ -116,14 +118,14 @@ class FinalTradeScoreScorerV3:
                 "entry_quality_v3": round(entry, 4),
                 "opportunity_score": round(opportunity, 4),
                 "danger_score_v3": round(danger, 4),
-                "runner_weight": 0.40,
-                "entry_weight": 0.40,
-                "opportunity_weight": 0.10,
-                "danger_weight": -0.10,
+                "runner_weight": 0.35,
+                "entry_weight": 0.35,
+                "opportunity_weight": 0.12,
+                "danger_weight": -0.18,
             },
             "final_trade_score_blockers_v3": blockers,
             "final_trade_score_warnings_v3": warnings,
-            "buy_order_alert_candidate_v3": status in {"BUY_ALERT_READY_STRONG", "BUY_ALERT_WATCH"},
+            "buy_order_alert_candidate_v3": status in {"BUY_ALERT_READY_STRONG", "BUY_ALERT_EXPLOSIVE", "BUY_ALERT_WATCH"},
             "trade_eligible": False,
             "paper_order_allowed": False,
             "live_order_allowed": False,

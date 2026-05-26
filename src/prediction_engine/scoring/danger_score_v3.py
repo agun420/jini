@@ -61,6 +61,9 @@ class DangerScoreScorerV3:
         return 22.0
 
     def _exhaustion_penalty(self, day_move: float, rvol: float, momentum_sum: float, warnings: list[str]) -> float:
+        # High RVOL + positive momentum = explosive confirmation, not exhaustion
+        if rvol >= 3.0 and momentum_sum > 0:
+            return 1.0
         if day_move >= 20 and momentum_sum <= 0:
             warnings.append("large_move_with_weak_momentum")
             return 14.0
@@ -98,6 +101,8 @@ class DangerScoreScorerV3:
         return 8.0
 
     def _volume_failure_penalty(self, volume_reexpansion: float, warnings: list[str]) -> float:
+        if volume_reexpansion >= 2.0:
+            return 0.0   # explosive volume expansion confirmed
         if volume_reexpansion <= 0:
             warnings.append("volume_reexpansion_missing")
             return 7.0
@@ -156,7 +161,7 @@ class DangerScoreScorerV3:
         volume_failure_penalty = self._volume_failure_penalty(volume_reexpansion, warnings)
         candle_penalty = self._candle_penalty(candle_strength)
 
-        no_catalyst_penalty = 0.0 if catalyst else 6.0
+        no_catalyst_penalty = 0.0 if catalyst else 3.0
         if not catalyst:
             warnings.append("no_catalyst_flag")
 

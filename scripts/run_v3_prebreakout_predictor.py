@@ -208,6 +208,23 @@ def score_row(row: dict[str, Any], market: dict[str, Any] | None = None) -> dict
         and 3 <= price <= 100
     )
 
+    # Explosive breakout zone: stocks already moving 5-15% with strong RVOL confirmation.
+    # These are excluded from existing zones (which cap at day_move <= 5.5).
+    # Data: winners like LUNR (4.13% day_move, 3.42x RVOL), CVNA (2.0%, 6.93x RVOL).
+    # Tight VWAP key: enter within 0-1.5% of VWAP even on big moves.
+    explosive_breakout_zone = (
+        5.5 <= day_move <= 15.0
+        and rvol >= 3.0
+        and 0.0 <= vwap_dist <= 1.5
+        and mom1 >= 0.0
+        and mom5 >= 0.10
+        and momentum_total >= 0.25
+        and 0 <= spread <= 0.012
+        and 0 <= quote_age <= 45
+        and danger <= 50
+        and 3 <= price <= 200
+    )
+
     # Score components.
     quality_base = 0.0
     quality_base += clamp(final, 0, 70) * 0.16
@@ -278,6 +295,10 @@ def score_row(row: dict[str, Any], market: dict[str, Any] | None = None) -> dict
     if overheated:
         chase_penalty += 12.0
 
+    # Explosive zone gets a dedicated score boost to reflect high RVOL + strong move.
+    # Offsets the generic move_bonus penalty that assumes extension = danger.
+    explosive_bonus = 22.0 if explosive_breakout_zone else 0.0
+
     prebreakout_score = (
         quality_base
         + compression_bonus
@@ -291,6 +312,7 @@ def score_row(row: dict[str, Any], market: dict[str, Any] | None = None) -> dict
         + vwap_bonus
         + execution_bonus
         + liquidity_bonus
+        + explosive_bonus
         - chase_penalty
     )
     prebreakout_score = clamp(prebreakout_score)
@@ -313,7 +335,17 @@ def score_row(row: dict[str, Any], market: dict[str, Any] | None = None) -> dict
         warnings.append("market_regime_risk_on_normal_gate")
 
     # Final status.
-    if blockers:
+    if explosive_breakout_zone and not blockers:
+        status = "EXPLOSIVE_BREAKOUT_CANDIDATE"
+        confidence = "HIGH EXPLOSIVE"
+        note = (
+            f"Explosive mover: day_move={day_move:.1f}%, rvol={rvol:.1f}x, "
+            f"vwap_dist={vwap_dist:.2f}%. RVOL confirms momentum. "
+            "Enter only on tight VWAP (<1.5%). Watch for HOD continuation."
+        )
+        target_pct = 1.50
+        stop_pct = 0.80
+    elif blockers:
         status = "BLOCKED"
     elif highly_extended:
         status = "CHASE_RISK_EXTENDED"
@@ -330,14 +362,19 @@ def score_row(row: dict[str, Any], market: dict[str, Any] | None = None) -> dict
     else:
         status = "TRACK_ONLY"
 
-    is_candidate = status in {"PRE_BREAKOUT_CANDIDATE", "BREAKOUT_TRIGGER_CANDIDATE"}
+    is_candidate = status in {"PRE_BREAKOUT_CANDIDATE", "BREAKOUT_TRIGGER_CANDIDATE", "EXPLOSIVE_BREAKOUT_CANDIDATE"}
 
-    target_pct = 0.90
-    stop_pct = 0.60
+    # Default target/stop; explosive zone overrides these above if active.
+    if status != "EXPLOSIVE_BREAKOUT_CANDIDATE":
+        target_pct = 0.90
+        stop_pct = 0.60
+
     target_price = price * (1 + target_pct / 100) if price > 0 else 0
     stop_price = price * (1 - stop_pct / 100) if price > 0 else 0
 
-    if status == "PRE_BREAKOUT_CANDIDATE":
+    if status == "EXPLOSIVE_BREAKOUT_CANDIDATE":
+        pass  # confidence and note already set above
+    elif status == "PRE_BREAKOUT_CANDIDATE":
         confidence = "HIGH PRE-BREAKOUT"
         note = "Pre-breakout candidate. Not extended. Near VWAP with early volume/momentum pressure."
     elif status == "BREAKOUT_TRIGGER_CANDIDATE":
@@ -436,6 +473,7 @@ def main() -> None:
     candidates = [r for r in scored if r.get("prebreakout_candidate_v3") is True]
     pre = [r for r in scored if r.get("prebreakout_status_v3") == "PRE_BREAKOUT_CANDIDATE"]
     trigger = [r for r in scored if r.get("prebreakout_status_v3") == "BREAKOUT_TRIGGER_CANDIDATE"]
+    explosive = [r for r in scored if r.get("prebreakout_status_v3") == "EXPLOSIVE_BREAKOUT_CANDIDATE"]
     pullback = [r for r in scored if r.get("prebreakout_status_v3") == "PULLBACK_RECLAIM_WATCH"]
     wait = [r for r in scored if r.get("prebreakout_status_v3") == "WAIT_FOR_PULLBACK"]
     chase = [r for r in scored if r.get("prebreakout_status_v3") == "CHASE_RISK_EXTENDED"]
@@ -458,6 +496,7 @@ def main() -> None:
         "rows": len(scored),
         "prebreakout_candidates": len(pre),
         "breakout_trigger_candidates": len(trigger),
+        "explosive_breakout_candidates": len(explosive),
         "total_candidates": len(candidates),
         "pullback_reclaim_watch": len(pullback),
         "wait_for_pullback": len(wait),
@@ -483,6 +522,7 @@ def main() -> None:
         "candidates": candidates,
         "prebreakout_candidates": pre,
         "breakout_trigger_candidates": trigger,
+        "explosive_breakout_candidates": explosive,
         "pullback_reclaim_watch": pullback,
         "wait_for_pullback": wait,
         "chase_risk_extended": chase,

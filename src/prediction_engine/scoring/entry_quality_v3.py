@@ -19,21 +19,25 @@ class EntryQualityScorerV3:
     # ── Component scorers ────────────────────────────────────────────────
 
     def _vwap_score(self, vwap_dist: float, warnings: list[str]) -> float:
-        if 0 <= vwap_dist <= 3:
-            return 20.0
-        if vwap_dist > 3 and vwap_dist <= 6:
-            warnings.append("slightly_extended_from_vwap")
-            return 13.0
-        if vwap_dist < 0:
-            warnings.append("below_vwap")
+        # Data: winners avg 0.47% vwap_dist, losers avg 0.79%. Tight VWAP is #1 predictor.
+        if 0 <= vwap_dist <= 0.75:
+            return 20.0   # optimal — matches winner profile
+        if 0.75 < vwap_dist <= 1.5:
+            return 14.0   # acceptable — slightly extended
+        if 1.5 < vwap_dist <= 3.0:
+            warnings.append("vwap_extension_risk")
+            return 8.0    # losers cluster here
+        if vwap_dist > 3.0:
+            warnings.append("too_extended_from_vwap")
             return 4.0
-        warnings.append("too_extended_from_vwap")
-        return 6.0
+        # below VWAP
+        warnings.append("below_vwap")
+        return 5.0
 
     def _pullback_score(self, pullback_depth: float, warnings: list[str]) -> float:
-        if -1.2 <= pullback_depth <= -0.10:
-            return 20.0
-        if -2.5 <= pullback_depth < -1.2:
+        if -2.5 <= pullback_depth <= -0.10:
+            return 20.0   # clean pullback zone — ideal for explosive entries
+        if -4.0 <= pullback_depth < -2.5:
             warnings.append("deep_pullback")
             return 12.0
         if pullback_depth == 0:
@@ -45,6 +49,8 @@ class EntryQualityScorerV3:
         return 8.0
 
     def _volume_reexpansion_score(self, volume_reexpansion: float, warnings: list[str]) -> float:
+        if volume_reexpansion >= 2.0:
+            return 20.0   # explosive volume surge
         if volume_reexpansion >= 1.5:
             return 15.0
         if volume_reexpansion >= 1.1:
@@ -140,7 +146,7 @@ class EntryQualityScorerV3:
         )
 
         # Candle strength can slightly improve quality but cannot save bad data.
-        candle_bonus = clamp(candle_strength, 0, 5)
+        candle_bonus = clamp(candle_strength * 15.0, 0, 15)
         entry_quality_score = clamp(entry_quality_score + candle_bonus)
 
         if entry_quality_score >= 78 and not blockers:
