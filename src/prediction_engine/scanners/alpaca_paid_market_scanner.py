@@ -1,5 +1,5 @@
 from __future__ import annotations
-import json, os, statistics
+import json, os, statistics, logging
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
@@ -130,7 +130,10 @@ def run_scanner():
     rows=[]; errors=[]
     for ch in chunked(universe, st.chunk_size):
         try: bars = fetch_bars(ch, start, end, st.feed, st.bar_timeframe, hdrs)
-        except Exception as e: errors.append(f"bars_fetch_failed:{ch[:3]}:{e}"); continue
+        except Exception as e:
+            logging.error(f"bars_fetch_failed for chunk starting with {ch[:3]}: {e}")
+            errors.append(f"bars_fetch_failed:{ch[:3]}:An error occurred while fetching bars")
+            continue
         snaps = fetch_snapshots(ch, st.feed, hdrs)
         for s in ch:
             row = candidate(s, bars.get(s,[]), base.get(s), snaps.get(s) if isinstance(snaps, dict) else None, st.feed)
