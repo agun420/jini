@@ -19,6 +19,13 @@ SOURCE_FILES = [
     DOCS / "v3_signal_pipeline.json",
 ]
 
+# Always included so the market regime filter can find real index data.
+INDEX_TICKERS = ["SPY", "QQQ", "IWM", "DIA"]
+
+# Outcome journals used to compute per-ticker historical success rate.
+PRE_JOURNAL = DOCS / "v3_prebreakout_outcome_journal.json"
+REACTIVE_JOURNAL = DOCS / "v3_research_alert_outcome_journal.json"
+
 OUT_DOCS = DOCS / "v3_enriched_rows.json"
 OUT_HEALTH = DOCS / "v3_enriched_rows_health.json"
 OUT_STATE = STATE / "v3_enriched_rows.json"
@@ -265,6 +272,29 @@ def enrich_with_alpaca(symbols: list[str]) -> tuple[dict[str, dict[str, Any]], l
             if out.get("price", 0) > 0:
                 out["dollar_volume"] = round(out["price"] * total_volume, 2)
 
+            # pullback_depth_pct: how far price has pulled back from HOD (≤ 0)
+            if closes and highs:
+                hod = max(highs)
+                if hod > 0:
+                    out["pullback_depth_pct"] = round(pct(closes[-1], hod), 4)
+
+            # candle_strength: last bar body-to-range ratio (0=doji, 1=full body)
+            last_bar = bars[-1]
+            l_open = f(getattr(last_bar, "open", 0.0))
+            l_close = f(getattr(last_bar, "close", 0.0))
+            l_high = f(getattr(last_bar, "high", 0.0))
+            l_low = f(getattr(last_bar, "low", 0.0))
+            bar_range = l_high - l_low
+            if bar_range > 0 and l_open > 0 and l_close > 0:
+                out["candle_strength"] = round(abs(l_close - l_open) / bar_range, 4)
+
+            # volume_reexpansion: recent 5-bar avg vs prior session baseline
+            if len(vols) >= 10:
+                recent5_avg = sum(vols[-5:]) / 5.0
+                prior_avg = sum(vols[:-5]) / max(len(vols) - 5, 1)
+                if prior_avg > 0:
+                    out["volume_reexpansion"] = round(recent5_avg / prior_avg, 4)
+
         daily = daily_map.get(sym, [])
         if daily:
             closes = [f(getattr(b, "close", 0.0)) for b in daily if f(getattr(b, "close", 0.0)) > 0]
@@ -279,15 +309,49 @@ def enrich_with_alpaca(symbols: list[str]) -> tuple[dict[str, dict[str, Any]], l
     return enriched, warnings, blockers
 
 
+def build_prior_runner_scores() -> dict[str, float]:
+    """Per-ticker historical success rate from outcome journals, scaled 0-10.
+    Blends toward 0.5 prior until 5+ observations so sparse tickers stay neutral."""
+    counts: dict[str, int] = {}
+    hits: dict[str, int] = {}
+
+    for path in (PRE_JOURNAL, REACTIVE_JOURNAL):
+        payload = read_json(path, {})
+        closed = payload.get("closed_alerts") or []
+        for entry in closed:
+            if not isinstance(entry, dict):
+                continue
+            sym = str(entry.get("ticker") or entry.get("symbol") or "").upper().strip()
+            if not sym:
+                continue
+            counts[sym] = counts.get(sym, 0) + 1
+            if entry.get("exit_reason") == "TARGET_HIT":
+                hits[sym] = hits.get(sym, 0) + 1
+
+    scores: dict[str, float] = {}
+    for sym, n in counts.items():
+        empirical = hits.get(sym, 0) / n
+        weight = min(n / 5.0, 1.0)
+        blended = 0.5 * (1 - weight) + empirical * weight
+        scores[sym] = round(blended * 10.0, 4)
+
+    return scores
+
+
 def main() -> None:
     generated_at = now_iso()
     seed_rows = collect_seed_rows()
-    symbols = [ticker(r) for r in seed_rows if ticker(r)]
+    seed_symbols = [ticker(r) for r in seed_rows if ticker(r)]
+
+    # Always include index tickers so market regime filter has real index data.
+    symbols = list(dict.fromkeys(seed_symbols + INDEX_TICKERS))
+
+    prior_scores = build_prior_runner_scores()
 
     blockers: list[str] = []
     warnings: list[str] = []
 
-    if not symbols:
+    if not seed_symbols:
         blockers.append("no_seed_symbols_available")
 
     market, market_warnings, market_blockers = enrich_with_alpaca(symbols)
@@ -300,6 +364,9 @@ def main() -> None:
         sym = ticker(base)
         merged = dict(base)
         merged.update(market.get(sym, {}))
+
+        if sym in prior_scores:
+            merged["prior_runner_score"] = prior_scores[sym]
 
         price = f(merged.get("price"), row_price(base))
         high = f(merged.get("high_of_day"))

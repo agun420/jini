@@ -10,15 +10,16 @@ from prediction_engine.optimization.forward_validator import ForwardValidationOp
 
 
 def _make_trade(entry_time: int, exit_time: int, pnl: float, day_offset: int = 0) -> dict:
-    """Helper: build a closed trade event."""
+    """Helper: build a closed trade event with v3 score fields."""
     return {
         "record_type": "TRADE",
         "status": "CLOSED",
         "entry_time": entry_time,
         "exit_time": exit_time,
         "outcome_pnl": pnl,
-        "vwap_dist": 0.03,
-        "score": 6,
+        "final_trade_score_v3": 72.0,
+        "runner_potential_v3": 68.0,
+        "vwap_distance_pct": 1.5,
         "atr_at_entry": 0.5,
         "shares": 100,
     }
@@ -106,7 +107,7 @@ class TestDiverseJournal:
 
 class TestHelpers:
     def test_calculate_metrics_empty_returns_zeros(self, optimizer):
-        pnl, dd, exp, count = optimizer._calculate_metrics([], 0.06, 5)
+        pnl, dd, exp, count = optimizer._calculate_metrics([], 70.0, 60.0)
         assert pnl == 0.0
         assert dd == 0.0
         assert exp == 0.0
@@ -120,6 +121,6 @@ class TestHelpers:
         assert optimizer._passes_day_diversity_guard(trades, min_days=2, max_single_day_share=0.5) is False
 
     def test_apply_guard_rails_clamps(self, optimizer):
-        guarded_vwap, guarded_score = optimizer._apply_guard_rails(0.10, 8, curr_vwap=0.06, curr_score=5)
-        assert guarded_vwap <= 0.06 + 0.01
-        assert guarded_score <= 5 + 1
+        guarded_final, guarded_runner = optimizer._apply_guard_rails(80.0, 70.0, curr_final=70.0, curr_runner=60.0)
+        assert guarded_final <= 70.0 + 2.5
+        assert guarded_runner <= 60.0 + 2.5

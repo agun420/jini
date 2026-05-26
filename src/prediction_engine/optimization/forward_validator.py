@@ -8,13 +8,13 @@ from typing import Any
 
 
 DEFAULT_CONFIG = {
-    "max_vwap_distance": 0.06,
-    "minimum_runner_score": 5,
+    "min_final_score": 70.0,
+    "min_runner_score": 60.0,
     "max_allowed_spread": 0.015,
 }
 
-_VWAP_GRID = [0.04, 0.05, 0.06, 0.07, 0.08]
-_SCORE_GRID = [4, 5, 6, 7]
+_FINAL_SCORE_GRID = [65.0, 68.0, 70.0, 72.0, 75.0]
+_RUNNER_SCORE_GRID = [55.0, 58.0, 60.0, 62.0, 65.0]
 
 
 def safe_float(value: Any, default: float = 0.0) -> float:
@@ -111,8 +111,8 @@ class ForwardValidationOptimizer:
     def _calculate_metrics(
         self,
         dataset: list[dict[str, Any]],
-        vwap_dist_max: float,
-        min_score: float,
+        min_final_score: float,
+        min_runner_score: float,
     ) -> tuple[float, float, float, int]:
         normalized_pnl_stream: list[float] = []
         raw_pnl_stream: list[float] = []
@@ -120,12 +120,16 @@ class ForwardValidationOptimizer:
         losses: list[float] = []
 
         for event in dataset:
-            vwap_dist = abs(safe_float(event.get("vwap_dist")))
-            score = safe_float(event.get("score"))
+            final_score = safe_float(
+                event.get("final_trade_score_v3") or event.get("score")
+            )
+            runner_score = safe_float(
+                event.get("runner_potential_v3") or event.get("score")
+            )
             raw_pnl = event.get("outcome_pnl")
             if raw_pnl is None:
                 continue
-            if vwap_dist > vwap_dist_max or score < min_score:
+            if final_score < min_final_score or runner_score < min_runner_score:
                 continue
 
             raw = safe_float(raw_pnl)
@@ -176,42 +180,42 @@ class ForwardValidationOptimizer:
     def _select_candidate_config(
         self,
         in_sample: list[dict[str, Any]],
-        curr_vwap: float,
-        curr_score: float,
+        curr_final: float,
+        curr_runner: float,
     ) -> tuple[float, float]:
-        """Grid-search in-sample to find best (vwap, score) candidate."""
+        """Grid-search in-sample to find best (final_score, runner_score) candidate."""
         best_pnl = -999999.0
-        candidate_vwap = curr_vwap
-        candidate_score = curr_score
+        candidate_final = curr_final
+        candidate_runner = curr_runner
 
-        for test_vwap in _VWAP_GRID:
-            for test_score in _SCORE_GRID:
-                sim_pnl, _, _, sim_count = self._calculate_metrics(in_sample, test_vwap, test_score)
+        for test_final in _FINAL_SCORE_GRID:
+            for test_runner in _RUNNER_SCORE_GRID:
+                sim_pnl, _, _, sim_count = self._calculate_metrics(in_sample, test_final, test_runner)
                 if sim_count > 0 and sim_pnl > best_pnl:
                     best_pnl = sim_pnl
-                    candidate_vwap = test_vwap
-                    candidate_score = test_score
+                    candidate_final = test_final
+                    candidate_runner = test_runner
 
-        return candidate_vwap, candidate_score
+        return candidate_final, candidate_runner
 
     def _apply_guard_rails(
-        self, candidate_vwap: float, candidate_score: float, curr_vwap: float, curr_score: float
+        self, candidate_final: float, candidate_runner: float, curr_final: float, curr_runner: float
     ) -> tuple[float, float]:
-        """Clamp candidate config to ±1 step from current to prevent large jumps."""
-        guarded_vwap = max(min(candidate_vwap, curr_vwap + 0.01), curr_vwap - 0.01)
-        guarded_score = max(min(candidate_score, curr_score + 1), curr_score - 1)
-        return guarded_vwap, guarded_score
+        """Clamp candidate config to ±2.5 pts from current to prevent large jumps."""
+        guarded_final = max(min(candidate_final, curr_final + 2.5), curr_final - 2.5)
+        guarded_runner = max(min(candidate_runner, curr_runner + 2.5), curr_runner - 2.5)
+        return guarded_final, guarded_runner
 
     def _export_suggested_config(
-        self, guarded_vwap: float, guarded_score: float,
+        self, guarded_final: float, guarded_runner: float,
         base_metrics: dict[str, Any], opt_metrics: dict[str, Any],
     ) -> str:
         suggested_payload = {
-            "schema_version": "suggested_config_v1",
+            "schema_version": "suggested_config_v3",
             "generated_at": utc_now_iso(),
             "status": "SUGGESTED_ONLY",
-            "max_vwap_distance": round(guarded_vwap, 3),
-            "minimum_runner_score": int(guarded_score),
+            "min_final_score": round(guarded_final, 1),
+            "min_runner_score": round(guarded_runner, 1),
             "max_allowed_spread": safe_float(
                 self.current_config.get("max_allowed_spread"),
                 DEFAULT_CONFIG["max_allowed_spread"],
@@ -273,15 +277,15 @@ class ForwardValidationOptimizer:
                 validation_count=len(oos),
             )
 
-        curr_vwap = safe_float(self.current_config.get("max_vwap_distance"), DEFAULT_CONFIG["max_vwap_distance"])
-        curr_score = safe_float(self.current_config.get("minimum_runner_score"), DEFAULT_CONFIG["minimum_runner_score"])
+        curr_final = safe_float(self.current_config.get("min_final_score"), DEFAULT_CONFIG["min_final_score"])
+        curr_runner = safe_float(self.current_config.get("min_runner_score"), DEFAULT_CONFIG["min_runner_score"])
 
-        base_pnl, base_dd, base_exp, base_count = self._calculate_metrics(oos, curr_vwap, curr_score)
+        base_pnl, base_dd, base_exp, base_count = self._calculate_metrics(oos, curr_final, curr_runner)
 
-        candidate_vwap, candidate_score = self._select_candidate_config(in_sample, curr_vwap, curr_score)
-        guarded_vwap, guarded_score = self._apply_guard_rails(candidate_vwap, candidate_score, curr_vwap, curr_score)
+        candidate_final, candidate_runner = self._select_candidate_config(in_sample, curr_final, curr_runner)
+        guarded_final, guarded_runner = self._apply_guard_rails(candidate_final, candidate_runner, curr_final, curr_runner)
 
-        opt_pnl, opt_dd, opt_exp, opt_count = self._calculate_metrics(oos, guarded_vwap, guarded_score)
+        opt_pnl, opt_dd, opt_exp, opt_count = self._calculate_metrics(oos, guarded_final, guarded_runner)
         account_dd_pct = opt_dd / self.starting_capital
 
         if account_dd_pct <= self.max_allowable_dd_pct:
@@ -298,7 +302,7 @@ class ForwardValidationOptimizer:
         expectancy_improves = opt_exp > base_exp
 
         if pnl_improves and drawdown_stable and expectancy_improves:
-            path = self._export_suggested_config(guarded_vwap, guarded_score, base_metrics, opt_metrics)
+            path = self._export_suggested_config(guarded_final, guarded_runner, base_metrics, opt_metrics)
             return {
                 "status": "PASS",
                 "reason": "candidate_config_cleared_validation_gates",

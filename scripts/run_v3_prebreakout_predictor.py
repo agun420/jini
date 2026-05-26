@@ -332,8 +332,8 @@ def score_row(row: dict[str, Any], market: dict[str, Any] | None = None) -> dict
 
     is_candidate = status in {"PRE_BREAKOUT_CANDIDATE", "BREAKOUT_TRIGGER_CANDIDATE"}
 
-    target_pct = 0.60
-    stop_pct = 0.80
+    target_pct = 0.90
+    stop_pct = 0.60
     target_price = price * (1 + target_pct / 100) if price > 0 else 0
     stop_price = price * (1 - stop_pct / 100) if price > 0 else 0
 

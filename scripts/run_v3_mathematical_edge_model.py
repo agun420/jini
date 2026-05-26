@@ -203,8 +203,8 @@ def build_edge(row: dict[str, Any], layer: str, stats: dict[str, float], regime:
         stop = f(row.get("prebreakout_stop_price"))
         confidence = row.get("prebreakout_confidence")
         note = row.get("prebreakout_note")
-        raw_target_pct = f(row.get("prebreakout_target_pct"), 0.35)
-        raw_stop_pct = f(row.get("prebreakout_stop_pct"), 0.45)
+        raw_target_pct = f(row.get("prebreakout_target_pct"), 0.90)
+        raw_stop_pct = f(row.get("prebreakout_stop_pct"), 0.60)
     else:
         status = row.get("research_alert_status_v3")
         score = f(row.get("research_alert_score_v3"))
@@ -212,8 +212,8 @@ def build_edge(row: dict[str, Any], layer: str, stats: dict[str, float], regime:
         stop = f(row.get("research_stop_price"))
         confidence = row.get("research_confidence")
         note = row.get("research_confidence_note")
-        raw_target_pct = f(row.get("research_target_pct"), 0.60)
-        raw_stop_pct = f(row.get("research_stop_pct"), 0.80)
+        raw_target_pct = f(row.get("research_target_pct"), 0.90)
+        raw_stop_pct = f(row.get("research_stop_pct"), 0.60)
 
     target_pct = raw_target_pct if raw_target_pct > 0 else ((target - price) / price * 100 if target > price else 0.0)
     stop_pct = raw_stop_pct if raw_stop_pct > 0 else ((price - stop) / price * 100 if stop > 0 and stop < price else 0.0)

@@ -76,7 +76,7 @@ def get_market_regime() -> dict[str, Any]:
 def score_row(row: dict[str, Any], market: dict[str, Any] | None = None) -> dict[str, Any]:
     market = market or {"regime": "UNKNOWN", "regime_score": 0, "recommendation": None}
     regime = str(market.get("regime") or "UNKNOWN")
-    regime_score = safe_float(market.get("regime_score")) if "safe_float" in globals() else f(market.get("regime_score"))
+    regime_score = f(market.get("regime_score"))
     price = f(row.get("price"))
     final = f(row.get("final_trade_score_v3"))
     runner = f(row.get("runner_potential_v3"))
@@ -186,8 +186,8 @@ def score_row(row: dict[str, Any], market: dict[str, Any] | None = None) -> dict
     else:
         status = "RESEARCH_TRACK_ONLY"
 
-    target_pct = 0.60
-    stop_pct = 0.80
+    target_pct = 0.90
+    stop_pct = 0.60
     live_price = price
     target_price = live_price * (1 + target_pct / 100) if live_price > 0 else 0.0
     stop_price = live_price * (1 - stop_pct / 100) if live_price > 0 else 0.0
