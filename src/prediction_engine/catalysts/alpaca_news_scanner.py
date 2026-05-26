@@ -3,6 +3,7 @@ import json, os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict, List
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 from prediction_engine.scanners.alpaca_paid_config import get_paid_settings, get_universe
@@ -53,17 +54,28 @@ def fetch_news(symbols, limit, hours):
         p=json.loads(r.read().decode("utf-8"))
     return p.get("news") if isinstance(p,dict) and isinstance(p.get("news"),list) else []
 
+def _fetch_chunk(chunk, limit, lookback_hours):
+    try:
+        items = fetch_news(chunk, limit, lookback_hours)
+        return chunk, items, None
+    except Exception as e:
+        return chunk, None, str(e)
+
 def export_news():
     st=get_paid_settings(); syms=dashboard_symbols()[:st.max_symbols]; rows=[]; errors=[]
     if st.include_news:
-        for i in range(0,len(syms),50):
-            chunk=syms[i:i+50]
-            try: items=fetch_news(chunk, st.news_limit, st.news_lookback_hours)
-            except Exception as e: errors.append(f"news_fetch_failed:{chunk[:3]}:{e}"); continue
-            for it in items:
-                if not isinstance(it,dict): continue
-                c=classify(str(it.get("headline") or ""), str(it.get("summary") or ""))
-                rows.append({"id":it.get("id"),"headline":it.get("headline"),"summary":str(it.get("summary") or "")[:300],"source":it.get("source"),"created_at":it.get("created_at"),"updated_at":it.get("updated_at"),"url":it.get("url"),"symbols":it.get("symbols") if isinstance(it.get("symbols"),list) else [],"provider":"alpaca_news_benzinga",**c})
+        chunks = [syms[i:i+50] for i in range(0,len(syms),50)]
+        with ThreadPoolExecutor(max_workers=min(10, len(chunks) or 1)) as executor:
+            future_to_chunk = {executor.submit(_fetch_chunk, chunk, st.news_limit, st.news_lookback_hours): chunk for chunk in chunks}
+            for future in as_completed(future_to_chunk):
+                chunk, items, error = future.result()
+                if error:
+                    errors.append(f"news_fetch_failed:{chunk[:3]}:{error}")
+                    continue
+                for it in items:
+                    if not isinstance(it,dict): continue
+                    c=classify(str(it.get("headline") or ""), str(it.get("summary") or ""))
+                    rows.append({"id":it.get("id"),"headline":it.get("headline"),"summary":str(it.get("summary") or "")[:300],"source":it.get("source"),"created_at":it.get("created_at"),"updated_at":it.get("updated_at"),"url":it.get("url"),"symbols":it.get("symbols") if isinstance(it.get("symbols"),list) else [],"provider":"alpaca_news_benzinga",**c})
     by={}
     for r in rows:
         for s in r.get("symbols",[]): by.setdefault(str(s).upper(),[]).append(r)
