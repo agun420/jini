@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from prediction_engine.scanners.alpaca_paid_config import get_paid_settings, get_universe
 
 NEWS_OUTPUT_PATH = Path("docs/data/prediction_engine/alpaca_news.json")
@@ -56,14 +57,20 @@ def fetch_news(symbols, limit, hours):
 def export_news():
     st=get_paid_settings(); syms=dashboard_symbols()[:st.max_symbols]; rows=[]; errors=[]
     if st.include_news:
-        for i in range(0,len(syms),50):
-            chunk=syms[i:i+50]
-            try: items=fetch_news(chunk, st.news_limit, st.news_lookback_hours)
-            except Exception as e: errors.append(f"news_fetch_failed:{chunk[:3]}:{e}"); continue
-            for it in items:
-                if not isinstance(it,dict): continue
-                c=classify(str(it.get("headline") or ""), str(it.get("summary") or ""))
-                rows.append({"id":it.get("id"),"headline":it.get("headline"),"summary":str(it.get("summary") or "")[:300],"source":it.get("source"),"created_at":it.get("created_at"),"updated_at":it.get("updated_at"),"url":it.get("url"),"symbols":it.get("symbols") if isinstance(it.get("symbols"),list) else [],"provider":"alpaca_news_benzinga",**c})
+        chunks = [syms[i:i+50] for i in range(0,len(syms),50)]
+        with ThreadPoolExecutor(max_workers=10) as executor:
+            future_to_chunk = {executor.submit(fetch_news, chunk, st.news_limit, st.news_lookback_hours): chunk for chunk in chunks}
+            for future in as_completed(future_to_chunk):
+                chunk = future_to_chunk[future]
+                try:
+                    items = future.result()
+                except Exception as e:
+                    errors.append(f"news_fetch_failed:{chunk[:3]}:{e}")
+                    continue
+                for it in items:
+                    if not isinstance(it,dict): continue
+                    c=classify(str(it.get("headline") or ""), str(it.get("summary") or ""))
+                    rows.append({"id":it.get("id"),"headline":it.get("headline"),"summary":str(it.get("summary") or "")[:300],"source":it.get("source"),"created_at":it.get("created_at"),"updated_at":it.get("updated_at"),"url":it.get("url"),"symbols":it.get("symbols") if isinstance(it.get("symbols"),list) else [],"provider":"alpaca_news_benzinga",**c})
     by={}
     for r in rows:
         for s in r.get("symbols",[]): by.setdefault(str(s).upper(),[]).append(r)
