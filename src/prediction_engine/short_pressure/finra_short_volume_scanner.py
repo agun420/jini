@@ -6,6 +6,7 @@ import os
 import re
 import time
 import urllib.request
+import concurrent.futures
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -166,19 +167,33 @@ def save_cached_finra(trade_date: str, rows: Dict[str, Dict[str, Any]]) -> None:
 
 def load_latest_finra_rows() -> Tuple[Optional[str], Dict[str, Dict[str, Any]], List[str]]:
     notes: List[str] = []
+    dates = recent_weekdays(7)
 
-    for date in recent_weekdays(7):
-        url = FINRA_REGSHO_BASE.format(date=date)
-        text = fetch_url(url)
+    executor = concurrent.futures.ThreadPoolExecutor(max_workers=len(dates))
+    date_to_future = {
+        date: executor.submit(fetch_url, FINRA_REGSHO_BASE.format(date=date))
+        for date in dates
+    }
+
+    for date in dates:
+        future = date_to_future[date]
+        try:
+            text = future.result()
+        except Exception:
+            text = None
+
         if not text:
             notes.append(f"unavailable:{date}")
             continue
+
         rows = parse_finra_pipe_file(text, date)
         if rows:
             save_cached_finra(date, rows)
             notes.append(f"loaded:{date}")
+            executor.shutdown(wait=False, cancel_futures=True)
             return date, rows, notes
 
+    executor.shutdown(wait=False, cancel_futures=True)
     cache = load_cached_finra()
     cached_rows = cache.get("rows") if isinstance(cache.get("rows"), dict) else {}
     cached_date = cache.get("trade_date")
