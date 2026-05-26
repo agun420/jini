@@ -3,9 +3,24 @@ from __future__ import annotations
 import json
 import math
 import uuid
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+
+@dataclass
+class OpenTradeRequest:
+    ticker: str
+    entry_signal_price: float
+    execution_layers: list[dict[str, Any]]
+    atr: float
+    vwap_dist: float
+    score: float
+    regime: str
+    shares: int = 100
+    source_alert_id: str | None = None
+    setup: str | None = None
 
 
 DEFAULT_STATE_PATH = Path("state/prediction_engine/trade_journal.json")
@@ -94,16 +109,7 @@ class TradeJournal:
 
     def open_trade(
         self,
-        ticker: str,
-        entry_signal_price: float,
-        execution_layers: list[dict[str, Any]],
-        atr: float,
-        vwap_dist: float,
-        score: float,
-        regime: str,
-        shares: int = 100,
-        source_alert_id: str | None = None,
-        setup: str | None = None,
+        request: OpenTradeRequest,
     ) -> str:
         """
         Create a paper/simulated trade record.
@@ -114,21 +120,21 @@ class TradeJournal:
         ]
         """
 
-        symbol = str(ticker or "").upper().strip()
+        symbol = str(request.ticker or "").upper().strip()
         if not symbol:
             raise ValueError("ticker is required")
 
-        entry_signal_price = safe_float(entry_signal_price)
+        entry_signal_price = safe_float(request.entry_signal_price)
         if entry_signal_price <= 0:
             raise ValueError("entry_signal_price must be greater than 0")
 
-        if not execution_layers:
+        if not request.execution_layers:
             raise ValueError("execution_layers must not be empty")
 
         clean_layers = []
         total_weight = 0.0
 
-        for layer in execution_layers:
+        for layer in request.execution_layers:
             name = str(layer.get("name") or "layer")
             weight = safe_float(layer.get("weight"))
             fill = safe_float(layer.get("fill"))
@@ -150,7 +156,7 @@ class TradeJournal:
 
         blended_average_cost = sum(layer["weight"] * layer["fill"] for layer in clean_layers)
 
-        shares = safe_int(shares, 0)
+        shares = safe_int(request.shares, 0)
         if shares <= 0:
             raise ValueError("shares must be greater than 0")
 
@@ -168,13 +174,13 @@ class TradeJournal:
             "entry_signal_price": entry_signal_price,
             "execution_layers": clean_layers,
             "blended_average_cost": round(blended_average_cost, 6),
-            "atr_at_entry": safe_float(atr),
-            "vwap_dist": safe_float(vwap_dist),
-            "score": safe_float(score),
-            "regime": str(regime or "UNKNOWN").upper(),
-            "setup": str(setup or "UNKNOWN"),
+            "atr_at_entry": safe_float(request.atr),
+            "vwap_dist": safe_float(request.vwap_dist),
+            "score": safe_float(request.score),
+            "regime": str(request.regime or "UNKNOWN").upper(),
+            "setup": str(request.setup or "UNKNOWN"),
             "shares": shares,
-            "source_alert_id": source_alert_id,
+            "source_alert_id": request.source_alert_id,
             "exit_time": None,
             "exit_fill": None,
             "outcome_pnl": None,
