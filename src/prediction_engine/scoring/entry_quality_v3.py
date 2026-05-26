@@ -37,6 +37,105 @@ class EntryQualityScorerV3:
     Does not enable live trading.
     """
 
+    def _calc_vwap_score(self, vwap_dist: float, warnings: list[str]) -> float:
+        # VWAP quality.
+        if 0 <= vwap_dist <= 3:
+            vwap_score = 20.0
+        elif 3 < vwap_dist <= 6:
+            vwap_score = 13.0
+            warnings.append("slightly_extended_from_vwap")
+        elif vwap_dist < 0:
+            vwap_score = 4.0
+            warnings.append("below_vwap")
+        else:
+            vwap_score = 6.0
+            warnings.append("too_extended_from_vwap")
+        return vwap_score
+
+    def _calc_pullback_score(self, pullback_depth: float, warnings: list[str]) -> float:
+        # Pullback quality. If missing, neutral-low score.
+        if -1.2 <= pullback_depth <= -0.10:
+            pullback_score = 20.0
+        elif -2.5 <= pullback_depth < -1.2:
+            pullback_score = 12.0
+            warnings.append("deep_pullback")
+        elif pullback_depth == 0:
+            pullback_score = 8.0
+            warnings.append("pullback_depth_missing")
+        elif pullback_depth > 0:
+            pullback_score = 5.0
+            warnings.append("no_pullback_chase_risk")
+        else:
+            pullback_score = 8.0
+        return pullback_score
+
+    def _calc_reclaim_strength_score(self, mom1: float, mom3: float, mom5: float) -> float:
+        # Reclaim / momentum quality.
+        momentum_sum = mom1 + mom3 + mom5
+        return clamp((momentum_sum / 4.0) * 15.0, 0, 15)
+
+    def _calc_volume_reexpansion_score(self, volume_reexpansion: float, warnings: list[str]) -> float:
+        # Volume re-expansion quality.
+        if volume_reexpansion >= 1.5:
+            volume_reexpansion_score = 15.0
+        elif volume_reexpansion >= 1.1:
+            volume_reexpansion_score = 10.0
+        elif volume_reexpansion > 0:
+            volume_reexpansion_score = 6.0
+            warnings.append("weak_volume_reexpansion")
+        else:
+            volume_reexpansion_score = 5.0
+            warnings.append("volume_reexpansion_missing")
+        return volume_reexpansion_score
+
+    def _calc_spread_score(self, spread: float, warnings: list[str], blockers: list[str]) -> float:
+        # Spread quality.
+        if 0 <= spread <= 0.006:
+            spread_score = 10.0
+        elif 0.006 < spread <= 0.012:
+            spread_score = 7.0
+        elif 0.012 < spread <= 0.025:
+            spread_score = 4.0
+            warnings.append("wide_spread")
+        elif spread < 0:
+            spread_score = 5.0
+            warnings.append("spread_missing")
+        else:
+            spread_score = 0.0
+            blockers.append("spread_too_wide")
+        return spread_score
+
+    def _calc_quote_score(self, quote_age: float, warnings: list[str], blockers: list[str]) -> float:
+        # Quote freshness.
+        if 0 <= quote_age <= 10:
+            quote_score = 10.0
+        elif 10 < quote_age <= 30:
+            quote_score = 7.0
+        elif 30 < quote_age <= 60:
+            quote_score = 3.0
+            warnings.append("quote_aging")
+        elif quote_age < 0:
+            quote_score = 5.0
+            warnings.append("quote_age_missing")
+        else:
+            quote_score = 0.0
+            blockers.append("quote_stale")
+        return quote_score
+
+    def _calc_rr_score(self, hod_dist: float, warnings: list[str]) -> float:
+        # Risk/reward positioning near HOD.
+        if -3 <= hod_dist <= 0:
+            rr_score = 10.0
+        elif -6 <= hod_dist < -3:
+            rr_score = 6.0
+        elif hod_dist > 0:
+            rr_score = 5.0
+            warnings.append("above_recorded_hod_check_data")
+        else:
+            rr_score = 4.0
+            warnings.append("far_from_hod")
+        return rr_score
+
     def score_row(self, row: dict[str, Any]) -> dict[str, Any]:
         ticker = str(row.get("ticker") or row.get("symbol") or "").upper().strip()
 
@@ -61,91 +160,13 @@ class EntryQualityScorerV3:
         if price <= 0:
             blockers.append("missing_price")
 
-        # VWAP quality.
-        if 0 <= vwap_dist <= 3:
-            vwap_score = 20.0
-        elif 3 < vwap_dist <= 6:
-            vwap_score = 13.0
-            warnings.append("slightly_extended_from_vwap")
-        elif vwap_dist < 0:
-            vwap_score = 4.0
-            warnings.append("below_vwap")
-        else:
-            vwap_score = 6.0
-            warnings.append("too_extended_from_vwap")
-
-        # Pullback quality. If missing, neutral-low score.
-        if -1.2 <= pullback_depth <= -0.10:
-            pullback_score = 20.0
-        elif -2.5 <= pullback_depth < -1.2:
-            pullback_score = 12.0
-            warnings.append("deep_pullback")
-        elif pullback_depth == 0:
-            pullback_score = 8.0
-            warnings.append("pullback_depth_missing")
-        elif pullback_depth > 0:
-            pullback_score = 5.0
-            warnings.append("no_pullback_chase_risk")
-        else:
-            pullback_score = 8.0
-
-        # Reclaim / momentum quality.
-        momentum_sum = mom1 + mom3 + mom5
-        reclaim_strength_score = clamp((momentum_sum / 4.0) * 15.0, 0, 15)
-
-        # Volume re-expansion quality.
-        if volume_reexpansion >= 1.5:
-            volume_reexpansion_score = 15.0
-        elif volume_reexpansion >= 1.1:
-            volume_reexpansion_score = 10.0
-        elif volume_reexpansion > 0:
-            volume_reexpansion_score = 6.0
-            warnings.append("weak_volume_reexpansion")
-        else:
-            volume_reexpansion_score = 5.0
-            warnings.append("volume_reexpansion_missing")
-
-        # Spread quality.
-        if 0 <= spread <= 0.006:
-            spread_score = 10.0
-        elif 0.006 < spread <= 0.012:
-            spread_score = 7.0
-        elif 0.012 < spread <= 0.025:
-            spread_score = 4.0
-            warnings.append("wide_spread")
-        elif spread < 0:
-            spread_score = 5.0
-            warnings.append("spread_missing")
-        else:
-            spread_score = 0.0
-            blockers.append("spread_too_wide")
-
-        # Quote freshness.
-        if 0 <= quote_age <= 10:
-            quote_score = 10.0
-        elif 10 < quote_age <= 30:
-            quote_score = 7.0
-        elif 30 < quote_age <= 60:
-            quote_score = 3.0
-            warnings.append("quote_aging")
-        elif quote_age < 0:
-            quote_score = 5.0
-            warnings.append("quote_age_missing")
-        else:
-            quote_score = 0.0
-            blockers.append("quote_stale")
-
-        # Risk/reward positioning near HOD.
-        if -3 <= hod_dist <= 0:
-            rr_score = 10.0
-        elif -6 <= hod_dist < -3:
-            rr_score = 6.0
-        elif hod_dist > 0:
-            rr_score = 5.0
-            warnings.append("above_recorded_hod_check_data")
-        else:
-            rr_score = 4.0
-            warnings.append("far_from_hod")
+        vwap_score = self._calc_vwap_score(vwap_dist, warnings)
+        pullback_score = self._calc_pullback_score(pullback_depth, warnings)
+        reclaim_strength_score = self._calc_reclaim_strength_score(mom1, mom3, mom5)
+        volume_reexpansion_score = self._calc_volume_reexpansion_score(volume_reexpansion, warnings)
+        spread_score = self._calc_spread_score(spread, warnings, blockers)
+        quote_score = self._calc_quote_score(quote_age, warnings, blockers)
+        rr_score = self._calc_rr_score(hod_dist, warnings)
 
         entry_quality_score = (
             vwap_score
