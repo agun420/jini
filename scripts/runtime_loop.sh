@@ -66,6 +66,9 @@ run_once() {
   PYTHONPATH=src:. python scripts/run_v3_package_100_validation.py || true
   PYTHONPATH=src:. python scripts/run_v3_morning_readiness_report.py || true
   PYTHONPATH=src:. python scripts/run_v3_tomorrow_morning_command_pack.py || true
+  PYTHONPATH=src:. python scripts/run_v3_hard_safety_lock.py || true
+  PYTHONPATH=src:. python scripts/run_v3_phase_gate_verdict.py || true
+  PYTHONPATH=src:. python scripts/run_v3_loss_learning_runner_gate.py || true
   PYTHONPATH=src:. python scripts/run_backtest_gate.py || true
   PYTHONPATH=src:. python scripts/run_jini_stability_check.py || true
 
@@ -84,7 +87,3 @@ while true; do
   run_once
   sleep "${INTERVAL}"
 done
-
-# V3 phase-gate verdict layer
-  PYTHONPATH=src:. python scripts/run_v3_phase_gate_verdict.py || true
-  PYTHONPATH=src:. python scripts/run_v3_loss_learning_runner_gate.py || true
