@@ -107,6 +107,17 @@ jobs:
         run: |
           if [ -f scripts/run_final_repo_audit.py ]; then python scripts/run_final_repo_audit.py || true; fi
 
+      # V3 scoring chain — runs after the paid scanner so enrichment reads fresh data.
+      # Produces the phase gate verdict that drives the dashboard "Updated" timestamp.
+      - name: Run V3 Tomorrow Morning Command Pack
+        run: python scripts/run_v3_tomorrow_morning_command_pack.py || true
+
+      - name: Run V3 Hard Safety Lock
+        run: python scripts/run_v3_hard_safety_lock.py || true
+
+      - name: Run V3 Phase Gate Verdict
+        run: python scripts/run_v3_phase_gate_verdict.py || true
+
       - name: Commit paid Alpaca pipeline data
         run: |
           git config user.name "github-actions"

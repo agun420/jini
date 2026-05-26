@@ -78,12 +78,14 @@ run_once() {
   git push origin main || true
 }
 
+run_once
+
 if [ "${RUNTIME_LOOP_FOREVER:-true}" = "false" ]; then
-  run_once
   exit 0
 fi
 
-while true; do
-  run_once
-  sleep "${INTERVAL}"
-done
+# Re-exec this script so each iteration loads the latest version from disk.
+# Without this, bash caches the function body and git reset --hard has no effect
+# on the running process until the service is restarted.
+sleep "${INTERVAL}"
+exec "$0" "$@"
