@@ -30,6 +30,96 @@ class AsymmetricSlippageEngine:
     def __init__(self, base_slippage_pct: float = 0.005):
         self.base_slip = float(base_slippage_pct)
 
+    def _calc_entry_market(
+        self,
+        raw_price: float,
+        spread_pct: float,
+        volatility_penalty: float,
+        atr_cap_pct: float,
+    ) -> tuple[float, float, float, bool]:
+        real_penalty = (spread_pct * 0.5) + volatility_penalty
+        worst_penalty = spread_pct + (volatility_penalty * 1.5)
+        atr_cap_applied = False
+
+        if real_penalty > atr_cap_pct:
+            real_penalty = atr_cap_pct
+            atr_cap_applied = True
+        if worst_penalty > (atr_cap_pct * 2.0):
+            worst_penalty = atr_cap_pct * 2.0
+
+        real_fill = raw_price * (1.0 + real_penalty)
+        worst_fill = raw_price * (1.0 + worst_penalty)
+        return real_fill, worst_fill, real_penalty, atr_cap_applied
+
+    def _calc_limit_profit(
+        self,
+        raw_price: float,
+        spread_pct: float,
+        volatility_penalty: float,
+        atr_cap_pct: float,
+    ) -> tuple[float, float, float, bool]:
+        real_penalty = max((spread_pct * 0.5) - (volatility_penalty * 0.1), 0.0)
+        worst_penalty = spread_pct
+
+        real_fill = raw_price * (1.0 - real_penalty)
+        worst_fill = raw_price * (1.0 - worst_penalty)
+        return real_fill, worst_fill, real_penalty, False
+
+    def _calc_stop_panic(
+        self,
+        raw_price: float,
+        spread_pct: float,
+        volatility_penalty: float,
+        atr_cap_pct: float,
+    ) -> tuple[float, float, float, bool]:
+        real_penalty = spread_pct + (volatility_penalty * 2.0)
+        worst_penalty = (spread_pct * 1.5) + (volatility_penalty * 3.5)
+        atr_cap_applied = False
+
+        if real_penalty > atr_cap_pct:
+            real_penalty = atr_cap_pct
+            atr_cap_applied = True
+        if worst_penalty > (atr_cap_pct * 2.5):
+            worst_penalty = atr_cap_pct * 2.5
+
+        real_fill = raw_price * (1.0 - real_penalty)
+        worst_fill = raw_price * (1.0 - worst_penalty)
+        return real_fill, worst_fill, real_penalty, atr_cap_applied
+
+    def _calc_time_decay(
+        self,
+        raw_price: float,
+        spread_pct: float,
+        volatility_penalty: float,
+        atr_cap_pct: float,
+    ) -> tuple[float, float, float, bool]:
+        real_penalty = spread_pct + (volatility_penalty * 0.5)
+        worst_penalty = spread_pct + volatility_penalty
+
+        real_fill = raw_price * (1.0 - real_penalty)
+        worst_fill = raw_price * (1.0 - worst_penalty)
+        return real_fill, worst_fill, real_penalty, False
+
+    def _evaluate_execution_quality(
+        self, spread_pct: float, slippage_pct: float, atr_cap_applied: bool
+    ) -> tuple[bool, str | None]:
+        execution_quality_pass = True
+        block_reason = None
+
+        if spread_pct > 0.025:
+            execution_quality_pass = False
+            block_reason = "SPREAD_TOO_WIDE"
+
+        if slippage_pct > 0.02:
+            execution_quality_pass = False
+            block_reason = "SLIPPAGE_TOO_HIGH"
+
+        if atr_cap_applied and slippage_pct > 0.015:
+            execution_quality_pass = False
+            block_reason = "ATR_CAPPED_SLIPPAGE_RISK"
+
+        return execution_quality_pass, block_reason
+
     def generate_fill_profile(
         self,
         order_type: str,
@@ -65,71 +155,28 @@ class AsymmetricSlippageEngine:
         vol_ratio = min(bar_vol / max(avg_vol, 1.0), 10.0)
         volatility_penalty = self.base_slip * (1.0 + (vol_ratio ** 1.3))
         atr_cap_pct = (atr * 1.5) / raw_price
-        atr_cap_applied = False
 
-        if order_type == "ENTRY_MARKET":
-            real_penalty = (spread_pct * 0.5) + volatility_penalty
-            worst_penalty = spread_pct + (volatility_penalty * 1.5)
+        handlers = {
+            "ENTRY_MARKET": self._calc_entry_market,
+            "LIMIT_PROFIT": self._calc_limit_profit,
+            "STOP_PANIC": self._calc_stop_panic,
+            "TIME_DECAY": self._calc_time_decay,
+        }
 
-            if real_penalty > atr_cap_pct:
-                real_penalty = atr_cap_pct
-                atr_cap_applied = True
-            if worst_penalty > (atr_cap_pct * 2.0):
-                worst_penalty = atr_cap_pct * 2.0
-
-            real_fill = raw_price * (1.0 + real_penalty)
-            worst_fill = raw_price * (1.0 + worst_penalty)
-            slippage_pct = real_penalty
-
-        elif order_type == "LIMIT_PROFIT":
-            real_penalty = max((spread_pct * 0.5) - (volatility_penalty * 0.1), 0.0)
-            worst_penalty = spread_pct
-
-            real_fill = raw_price * (1.0 - real_penalty)
-            worst_fill = raw_price * (1.0 - worst_penalty)
-            slippage_pct = real_penalty
-
-        elif order_type == "STOP_PANIC":
-            real_penalty = spread_pct + (volatility_penalty * 2.0)
-            worst_penalty = (spread_pct * 1.5) + (volatility_penalty * 3.5)
-
-            if real_penalty > atr_cap_pct:
-                real_penalty = atr_cap_pct
-                atr_cap_applied = True
-            if worst_penalty > (atr_cap_pct * 2.5):
-                worst_penalty = atr_cap_pct * 2.5
-
-            real_fill = raw_price * (1.0 - real_penalty)
-            worst_fill = raw_price * (1.0 - worst_penalty)
-            slippage_pct = real_penalty
-
-        elif order_type == "TIME_DECAY":
-            real_penalty = spread_pct + (volatility_penalty * 0.5)
-            worst_penalty = spread_pct + volatility_penalty
-
-            real_fill = raw_price * (1.0 - real_penalty)
-            worst_fill = raw_price * (1.0 - worst_penalty)
-            slippage_pct = real_penalty
-
+        handler = handlers.get(order_type)
+        if handler:
+            real_fill, worst_fill, slippage_pct, atr_cap_applied = handler(
+                raw_price, spread_pct, volatility_penalty, atr_cap_pct
+            )
         else:
             real_fill = raw_price
             worst_fill = raw_price
             slippage_pct = 0.0
+            atr_cap_applied = False
 
-        execution_quality_pass = True
-        block_reason = None
-
-        if spread_pct > 0.025:
-            execution_quality_pass = False
-            block_reason = "SPREAD_TOO_WIDE"
-
-        if slippage_pct > 0.02:
-            execution_quality_pass = False
-            block_reason = "SLIPPAGE_TOO_HIGH"
-
-        if atr_cap_applied and slippage_pct > 0.015:
-            execution_quality_pass = False
-            block_reason = "ATR_CAPPED_SLIPPAGE_RISK"
+        execution_quality_pass, block_reason = self._evaluate_execution_quality(
+            spread_pct, slippage_pct, atr_cap_applied
+        )
 
         return {
             "order_type": order_type,
