@@ -3,9 +3,12 @@ from __future__ import annotations
 import gzip
 import json
 import os
+import time
+import threading
+import concurrent.futures
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 from urllib.request import Request, urlopen
 
 
@@ -171,6 +174,47 @@ def summarize_filings(symbol: str, cik: str, submissions: Dict[str, Any]) -> Dic
     }
 
 
+def _process_symbol(
+    symbol: str,
+    cik: str,
+    rate_lock: threading.Lock,
+    last_time_ref: List[float]
+) -> Tuple[Dict[str, Any], str]:
+    if not cik:
+        return {
+            "ticker": symbol,
+            "sec_status": "NO_CIK",
+            "cik": None,
+            "latest_form": None,
+            "latest_filing_date": None,
+            "catalyst_forms": [],
+            "risk_flags": [],
+            "filings": [],
+        }, ""
+
+    try:
+        with rate_lock:
+            now = time.time()
+            elapsed = now - last_time_ref[0]
+            if elapsed < 0.11:  # SEC allows 10 requests per second -> 0.1s minimum delay
+                time.sleep(0.11 - elapsed)
+            last_time_ref[0] = time.time()
+
+        submissions = fetch_company_submissions(cik)
+        return summarize_filings(symbol, cik, submissions), ""
+    except Exception as exc:
+        return {
+            "ticker": symbol,
+            "sec_status": "ERROR",
+            "cik": cik,
+            "error": str(exc),
+            "latest_form": None,
+            "latest_filing_date": None,
+            "catalyst_forms": [],
+            "risk_flags": [],
+            "filings": [],
+        }, f"{symbol}: {exc}"
+
 def run_sec_catalyst_scanner() -> Dict[str, Any]:
     generated_at = now_utc_iso()
     errors = []
@@ -184,38 +228,40 @@ def run_sec_catalyst_scanner() -> Dict[str, Any]:
         ticker_map = {}
         errors.append(f"Failed to load SEC ticker map: {exc}")
 
+    rate_lock = threading.Lock()
+    last_time_ref = [0.0]
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        future_to_symbol = {
+            executor.submit(_process_symbol, symbol, ticker_map.get(symbol), rate_lock, last_time_ref): symbol
+            for symbol in symbols
+        }
+
+        results_by_symbol = {}
+        for future in concurrent.futures.as_completed(future_to_symbol):
+            symbol = future_to_symbol[future]
+            try:
+                row, err = future.result()
+                results_by_symbol[symbol] = (row, err)
+            except Exception as exc:
+                results_by_symbol[symbol] = ({
+                    "ticker": symbol,
+                    "sec_status": "ERROR",
+                    "cik": ticker_map.get(symbol),
+                    "error": str(exc),
+                    "latest_form": None,
+                    "latest_filing_date": None,
+                    "catalyst_forms": [],
+                    "risk_flags": [],
+                    "filings": [],
+                }, f"{symbol}: Exception in thread: {exc}")
+
     for symbol in symbols:
-        cik = ticker_map.get(symbol)
-
-        if not cik:
-            rows.append({
-                "ticker": symbol,
-                "sec_status": "NO_CIK",
-                "cik": None,
-                "latest_form": None,
-                "latest_filing_date": None,
-                "catalyst_forms": [],
-                "risk_flags": [],
-                "filings": [],
-            })
-            continue
-
-        try:
-            submissions = fetch_company_submissions(cik)
-            rows.append(summarize_filings(symbol, cik, submissions))
-        except Exception as exc:
-            errors.append(f"{symbol}: {exc}")
-            rows.append({
-                "ticker": symbol,
-                "sec_status": "ERROR",
-                "cik": cik,
-                "error": str(exc),
-                "latest_form": None,
-                "latest_filing_date": None,
-                "catalyst_forms": [],
-                "risk_flags": [],
-                "filings": [],
-            })
+        if symbol in results_by_symbol:
+            row, err = results_by_symbol[symbol]
+            rows.append(row)
+            if err:
+                errors.append(err)
 
     payload = {
         "schema_version": "sec_catalyst_scanner_v2",
