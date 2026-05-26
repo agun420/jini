@@ -2,17 +2,29 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
-
 
 OUT_PATH = Path("docs/data/prediction_engine/test_alert_health.json")
 
 
 def now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def is_valid_telegram_token(token: str | None) -> bool:
+    if not token:
+        return False
+    return bool(re.match(r"^[0-9]+:[a-zA-Z0-9_-]+$", token))
+
+
+def is_valid_telegram_chat_id(chat_id: str | None) -> bool:
+    if not chat_id:
+        return False
+    return bool(re.match(r"^-?\d+$", chat_id))
 
 
 def send_telegram(text: str) -> dict:
@@ -25,12 +37,20 @@ def send_telegram(text: str) -> dict:
             "reason": "telegram_not_configured",
         }
 
+    if not is_valid_telegram_token(token) or not is_valid_telegram_chat_id(chat_id):
+        return {
+            "sent": False,
+            "reason": "invalid_telegram_credentials",
+        }
+
     url = f"https://api.telegram.org/bot{token}/sendMessage"
-    data = urllib.parse.urlencode({
-        "chat_id": chat_id,
-        "text": text,
-        "disable_web_page_preview": "true",
-    }).encode("utf-8")
+    data = urllib.parse.urlencode(
+        {
+            "chat_id": chat_id,
+            "text": text,
+            "disable_web_page_preview": "true",
+        }
+    ).encode("utf-8")
 
     try:
         req = urllib.request.Request(url, data=data, method="POST")
@@ -62,11 +82,17 @@ def main() -> None:
 
     result = send_telegram(message)
 
+    token = os.getenv("TELEGRAM_BOT_TOKEN")
+    chat_id = os.getenv("TELEGRAM_CHAT_ID")
+    telegram_configured = is_valid_telegram_token(token) and is_valid_telegram_chat_id(
+        chat_id
+    )
+
     payload = {
         "schema_version": "test_alert_health_v1",
         "generated_at": now(),
         "status": "PASS" if result.get("sent") else "FAIL",
-        "telegram_configured": bool(os.getenv("TELEGRAM_BOT_TOKEN") and os.getenv("TELEGRAM_CHAT_ID")),
+        "telegram_configured": telegram_configured,
         "delivery_result": result,
         "order_submission": False,
         "live_trading": False,
