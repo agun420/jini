@@ -111,6 +111,9 @@ def export() -> dict[str, Any]:
     for row in rows:
         if is_auth_failed:
             safe_rows.append(safe_mode_row(row, reason))
+        elif row.get("auth_safe_mode") is True:
+            # Preserve existing safe mode state if already set, preventing bypass
+            safe_rows.append(dict(row))
         else:
             new = dict(row)
             new["auth_safe_mode"] = False
