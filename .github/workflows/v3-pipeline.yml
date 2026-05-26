@@ -1,0 +1,85 @@
+name: V3 Pipeline
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: v3-pipeline
+  cancel-in-progress: true
+
+jobs:
+  run-v3-pipeline:
+    runs-on: ubuntu-latest
+
+    env:
+      PYTHONPATH: src:.
+      ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+      ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+      SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+      PAPER_ORDER_SUBMISSION_ENABLED: "false"
+      ALPACA_DATA_FEED: "sip"
+      ALPACA_MAX_SYMBOLS: "500"
+      ALPACA_CHUNK_SIZE: "100"
+      ALPACA_BAR_TIMEFRAME: "1Min"
+      ALPACA_LOOKBACK_MINUTES: "390"
+      ALPACA_RVOL_BASELINE_DAYS: "20"
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install requirements
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      # Runs the full v3 nightly analysis sub-pipeline:
+      # enrichment → market regime → prebreakout → research alert →
+      # edge model → paper plan → package 100 → morning readiness
+      # Always continue: exits code 1 when status != PASS (by design).
+      - name: Run V3 Tomorrow Morning Command Pack
+        run: python scripts/run_v3_tomorrow_morning_command_pack.py || true
+
+      # Generates v3_daily_research_report_health.json,
+      # which hard_safety_lock reads as a check.
+      - name: Run V3 Daily Research Report
+        run: |
+          if [ -f scripts/run_v3_daily_research_report.py ]; then
+            python scripts/run_v3_daily_research_report.py || true
+          fi
+
+      # Generates final_repo_audit.json,
+      # which hard_safety_lock reads as a check.
+      - name: Run Final Repo Audit
+        run: |
+          if [ -f scripts/run_final_repo_audit.py ]; then
+            python scripts/run_final_repo_audit.py || true
+          fi
+
+      # Aggregates all health check files and sets safe_for_research flag.
+      # Always continue: exits code 1 when any upstream check is FAIL.
+      - name: Run V3 Hard Safety Lock
+        run: python scripts/run_v3_hard_safety_lock.py || true
+
+      # Builds per-ticker phase gate verdicts and writes
+      # v3_phase_gate_verdict_health.json — the dashboard's lastUpdated source.
+      # Always continue: exits code 1 when hard_safety_lock is not PASS.
+      - name: Run V3 Phase Gate Verdict
+        run: python scripts/run_v3_phase_gate_verdict.py || true
+
+      # Commit all generated JSON so GitHub Pages serves fresh data.
+      - name: Commit V3 pipeline data
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add docs/data/prediction_engine state/prediction_engine
+          git commit -m "Update v3 pipeline data" || echo "No changes to commit"
+          git push
