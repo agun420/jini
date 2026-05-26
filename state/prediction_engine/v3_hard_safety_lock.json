@@ -1,15 +1,18 @@
 {
   "schema_version": "v3_hard_safety_lock_v2",
-  "generated_at": "2026-05-22T14:55:41.554888+00:00",
+  "generated_at": "2026-05-26T18:09:01.413795+00:00",
   "health": {
     "schema_version": "v3_hard_safety_lock_health_v2",
-    "generated_at": "2026-05-22T14:55:41.554888+00:00",
+    "generated_at": "2026-05-26T18:09:01.413795+00:00",
     "status": "FAIL",
     "blockers": [
       "package_100_fail",
       "morning_fail",
       "tomorrow_pack_fail",
-      "package_100_not_pass"
+      "paper_plan_fail",
+      "final_repo_audit_fail",
+      "package_100_not_pass",
+      "final_repo_audit_not_pass"
     ],
     "warnings": [],
     "safe_for_research": false,
@@ -39,7 +42,12 @@
       "live_trading": false,
       "paper_order_allowed": null,
       "paper_trade_ready": false,
-      "blockers": []
+      "blockers": [
+        "enrichment_fail",
+        "paper_plan_fail",
+        "final_repo_audit_fail",
+        "final_repo_not_pass"
+      ]
     },
     "morning": {
       "path": "docs/data/prediction_engine/v3_morning_readiness_report_health.json",
@@ -50,7 +58,8 @@
       "paper_order_allowed": false,
       "paper_trade_ready": false,
       "blockers": [
-        "package_100_not_passing"
+        "package_100_not_passing",
+        "final_repo_audit_not_passing"
       ]
     },
     "tomorrow_pack": {
@@ -62,7 +71,6 @@
       "paper_order_allowed": false,
       "paper_trade_ready": false,
       "blockers": [
-        "script_failed_scripts_run_v3_research_alert_score.py",
         "script_failed_scripts_run_v3_package_100_validation.py",
         "package_100_not_pass"
       ]
@@ -70,12 +78,14 @@
     "paper_plan": {
       "path": "docs/data/prediction_engine/v3_paper_order_plan_health.json",
       "exists": true,
-      "status": "PASS",
+      "status": "FAIL",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
       "paper_trade_ready": null,
-      "blockers": []
+      "blockers": [
+        "final_repo_audit_not_passing"
+      ]
     },
     "edge_model": {
       "path": "docs/data/prediction_engine/v3_mathematical_edge_model_health.json",
@@ -90,7 +100,7 @@
     "daily_report": {
       "path": "docs/data/prediction_engine/v3_daily_research_report_health.json",
       "exists": true,
-      "status": "PASS",
+      "status": "WARN",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": null,
@@ -100,12 +110,14 @@
     "final_repo_audit": {
       "path": "docs/data/prediction_engine/final_repo_audit.json",
       "exists": true,
-      "status": "PASS",
+      "status": "FAIL",
       "order_submission": null,
       "live_trading": null,
       "paper_order_allowed": null,
       "paper_trade_ready": null,
-      "blockers": []
+      "blockers": [
+        "workflow_overlap"
+      ]
     }
   },
   "decision": {
