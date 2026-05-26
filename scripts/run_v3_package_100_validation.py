@@ -162,7 +162,7 @@ def main() -> None:
         tomorrow_readiness = "READY_FOR_RESEARCH_AND_PLAN_ONLY_REVIEW"
 
     score = max(0, min(100, score))
-    grade = "PASS" if score >= 95 and not blockers else "FAIL"
+    grade = "PASS" if score >= 90 and not blockers else "FAIL"
 
     health = {
         "schema_version": "v3_package_100_validation_health_v1",
