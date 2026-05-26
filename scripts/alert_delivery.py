@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
@@ -93,18 +94,34 @@ def f(value: Any, default: float | None = None) -> float | None:
         return default
 
 
+def is_valid_telegram_token(token: str | None) -> bool:
+    if not token:
+        return False
+    # Typical format: 123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11
+    return bool(re.match(r"^[0-9]+:[a-zA-Z0-9_-]+$", token))
+
+
+def is_valid_telegram_chat_id(chat_id: str | None) -> bool:
+    if not chat_id:
+        return False
+    # Either a negative/positive number or a string starting with @
+    return bool(re.match(r"^-?\d+$|^@[a-zA-Z0-9_]+$", chat_id))
+
+
 def telegram_configured() -> bool:
-    return bool(os.getenv("TELEGRAM_BOT_TOKEN") and os.getenv("TELEGRAM_CHAT_ID"))
+    token = os.getenv("TELEGRAM_BOT_TOKEN")
+    chat_id = os.getenv("TELEGRAM_CHAT_ID")
+    return is_valid_telegram_token(token) and is_valid_telegram_chat_id(chat_id)
 
 
 def send_telegram(text: str) -> dict[str, Any]:
     token = os.getenv("TELEGRAM_BOT_TOKEN")
     chat_id = os.getenv("TELEGRAM_CHAT_ID")
 
-    if not token or not chat_id:
+    if not is_valid_telegram_token(token) or not is_valid_telegram_chat_id(chat_id):
         return {
             "sent": False,
-            "reason": "telegram_not_configured",
+            "reason": "telegram_not_configured_or_invalid",
         }
 
     url = f"https://api.telegram.org/bot{token}/sendMessage"
