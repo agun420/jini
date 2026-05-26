@@ -43,18 +43,29 @@ run_once() {
   PYTHONPATH=src:. python scripts/run_operator_signal_resolver.py || true
   PYTHONPATH=src:. python scripts/run_jini_operator_pipeline.py || true
   PYTHONPATH=src:. python scripts/run_feed_status_quality.py || true
+
+  # V3 enrichment must run first — all scoring scripts below read v3_enriched_rows.json.
+  PYTHONPATH=src:. python scripts/run_alpaca_v3_market_enrichment.py || true
+
+  # V3 scoring chain (depends on fresh enriched rows above).
   PYTHONPATH=src:. python scripts/run_v3_market_regime_filter.py || true
   PYTHONPATH=src:. python scripts/run_v3_prebreakout_predictor.py || true
+  PYTHONPATH=src:. python scripts/run_v3_research_alert_score.py || true
+  PYTHONPATH=src:. python scripts/run_v3_mathematical_edge_model.py || true
+  PYTHONPATH=src:. python scripts/run_v3_paper_plan_export.py || true
+  PYTHONPATH=src:. python scripts/run_v3_package_100_validation.py || true
+  PYTHONPATH=src:. python scripts/run_v3_morning_readiness_report.py || true
+
+  # Outcome journals and quality audits (read from scoring outputs above).
   PYTHONPATH=src:. python scripts/run_v3_prebreakout_outcome_journal.py || true
   PYTHONPATH=src:. python scripts/run_v3_signal_pipeline.py || true
-  PYTHONPATH=src:. python scripts/run_v3_research_alert_score.py || true
   PYTHONPATH=src:. python scripts/run_v3_research_alert_outcome_journal.py || true
   PYTHONPATH=src:. python scripts/run_v3_outcome_quality_audit.py || true
   PYTHONPATH=src:. python scripts/run_v3_daily_research_report.py || true
-  PYTHONPATH=src:. python scripts/run_v3_paper_plan_export.py || true
   PYTHONPATH=src:. python scripts/run_v3_regime_outcome_audit.py || true
-  PYTHONPATH=src:. python scripts/run_v3_mathematical_edge_model.py || true
   PYTHONPATH=src:. python scripts/run_buy_order_alert_outcome_journal.py || true
+
+  # Validation and repo audit.
   PYTHONPATH=src:. python scripts/run_validation_core_manifest.py || true
   PYTHONPATH=src:. python scripts/run_trade_journal_health.py || true
   PYTHONPATH=src:. python scripts/run_blocked_journal_health.py || true
@@ -63,11 +74,15 @@ run_once() {
   PYTHONPATH=src:. python scripts/run_validation_status_aggregator.py || true
   PYTHONPATH=src:. python scripts/run_auto_trade_readiness_audit.py || true
   PYTHONPATH=src:. python scripts/run_final_repo_audit.py || true
-  PYTHONPATH=src:. python scripts/run_v3_package_100_validation.py || true
-  PYTHONPATH=src:. python scripts/run_v3_morning_readiness_report.py || true
+
+  # Tomorrow morning command pack summarises the full chain for the hard safety lock.
   PYTHONPATH=src:. python scripts/run_v3_tomorrow_morning_command_pack.py || true
+
+  # Hard safety lock and phase gate verdict — dashboard "Updated" timestamp source.
   PYTHONPATH=src:. python scripts/run_v3_hard_safety_lock.py || true
   PYTHONPATH=src:. python scripts/run_v3_phase_gate_verdict.py || true
+
+  # Loss learning, backtest gate, stability check.
   PYTHONPATH=src:. python scripts/run_v3_loss_learning_runner_gate.py || true
   PYTHONPATH=src:. python scripts/run_backtest_gate.py || true
   PYTHONPATH=src:. python scripts/run_jini_stability_check.py || true
