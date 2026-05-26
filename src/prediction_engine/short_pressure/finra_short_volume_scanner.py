@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import concurrent.futures
 import csv
 import json
 import os
@@ -166,13 +167,21 @@ def save_cached_finra(trade_date: str, rows: Dict[str, Dict[str, Any]]) -> None:
 
 def load_latest_finra_rows() -> Tuple[Optional[str], Dict[str, Dict[str, Any]], List[str]]:
     notes: List[str] = []
+    dates = recent_weekdays(7)
 
-    for date in recent_weekdays(7):
+    def fetch_for_date(date: str) -> Tuple[str, Optional[str]]:
         url = FINRA_REGSHO_BASE.format(date=date)
-        text = fetch_url(url)
-        if not text:
-            notes.append(f"unavailable:{date}")
-            continue
+        return date, fetch_url(url)
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=7) as executor:
+        future_to_date = {d: executor.submit(fetch_for_date, d) for d in dates}
+
+        for date in dates:
+            future = future_to_date[date]
+            _, text = future.result()
+            if not text:
+                notes.append(f"unavailable:{date}")
+                continue
         rows = parse_finra_pipe_file(text, date)
         if rows:
             save_cached_finra(date, rows)

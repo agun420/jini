@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
+import concurrent.futures
 from prediction_engine.scanners.alpaca_paid_config import get_paid_settings, get_universe
 
 OUTPUT_PATH = Path("state/prediction_engine/dynamic_alpaca_candidates.json")
@@ -85,9 +86,16 @@ def trend_state(price, vwap):
 def daily_baseline(symbols, feed, hdrs, days):
     end = now_utc() - timedelta(days=1); start = end - timedelta(days=max(days*2, 30))
     out = {}
-    for ch in chunked(symbols, 100):
-        try: bars = fetch_bars(ch, start, end, feed, "1Day", hdrs)
-        except Exception: continue
+
+    def process_chunk(ch):
+        try: return fetch_bars(ch, start, end, feed, "1Day", hdrs)
+        except Exception: return {}
+
+    chunks = list(chunked(symbols, 100))
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        results = executor.map(process_chunk, chunks)
+
+    for bars in results:
         for s, bs in bars.items():
             vols = [safe_float(b.get("v")) for b in bs[-days:]]
             vols = [v for v in vols if v and v > 0]
@@ -128,13 +136,25 @@ def run_scanner():
     end = now_utc(); start = end - timedelta(minutes=st.lookback_minutes)
     base = daily_baseline(universe, st.feed, hdrs, st.baseline_days)
     rows=[]; errors=[]
-    for ch in chunked(universe, st.chunk_size):
+
+    def process_chunk(ch):
         try: bars = fetch_bars(ch, start, end, st.feed, st.bar_timeframe, hdrs)
-        except Exception as e: errors.append(f"bars_fetch_failed:{ch[:3]}:{e}"); continue
+        except Exception as e: return {"error": f"bars_fetch_failed:{ch[:3]}:{e}"}
         snaps = fetch_snapshots(ch, st.feed, hdrs)
+        chunk_rows = []
         for s in ch:
             row = candidate(s, bars.get(s,[]), base.get(s), snaps.get(s) if isinstance(snaps, dict) else None, st.feed)
-            if row: rows.append(row)
+            if row: chunk_rows.append(row)
+        return {"rows": chunk_rows}
+
+    chunks = list(chunked(universe, st.chunk_size))
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        results = executor.map(process_chunk, chunks)
+
+    for res in results:
+        if "error" in res: errors.append(res["error"])
+        elif "rows" in res: rows.extend(res["rows"])
+
     rows.sort(key=lambda r:(float(r.get("score") or 0), float(r.get("relative_volume") or 0), float(r.get("day_change_pct") or 0)), reverse=True)
     payload={"schema_version":"alpaca_paid_market_scanner_v1","generated_at":now_utc_iso(),"status":"PASS" if rows else "WARN","mode":"paid_alpaca_sip_research","settings":{"feed":st.feed,"use_sip":st.use_sip,"max_symbols":st.max_symbols,"chunk_size":st.chunk_size,"bar_timeframe":st.bar_timeframe,"lookback_minutes":st.lookback_minutes,"baseline_days":st.baseline_days},"counts":{"universe_size":len(universe),"candidate_count":len(rows),"error_count":len(errors)},"errors":errors[:20],"candidates":rows[:100],"rows":rows[:100],"safety":{"paper_only":True,"order_submission":False,"live_trading":False,"feed_expected":"sip"}}
     health={"schema_version":"alpaca_paid_market_scanner_health_v1","generated_at":payload["generated_at"],"status":payload["status"],"feed":st.feed,"use_sip":st.use_sip,"candidate_count":len(rows),"universe_size":len(universe),"error_count":len(errors),"paper_only":True,"order_submission":False}

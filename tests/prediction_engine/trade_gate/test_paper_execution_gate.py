@@ -5,7 +5,51 @@ from unittest.mock import patch, MagicMock
 
 import pytest
 
-from prediction_engine.trade_gate.paper_execution_gate import fetch_paper_account_snapshot
+from prediction_engine.trade_gate.paper_execution_gate import safe_float, safe_symbol, fetch_paper_account_snapshot
+
+
+@pytest.mark.parametrize(
+    "value, default, expected",
+    [
+        (10.5, None, 10.5),
+        ("10.5", 0.0, 10.5),
+        (10, None, 10.0),
+        (None, 5.0, 5.0),
+        (None, None, None),
+        ("", 2.0, 2.0),
+        ("", None, None),
+        ("invalid", -1.0, -1.0),
+        ("invalid", None, None),
+    ],
+)
+def test_safe_float(value, default, expected):
+    assert safe_float(value, default) == expected
+
+
+def test_safe_symbol_empty_dict():
+    assert safe_symbol({}) == ""
+
+def test_safe_symbol_only_ticker():
+    assert safe_symbol({"ticker": "aapl"}) == "AAPL"
+
+def test_safe_symbol_only_symbol():
+    assert safe_symbol({"symbol": "msft"}) == "MSFT"
+
+def test_safe_symbol_ticker_and_symbol_priority():
+    assert safe_symbol({"ticker": "tsla", "symbol": "goog"}) == "TSLA"
+
+def test_safe_symbol_whitespace_and_uppercase():
+    assert safe_symbol({"ticker": "  amzn  "}) == "AMZN"
+    assert safe_symbol({"symbol": "  nflx \n"}) == "NFLX"
+
+def test_safe_symbol_none_or_empty():
+    assert safe_symbol({"ticker": None}) == ""
+    assert safe_symbol({"symbol": None}) == ""
+    assert safe_symbol({"ticker": ""}) == ""
+
+def test_safe_symbol_fallback_if_ticker_is_empty_or_none():
+    assert safe_symbol({"ticker": None, "symbol": "meta"}) == "META"
+    assert safe_symbol({"ticker": "", "symbol": "meta"}) == "META"
 
 
 def test_fetch_paper_account_snapshot_no_headers():
