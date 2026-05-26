@@ -161,11 +161,12 @@ class ForwardValidationOptimizer:
 
         return net_normalized_pnl, max_drawdown_dollars, expectancy_ratio, total_trades
 
-    def execute_unbiased_walk_forward(
+
+    def _split_and_validate_datasets(
         self,
         unified_journal_payload: list[dict[str, Any]],
-        embargo_seconds: int = 1800,
-    ) -> dict[str, Any]:
+        embargo_seconds: int,
+    ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any] | None]:
         trade_payload = [
             event for event in unified_journal_payload
             if event.get("record_type", "TRADE") == "TRADE"
@@ -174,7 +175,7 @@ class ForwardValidationOptimizer:
         ]
 
         if len(trade_payload) < 30:
-            return {
+            return [], [], {
                 "status": "REJECTED",
                 "reason": "need_30_plus_closed_trade_events",
                 "closed_trade_count": len(trade_payload),
@@ -187,7 +188,7 @@ class ForwardValidationOptimizer:
 
         split_idx = int(len(trade_payload) * 0.70)
         if split_idx <= 0 or split_idx >= len(trade_payload):
-            return {
+            return [], [], {
                 "status": "REJECTED",
                 "reason": "invalid_walk_forward_split",
                 "closed_trade_count": len(trade_payload),
@@ -209,7 +210,7 @@ class ForwardValidationOptimizer:
         ]
 
         if not self._passes_day_diversity_guard(in_sample_training, min_days=5, max_single_day_share=0.40):
-            return {
+            return [], [], {
                 "status": "REJECTED",
                 "reason": "training_set_failed_day_diversity",
                 "closed_trade_count": len(trade_payload),
@@ -221,7 +222,7 @@ class ForwardValidationOptimizer:
             }
 
         if not self._passes_day_diversity_guard(out_of_sample_validation, min_days=3, max_single_day_share=0.40):
-            return {
+            return [], [], {
                 "status": "REJECTED",
                 "reason": "validation_set_failed_day_diversity",
                 "closed_trade_count": len(trade_payload),
@@ -232,15 +233,14 @@ class ForwardValidationOptimizer:
                 "live_trading": False,
             }
 
-        curr_vwap = safe_float(self.current_config.get("max_vwap_distance"), DEFAULT_CONFIG["max_vwap_distance"])
-        curr_score = safe_float(self.current_config.get("minimum_runner_score"), DEFAULT_CONFIG["minimum_runner_score"])
+        return in_sample_training, out_of_sample_validation, None
 
-        base_pnl, base_dd, base_exp, base_count = self._calculate_metrics(
-            out_of_sample_validation,
-            curr_vwap,
-            curr_score,
-        )
-
+    def _find_best_candidate_params(
+        self,
+        in_sample_training: list[dict[str, Any]],
+        curr_vwap: float,
+        curr_score: float,
+    ) -> tuple[float, float]:
         best_in_sample_pnl = -999999.0
         candidate_vwap = curr_vwap
         candidate_score = curr_score
@@ -256,6 +256,132 @@ class ForwardValidationOptimizer:
                     best_in_sample_pnl = sim_pnl
                     candidate_vwap = test_vwap
                     candidate_score = test_score
+
+        return candidate_vwap, candidate_score
+
+    def _build_success_response(
+        self,
+        guarded_vwap: float,
+        guarded_score: float,
+        opt_pnl: float,
+        base_pnl: float,
+        opt_dd: float,
+        base_dd: float,
+        opt_exp: float,
+        base_exp: float,
+        opt_count: int,
+        base_count: int,
+        account_dd_pct: float,
+    ) -> dict[str, Any]:
+        suggested_payload = {
+            "schema_version": "suggested_config_v1",
+            "generated_at": utc_now_iso(),
+            "status": "SUGGESTED_ONLY",
+            "max_vwap_distance": round(guarded_vwap, 3),
+            "minimum_runner_score": int(guarded_score),
+            "max_allowed_spread": safe_float(
+                self.current_config.get("max_allowed_spread"),
+                DEFAULT_CONFIG["max_allowed_spread"],
+            ),
+            "metrics_delta": {
+                "normalized_r_pnl_improvement": round(opt_pnl - base_pnl, 4),
+                "drawdown_variance_dollars": round(opt_dd - base_dd, 4),
+                "expectancy_ratio_shift": round(opt_exp - base_exp, 4),
+                "validated_drawdown_pct": round(account_dd_pct * 100, 2),
+                "base_trade_count": base_count,
+                "optimized_trade_count": opt_count,
+            },
+            "hard_safety": {
+                "auto_config_overwrite": False,
+                "order_submission": False,
+                "live_trading": False,
+            },
+        }
+
+        self.suggested_config_path.parent.mkdir(parents=True, exist_ok=True)
+        self.suggested_config_path.write_text(json.dumps(suggested_payload, indent=2), encoding="utf-8")
+
+        return {
+            "status": "PASS",
+            "reason": "candidate_config_cleared_validation_gates",
+            "suggested_config_exported": True,
+            "suggested_config_path": str(self.suggested_config_path),
+            "base_metrics": {
+                "pnl": round(base_pnl, 4),
+                "drawdown": round(base_dd, 4),
+                "expectancy": round(base_exp, 4),
+                "count": base_count,
+            },
+            "optimized_metrics": {
+                "pnl": round(opt_pnl, 4),
+                "drawdown": round(opt_dd, 4),
+                "expectancy": round(opt_exp, 4),
+                "count": opt_count,
+            },
+            "order_submission": False,
+            "live_trading": False,
+        }
+
+    def _build_failure_response(
+        self,
+        pnl_improves: bool,
+        drawdown_stable: bool,
+        expectancy_improves: bool,
+        opt_pnl: float,
+        base_pnl: float,
+        opt_dd: float,
+        base_dd: float,
+        opt_exp: float,
+        base_exp: float,
+        opt_count: int,
+        base_count: int,
+    ) -> dict[str, Any]:
+        return {
+            "status": "REJECTED",
+            "reason": "optimization_failed_safety_metrics",
+            "pnl_improves": pnl_improves,
+            "drawdown_stable": drawdown_stable,
+            "expectancy_improves": expectancy_improves,
+            "suggested_config_exported": False,
+            "base_metrics": {
+                "pnl": round(base_pnl, 4),
+                "drawdown": round(base_dd, 4),
+                "expectancy": round(base_exp, 4),
+                "count": base_count,
+            },
+            "optimized_metrics": {
+                "pnl": round(opt_pnl, 4),
+                "drawdown": round(opt_dd, 4),
+                "expectancy": round(opt_exp, 4),
+                "count": opt_count,
+            },
+            "order_submission": False,
+            "live_trading": False,
+        }
+
+    def execute_unbiased_walk_forward(
+        self,
+        unified_journal_payload: list[dict[str, Any]],
+        embargo_seconds: int = 1800,
+    ) -> dict[str, Any]:
+        in_sample_training, out_of_sample_validation, error_response = self._split_and_validate_datasets(
+            unified_journal_payload, embargo_seconds
+        )
+        if error_response:
+            return error_response
+
+        curr_vwap = safe_float(self.current_config.get("max_vwap_distance"), DEFAULT_CONFIG["max_vwap_distance"])
+        curr_score = safe_float(self.current_config.get("minimum_runner_score"), DEFAULT_CONFIG["minimum_runner_score"])
+
+        base_pnl, base_dd, base_exp, base_count = self._calculate_metrics(
+            out_of_sample_validation,
+            curr_vwap,
+            curr_score,
+        )
+
+        candidate_vwap, candidate_score = self._find_best_candidate_params(
+            in_sample_training, curr_vwap, curr_score
+        )
 
         guarded_vwap = max(min(candidate_vwap, curr_vwap + 0.01), curr_vwap - 0.01)
         guarded_score = max(min(candidate_score, curr_score + 1), curr_score - 1)
@@ -283,74 +409,19 @@ class ForwardValidationOptimizer:
         expectancy_improves = opt_exp > base_exp
 
         if pnl_improves and drawdown_stable and expectancy_improves:
-            suggested_payload = {
-                "schema_version": "suggested_config_v1",
-                "generated_at": utc_now_iso(),
-                "status": "SUGGESTED_ONLY",
-                "max_vwap_distance": round(guarded_vwap, 3),
-                "minimum_runner_score": int(guarded_score),
-                "max_allowed_spread": safe_float(
-                    self.current_config.get("max_allowed_spread"),
-                    DEFAULT_CONFIG["max_allowed_spread"],
-                ),
-                "metrics_delta": {
-                    "normalized_r_pnl_improvement": round(opt_pnl - base_pnl, 4),
-                    "drawdown_variance_dollars": round(opt_dd - base_dd, 4),
-                    "expectancy_ratio_shift": round(opt_exp - base_exp, 4),
-                    "validated_drawdown_pct": round(account_dd_pct * 100, 2),
-                    "base_trade_count": base_count,
-                    "optimized_trade_count": opt_count,
-                },
-                "hard_safety": {
-                    "auto_config_overwrite": False,
-                    "order_submission": False,
-                    "live_trading": False,
-                },
-            }
+            return self._build_success_response(
+                guarded_vwap, guarded_score,
+                opt_pnl, base_pnl,
+                opt_dd, base_dd,
+                opt_exp, base_exp,
+                opt_count, base_count,
+                account_dd_pct
+            )
 
-            self.suggested_config_path.parent.mkdir(parents=True, exist_ok=True)
-            self.suggested_config_path.write_text(json.dumps(suggested_payload, indent=2), encoding="utf-8")
-
-            return {
-                "status": "PASS",
-                "reason": "candidate_config_cleared_validation_gates",
-                "suggested_config_exported": True,
-                "suggested_config_path": str(self.suggested_config_path),
-                "base_metrics": {
-                    "pnl": round(base_pnl, 4),
-                    "drawdown": round(base_dd, 4),
-                    "expectancy": round(base_exp, 4),
-                    "count": base_count,
-                },
-                "optimized_metrics": {
-                    "pnl": round(opt_pnl, 4),
-                    "drawdown": round(opt_dd, 4),
-                    "expectancy": round(opt_exp, 4),
-                    "count": opt_count,
-                },
-                "order_submission": False,
-                "live_trading": False,
-            }
-
-        return {
-            "status": "REJECTED",
-            "reason": "optimization_failed_safety_metrics",
-            "pnl_improves": pnl_improves,
-            "drawdown_stable": drawdown_stable,
-            "expectancy_improves": expectancy_improves,
-            "suggested_config_exported": False,
-            "base_metrics": {
-                "pnl": round(base_pnl, 4),
-                "drawdown": round(base_dd, 4),
-                "expectancy": round(base_exp, 4),
-                "count": base_count,
-            },
-            "optimized_metrics": {
-                "pnl": round(opt_pnl, 4),
-                "drawdown": round(opt_dd, 4),
-                "expectancy": round(opt_exp, 4),
-                "count": opt_count,
-            },
-            "order_submission": False,
-            "live_trading": False,
-        }
+        return self._build_failure_response(
+            pnl_improves, drawdown_stable, expectancy_improves,
+            opt_pnl, base_pnl,
+            opt_dd, base_dd,
+            opt_exp, base_exp,
+            opt_count, base_count
+        )
