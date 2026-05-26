@@ -3,12 +3,26 @@ from __future__ import annotations
 import json
 import math
 import uuid
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 
 DEFAULT_STATE_PATH = Path("state/prediction_engine/blocked_journal.json")
+
+
+@dataclass
+class BlockInitParams:
+    ticker: str
+    blocked_price: float
+    blocked_reason: str
+    score: float
+    vwap_dist: float
+    atr: float = 0.08
+    shares: int = 100
+    source_alert_id: str | None = None
+    setup: str | None = None
 
 
 def utc_now_iso() -> str:
@@ -93,20 +107,9 @@ class BlockedJournal:
             return []
         return list(records.values())
 
-    def initialize_block(
-        self,
-        ticker: str,
-        blocked_price: float,
-        blocked_reason: str,
-        score: float,
-        vwap_dist: float,
-        atr: float = 0.08,
-        shares: int = 100,
-        source_alert_id: str | None = None,
-        setup: str | None = None,
-    ) -> str | None:
-        symbol = str(ticker or "").upper().strip()
-        blocked_price = safe_float(blocked_price)
+    def initialize_block(self, params: BlockInitParams) -> str | None:
+        symbol = str(params.ticker or "").upper().strip()
+        blocked_price = safe_float(params.blocked_price)
 
         if not symbol or blocked_price <= 0:
             return None
@@ -123,13 +126,13 @@ class BlockedJournal:
             "blocked_time": ts,
             "entry_time": ts,
             "blocked_price": blocked_price,
-            "blocked_reason": str(blocked_reason or "UNKNOWN").upper(),
-            "score": safe_float(score),
-            "vwap_dist": safe_float(vwap_dist),
-            "atr_at_entry": safe_float(atr),
-            "shares": safe_int(shares, 100),
-            "setup": str(setup or "UNKNOWN"),
-            "source_alert_id": source_alert_id,
+            "blocked_reason": str(params.blocked_reason or "UNKNOWN").upper(),
+            "score": safe_float(params.score),
+            "vwap_dist": safe_float(params.vwap_dist),
+            "atr_at_entry": safe_float(params.atr),
+            "shares": safe_int(params.shares, 100),
+            "setup": str(params.setup or "UNKNOWN"),
+            "source_alert_id": params.source_alert_id,
             "spread_trace": [],
             "max_gain_60m": 0.0,
             "max_drawdown_60m": 0.0,
