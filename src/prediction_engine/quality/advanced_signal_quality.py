@@ -449,101 +449,88 @@ def quality_gate(row: Dict[str, Any], quality: Dict[str, Any]) -> Tuple[str, Lis
     return "QUALITY_BLOCKED", ["quality_score_too_low"]
 
 
-def build_quality_payload() -> Dict[str, Any]:
-    dashboard_payload, signal_source = load_best_signals()
-    rows = extract_rows(dashboard_payload)
-    market_by_symbol = load_market_rows()
-    regime = market_regime(rows, market_by_symbol)
-    themes = theme_scores(rows)
+def enrich_row(row: Dict[str, Any], market_by_symbol: Dict[str, Any], themes: Dict[str, Dict[str, Any]], regime: Dict[str, Any]) -> Dict[str, Any]:
+    sym = safe_symbol(row)
+    market = market_by_symbol.get(sym, {})
 
-    enriched_rows: List[Dict[str, Any]] = []
-    approved_count = 0
-    blocked_count = 0
+    spread = spread_pct(row, market)
+    dollar_vol = dollar_volume(row, market)
 
-    for row in rows:
-        sym = safe_symbol(row)
-        market = market_by_symbol.get(sym, {})
+    spread_score, spread_reasons = score_spread(spread)
+    liquidity_score, liquidity_reasons = score_liquidity(dollar_vol)
+    rvol_score, rvol_reasons = score_time_adjusted_rvol(row, market)
+    vwap_score, vwap_reasons = score_vwap_control(row, market)
+    anti_score, anti_reasons, anti_blocks = anti_chase_score(row, market)
+    pullback_score, pullback_reasons = pullback_quality_score(row, market)
+    breakout_score, breakout_reasons = breakout_compression_score(row, market)
+    halt_score, halt_reasons, halt_blocks = halt_risk_score(row, market)
 
-        spread = spread_pct(row, market)
-        dollar_vol = dollar_volume(row, market)
+    theme = theme_for_symbol(sym)
+    sympathy_score = themes.get(theme, {}).get("sympathy_score", 0) if theme else 0
 
-        spread_score, spread_reasons = score_spread(spread)
-        liquidity_score, liquidity_reasons = score_liquidity(dollar_vol)
-        rvol_score, rvol_reasons = score_time_adjusted_rvol(row, market)
-        vwap_score, vwap_reasons = score_vwap_control(row, market)
-        anti_score, anti_reasons, anti_blocks = anti_chase_score(row, market)
-        pullback_score, pullback_reasons = pullback_quality_score(row, market)
-        breakout_score, breakout_reasons = breakout_compression_score(row, market)
-        halt_score, halt_reasons, halt_blocks = halt_risk_score(row, market)
-
-        theme = theme_for_symbol(sym)
-        sympathy_score = themes.get(theme, {}).get("sympathy_score", 0) if theme else 0
-
-        raw_quality = (
-            spread_score
-            + liquidity_score
-            + rvol_score
-            + vwap_score
-            + anti_score
-            + pullback_score
-            + breakout_score
-            + sympathy_score
-            + max(regime["market_regime_score"], -10)
-            - (halt_score * 0.25)
-        )
-
-        quality = {
-            "advanced_quality_score": round(clamp(raw_quality, 0, 100), 2),
-            "spread_pct": round(spread, 4) if spread is not None else None,
-            "dollar_volume": round(dollar_vol, 2) if dollar_vol is not None else None,
-            "spread_score": round(spread_score, 2),
-            "liquidity_score": round(liquidity_score, 2),
-            "rvol_quality_score": round(rvol_score, 2),
-            "vwap_control_score": round(vwap_score, 2),
-            "anti_chase_score": round(anti_score, 2),
-            "pullback_quality_score": round(pullback_score, 2),
-            "breakout_compression_score": round(breakout_score, 2),
-            "sympathy_score": round(sympathy_score, 2),
-            "theme": theme,
-            "halt_risk_score": round(halt_score, 2),
-            "market_regime": regime["regime"],
-            "reasons": (
-                spread_reasons
-                + liquidity_reasons
-                + rvol_reasons
-                + vwap_reasons
-                + anti_reasons
-                + pullback_reasons
-                + breakout_reasons
-                + halt_reasons
-            )[:20],
-            "hard_blocks": anti_blocks + halt_blocks,
-        }
-
-        gate_status, gate_blocks = quality_gate(row, quality)
-        quality["quality_gate_status"] = gate_status
-        quality["quality_gate_blocks"] = gate_blocks
-
-        if gate_status == "QUALITY_APPROVED":
-            approved_count += 1
-        if gate_status == "QUALITY_BLOCKED":
-            blocked_count += 1
-
-        enriched = dict(row)
-        enriched["advanced_quality"] = quality
-        enriched["quality_gate_status"] = gate_status
-        enriched["quality_gate_blocks"] = gate_blocks
-        enriched_rows.append(enriched)
-
-    enriched_rows.sort(
-        key=lambda item: (
-            1 if item.get("quality_gate_status") == "QUALITY_APPROVED" else 0,
-            float((item.get("advanced_quality") or {}).get("advanced_quality_score") or 0),
-            float(item.get("score") or 0),
-        ),
-        reverse=True,
+    raw_quality = (
+        spread_score
+        + liquidity_score
+        + rvol_score
+        + vwap_score
+        + anti_score
+        + pullback_score
+        + breakout_score
+        + sympathy_score
+        + max(regime["market_regime_score"], -10)
+        - (halt_score * 0.25)
     )
 
+    quality = {
+        "advanced_quality_score": round(clamp(raw_quality, 0, 100), 2),
+        "spread_pct": round(spread, 4) if spread is not None else None,
+        "dollar_volume": round(dollar_vol, 2) if dollar_vol is not None else None,
+        "spread_score": round(spread_score, 2),
+        "liquidity_score": round(liquidity_score, 2),
+        "rvol_quality_score": round(rvol_score, 2),
+        "vwap_control_score": round(vwap_score, 2),
+        "anti_chase_score": round(anti_score, 2),
+        "pullback_quality_score": round(pullback_score, 2),
+        "breakout_compression_score": round(breakout_score, 2),
+        "sympathy_score": round(sympathy_score, 2),
+        "theme": theme,
+        "halt_risk_score": round(halt_score, 2),
+        "market_regime": regime["regime"],
+        "reasons": (
+            spread_reasons
+            + liquidity_reasons
+            + rvol_reasons
+            + vwap_reasons
+            + anti_reasons
+            + pullback_reasons
+            + breakout_reasons
+            + halt_reasons
+        )[:20],
+        "hard_blocks": anti_blocks + halt_blocks,
+    }
+
+    gate_status, gate_blocks = quality_gate(row, quality)
+    quality["quality_gate_status"] = gate_status
+    quality["quality_gate_blocks"] = gate_blocks
+
+    enriched = dict(row)
+    enriched["advanced_quality"] = quality
+    enriched["quality_gate_status"] = gate_status
+    enriched["quality_gate_blocks"] = gate_blocks
+
+    return enriched
+
+
+def _construct_payloads(
+    dashboard_payload: Dict[str, Any],
+    signal_source: str,
+    enriched_rows: List[Dict[str, Any]],
+    market_by_symbol: Dict[str, Any],
+    regime: Dict[str, Any],
+    themes: Dict[str, Dict[str, Any]],
+    approved_count: int,
+    blocked_count: int,
+) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     dashboard_payload["rows"] = enriched_rows
     dashboard_payload["schema_version"] = "signal_dashboard_quality_enriched_v1"
     dashboard_payload["quality_source"] = "advanced_signal_quality_v1"
@@ -583,6 +570,47 @@ def build_quality_payload() -> Dict[str, Any]:
     }
 
     return dashboard_payload, quality_payload
+
+
+def build_quality_payload() -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    dashboard_payload, signal_source = load_best_signals()
+    rows = extract_rows(dashboard_payload)
+    market_by_symbol = load_market_rows()
+    regime = market_regime(rows, market_by_symbol)
+    themes = theme_scores(rows)
+
+    enriched_rows: List[Dict[str, Any]] = []
+    approved_count = 0
+    blocked_count = 0
+
+    for row in rows:
+        enriched = enrich_row(row, market_by_symbol, themes, regime)
+        enriched_rows.append(enriched)
+
+        if enriched["quality_gate_status"] == "QUALITY_APPROVED":
+            approved_count += 1
+        elif enriched["quality_gate_status"] == "QUALITY_BLOCKED":
+            blocked_count += 1
+
+    enriched_rows.sort(
+        key=lambda item: (
+            1 if item.get("quality_gate_status") == "QUALITY_APPROVED" else 0,
+            float((item.get("advanced_quality") or {}).get("advanced_quality_score") or 0),
+            float(item.get("score") or 0),
+        ),
+        reverse=True,
+    )
+
+    return _construct_payloads(
+        dashboard_payload,
+        signal_source,
+        enriched_rows,
+        market_by_symbol,
+        regime,
+        themes,
+        approved_count,
+        blocked_count,
+    )
 
 
 def export_quality() -> Dict[str, Any]:
