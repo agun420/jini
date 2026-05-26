@@ -93,49 +93,58 @@ def quality_strength(quality: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-def build_readiness() -> Dict[str, Any]:
-    adaptive = read_json(ADAPTIVE_GUARD_PATH, {})
-    plan = read_json(PAPER_ORDER_PLAN_PATH, {})
-    outcomes = read_json(OUTCOMES_PATH, {})
-    quality = read_json(QUALITY_PATH, {})
-
+def _get_settings() -> Dict[str, Any]:
     account_type = os.getenv("ACCOUNT_TYPE", "unknown").lower().strip()
     if account_type not in {"cash", "margin", "unknown"}:
         account_type = "unknown"
 
-    manual_approval_required = os.getenv("MANUAL_APPROVAL_REQUIRED", "true").lower() == "true"
-    kill_switch = os.getenv("ENGINE_KILL_SWITCH", "false").lower() == "true"
+    return {
+        "account_type": account_type,
+        "manual_approval_required": os.getenv("MANUAL_APPROVAL_REQUIRED", "true").lower() == "true",
+        "engine_kill_switch": os.getenv("ENGINE_KILL_SWITCH", "false").lower() == "true",
+        "daily_loss_cap": safe_float(os.getenv("DAILY_LOSS_CAP_DOLLARS"), 150.0) or 150.0,
+        "max_real_trade_notional": safe_float(os.getenv("MAX_REAL_TRADE_NOTIONAL"), 250.0) or 250.0,
+        "min_paper_outcomes_before_real": int(os.getenv("MIN_PAPER_OUTCOMES_BEFORE_REAL", "50")),
+        "settled_cash": safe_float(os.getenv("SETTLED_CASH")),
+    }
 
-    daily_loss_cap = safe_float(os.getenv("DAILY_LOSS_CAP_DOLLARS"), 150.0) or 150.0
-    max_real_trade_notional = safe_float(os.getenv("MAX_REAL_TRADE_NOTIONAL"), 250.0) or 250.0
 
-    guard = adaptive.get("guard") if isinstance(adaptive.get("guard"), dict) else {}
-    order_plan = plan.get("order_plan") if isinstance(plan.get("order_plan"), dict) else {}
-    account_snapshot = plan.get("account_snapshot") if isinstance(plan.get("account_snapshot"), dict) else {}
+def _calculate_open_unrealized(positions: List[Any]) -> float:
+    open_unrealized = 0.0
+    for pos in positions:
+        if isinstance(pos, dict):
+            open_unrealized += safe_float(pos.get("unrealized_pl"), 0.0) or 0.0
+    return open_unrealized
 
-    outcome_stats = outcome_strength(outcomes)
-    quality_stats = quality_strength(quality)
 
+def _evaluate_rules(
+    settings: Dict[str, Any],
+    guard: Dict[str, Any],
+    order_plan: Dict[str, Any],
+    plan: Dict[str, Any],
+    outcome_stats: Dict[str, Any],
+    quality_stats: Dict[str, Any],
+    open_unrealized: float,
+) -> tuple[List[str], List[str]]:
     blocks: List[str] = []
     warnings: List[str] = []
 
-    if kill_switch:
+    if settings["engine_kill_switch"]:
         blocks.append("engine_kill_switch_enabled")
 
-    if manual_approval_required:
+    if settings["manual_approval_required"]:
         blocks.append("manual_approval_required_for_real_money")
 
-    if account_type == "unknown":
+    if settings["account_type"] == "unknown":
         blocks.append("account_type_unknown")
-    elif account_type == "cash":
+    elif settings["account_type"] == "cash":
         # Alpaca paper account may not expose true settled cash cleanly.
         # For real cash trading, block unless explicitly supplied.
-        settled_cash = safe_float(os.getenv("SETTLED_CASH"))
-        if settled_cash is None:
+        if settings["settled_cash"] is None:
             blocks.append("cash_account_settled_cash_unknown_t1_guard")
-        elif settled_cash < max_real_trade_notional:
+        elif settings["settled_cash"] < settings["max_real_trade_notional"]:
             blocks.append("settled_cash_below_max_real_trade_notional")
-    elif account_type == "margin":
+    elif settings["account_type"] == "margin":
         warnings.append("margin_account_requires_intraday_margin_monitoring")
 
     if guard.get("allow_new_entries") is False:
@@ -150,7 +159,7 @@ def build_readiness() -> Dict[str, Any]:
     if plan.get("submission", {}).get("submitted"):
         warnings.append("paper_order_submission_detected_review_required")
 
-    if outcome_stats["usable_outcomes"] < int(os.getenv("MIN_PAPER_OUTCOMES_BEFORE_REAL", "50")):
+    if outcome_stats["usable_outcomes"] < settings["min_paper_outcomes_before_real"]:
         blocks.append("not_enough_paper_outcomes_for_real_money")
 
     if outcome_stats["win_rate"] is not None and outcome_stats["win_rate"] < 0.45:
@@ -162,14 +171,39 @@ def build_readiness() -> Dict[str, Any]:
     if quality_stats["quality_approved"] == 0:
         warnings.append("no_quality_approved_signals")
 
-    positions = plan.get("positions") if isinstance(plan.get("positions"), list) else []
-    open_unrealized = 0.0
-    for pos in positions:
-        if isinstance(pos, dict):
-            open_unrealized += safe_float(pos.get("unrealized_pl"), 0.0) or 0.0
-
-    if open_unrealized <= -abs(daily_loss_cap):
+    if open_unrealized <= -abs(settings["daily_loss_cap"]):
         blocks.append("open_unrealized_loss_exceeds_daily_loss_cap")
+
+    return blocks, warnings
+
+
+def build_readiness() -> Dict[str, Any]:
+    adaptive = read_json(ADAPTIVE_GUARD_PATH, {})
+    plan = read_json(PAPER_ORDER_PLAN_PATH, {})
+    outcomes = read_json(OUTCOMES_PATH, {})
+    quality = read_json(QUALITY_PATH, {})
+
+    settings = _get_settings()
+
+    guard = adaptive.get("guard") if isinstance(adaptive.get("guard"), dict) else {}
+    order_plan = plan.get("order_plan") if isinstance(plan.get("order_plan"), dict) else {}
+    account_snapshot = plan.get("account_snapshot") if isinstance(plan.get("account_snapshot"), dict) else {}
+
+    outcome_stats = outcome_strength(outcomes)
+    quality_stats = quality_strength(quality)
+
+    positions = plan.get("positions") if isinstance(plan.get("positions"), list) else []
+    open_unrealized = _calculate_open_unrealized(positions)
+
+    blocks, warnings = _evaluate_rules(
+        settings=settings,
+        guard=guard,
+        order_plan=order_plan,
+        plan=plan,
+        outcome_stats=outcome_stats,
+        quality_stats=quality_stats,
+        open_unrealized=open_unrealized,
+    )
 
     readiness_status = "NOT_READY"
     if not blocks:
@@ -184,12 +218,12 @@ def build_readiness() -> Dict[str, Any]:
         "blocks": blocks,
         "warnings": warnings,
         "settings": {
-            "account_type": account_type,
-            "manual_approval_required": manual_approval_required,
-            "engine_kill_switch": kill_switch,
-            "daily_loss_cap_dollars": daily_loss_cap,
-            "max_real_trade_notional": max_real_trade_notional,
-            "min_paper_outcomes_before_real": int(os.getenv("MIN_PAPER_OUTCOMES_BEFORE_REAL", "50")),
+            "account_type": settings["account_type"],
+            "manual_approval_required": settings["manual_approval_required"],
+            "engine_kill_switch": settings["engine_kill_switch"],
+            "daily_loss_cap_dollars": settings["daily_loss_cap"],
+            "max_real_trade_notional": settings["max_real_trade_notional"],
+            "min_paper_outcomes_before_real": settings["min_paper_outcomes_before_real"],
         },
         "adaptive_guard": {
             "risk_mode": guard.get("risk_mode"),
