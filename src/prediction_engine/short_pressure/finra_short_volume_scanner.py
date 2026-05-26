@@ -5,7 +5,6 @@ import csv
 import json
 import os
 import re
-import time
 import urllib.request
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
@@ -65,8 +64,7 @@ def write_json(path: Path, payload: Any) -> None:
 
 def safe_symbol(value: Any) -> str:
     text = str(value or "").upper().strip()
-    text = re.sub(r"[^A-Z0-9.\-]", "", text)
-    return text
+    return re.sub(r"[^A-Z0-9.\-]", "", text)
 
 
 def extract_rows(payload: Any) -> List[Dict[str, Any]]:
@@ -94,10 +92,9 @@ def extract_symbols() -> List[str]:
 
 
 def recent_weekdays(max_days: int = 7) -> List[str]:
-    # FINRA files publish by trading date. Try recent weekdays because today's file may not exist yet.
+    # FINRA files publish by trading date. Try recent weekdays — today's file may not exist yet.
     out: List[str] = []
-    now = datetime.now(timezone.utc).date()
-    cursor = now
+    cursor = datetime.now(timezone.utc).date()
     while len(out) < max_days:
         if cursor.weekday() < 5:
             out.append(cursor.strftime("%Y%m%d"))
@@ -173,20 +170,25 @@ def load_latest_finra_rows() -> Tuple[Optional[str], Dict[str, Dict[str, Any]], 
         url = FINRA_REGSHO_BASE.format(date=date)
         return date, fetch_url(url)
 
+    # Fetch all dates concurrently, then pick the most-recent one with data.
     with concurrent.futures.ThreadPoolExecutor(max_workers=7) as executor:
-        future_to_date = {d: executor.submit(fetch_for_date, d) for d in dates}
+        futures = {executor.submit(fetch_for_date, d): d for d in dates}
+        results: Dict[str, Optional[str]] = {}
+        for future in concurrent.futures.as_completed(futures):
+            date, text = future.result()
+            results[date] = text
 
-        for date in dates:
-            future = future_to_date[date]
-            _, text = future.result()
-            if not text:
-                notes.append(f"unavailable:{date}")
-                continue
+    for date in dates:
+        text = results.get(date)
+        if not text:
+            notes.append(f"unavailable:{date}")
+            continue
         rows = parse_finra_pipe_file(text, date)
         if rows:
             save_cached_finra(date, rows)
             notes.append(f"loaded:{date}")
             return date, rows, notes
+        notes.append(f"empty:{date}")
 
     cache = load_cached_finra()
     cached_rows = cache.get("rows") if isinstance(cache.get("rows"), dict) else {}
@@ -199,7 +201,9 @@ def load_latest_finra_rows() -> Tuple[Optional[str], Dict[str, Dict[str, Any]], 
     return None, {}, notes
 
 
-def score_short_pressure(short_volume: Optional[int], total_volume: Optional[int]) -> Tuple[Optional[float], float, str, List[str]]:
+def score_short_pressure(
+    short_volume: Optional[int], total_volume: Optional[int]
+) -> Tuple[Optional[float], float, str, List[str]]:
     notes: List[str] = []
     if not total_volume or total_volume <= 0 or short_volume is None:
         return None, 0.0, "NO_DATA", ["missing_finra_volume"]

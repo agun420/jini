@@ -1,24 +1,23 @@
 from __future__ import annotations
 
-import math
-from datetime import datetime, timezone
+from dataclasses import dataclass
 from typing import Any
 
-
-def utc_now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat()
+from prediction_engine.utils import safe_float
 
 
-def safe_float(value: Any, default: float = 0.0) -> float:
-    try:
-        if value is None or value == "":
-            return default
-        x = float(value)
-        if math.isnan(x) or math.isinf(x):
-            return default
-        return x
-    except Exception:
-        return default
+@dataclass
+class GateConfig:
+    """Threshold configuration for StrictTradeGateV3."""
+
+    min_final_score: float = 70.0
+    min_runner_score: float = 60.0
+    min_entry_score: float = 55.0
+    max_danger_score: float = 50.0
+    price_min: float = 10.0
+    price_max: float = 75.0
+    max_spread_pct: float = 0.025
+    max_quote_age_sec: float = 60.0
 
 
 class StrictTradeGateV3:
@@ -31,27 +30,17 @@ class StrictTradeGateV3:
     It cannot enable live trading.
     """
 
-    def __init__(
-        self,
-        min_final_score: float = 70.0,
-        min_runner_score: float = 60.0,
-        min_entry_score: float = 55.0,
-        max_danger_score: float = 50.0,
-        price_min: float = 10.0,
-        price_max: float = 75.0,
-        max_spread_pct: float = 0.025,
-        max_quote_age_sec: float = 60.0,
-    ):
-        self.min_final_score = min_final_score
-        self.min_runner_score = min_runner_score
-        self.min_entry_score = min_entry_score
-        self.max_danger_score = max_danger_score
-        self.price_min = price_min
-        self.price_max = price_max
-        self.max_spread_pct = max_spread_pct
-        self.max_quote_age_sec = max_quote_age_sec
+    # Package 49 validated setup — do not change without new walk-forward evidence.
+    _VALIDATED_SETUP = "price_10_to_75_reclaim_5bar_high_light"
+    _TARGET_PCT = 0.6
+    _STOP_PCT = 0.8
+    _HORIZON_MINUTES = 30
+
+    def __init__(self, config: GateConfig | None = None) -> None:
+        self.config = config or GateConfig()
 
     def evaluate_row(self, row: dict[str, Any]) -> dict[str, Any]:
+        cfg = self.config
         ticker = str(row.get("ticker") or row.get("symbol") or "").upper().strip()
 
         price = safe_float(row.get("price"))
@@ -70,49 +59,35 @@ class StrictTradeGateV3:
 
         if not ticker:
             blockers.append("missing_ticker")
-
         if price <= 0:
             blockers.append("missing_price")
-
-        if price < self.price_min or price > self.price_max:
+        if price < cfg.price_min or price > cfg.price_max:
             blockers.append("outside_validated_price_regime")
-
-        if final_score < self.min_final_score:
+        if final_score < cfg.min_final_score:
             blockers.append("final_score_below_gate")
-
-        if runner < self.min_runner_score:
+        if runner < cfg.min_runner_score:
             blockers.append("runner_score_below_gate")
-
-        if entry < self.min_entry_score:
+        if entry < cfg.min_entry_score:
             blockers.append("entry_score_below_gate")
-
-        if danger > self.max_danger_score:
+        if danger > cfg.max_danger_score:
             blockers.append("danger_score_above_gate")
 
         if spread < 0:
             warnings.append("spread_missing")
-        elif spread > self.max_spread_pct:
+        elif spread > cfg.max_spread_pct:
             blockers.append("spread_too_wide")
 
         if quote_age < 0:
             warnings.append("quote_age_missing")
-        elif quote_age > self.max_quote_age_sec:
+        elif quote_age > cfg.max_quote_age_sec:
             blockers.append("quote_stale")
 
         if day_move <= 0:
             warnings.append("day_move_not_positive")
-
         if rvol < 1.0:
             warnings.append("relative_volume_below_1")
-
         if vwap_dist < 0:
             warnings.append("below_vwap")
-
-        # Current evidence gate: Package 49 validated $10-$75 reclaim style only.
-        validated_setup = "price_10_to_75_reclaim_5bar_high_light"
-        target_pct = 0.6
-        stop_pct = 0.8
-        horizon_minutes = 30
 
         if blockers:
             gate_status = "BUY_ORDER_ALERT_BLOCKED"
@@ -130,10 +105,10 @@ class StrictTradeGateV3:
                 "BUY_ORDER_ALERT_READY",
                 "BUY_ORDER_ALERT_READY_STRONG",
             },
-            "validated_setup_v3": validated_setup,
-            "validated_target_pct_v3": target_pct,
-            "validated_stop_pct_v3": stop_pct,
-            "validated_horizon_minutes_v3": horizon_minutes,
+            "validated_setup_v3": self._VALIDATED_SETUP,
+            "validated_target_pct_v3": self._TARGET_PCT,
+            "validated_stop_pct_v3": self._STOP_PCT,
+            "validated_horizon_minutes_v3": self._HORIZON_MINUTES,
             "trade_eligible": False,
             "paper_order_allowed": False,
             "live_order_allowed": False,

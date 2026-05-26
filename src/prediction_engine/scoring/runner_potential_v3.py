@@ -1,41 +1,51 @@
 from __future__ import annotations
 
-import math
-from datetime import datetime, timezone
 from typing import Any
 
-
-def utc_now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat()
-
-
-def safe_float(value: Any, default: float = 0.0) -> float:
-    try:
-        if value is None or value == "":
-            return default
-        x = float(value)
-        if math.isnan(x) or math.isinf(x):
-            return default
-        return x
-    except Exception:
-        return default
-
-
-def clamp(value: float, low: float = 0.0, high: float = 100.0) -> float:
-    return max(low, min(high, value))
+from prediction_engine.utils import clamp, safe_float
 
 
 class RunnerPotentialScorerV3:
     """
     Research-only runner potential scorer.
 
-    Answers:
-    Can this stock keep running?
+    Answers: Can this stock keep running?
 
     Does not submit orders.
     Does not enable paper trading.
     Does not enable live trading.
     """
+
+    # ── Component scorers ────────────────────────────────────────────────
+
+    def _rvol_score(self, rvol: float) -> float:
+        return clamp((rvol / 5.0) * 20.0, 0, 20)
+
+    def _day_move_score(self, day_move: float) -> float:
+        return clamp((day_move / 20.0) * 15.0, 0, 15)
+
+    def _hod_pressure_score(self, hod_dist: float) -> float:
+        if hod_dist >= -1.0:
+            return 10.0
+        if hod_dist >= -3.0:
+            return 7.0
+        if hod_dist >= -6.0:
+            return 4.0
+        return 1.0
+
+    def _vwap_position_score(self, vwap_dist: float, warnings: list[str]) -> float:
+        if 0 <= vwap_dist <= 4:
+            return 10.0
+        if vwap_dist <= 8:
+            warnings.append("vwap_extension_risk")
+            return 6.0
+        if vwap_dist < 0:
+            warnings.append("below_vwap")
+            return 2.0
+        warnings.append("high_vwap_extension")
+        return 3.0
+
+    # ── Public API ───────────────────────────────────────────────────────
 
     def score_row(self, row: dict[str, Any]) -> dict[str, Any]:
         ticker = str(row.get("ticker") or row.get("symbol") or "").upper().strip()
@@ -56,52 +66,27 @@ class RunnerPotentialScorerV3:
 
         if not ticker:
             blockers.append("missing_ticker")
-
         if price <= 0:
             blockers.append("missing_price")
-
         if day_move <= 0:
             warnings.append("day_move_not_positive")
-
         if rvol < 1:
             warnings.append("relative_volume_below_1")
 
-        # Components. Total max = 100.
-        relative_volume_score = clamp((rvol / 5.0) * 20.0, 0, 20)
-        day_move_score = clamp((day_move / 20.0) * 15.0, 0, 15)
+        relative_volume_score = self._rvol_score(rvol)
+        day_move_score = self._day_move_score(day_move)
         catalyst_score = 15.0 if catalyst else 4.0
         liquidity_score = clamp((dollar_volume / 25_000_000.0) * 10.0, 0, 10)
-
-        # Near HOD is positive. Too far below HOD is weaker.
-        if hod_dist >= -1.0:
-            hod_pressure_score = 10.0
-        elif hod_dist >= -3.0:
-            hod_pressure_score = 7.0
-        elif hod_dist >= -6.0:
-            hod_pressure_score = 4.0
-        else:
-            hod_pressure_score = 1.0
+        hod_pressure_score = self._hod_pressure_score(hod_dist)
 
         momentum_sum = mom1 + mom3 + mom5
         volume_acceleration_score = clamp((momentum_sum / 6.0) * 10.0, 0, 10)
 
-        # Above VWAP is useful, but too extended can be risky.
-        if 0 <= vwap_dist <= 4:
-            vwap_position_score = 10.0
-        elif 4 < vwap_dist <= 8:
-            vwap_position_score = 6.0
-            warnings.append("vwap_extension_risk")
-        elif vwap_dist < 0:
-            vwap_position_score = 2.0
-            warnings.append("below_vwap")
-        else:
-            vwap_position_score = 3.0
-            warnings.append("high_vwap_extension")
+        vwap_position_score = self._vwap_position_score(vwap_dist, warnings)
 
-        prior_runner_behavior_score = safe_float(row.get("prior_runner_score"), 5.0)
-        prior_runner_behavior_score = clamp(prior_runner_behavior_score, 0, 10)
+        prior_runner_behavior_score = clamp(safe_float(row.get("prior_runner_score"), 5.0), 0, 10)
 
-        runner_potential_score = (
+        runner_potential_score = clamp(
             relative_volume_score
             + day_move_score
             + catalyst_score
@@ -111,8 +96,6 @@ class RunnerPotentialScorerV3:
             + vwap_position_score
             + prior_runner_behavior_score
         )
-
-        runner_potential_score = clamp(runner_potential_score)
 
         if runner_potential_score >= 80 and not blockers:
             status = "RUNNER_STRONG"

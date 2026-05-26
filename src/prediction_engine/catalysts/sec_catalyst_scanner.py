@@ -1,11 +1,12 @@
 from __future__ import annotations
 
+import concurrent.futures
 import gzip
 import json
 import os
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional, Tuple
 from urllib.request import Request, urlopen
 
 
@@ -28,6 +29,8 @@ SEC_TICKER_URL = "https://www.sec.gov/files/company_tickers.json"
 
 CATALYST_FORMS = {"8-K", "10-Q", "10-K", "S-1", "S-3", "424B", "424B5", "DEF 14A", "SC 13G", "SC 13D"}
 RISK_FORMS = {"S-1", "S-3", "424B", "424B5"}
+
+_MAX_CONCURRENT_SUBMISSIONS = 10
 
 
 def now_utc_iso() -> str:
@@ -52,13 +55,11 @@ def write_json(path: Path, payload: Any) -> None:
 def extract_rows(payload: Any) -> List[Dict[str, Any]]:
     if isinstance(payload, list):
         return [x for x in payload if isinstance(x, dict)]
-
     if isinstance(payload, dict):
         for key in ["rows", "signals", "candidates", "data", "items"]:
             value = payload.get(key)
             if isinstance(value, list):
                 return [x for x in value if isinstance(x, dict)]
-
     return []
 
 
@@ -77,10 +78,7 @@ def load_symbols(limit: int = 50) -> List[str]:
 
 
 def sec_headers() -> Dict[str, str]:
-    user_agent = os.getenv("SEC_USER_AGENT", "").strip()
-    if not user_agent:
-        user_agent = "scanner-engine contact@example.com"
-
+    user_agent = os.getenv("SEC_USER_AGENT", "").strip() or "scanner-engine contact@example.com"
     return {
         "User-Agent": user_agent,
         "Accept-Encoding": "gzip, deflate",
@@ -93,24 +91,19 @@ def fetch_url_bytes(url: str) -> bytes:
     with urlopen(req, timeout=30) as resp:
         raw = resp.read()
         encoding = resp.headers.get("Content-Encoding", "").lower()
-
     if encoding == "gzip" or raw[:2] == b"\x1f\x8b":
         return gzip.decompress(raw)
-
     return raw
 
 
 def fetch_json(url: str) -> Any:
     raw = fetch_url_bytes(url)
-    text = raw.decode("utf-8", errors="replace")
-    return json.loads(text)
+    return json.loads(raw.decode("utf-8", errors="replace"))
 
 
 def load_ticker_map() -> Dict[str, str]:
     payload = fetch_json(SEC_TICKER_URL)
-
     ticker_to_cik: Dict[str, str] = {}
-
     if isinstance(payload, dict):
         for _, item in payload.items():
             if not isinstance(item, dict):
@@ -119,13 +112,11 @@ def load_ticker_map() -> Dict[str, str]:
             cik = item.get("cik_str")
             if ticker and cik:
                 ticker_to_cik[ticker] = str(cik).zfill(10)
-
     return ticker_to_cik
 
 
 def fetch_company_submissions(cik: str) -> Dict[str, Any]:
-    url = f"https://data.sec.gov/submissions/CIK{cik}.json"
-    return fetch_json(url)
+    return fetch_json(f"https://data.sec.gov/submissions/CIK{cik}.json")
 
 
 def summarize_filings(symbol: str, cik: str, submissions: Dict[str, Any]) -> Dict[str, Any]:
@@ -145,7 +136,6 @@ def summarize_filings(symbol: str, cik: str, submissions: Dict[str, Any]) -> Dic
 
         if form in CATALYST_FORMS:
             catalyst_flags.append(form)
-
         if form in RISK_FORMS:
             risk_flags.append(f"possible_dilution_or_offering:{form}")
 
@@ -171,10 +161,19 @@ def summarize_filings(symbol: str, cik: str, submissions: Dict[str, Any]) -> Dic
     }
 
 
+def _fetch_symbol_result(symbol: str, cik: str) -> Tuple[str, Optional[Dict[str, Any]], Optional[str]]:
+    """Fetch and summarize SEC filings for one symbol. Returns (symbol, result, error)."""
+    try:
+        submissions = fetch_company_submissions(cik)
+        return symbol, summarize_filings(symbol, cik, submissions), None
+    except Exception as exc:
+        return symbol, None, str(exc)
+
+
 def run_sec_catalyst_scanner() -> Dict[str, Any]:
     generated_at = now_utc_iso()
-    errors = []
-    rows = []
+    errors: List[str] = []
+    rows: List[Dict[str, Any]] = []
 
     symbols = load_symbols(limit=50)
 
@@ -184,9 +183,10 @@ def run_sec_catalyst_scanner() -> Dict[str, Any]:
         ticker_map = {}
         errors.append(f"Failed to load SEC ticker map: {exc}")
 
+    # Separate symbols with/without a known CIK before fetching.
+    to_fetch: List[Tuple[str, str]] = []
     for symbol in symbols:
         cik = ticker_map.get(symbol)
-
         if not cik:
             rows.append({
                 "ticker": symbol,
@@ -198,18 +198,32 @@ def run_sec_catalyst_scanner() -> Dict[str, Any]:
                 "risk_flags": [],
                 "filings": [],
             })
-            continue
+        else:
+            to_fetch.append((symbol, cik))
 
-        try:
-            submissions = fetch_company_submissions(cik)
-            rows.append(summarize_filings(symbol, cik, submissions))
-        except Exception as exc:
-            errors.append(f"{symbol}: {exc}")
+    # Fetch all company submissions concurrently — replaces the serial N+1 loop.
+    with concurrent.futures.ThreadPoolExecutor(max_workers=_MAX_CONCURRENT_SUBMISSIONS) as executor:
+        futures = {
+            executor.submit(_fetch_symbol_result, symbol, cik): symbol
+            for symbol, cik in to_fetch
+        }
+        results: Dict[str, Tuple[Optional[Dict[str, Any]], Optional[str]]] = {}
+        for future in concurrent.futures.as_completed(futures):
+            symbol, result, error = future.result()
+            results[symbol] = (result, error)
+
+    # Preserve input order.
+    for symbol, cik in to_fetch:
+        result, error = results.get(symbol, (None, "future_missing"))
+        if result is not None:
+            rows.append(result)
+        else:
+            errors.append(f"{symbol}: {error}")
             rows.append({
                 "ticker": symbol,
                 "sec_status": "ERROR",
                 "cik": cik,
-                "error": str(exc),
+                "error": str(error),
                 "latest_form": None,
                 "latest_filing_date": None,
                 "catalyst_forms": [],
