@@ -928,7 +928,10 @@ async function init(){
   set("pkg100",sv(h111.pkg100_score||pkg100H.score,"90"));
   set("rowCount",sv(preSnap.rows_enriched||80,"80"));
   const wlSrc=document.getElementById("wlSource");
-  if(wlSrc)wlSrc.textContent=sv(dataFeedH.data_source,"v3_enriched_rows");
+  // Show seed mode: paid_primary = fresh scanner, legacy_fallback = stale seeds
+  const seedMode=sv(predictor.health?.seed_mode||dataFeedH.data_source,"unknown");
+  const seedLabel=seedMode==="paid_primary"?"✅ paid scanner (fresh)":seedMode==="legacy_fallback"?"⚠️ legacy seeds (stale)":seedMode;
+  if(wlSrc)wlSrc.textContent=seedLabel;
 
   // ── EOD panel ──
   set("ePreHit",Number.isFinite(Number(eod.prebreakout_target_hit_rate_pct))?eod.prebreakout_target_hit_rate_pct.toFixed(1)+"%":"—");

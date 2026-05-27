@@ -11,10 +11,14 @@ from typing import Any
 DOCS = Path("docs/data/prediction_engine")
 STATE = Path("state/prediction_engine")
 
-SOURCE_FILES = [
-    # Paid scanner output is the freshest source — loaded first so its tickers
-    # take priority over legacy seed files.  Missing file is silently skipped.
-    DOCS / "alpaca_paid_market_candidates.json",
+# Paid scanner is the authoritative real-time source.
+# When fresh it is used exclusively — legacy files are skipped entirely so
+# stale tickers from previous sessions never pollute the watchlist.
+PAID_CANDIDATES_FILE = DOCS / "alpaca_paid_market_candidates.json"
+PAID_CANDIDATES_MAX_AGE_HOURS = 6  # treat as fresh if generated within this window
+
+# Legacy seeds — only consulted when paid scanner is absent or stale.
+LEGACY_SOURCE_FILES = [
     DOCS / "operator_dashboard.json",
     DOCS / "signal_dashboard_score_v2.json",
     DOCS / "buy_order_alert_mode.json",
@@ -94,34 +98,87 @@ def row_price(row: dict[str, Any]) -> float:
     return 0.0
 
 
-def collect_seed_rows() -> list[dict[str, Any]]:
-    by_symbol: dict[str, dict[str, Any]] = {}
+def _paid_candidates_age_hours(payload: Any) -> float:
+    """Return how many hours ago the paid candidates file was generated.
+    Returns 999 when absent or unparseable so callers treat it as stale."""
+    if not isinstance(payload, dict):
+        return 999.0
+    gen_at = payload.get("generated_at") or ""
+    if not gen_at:
+        return 999.0
+    try:
+        ts = datetime.fromisoformat(gen_at.replace("Z", "+00:00"))
+        return (datetime.now(timezone.utc) - ts).total_seconds() / 3600
+    except Exception:
+        return 999.0
 
-    for path in SOURCE_FILES:
+
+def collect_seed_rows() -> tuple[list[dict[str, Any]], str]:
+    """Return ``(seed_rows, seed_mode)``.
+
+    *seed_mode* is ``"paid_primary"`` when the paid scanner file is fresh,
+    or ``"legacy_fallback"`` when we had to fall back to the old seed files.
+
+    Paid-primary mode:
+    - Uses ONLY the paid scanner candidates (no legacy files).
+    - Sorted by day_change_pct desc (biggest intraday movers first).
+    - This guarantees a fresh watchlist every morning the paid scanner runs.
+
+    Legacy-fallback mode:
+    - Used when paid scanner is missing or older than PAID_CANDIDATES_MAX_AGE_HOURS.
+    - Merges all LEGACY_SOURCE_FILES, sorted by price desc (legacy behaviour).
+    """
+    paid_payload = read_json(PAID_CANDIDATES_FILE, {})
+    paid_age = _paid_candidates_age_hours(paid_payload)
+
+    if paid_age <= PAID_CANDIDATES_MAX_AGE_HOURS:
+        # ── PAID PRIMARY ────────────────────────────────────────────────────
+        # Skip all legacy seed files — only enrich today's scanner picks.
+        by_symbol: dict[str, dict[str, Any]] = {}
+        for row in rows_from(paid_payload):
+            sym = ticker(row)
+            if not sym:
+                continue
+            base = dict(row)
+            base.setdefault("ticker", sym)
+            base["_sources"] = ["alpaca_paid_market_candidates.json"]
+            by_symbol[sym] = base
+
+        rows = list(by_symbol.values())
+        # Sort by intraday move magnitude first, then RVOL (biggest movers up top)
+        rows.sort(
+            key=lambda r: (
+                f(r.get("day_change_pct") or r.get("day_move_pct")),
+                f(r.get("relative_volume")),
+            ),
+            reverse=True,
+        )
+        return rows[:100], "paid_primary"
+
+    # ── LEGACY FALLBACK ──────────────────────────────────────────────────────
+    # Paid scanner is missing or stale — merge the old seed files.
+    by_symbol = {}
+    for path in LEGACY_SOURCE_FILES:
         payload = read_json(path, {})
         for row in rows_from(payload):
             sym = ticker(row)
             if not sym:
                 continue
-
             base = by_symbol.get(sym, {"ticker": sym, "_sources": []})
             if path.name not in base["_sources"]:
                 base["_sources"].append(path.name)
-
             for k, v in row.items():
                 if k not in base or base.get(k) in [None, "", 0, 0.0, -1, -1.0]:
                     if v not in [None, ""]:
                         base[k] = v
-
             p = row_price(row)
             if p > 0:
                 base["price"] = p
-
             by_symbol[sym] = base
 
     rows = list(by_symbol.values())
     rows.sort(key=lambda r: row_price(r), reverse=True)
-    return rows[:100]
+    return rows[:100], "legacy_fallback"
 
 
 def alpaca_keys() -> tuple[str | None, str | None]:
@@ -343,7 +400,7 @@ def build_prior_runner_scores() -> dict[str, float]:
 
 def main() -> None:
     generated_at = now_iso()
-    seed_rows = collect_seed_rows()
+    seed_rows, seed_mode = collect_seed_rows()
     seed_symbols = [ticker(r) for r in seed_rows if ticker(r)]
 
     # Always include index tickers so market regime filter has real index data.
@@ -356,6 +413,9 @@ def main() -> None:
 
     if not seed_symbols:
         blockers.append("no_seed_symbols_available")
+
+    if seed_mode == "legacy_fallback":
+        warnings.append("paid_scanner_stale_using_legacy_seeds")
 
     market, market_warnings, market_blockers = enrich_with_alpaca(symbols)
     warnings.extend(market_warnings)
@@ -419,9 +479,10 @@ def main() -> None:
         status = "WARN"
 
     health = {
-        "schema_version": "v3_enriched_rows_health_v2",
+        "schema_version": "v3_enriched_rows_health_v3",
         "generated_at": generated_at,
         "status": status,
+        "seed_mode": seed_mode,
         "blockers": blockers,
         "warnings": warnings,
         "rows": len(rows),
@@ -431,6 +492,8 @@ def main() -> None:
         "rows_with_spread": len(rows_with_spread),
         "rows_with_quote_age": len(rows_with_quote_age),
         "top_ticker": rows[0].get("ticker") if rows else None,
+        "top_day_move": rows[0].get("day_move_pct") if rows else None,
+        "top_rvol": rows[0].get("relative_volume") if rows else None,
         "order_submission": False,
         "live_trading": False,
     }
