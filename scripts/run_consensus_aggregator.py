@@ -45,10 +45,12 @@ CACHE_MAX_AGE_SEC     = 300       # use cached engine output if newer than 5 min
 ENGINE2_TIMEOUT_SEC   = 300
 ENGINE3_TIMEOUT_SEC   = 180
 
-ENRICHED_PATH = JINI_ROOT / "state" / "prediction_engine" / "v3_enriched_rows.json"
-OUTCOMES_LOG  = JINI_ROOT / "state" / "consensus_outcomes.jsonl"
-LIVE_PICKS    = JINI_ROOT / "state" / "consensus_picks_live.json"
-SCORECARD     = JINI_ROOT / "state" / "consensus_scorecard.json"
+ENRICHED_PATH     = JINI_ROOT / "state" / "prediction_engine" / "v3_enriched_rows.json"
+OUTCOMES_LOG      = JINI_ROOT / "state" / "consensus_outcomes.jsonl"
+LIVE_PICKS        = JINI_ROOT / "state" / "consensus_picks_live.json"
+SCORECARD         = JINI_ROOT / "state" / "consensus_scorecard.json"
+PREBREAKOUT_PATH  = JINI_ROOT / "state" / "prebreakout_candidates.json"
+PREBREAKOUT_MIN_PROB = 60.0   # only count prebreakout as a vote if prob >= this
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -231,6 +233,30 @@ def _adapter_engine3(use_cache: bool) -> tuple[str, set[str], str]:
     return "engine3", tickers, diag
 
 
+def _adapter_prebreakout() -> tuple[str, set[str], str]:
+    """High-probability pre-breakout candidates from run_prebreakout_scanner.py."""
+    if not PREBREAKOUT_PATH.exists():
+        return "prebreakout", set(), "SKIP — run scripts/run_prebreakout_scanner.py first"
+
+    age = _file_age_sec(PREBREAKOUT_PATH)
+    if age > 600:  # 10 min stale
+        diag_age = f"WARN: {age:.0f}s old"
+    else:
+        diag_age = f"{age:.0f}s old"
+
+    try:
+        data = json.loads(PREBREAKOUT_PATH.read_text(encoding="utf-8"))
+    except Exception as e:
+        return "prebreakout", set(), f"ERROR: {e}"
+
+    candidates = data.get("candidates", [])
+    tickers = {
+        _sym(c) for c in candidates
+        if float(c.get("explosion_prob", 0)) >= PREBREAKOUT_MIN_PROB and _sym(c)
+    }
+    return "prebreakout", tickers, f"{len(tickers)} candidates ≥{PREBREAKOUT_MIN_PROB} ({diag_age})"
+
+
 def _read_engine3_picks(picks_file: Path) -> set[str]:
     if not picks_file.exists():
         return set()
@@ -254,9 +280,10 @@ def _read_engine3_picks(picks_file: Path) -> set[str]:
 def _run_engines_parallel(use_cache: bool) -> dict[str, set[str]]:
     """Run jini, engine2, engine3 concurrently and collect their tickers."""
     tasks = {
-        "jini":    _adapter_jini,
-        "engine2": lambda: _adapter_engine2(use_cache),
-        "engine3": lambda: _adapter_engine3(use_cache),
+        "jini":        _adapter_jini,
+        "engine2":     lambda: _adapter_engine2(use_cache),
+        "engine3":     lambda: _adapter_engine3(use_cache),
+        "prebreakout": _adapter_prebreakout,
     }
     picks: dict[str, set[str]] = {}
     diags: dict[str, str]      = {}
