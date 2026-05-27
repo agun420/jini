@@ -785,7 +785,8 @@ function renderWatchlist(data){
 
     const feat=r.prebreakout_features_v3||{};
     const mom=Number(feat.momentum_total);
-    const momStr=Number.isFinite(mom)?`<span style="color:${mom>=0.5?"var(--green)":mom>=0?"var(--yellow)":"var(--red)";font-weight:700}">${mom>=0?"+":""}${mom.toFixed(2)}</span>`:"—";
+    const momColor=mom>=0.5?"var(--green)":mom>=0?"var(--yellow)":"var(--red)";
+    const momStr=Number.isFinite(mom)?`<span style="color:${momColor};font-weight:700">${mom>=0?"+":""}${mom.toFixed(2)}</span>`:"—";
 
     return`<tr style="${rowStyle}">
       <td class="ticker-cell">${isCandidate?"🔥 ":""}${sv(r.ticker)}</td>
