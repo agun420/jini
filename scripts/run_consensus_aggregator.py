@@ -86,12 +86,18 @@ def _adapter_engine2() -> set[str]:
 
     print("[engine2] running scanner…")
     try:
-        subprocess.run(
-            [sys.executable, str(scanner_script)],
+        result = subprocess.run(
+            [sys.executable, "-m", "src.scanner"],
             cwd=str(eng_dir),
+            capture_output=True,
+            text=True,
             timeout=120,
             check=False,
         )
+        if result.returncode != 0:
+            print(f"[engine2] exited {result.returncode}")
+        if result.stderr.strip():
+            print(f"[engine2] stderr: {result.stderr.strip()[:400]}")
     except subprocess.TimeoutExpired:
         print("[engine2] TIMEOUT after 120s")
         return set()
@@ -148,9 +154,14 @@ def _adapter_engine3() -> set[str]:
         print(f"[engine3] ERROR: {e}")
         return set()
 
+    if result.returncode != 0:
+        print(f"[engine3] exited {result.returncode}")
+    if result.stderr.strip():
+        print(f"[engine3] stderr: {result.stderr.strip()[:600]}")
+
     stdout = result.stdout.strip()
     if not stdout:
-        print("[engine3] no stdout — check engine3 logs")
+        print("[engine3] no stdout — likely crashed on startup (see stderr above)")
         return set()
 
     try:
