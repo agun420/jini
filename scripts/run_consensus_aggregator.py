@@ -22,6 +22,7 @@ Output:
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -30,7 +31,7 @@ from zoneinfo import ZoneInfo
 
 # ── Repo layout ────────────────────────────────────────────────────────────
 JINI_ROOT = Path(__file__).resolve().parent.parent
-E1V32     = JINI_ROOT.parent          # e.g. ~/Downloads/e1v32/
+E1V32     = JINI_ROOT.parent          # e.g. ~/
 
 ENGINE_DIRS = {
     "engine2": E1V32 / "engine2",
@@ -44,6 +45,23 @@ ENRICHED_MAX_AGE_H  = 4      # warn if enriched rows are older than this
 
 ENRICHED_PATH   = JINI_ROOT / "state" / "prediction_engine" / "v3_enriched_rows.json"
 OUTCOMES_LOG    = JINI_ROOT / "state" / "consensus_outcomes.jsonl"
+
+
+def _build_env() -> dict:
+    """Merge jini's .env into the current environment so subprocesses inherit API keys."""
+    env = os.environ.copy()
+    dotenv = JINI_ROOT / ".env"
+    if dotenv.exists():
+        for line in dotenv.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, _, val = line.partition("=")
+            key = key.strip()
+            val = val.strip().strip('"').strip("'")
+            if key and key not in env:   # don't override vars already set in shell
+                env[key] = val
+    return env
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -84,14 +102,15 @@ def _adapter_engine2() -> set[str]:
         print(f"[engine2] SKIP — src/scanner.py not found in {eng_dir}")
         return set()
 
-    print("[engine2] running scanner…")
+    print("[engine2] running scanner… (up to 300s)")
     try:
         result = subprocess.run(
             [sys.executable, "-m", "src.scanner"],
             cwd=str(eng_dir),
             capture_output=True,
             text=True,
-            timeout=120,
+            timeout=300,
+            env=_build_env(),
             check=False,
         )
         if result.returncode != 0:
@@ -99,7 +118,7 @@ def _adapter_engine2() -> set[str]:
         if result.stderr.strip():
             print(f"[engine2] stderr: {result.stderr.strip()[:1200]}")
     except subprocess.TimeoutExpired:
-        print("[engine2] TIMEOUT after 120s")
+        print("[engine2] TIMEOUT after 300s")
         return set()
     except Exception as e:
         print(f"[engine2] ERROR: {e}")
@@ -137,7 +156,7 @@ def _adapter_engine3() -> set[str]:
         print(f"[engine3] SKIP — src/main.py not found in {eng_dir}")
         return set()
 
-    print("[engine3] running main…")
+    print("[engine3] running main… (up to 180s)")
     try:
         result = subprocess.run(
             [sys.executable, str(main_script)],
@@ -145,6 +164,7 @@ def _adapter_engine3() -> set[str]:
             capture_output=True,
             text=True,
             timeout=180,
+            env=_build_env(),
             check=False,
         )
     except subprocess.TimeoutExpired:
