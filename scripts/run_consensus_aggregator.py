@@ -97,7 +97,7 @@ def _adapter_engine2() -> set[str]:
         if result.returncode != 0:
             print(f"[engine2] exited {result.returncode}")
         if result.stderr.strip():
-            print(f"[engine2] stderr: {result.stderr.strip()[:400]}")
+            print(f"[engine2] stderr: {result.stderr.strip()[:1200]}")
     except subprocess.TimeoutExpired:
         print("[engine2] TIMEOUT after 120s")
         return set()
@@ -157,7 +157,7 @@ def _adapter_engine3() -> set[str]:
     if result.returncode != 0:
         print(f"[engine3] exited {result.returncode}")
     if result.stderr.strip():
-        print(f"[engine3] stderr: {result.stderr.strip()[:600]}")
+        print(f"[engine3] stderr: {result.stderr.strip()[:1200]}")
 
     stdout = result.stdout.strip()
     if not stdout:
