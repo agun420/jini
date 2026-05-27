@@ -1,30 +1,26 @@
 {
-  "schema_version": "operator_dashboard_backtest_gated_v1",
-  "generated_at": "2026-05-25T16:17:50.317663+00:00",
-  "status": "WARN",
+  "schema_version": "operator_dashboard_backtest_gated_v2",
+  "generated_at": "2026-05-27T20:26:57.990323+00:00",
+  "status": "PASS",
   "health": {
-    "schema_version": "backtest_gate_health_v1",
-    "generated_at": "2026-05-25T16:17:50.317663+00:00",
-    "status": "WARN",
-    "gate_active": true,
-    "blockers": [
-      "profit_factor_below_1",
-      "target_hit_rate_not_above_stop_hit_rate",
-      "avg_return_negative"
-    ],
-    "warnings": [
-      "backtest_gate_active_trade_eligibility_blocked"
-    ],
+    "schema_version": "backtest_gate_health_v2",
+    "generated_at": "2026-05-27T20:26:57.990323+00:00",
+    "status": "PASS",
+    "gate_active": false,
+    "blockers": [],
+    "warnings": [],
     "rows": 27,
-    "gated_rows": 27,
-    "profit_factor": 0.4898,
-    "target_hit_rate_pct": 5.92,
-    "stop_hit_rate_pct": 22.65,
-    "avg_return_pct": -0.0367,
+    "gated_rows": 0,
+    "source": "v3_outcome_journals",
+    "total_closed_trades": 216,
+    "profit_factor": 1.5397,
+    "target_hit_rate_pct": 42.6393,
+    "stop_hit_rate_pct": 19.2007,
+    "avg_return_pct": 0.176881,
     "operator_health_status": "WARN",
     "order_submission": false,
     "live_trading": false,
-    "message": "Backtest gate blocks trade eligibility when historical evidence is weak. Rows remain visible as watch-only research signals."
+    "message": "Backtest gate uses V3 outcome journals (prebreakout + reactive) as the primary evidence source. Falls back to legacy historical backtest if journals are absent. Rows remain visible as watch-only research signals when gate active."
   },
   "rows": [
     {
@@ -225,10 +221,7 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
@@ -242,18 +235,15 @@
       "gap_pct": 2.94,
       "vwap": 462.9446,
       "vwap_distance_percent": -0.03,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "WATCH_ONLY",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "WATCH_ONLY",
-      "operator_status_before_backtest_gate": "WATCH_ONLY",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "MSFT",
@@ -453,10 +443,7 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
@@ -470,18 +457,15 @@
       "gap_pct": -0.31,
       "vwap": 417.7441,
       "vwap_distance_percent": 0.01,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "WATCH_ONLY",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "WATCH_ONLY",
-      "operator_status_before_backtest_gate": "WATCH_ONLY",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "GOOGL",
@@ -683,10 +667,7 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
@@ -700,18 +681,15 @@
       "gap_pct": -1.39,
       "vwap": 382.3016,
       "vwap_distance_percent": -0.01,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "WATCH_ONLY",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "WATCH_ONLY",
-      "operator_status_before_backtest_gate": "WATCH_ONLY",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "PLTR",
@@ -911,10 +889,7 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
@@ -928,18 +903,15 @@
       "gap_pct": -1.1,
       "vwap": 135.925,
       "vwap_distance_percent": -0.02,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "WATCH_ONLY",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "WATCH_ONLY",
-      "operator_status_before_backtest_gate": "WATCH_ONLY",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "RKLB",
@@ -1141,10 +1113,7 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
@@ -1158,18 +1127,15 @@
       "gap_pct": 6.93,
       "vwap": 134.2518,
       "vwap_distance_percent": -0.08,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "WATCH_ONLY",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "WATCH_ONLY",
-      "operator_status_before_backtest_gate": "WATCH_ONLY",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "IONQ",
@@ -1369,10 +1335,7 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
@@ -1386,18 +1349,15 @@
       "gap_pct": 6.49,
       "vwap": 62.6116,
       "vwap_distance_percent": 0.16,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "WATCH_ONLY",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "WATCH_ONLY",
-      "operator_status_before_backtest_gate": "WATCH_ONLY",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "QBTS",
@@ -1597,10 +1557,7 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
@@ -1614,18 +1571,15 @@
       "gap_pct": 11.31,
       "vwap": 28.7372,
       "vwap_distance_percent": -0.3,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "WATCH_ONLY",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "WATCH_ONLY",
-      "operator_status_before_backtest_gate": "WATCH_ONLY",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "UPST",
@@ -1825,10 +1779,7 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
@@ -1842,18 +1793,15 @@
       "gap_pct": -1.55,
       "vwap": 28.4015,
       "vwap_distance_percent": 0.0,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "WATCH_ONLY",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "WATCH_ONLY",
-      "operator_status_before_backtest_gate": "WATCH_ONLY",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "RIOT",
@@ -2053,10 +2001,7 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
@@ -2070,18 +2015,15 @@
       "gap_pct": -0.61,
       "vwap": 24.3123,
       "vwap_distance_percent": 0.03,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "WATCH_ONLY",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "WATCH_ONLY",
-      "operator_status_before_backtest_gate": "WATCH_ONLY",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "MARA",
@@ -2281,10 +2223,7 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
@@ -2298,18 +2237,15 @@
       "gap_pct": 1.55,
       "vwap": 13.7596,
       "vwap_distance_percent": 0.0,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "WATCH_ONLY",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "WATCH_ONLY",
-      "operator_status_before_backtest_gate": "WATCH_ONLY",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "JOBY",
@@ -2509,10 +2445,7 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
@@ -2526,18 +2459,15 @@
       "gap_pct": 4.23,
       "vwap": 10.8347,
       "vwap_distance_percent": 0.05,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "WATCH_ONLY",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "WATCH_ONLY",
-      "operator_status_before_backtest_gate": "WATCH_ONLY",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "SOUN",
@@ -2737,10 +2667,7 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
@@ -2754,18 +2681,15 @@
       "gap_pct": -2.04,
       "vwap": 8.1546,
       "vwap_distance_percent": -0.06,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "WATCH_ONLY",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "WATCH_ONLY",
-      "operator_status_before_backtest_gate": "WATCH_ONLY",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "ACHR",
@@ -2967,10 +2891,7 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
@@ -2984,18 +2905,15 @@
       "gap_pct": 2.78,
       "vwap": 6.3041,
       "vwap_distance_percent": -0.22,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "WATCH_ONLY",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "WATCH_ONLY",
-      "operator_status_before_backtest_gate": "WATCH_ONLY",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "LCID",
@@ -3197,10 +3115,7 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
@@ -3214,18 +3129,15 @@
       "gap_pct": 0.02,
       "vwap": 5.8309,
       "vwap_distance_percent": 0.18,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "WATCH_ONLY",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "WATCH_ONLY",
-      "operator_status_before_backtest_gate": "WATCH_ONLY",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "NVDA",
@@ -3344,7 +3256,7 @@
       "danger_score": 43.0,
       "market_regime_score": 50,
       "final_trade_score": 31.36,
-      "score_status": "WATCH_ONLY",
+      "score_status": "DATA_FEED_FAIL",
       "score_blocks": [
         "runner_potential_below_80",
         "entry_quality_below_78",
@@ -3424,25 +3336,19 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "DATA_FEED_FAIL",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "operator_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "TSLA",
@@ -3561,7 +3467,7 @@
       "danger_score": 43.0,
       "market_regime_score": 50,
       "final_trade_score": 31.36,
-      "score_status": "WATCH_ONLY",
+      "score_status": "DATA_FEED_FAIL",
       "score_blocks": [
         "runner_potential_below_80",
         "entry_quality_below_78",
@@ -3641,25 +3547,19 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "DATA_FEED_FAIL",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "operator_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "META",
@@ -3778,7 +3678,7 @@
       "danger_score": 43.0,
       "market_regime_score": 50,
       "final_trade_score": 31.36,
-      "score_status": "WATCH_ONLY",
+      "score_status": "DATA_FEED_FAIL",
       "score_blocks": [
         "runner_potential_below_80",
         "entry_quality_below_78",
@@ -3858,25 +3758,19 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "DATA_FEED_FAIL",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "operator_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "AMZN",
@@ -3995,7 +3889,7 @@
       "danger_score": 43.0,
       "market_regime_score": 50,
       "final_trade_score": 31.36,
-      "score_status": "WATCH_ONLY",
+      "score_status": "DATA_FEED_FAIL",
       "score_blocks": [
         "runner_potential_below_80",
         "entry_quality_below_78",
@@ -4075,25 +3969,19 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "DATA_FEED_FAIL",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "operator_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "SOFI",
@@ -4212,7 +4100,7 @@
       "danger_score": 43.0,
       "market_regime_score": 50,
       "final_trade_score": 31.36,
-      "score_status": "WATCH_ONLY",
+      "score_status": "DATA_FEED_FAIL",
       "score_blocks": [
         "runner_potential_below_80",
         "entry_quality_below_78",
@@ -4292,25 +4180,19 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "DATA_FEED_FAIL",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "operator_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "RIVN",
@@ -4429,7 +4311,7 @@
       "danger_score": 43.0,
       "market_regime_score": 50,
       "final_trade_score": 31.36,
-      "score_status": "WATCH_ONLY",
+      "score_status": "DATA_FEED_FAIL",
       "score_blocks": [
         "runner_potential_below_80",
         "entry_quality_below_78",
@@ -4509,25 +4391,19 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "DATA_FEED_FAIL",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "operator_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "COIN",
@@ -4646,7 +4522,7 @@
       "danger_score": 43.0,
       "market_regime_score": 50,
       "final_trade_score": 31.36,
-      "score_status": "WATCH_ONLY",
+      "score_status": "DATA_FEED_FAIL",
       "score_blocks": [
         "runner_potential_below_80",
         "entry_quality_below_78",
@@ -4726,25 +4602,19 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "DATA_FEED_FAIL",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "operator_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "HOOD",
@@ -4863,7 +4733,7 @@
       "danger_score": 43.0,
       "market_regime_score": 50,
       "final_trade_score": 31.36,
-      "score_status": "WATCH_ONLY",
+      "score_status": "DATA_FEED_FAIL",
       "score_blocks": [
         "runner_potential_below_80",
         "entry_quality_below_78",
@@ -4943,25 +4813,19 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "DATA_FEED_FAIL",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "operator_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "NIO",
@@ -5080,7 +4944,7 @@
       "danger_score": 43.0,
       "market_regime_score": 50,
       "final_trade_score": 31.36,
-      "score_status": "WATCH_ONLY",
+      "score_status": "DATA_FEED_FAIL",
       "score_blocks": [
         "runner_potential_below_80",
         "entry_quality_below_78",
@@ -5160,25 +5024,19 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "DATA_FEED_FAIL",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "operator_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "AFRM",
@@ -5297,7 +5155,7 @@
       "danger_score": 43.0,
       "market_regime_score": 50,
       "final_trade_score": 31.36,
-      "score_status": "WATCH_ONLY",
+      "score_status": "DATA_FEED_FAIL",
       "score_blocks": [
         "runner_potential_below_80",
         "entry_quality_below_78",
@@ -5377,25 +5235,19 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "DATA_FEED_FAIL",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "operator_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "SMCI",
@@ -5595,10 +5447,7 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
@@ -5612,18 +5461,15 @@
       "gap_pct": 5.26,
       "vwap": 35.2516,
       "vwap_distance_percent": -0.09,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "WATCH_ONLY",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "WATCH_ONLY",
-      "operator_status_before_backtest_gate": "WATCH_ONLY",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "OPEN",
@@ -5823,10 +5669,7 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
@@ -5840,18 +5683,15 @@
       "gap_pct": -1.24,
       "vwap": 4.512,
       "vwap_distance_percent": 0.03,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "WATCH_ONLY",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "WATCH_ONLY",
-      "operator_status_before_backtest_gate": "WATCH_ONLY",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     },
     {
       "ticker": "AAPL",
@@ -5970,7 +5810,7 @@
       "danger_score": 43.0,
       "market_regime_score": 50,
       "final_trade_score": 31.16,
-      "score_status": "WATCH_ONLY",
+      "score_status": "DATA_FEED_FAIL",
       "score_blocks": [
         "runner_potential_below_80",
         "entry_quality_below_78",
@@ -6050,25 +5890,19 @@
       "trade_gate_reasons": [
         "zero_or_negative_price",
         "missing_feed",
-        "missing_source",
-        "profit_factor_below_1",
-        "target_hit_rate_not_above_stop_hit_rate",
-        "avg_return_negative"
+        "missing_source"
       ],
       "operator_signal_ready": false,
       "operator_score_ready": true,
-      "operator_status": "BACKTEST_GATE_ACTIVE",
+      "operator_status": "DATA_FEED_FAIL",
       "order_submission": false,
       "live_trading": false,
-      "backtest_gate_active": true,
-      "backtest_profit_factor": 0.4898,
-      "backtest_avg_return_pct": -0.0367,
-      "backtest_target_hit_rate_pct": 5.92,
-      "backtest_stop_hit_rate_pct": 22.65,
-      "score_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "operator_status_before_backtest_gate": "DATA_FEED_FAIL",
-      "paper_order_allowed": false,
-      "live_order_allowed": false
+      "backtest_gate_active": false,
+      "backtest_profit_factor": 1.5397,
+      "backtest_avg_return_pct": 0.176881,
+      "backtest_target_hit_rate_pct": 42.6393,
+      "backtest_stop_hit_rate_pct": 19.2007,
+      "backtest_source": "v3_outcome_journals"
     }
   ],
   "safety": {
