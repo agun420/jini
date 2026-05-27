@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import math
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -67,6 +67,21 @@ def ticker(row: dict[str, Any]) -> str:
     return str(row.get("ticker") or row.get("symbol") or "").upper().strip()
 
 
+def is_market_hours(now_utc: datetime | None = None) -> bool:
+    """Return True if ``now_utc`` falls within regular US equity market hours.
+
+    Regular session: 09:30–16:00 ET, Monday–Friday.
+    ET = UTC-4 (EDT) or UTC-5 (EST).  We use a conservative UTC window:
+    13:30–21:00 UTC covers both offsets with a small buffer.
+    """
+    dt = now_utc or datetime.now(timezone.utc)
+    if dt.weekday() >= 5:  # Saturday or Sunday
+        return False
+    market_open = dt.replace(hour=13, minute=30, second=0, microsecond=0)
+    market_close = dt.replace(hour=21, minute=0, second=0, microsecond=0)
+    return market_open <= dt < market_close
+
+
 def get_market_regime() -> dict[str, Any]:
     payload = read_json(MARKET_REGIME, {})
     if not isinstance(payload, dict):
@@ -78,7 +93,11 @@ def get_market_regime() -> dict[str, Any]:
     }
 
 
-def score_row(row: dict[str, Any], market: dict[str, Any] | None = None) -> dict[str, Any]:
+def score_row(
+    row: dict[str, Any],
+    market: dict[str, Any] | None = None,
+    market_open: bool = True,
+) -> dict[str, Any]:
     market = market or get_market_regime()
     regime = str(market.get("regime") or "UNKNOWN")
     regime_score = f(market.get("regime_score"))
@@ -116,9 +135,14 @@ def score_row(row: dict[str, Any], market: dict[str, Any] | None = None) -> dict
         blockers.append("spread_missing")
     elif spread > 0.025:
         blockers.append("spread_too_wide")
+    # Quote-age threshold: strict during market hours (≤120s), lenient outside.
+    # Outside market hours stale quotes are expected — Alpaca returns last-close
+    # prices.  We allow up to 4 days (345 600s) to avoid blocking the predictor
+    # during pre-market, after-hours, and weekends.
+    quote_age_limit = 120 if market_open else 345_600
     if quote_age < 0:
         blockers.append("quote_age_missing")
-    elif quote_age > 120:
+    elif quote_age > quote_age_limit:
         blockers.append("quote_stale")
     if danger >= 70:
         blockers.append("danger_too_high")
@@ -460,7 +484,9 @@ def main() -> None:
         blockers.append("no_enriched_rows")
 
     market = get_market_regime()
-    scored = [score_row(r, market) for r in rows]
+    now_utc = datetime.now(timezone.utc)
+    market_open = is_market_hours(now_utc)
+    scored = [score_row(r, market, market_open) for r in rows]
     scored.sort(
         key=lambda r: (
             r.get("prebreakout_candidate_v3") is True,
@@ -481,11 +507,21 @@ def main() -> None:
     blocked = [r for r in scored if r.get("prebreakout_status_v3") == "BLOCKED"]
 
     if not candidates:
-        warnings.append("no_prebreakout_candidates_currently")
+        if market_open:
+            warnings.append("no_prebreakout_candidates_currently")
+        else:
+            warnings.append("market_closed_no_live_candidates_expected")
 
     status = "PASS" if not blockers else "FAIL"
     if status == "PASS" and warnings:
-        status = "WARN"
+        # Outside market hours the "no live candidates" warning is informational
+        # — it should not degrade status to WARN.
+        non_trivial = [
+            w for w in warnings
+            if w != "market_closed_no_live_candidates_expected"
+        ]
+        if non_trivial:
+            status = "WARN"
 
     health = {
         "schema_version": "v3_prebreakout_predictor_health_v2_tightened",
@@ -506,6 +542,7 @@ def main() -> None:
         "top_ticker": scored[0].get("ticker") if scored else None,
         "top_status": scored[0].get("prebreakout_status_v3") if scored else None,
         "top_score": scored[0].get("prebreakout_score_v3") if scored else None,
+        "market_open": market_open,
         "market_regime": market.get("regime"),
         "market_regime_score": market.get("regime_score"),
         "order_submission": False,

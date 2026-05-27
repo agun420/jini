@@ -12,6 +12,9 @@ DOCS = Path("docs/data/prediction_engine")
 STATE = Path("state/prediction_engine")
 
 SOURCE_FILES = [
+    # Paid scanner output is the freshest source — loaded first so its tickers
+    # take priority over legacy seed files.  Missing file is silently skipped.
+    DOCS / "alpaca_paid_market_candidates.json",
     DOCS / "operator_dashboard.json",
     DOCS / "signal_dashboard_score_v2.json",
     DOCS / "buy_order_alert_mode.json",

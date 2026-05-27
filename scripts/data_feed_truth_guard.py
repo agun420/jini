@@ -14,6 +14,10 @@ INPUT_BASE = DOCS_DIR / "signal_dashboard.json"
 INPUT_SCANNER_HEALTH = DOCS_DIR / "scanner_health.json"
 INPUT_RUNTIME = DOCS_DIR / "runtime_heartbeat.json"
 
+# V3 enriched rows are the authoritative live data source (replaces legacy scanner)
+INPUT_V3_ENRICHED = DOCS_DIR / "v3_enriched_rows.json"
+INPUT_V3_HEALTH = DOCS_DIR / "v3_enriched_rows_health.json"
+
 OUT_ENRICHED = DOCS_DIR / "signal_dashboard_data_guard_enriched.json"
 OUT_HEALTH = DOCS_DIR / "data_feed_quality_health.json"
 OUT_STATE = STATE_DIR / "data_feed_quality.json"
@@ -109,17 +113,86 @@ def classify_row(row: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def classify_v3_row(row: dict[str, Any]) -> dict[str, Any]:
+    """Lenient classifier for V3 enriched rows.
+
+    V3 rows are produced by run_alpaca_v3_market_enrichment.py which sets
+    ``source`` to the Alpaca feed name and stores data quality metadata under
+    ``data_quality``.  They do not carry a top-level ``feed`` key.  Quote
+    staleness is expected outside market hours so we skip that check here —
+    we only block on genuinely missing or zero prices.
+    """
+    blocks: list[str] = []
+
+    t = ticker(row)
+    price = get_price(row)
+
+    # Feed: alpaca_feed_used > source > data_quality.primary_source
+    dq = row.get("data_quality") or {}
+    feed_val = (
+        row.get("alpaca_feed_used")
+        or row.get("source")
+        or (dq.get("primary_source") if isinstance(dq, dict) else None)
+    )
+    # Source presence: _sources list, or the source field
+    sources = row.get("_sources") or []
+    source_val = row.get("source") or (sources[0] if sources else None)
+
+    if not t:
+        blocks.append("missing_ticker")
+    if price is None:
+        blocks.append("missing_price")
+    elif price <= 0:
+        blocks.append("zero_or_negative_price")
+    if not feed_val:
+        blocks.append("missing_feed")
+    if not source_val:
+        blocks.append("missing_source")
+    # Deliberately omit quote_age check for V3 rows — outside market hours
+    # stale quotes are expected and are not a data quality failure.
+
+    valid = len(blocks) == 0
+    return {
+        "ticker": t,
+        "valid": valid,
+        "price": price,
+        "blocks": blocks,
+    }
+
+
 def export() -> dict[str, Any]:
     generated_at = now()
 
-    payload = read_json(INPUT_DASHBOARD, {})
-    base_payload = read_json(INPUT_BASE, {})
     scanner_health = read_json(INPUT_SCANNER_HEALTH, {})
     runtime = read_json(INPUT_RUNTIME, {})
 
-    rows = rows_from(payload)
-    if not rows:
-        rows = rows_from(base_payload)
+    # ── V3 enriched rows are the authoritative data source ──────────────────
+    # If v3_enriched_rows.json exists and contains rows with valid prices,
+    # use it as the primary quality check.  Fall back to the legacy scanner
+    # dashboard only when V3 rows are absent or empty.
+    v3_health_payload = read_json(INPUT_V3_HEALTH, {})
+    v3_enriched_payload = read_json(INPUT_V3_ENRICHED, {})
+    v3_rows = rows_from(v3_enriched_payload)
+
+    v3_active = (
+        isinstance(v3_health_payload, dict)
+        and v3_health_payload.get("status") in ("PASS", "WARN")
+        and v3_health_payload.get("rows_with_price", 0) > 0
+        and len(v3_rows) > 0
+    )
+
+    if v3_active:
+        rows = v3_rows
+        row_classifier = classify_v3_row
+        data_source = "v3_enriched_rows"
+    else:
+        payload = read_json(INPUT_DASHBOARD, {})
+        base_payload = read_json(INPUT_BASE, {})
+        rows = rows_from(payload)
+        if not rows:
+            rows = rows_from(base_payload)
+        row_classifier = classify_row
+        data_source = "legacy_signal_dashboard"
 
     enriched: list[dict[str, Any]] = []
 
@@ -131,7 +204,7 @@ def export() -> dict[str, Any]:
     blocked_count = 0
 
     for row in rows:
-        check = classify_row(row)
+        check = row_classifier(row)
         new = dict(row)
 
         new["data_feed_valid"] = check["valid"]
@@ -186,9 +259,10 @@ def export() -> dict[str, Any]:
     runtime_status = runtime.get("status") if isinstance(runtime, dict) else None
 
     health = {
-        "schema_version": "data_feed_quality_health_v1",
+        "schema_version": "data_feed_quality_health_v2",
         "generated_at": generated_at,
         "status": data_quality_status,
+        "data_source": data_source,
         "rows": len(rows),
         "valid_rows": valid_count,
         "blocked_rows": blocked_count,
@@ -204,8 +278,8 @@ def export() -> dict[str, Any]:
         "order_submission": False,
         "live_trading": False,
         "message": (
-            "Data feed guard blocks rows with missing/zero prices so they cannot appear "
-            "as normal buy/watch candidates."
+            "V3 enriched rows are the primary data quality source. "
+            "Falls back to legacy scanner dashboard when V3 rows are unavailable."
         ),
     }
 
@@ -228,6 +302,7 @@ def export() -> dict[str, Any]:
 
     return {
         "status": data_quality_status,
+        "data_source": data_source,
         "rows": len(rows),
         "valid_rows": valid_count,
         "blocked_rows": blocked_count,
