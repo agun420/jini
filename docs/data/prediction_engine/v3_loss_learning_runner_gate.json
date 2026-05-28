@@ -1,9 +1,9 @@
 {
   "schema_version": "v3_loss_learning_runner_gate_v1",
-  "generated_at": "2026-05-28T20:24:06.899531+00:00",
+  "generated_at": "2026-05-28T20:37:47.986226+00:00",
   "health": {
     "schema_version": "v3_loss_learning_runner_gate_health_v1",
-    "generated_at": "2026-05-28T20:24:06.899531+00:00",
+    "generated_at": "2026-05-28T20:37:47.986226+00:00",
     "status": "WARN",
     "blockers": [],
     "warnings": [
@@ -26,6 +26,21 @@
     "live_trading": false
   },
   "ticker_memory": {
+    "AI": {
+      "ticker": "AI",
+      "closed_count": 6,
+      "target_hits": 3,
+      "stop_hits": 2,
+      "time_exits": 1,
+      "failed_alerts": 2,
+      "avg_return_pct": 0.32375,
+      "total_return_pct": 1.9425,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T20:29:58.875853+00:00",
+      "last_return_pct": 0.318,
+      "last_layer": "REACTIVE",
+      "last_score": 62.9573
+    },
     "ACHR": {
       "ticker": "ACHR",
       "closed_count": 21,
@@ -175,21 +190,6 @@
       "last_return_pct": -0.4563,
       "last_layer": "REACTIVE",
       "last_score": 60.4693
-    },
-    "AI": {
-      "ticker": "AI",
-      "closed_count": 5,
-      "target_hits": 3,
-      "stop_hits": 2,
-      "time_exits": 0,
-      "failed_alerts": 2,
-      "avg_return_pct": 0.32489999999999997,
-      "total_return_pct": 1.6244999999999998,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-28T15:30:47.701163+00:00",
-      "last_return_pct": 1.0774,
-      "last_layer": "REACTIVE",
-      "last_score": 60.0534
     },
     "ENVX": {
       "ticker": "ENVX",
@@ -719,6 +719,23 @@
   },
   "cooldowns": [
     {
+      "ticker": "AI",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": true,
+      "very_late_day": true,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T20:29:58.875853+00:00",
+      "last_return_pct": 0.318,
+      "closed_count": 6,
+      "target_hits": 3,
+      "stop_hits": 2,
+      "time_exits": 1,
+      "failed_alerts": 2,
+      "avg_return_pct": 0.3237
+    },
+    {
       "ticker": "ACHR",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
@@ -887,23 +904,6 @@
       "time_exits": 4,
       "failed_alerts": 5,
       "avg_return_pct": -0.1087
-    },
-    {
-      "ticker": "AI",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": true,
-      "very_late_day": true,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-28T15:30:47.701163+00:00",
-      "last_return_pct": 1.0774,
-      "closed_count": 5,
-      "target_hits": 3,
-      "stop_hits": 2,
-      "time_exits": 0,
-      "failed_alerts": 2,
-      "avg_return_pct": 0.3249
     },
     {
       "ticker": "ENVX",
@@ -1503,6 +1503,23 @@
   ],
   "active_cooldowns": [
     {
+      "ticker": "AI",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": true,
+      "very_late_day": true,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T20:29:58.875853+00:00",
+      "last_return_pct": 0.318,
+      "closed_count": 6,
+      "target_hits": 3,
+      "stop_hits": 2,
+      "time_exits": 1,
+      "failed_alerts": 2,
+      "avg_return_pct": 0.3237
+    },
+    {
       "ticker": "ACHR",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
@@ -1637,23 +1654,6 @@
       "time_exits": 4,
       "failed_alerts": 5,
       "avg_return_pct": -0.1087
-    },
-    {
-      "ticker": "AI",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": true,
-      "very_late_day": true,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-28T15:30:47.701163+00:00",
-      "last_return_pct": 1.0774,
-      "closed_count": 5,
-      "target_hits": 3,
-      "stop_hits": 2,
-      "time_exits": 0,
-      "failed_alerts": 2,
-      "avg_return_pct": 0.3249
     },
     {
       "ticker": "ENVX",
@@ -2100,6 +2100,37 @@
   ],
   "runner_candidates": [
     {
+      "ticker": "AI",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "two_failed_alerts_today",
+        "very_late_day_no_new_runner",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
+      ],
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
       "ticker": "ACHR",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
@@ -2378,37 +2409,6 @@
     },
     {
       "ticker": "LCID",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
-        "very_late_day_no_new_runner",
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "AI",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -3518,6 +3518,37 @@
   "runner_watch": [],
   "blocked_runner_candidates": [
     {
+      "ticker": "AI",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "two_failed_alerts_today",
+        "very_late_day_no_new_runner",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
+      ],
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
       "ticker": "ACHR",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
@@ -3796,37 +3827,6 @@
     },
     {
       "ticker": "LCID",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
-        "very_late_day_no_new_runner",
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "AI",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
