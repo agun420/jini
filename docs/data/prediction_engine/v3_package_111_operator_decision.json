@@ -1,23 +1,23 @@
 {
   "schema_version": "v3_package_111_operator_decision_v1",
-  "generated_at": "2026-05-28T08:05:22.555719+00:00",
+  "generated_at": "2026-05-28T08:19:05.502855+00:00",
   "health": {
     "schema_version": "v3_package_111_operator_decision_health_v1",
-    "generated_at": "2026-05-28T08:05:22.555719+00:00",
+    "generated_at": "2026-05-28T08:19:05.502855+00:00",
     "status": "PASS",
     "blockers": [],
     "warnings": [
       "data_feed_quality_fail_plan_only_caveat"
     ],
-    "final_mode": "SAFETY_FAIL",
+    "final_mode": "PLAN_ONLY_DATA_WARNING",
     "primary_operator_layer": "NONE",
     "eod_winning_layer": "PRE_BREAKOUT",
-    "safety_pass": false,
+    "safety_pass": true,
     "data_feed_fail": true,
     "pre_candidates": 0,
     "plan_count": 0,
     "phase_verdict_count": 0,
-    "pkg100_score": 62,
+    "pkg100_score": 94,
     "order_submission": false,
     "live_trading": false,
     "paper_trade_ready": false,
@@ -34,48 +34,48 @@
     "prebreakout_target_hit_rate_pct": 46.51,
     "reactive_closed": 85,
     "reactive_target_hit_rate_pct": 36.47,
-    "market_regime": "RISK_OFF",
-    "market_regime_score": 17.0
+    "market_regime": "NEUTRAL",
+    "market_regime_score": 51.4746
   },
   "prebreakout_snapshot": {
-    "rows_enriched": 0,
+    "rows_enriched": 79,
     "prebreakout_candidates": 0,
     "total_candidates": 0,
-    "top_ticker": null,
-    "top_score": null,
-    "top_status": null
+    "top_ticker": "SHOP",
+    "top_score": 58.4,
+    "top_status": "WATCH"
   },
   "reactive_snapshot": {
     "candidates": 0,
-    "top_ticker": "GE"
+    "top_ticker": "LUNR"
   },
   "runner_gate_snapshot": {
     "runner_watch_count": 0,
     "winning_layer": "PRE_BREAKOUT"
   },
   "supporting_inputs": {
-    "phase_gate_status": "FAIL",
+    "phase_gate_status": "PASS",
     "phase_gate_verdict_count": 0,
     "phase_gate_top_ticker": null,
     "phase_gate_role": "supporting_input_only",
-    "package_100_score": 62,
-    "package_100_status": "FAIL",
+    "package_100_score": 94,
+    "package_100_status": "PASS",
     "paper_plan_count": 0,
-    "hard_safety_lock_status": "FAIL",
-    "hard_safety_lock_safe_for_research": false,
+    "hard_safety_lock_status": "PASS",
+    "hard_safety_lock_safe_for_research": true,
     "data_feed_quality_status": "FAIL"
   },
   "operator_decision": {
-    "final_mode": "SAFETY_FAIL",
-    "mode_message": "Hard safety lock is not PASS. Research halted.",
+    "final_mode": "PLAN_ONLY_DATA_WARNING",
+    "mode_message": "Data feed quality FAIL. Plan-only view with data caveat.",
     "primary_operator_layer": "NONE",
     "secondary_operator_layer": "NONE",
     "eod_winner": "PRE_BREAKOUT",
     "eod_promotion_decision": "PREBREAKOUT_LEADS_KEEP_REACTIVE_SECONDARY",
     "phase_gate_role": "supporting_input_only",
     "data_feed_warning": true,
-    "safe_to_run_research": false,
-    "next_action": "Fix all hard_safety_lock blockers first. Run master-paid-alpaca-pipeline workflow to refresh health files."
+    "safe_to_run_research": true,
+    "next_action": "Data feed has zero-price rows. Review data_feed_quality_health.json. Plan-only mode active until feed quality recovers."
   },
   "safety": {
     "research_only": true,

@@ -1,23 +1,18 @@
 {
   "schema_version": "v3_package_100_validation_v1",
-  "generated_at": "2026-05-28T08:05:22.068159+00:00",
+  "generated_at": "2026-05-28T08:19:05.009483+00:00",
   "health": {
     "schema_version": "v3_package_100_validation_health_v1",
-    "generated_at": "2026-05-28T08:05:22.068159+00:00",
-    "status": "FAIL",
-    "score": 62,
-    "blockers": [
-      "enrichment_fail",
-      "market_regime_fail",
-      "prebreakout_fail"
-    ],
+    "generated_at": "2026-05-28T08:19:05.009483+00:00",
+    "status": "PASS",
+    "score": 94,
+    "blockers": [],
     "warnings": [
+      "market_regime_warn",
       "prebreakout_journal_warn",
-      "reactive_warn",
-      "daily_report_warn",
-      "paper_plan_warn"
+      "reactive_warn"
     ],
-    "tomorrow_readiness": "NOT_READY_FIX_BLOCKERS",
+    "tomorrow_readiness": "READY_FOR_RESEARCH_ONLY",
     "missing_dashboard_ids": [],
     "prebreakout_avg_return_pct": 0.2029,
     "reactive_avg_return_pct": 0.1262,
@@ -31,31 +26,23 @@
     "enrichment": {
       "path": "docs/data/prediction_engine/v3_enriched_rows_health.json",
       "exists": true,
-      "status": "FAIL",
-      "generated_at": "2026-05-28T08:05:18.905334+00:00",
+      "status": "PASS",
+      "generated_at": "2026-05-28T08:19:01.460547+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": null,
-      "blockers": [
-        "no_seed_symbols_available"
-      ],
-      "warnings": [
-        "no_rows_with_day_move",
-        "no_rows_with_spread",
-        "no_rows_with_quote_age"
-      ]
+      "blockers": [],
+      "warnings": []
     },
     "market_regime": {
       "path": "docs/data/prediction_engine/v3_market_regime_filter_health.json",
       "exists": true,
-      "status": "FAIL",
-      "generated_at": "2026-05-28T08:05:21.381245+00:00",
+      "status": "WARN",
+      "generated_at": "2026-05-28T08:19:04.186810+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
-      "blockers": [
-        "no_enriched_rows"
-      ],
+      "blockers": [],
       "warnings": [
         "no_market_index_rows_found_using_universe_proxy"
       ]
@@ -63,14 +50,12 @@
     "prebreakout": {
       "path": "docs/data/prediction_engine/v3_prebreakout_predictor_health.json",
       "exists": true,
-      "status": "FAIL",
-      "generated_at": "2026-05-28T08:05:21.496121+00:00",
+      "status": "PASS",
+      "generated_at": "2026-05-28T08:19:04.297510+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
-      "blockers": [
-        "no_enriched_rows"
-      ],
+      "blockers": [],
       "warnings": [
         "market_closed_no_live_candidates_expected"
       ]
@@ -79,7 +64,7 @@
       "path": "docs/data/prediction_engine/v3_prebreakout_outcome_journal_health.json",
       "exists": true,
       "status": "WARN",
-      "generated_at": "2026-05-28T07:57:20.495419+00:00",
+      "generated_at": "2026-05-28T08:11:08.456332+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
@@ -92,7 +77,7 @@
       "path": "docs/data/prediction_engine/v3_research_alert_score_health.json",
       "exists": true,
       "status": "WARN",
-      "generated_at": "2026-05-28T08:05:21.595152+00:00",
+      "generated_at": "2026-05-28T08:19:04.485474+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
@@ -105,7 +90,7 @@
       "path": "docs/data/prediction_engine/v3_research_alert_outcome_journal_health.json",
       "exists": true,
       "status": "PASS",
-      "generated_at": "2026-05-28T07:57:24.456696+00:00",
+      "generated_at": "2026-05-28T08:11:12.761890+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
@@ -116,7 +101,7 @@
       "path": "docs/data/prediction_engine/v3_outcome_quality_audit_health.json",
       "exists": true,
       "status": "PASS",
-      "generated_at": "2026-05-28T07:57:24.596171+00:00",
+      "generated_at": "2026-05-28T08:11:12.899982+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": null,
@@ -126,21 +111,19 @@
     "daily_report": {
       "path": "docs/data/prediction_engine/v3_daily_research_report_health.json",
       "exists": true,
-      "status": "WARN",
-      "generated_at": "2026-05-28T07:57:24.774127+00:00",
+      "status": "PASS",
+      "generated_at": "2026-05-28T08:11:13.086079+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": null,
       "blockers": [],
-      "warnings": [
-        "market_regime_risk_off"
-      ]
+      "warnings": []
     },
     "regime_outcome_audit": {
       "path": "docs/data/prediction_engine/v3_regime_outcome_audit_health.json",
       "exists": true,
       "status": "PASS",
-      "generated_at": "2026-05-28T07:57:24.895790+00:00",
+      "generated_at": "2026-05-28T08:11:13.201337+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
@@ -151,7 +134,7 @@
       "path": "docs/data/prediction_engine/v3_mathematical_edge_model_health.json",
       "exists": true,
       "status": "PASS",
-      "generated_at": "2026-05-28T08:05:21.802571+00:00",
+      "generated_at": "2026-05-28T08:19:04.762551+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
@@ -161,21 +144,19 @@
     "paper_plan": {
       "path": "docs/data/prediction_engine/v3_paper_order_plan_health.json",
       "exists": true,
-      "status": "WARN",
-      "generated_at": "2026-05-28T08:05:21.959921+00:00",
+      "status": "PASS",
+      "generated_at": "2026-05-28T08:19:04.886757+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
       "blockers": [],
-      "warnings": [
-        "risk_off_regime_plan_review_only"
-      ]
+      "warnings": []
     },
     "final_repo_audit": {
       "path": "docs/data/prediction_engine/final_repo_audit.json",
       "exists": true,
       "status": "PASS",
-      "generated_at": "2026-05-28T08:05:18.685720+00:00",
+      "generated_at": "2026-05-28T08:19:01.194015+00:00",
       "order_submission": null,
       "live_trading": null,
       "paper_order_allowed": null,
@@ -189,7 +170,7 @@
     "status": "PASS"
   },
   "recommendation": {
-    "safe_to_run_tomorrow": false,
+    "safe_to_run_tomorrow": true,
     "safe_to_enable_paper_submission": false,
     "safe_to_enable_live_trading": false,
     "next_step": "Run tomorrow in research-only and paper-plan-only mode. Review edge model and paper plan before any paper submission."
