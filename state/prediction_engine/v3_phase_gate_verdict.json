@@ -1,18 +1,18 @@
 {
   "schema_version": "v3_phase_gate_verdict_v1",
-  "generated_at": "2026-05-28T11:34:37.075688+00:00",
+  "generated_at": "2026-05-28T11:48:43.088536+00:00",
   "health": {
     "schema_version": "v3_phase_gate_verdict_health_v1",
-    "generated_at": "2026-05-28T11:34:37.075688+00:00",
+    "generated_at": "2026-05-28T11:48:43.088536+00:00",
     "status": "PASS",
     "blockers": [],
     "warnings": [],
-    "verdict_count": 1,
-    "buy_setup_plan_only_count": 0,
+    "verdict_count": 3,
+    "buy_setup_plan_only_count": 2,
     "scalp_setup_plan_only_count": 0,
     "research_watch_count": 0,
-    "top_ticker": "PATH",
-    "top_verdict": "WATCH ONLY",
+    "top_ticker": "HIMS",
+    "top_verdict": "BUY SETUP - PLAN ONLY",
     "market_regime": "NEUTRAL",
     "package_100_status": "PASS",
     "morning_readiness": "READY_FOR_RESEARCH_AND_PLAN_ONLY_REVIEW",
@@ -23,9 +23,190 @@
     "live_trading": false
   },
   "verdict_counts": {
+    "BUY SETUP - PLAN ONLY": 2,
     "WATCH ONLY": 1
   },
   "verdicts": [
+    {
+      "ticker": "HIMS",
+      "final_verdict": "BUY SETUP - PLAN ONLY",
+      "action": "Review only. No paper or live order submitted.",
+      "phase_gates": {
+        "safety_lock": {
+          "status": "PASS",
+          "reason": "Hard safety lock passed. Orders and live trading are off.",
+          "value": {
+            "safe_for_research": true,
+            "safe_for_paper_submission": false,
+            "safe_for_live_trading": false,
+            "order_submission": false,
+            "live_trading": false
+          }
+        },
+        "data_quality": {
+          "status": "PASS",
+          "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
+          "value": {
+            "rows": 80,
+            "rows_with_price": 80,
+            "rows_with_day_move": 80,
+            "rows_with_non_default_rvol": 80,
+            "rows_with_spread": 80,
+            "rows_with_quote_age": 80
+          }
+        },
+        "market_regime": {
+          "status": "WATCH",
+          "reason": "Market regime is neutral. Require stronger setup confirmation.",
+          "value": {
+            "regime": "NEUTRAL",
+            "score": 53.6963
+          }
+        },
+        "pre_breakout": {
+          "status": "PASS",
+          "reason": "Pre-breakout setup is forming.",
+          "value": {
+            "score": 100.0,
+            "status": "BREAKOUT_TRIGGER_CANDIDATE",
+            "blockers": []
+          }
+        },
+        "reactive_momentum": {
+          "status": "MISSING",
+          "reason": "No reactive row found.",
+          "value": {
+            "score": 0.0,
+            "status": "",
+            "day_move_pct": 4.9476,
+            "blockers": []
+          }
+        },
+        "math_edge": {
+          "status": "PASS",
+          "reason": "Positive expected value candidate.",
+          "value": {
+            "edge_status": "POSITIVE_EDGE_REVIEW",
+            "edge_score": 92.5,
+            "expected_value_pct": 0.625,
+            "estimated_win_probability": 0.85,
+            "risk_reward_ratio": 1.5
+          }
+        },
+        "paper_plan_only": {
+          "status": "PASS",
+          "reason": "Paper-plan-only candidate exists for review.",
+          "value": {
+            "planned_shares": 79,
+            "planned_notional": 1977.37,
+            "target_price": 25.2553,
+            "stop_price": 24.8798,
+            "order_submission": false,
+            "live_trading": false
+          }
+        }
+      },
+      "price": 25.03,
+      "day_move_pct": 4.9476,
+      "relative_volume": 1.3609,
+      "expected_value_pct": 0.625,
+      "edge_score": 92.5,
+      "planned_notional": 1977.37,
+      "target_price": 25.2553,
+      "stop_price": 24.8798,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "BBAI",
+      "final_verdict": "BUY SETUP - PLAN ONLY",
+      "action": "Review only. No paper or live order submitted.",
+      "phase_gates": {
+        "safety_lock": {
+          "status": "PASS",
+          "reason": "Hard safety lock passed. Orders and live trading are off.",
+          "value": {
+            "safe_for_research": true,
+            "safe_for_paper_submission": false,
+            "safe_for_live_trading": false,
+            "order_submission": false,
+            "live_trading": false
+          }
+        },
+        "data_quality": {
+          "status": "PASS",
+          "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
+          "value": {
+            "rows": 80,
+            "rows_with_price": 80,
+            "rows_with_day_move": 80,
+            "rows_with_non_default_rvol": 80,
+            "rows_with_spread": 80,
+            "rows_with_quote_age": 80
+          }
+        },
+        "market_regime": {
+          "status": "WATCH",
+          "reason": "Market regime is neutral. Require stronger setup confirmation.",
+          "value": {
+            "regime": "NEUTRAL",
+            "score": 53.6963
+          }
+        },
+        "pre_breakout": {
+          "status": "PASS",
+          "reason": "Pre-breakout setup is forming.",
+          "value": {
+            "score": 100.0,
+            "status": "BREAKOUT_TRIGGER_CANDIDATE",
+            "blockers": []
+          }
+        },
+        "reactive_momentum": {
+          "status": "MISSING",
+          "reason": "No reactive row found.",
+          "value": {
+            "score": 0.0,
+            "status": "",
+            "day_move_pct": 4.7847,
+            "blockers": []
+          }
+        },
+        "math_edge": {
+          "status": "PASS",
+          "reason": "Positive expected value candidate.",
+          "value": {
+            "edge_status": "POSITIVE_EDGE_REVIEW",
+            "edge_score": 92.5,
+            "expected_value_pct": 0.625,
+            "estimated_win_probability": 0.85,
+            "risk_reward_ratio": 1.5
+          }
+        },
+        "paper_plan_only": {
+          "status": "PASS",
+          "reason": "Paper-plan-only candidate exists for review.",
+          "value": {
+            "planned_shares": 456,
+            "planned_notional": 1997.28,
+            "target_price": 4.4194,
+            "stop_price": 4.3537,
+            "order_submission": false,
+            "live_trading": false
+          }
+        }
+      },
+      "price": 4.38,
+      "day_move_pct": 4.7847,
+      "relative_volume": 1.1088,
+      "expected_value_pct": 0.625,
+      "edge_score": 92.5,
+      "planned_notional": 1997.28,
+      "target_price": 4.4194,
+      "stop_price": 4.3537,
+      "order_submission": false,
+      "live_trading": false
+    },
     {
       "ticker": "PATH",
       "final_verdict": "WATCH ONLY",
@@ -59,7 +240,7 @@
           "reason": "Market regime is neutral. Require stronger setup confirmation.",
           "value": {
             "regime": "NEUTRAL",
-            "score": 46.6174
+            "score": 53.6963
           }
         },
         "pre_breakout": {
@@ -75,9 +256,9 @@
           "status": "BLOCKED",
           "reason": "Reactive momentum gate did not pass.",
           "value": {
-            "score": 60.8032,
+            "score": 61.0451,
             "status": "RESEARCH_BUY_ALERT_CANDIDATE",
-            "day_move_pct": 4.8693,
+            "day_move_pct": 4.2381,
             "blockers": []
           }
         },
@@ -86,9 +267,9 @@
           "reason": "Small positive edge. Review only.",
           "value": {
             "edge_status": "SMALL_EDGE_WATCH",
-            "edge_score": 61.4024,
-            "expected_value_pct": 0.0853,
-            "estimated_win_probability": 0.4902,
+            "edge_score": 59.1491,
+            "expected_value_pct": 0.0538,
+            "estimated_win_probability": 0.4692,
             "risk_reward_ratio": 1.5
           }
         },
@@ -96,29 +277,209 @@
           "status": "PASS",
           "reason": "Paper-plan-only candidate exists for review.",
           "value": {
-            "planned_shares": 171,
-            "planned_notional": 1988.73,
-            "target_price": 11.7347,
-            "stop_price": 11.5602,
+            "planned_shares": 173,
+            "planned_notional": 1999.88,
+            "target_price": 11.664,
+            "stop_price": 11.4906,
             "order_submission": false,
             "live_trading": false
           }
         }
       },
-      "price": 11.63,
-      "day_move_pct": 4.8693,
-      "relative_volume": 2.163,
-      "expected_value_pct": 0.0853,
-      "edge_score": 61.4024,
-      "planned_notional": 1988.73,
-      "target_price": 11.7347,
-      "stop_price": 11.5602,
+      "price": 11.56,
+      "day_move_pct": 4.2381,
+      "relative_volume": 1.707,
+      "expected_value_pct": 0.0538,
+      "edge_score": 59.1491,
+      "planned_notional": 1999.88,
+      "target_price": 11.664,
+      "stop_price": 11.4906,
       "order_submission": false,
       "live_trading": false
     }
   ],
   "top_verdicts": [
     {
+      "ticker": "HIMS",
+      "final_verdict": "BUY SETUP - PLAN ONLY",
+      "action": "Review only. No paper or live order submitted.",
+      "phase_gates": {
+        "safety_lock": {
+          "status": "PASS",
+          "reason": "Hard safety lock passed. Orders and live trading are off.",
+          "value": {
+            "safe_for_research": true,
+            "safe_for_paper_submission": false,
+            "safe_for_live_trading": false,
+            "order_submission": false,
+            "live_trading": false
+          }
+        },
+        "data_quality": {
+          "status": "PASS",
+          "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
+          "value": {
+            "rows": 80,
+            "rows_with_price": 80,
+            "rows_with_day_move": 80,
+            "rows_with_non_default_rvol": 80,
+            "rows_with_spread": 80,
+            "rows_with_quote_age": 80
+          }
+        },
+        "market_regime": {
+          "status": "WATCH",
+          "reason": "Market regime is neutral. Require stronger setup confirmation.",
+          "value": {
+            "regime": "NEUTRAL",
+            "score": 53.6963
+          }
+        },
+        "pre_breakout": {
+          "status": "PASS",
+          "reason": "Pre-breakout setup is forming.",
+          "value": {
+            "score": 100.0,
+            "status": "BREAKOUT_TRIGGER_CANDIDATE",
+            "blockers": []
+          }
+        },
+        "reactive_momentum": {
+          "status": "MISSING",
+          "reason": "No reactive row found.",
+          "value": {
+            "score": 0.0,
+            "status": "",
+            "day_move_pct": 4.9476,
+            "blockers": []
+          }
+        },
+        "math_edge": {
+          "status": "PASS",
+          "reason": "Positive expected value candidate.",
+          "value": {
+            "edge_status": "POSITIVE_EDGE_REVIEW",
+            "edge_score": 92.5,
+            "expected_value_pct": 0.625,
+            "estimated_win_probability": 0.85,
+            "risk_reward_ratio": 1.5
+          }
+        },
+        "paper_plan_only": {
+          "status": "PASS",
+          "reason": "Paper-plan-only candidate exists for review.",
+          "value": {
+            "planned_shares": 79,
+            "planned_notional": 1977.37,
+            "target_price": 25.2553,
+            "stop_price": 24.8798,
+            "order_submission": false,
+            "live_trading": false
+          }
+        }
+      },
+      "price": 25.03,
+      "day_move_pct": 4.9476,
+      "relative_volume": 1.3609,
+      "expected_value_pct": 0.625,
+      "edge_score": 92.5,
+      "planned_notional": 1977.37,
+      "target_price": 25.2553,
+      "stop_price": 24.8798,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "BBAI",
+      "final_verdict": "BUY SETUP - PLAN ONLY",
+      "action": "Review only. No paper or live order submitted.",
+      "phase_gates": {
+        "safety_lock": {
+          "status": "PASS",
+          "reason": "Hard safety lock passed. Orders and live trading are off.",
+          "value": {
+            "safe_for_research": true,
+            "safe_for_paper_submission": false,
+            "safe_for_live_trading": false,
+            "order_submission": false,
+            "live_trading": false
+          }
+        },
+        "data_quality": {
+          "status": "PASS",
+          "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
+          "value": {
+            "rows": 80,
+            "rows_with_price": 80,
+            "rows_with_day_move": 80,
+            "rows_with_non_default_rvol": 80,
+            "rows_with_spread": 80,
+            "rows_with_quote_age": 80
+          }
+        },
+        "market_regime": {
+          "status": "WATCH",
+          "reason": "Market regime is neutral. Require stronger setup confirmation.",
+          "value": {
+            "regime": "NEUTRAL",
+            "score": 53.6963
+          }
+        },
+        "pre_breakout": {
+          "status": "PASS",
+          "reason": "Pre-breakout setup is forming.",
+          "value": {
+            "score": 100.0,
+            "status": "BREAKOUT_TRIGGER_CANDIDATE",
+            "blockers": []
+          }
+        },
+        "reactive_momentum": {
+          "status": "MISSING",
+          "reason": "No reactive row found.",
+          "value": {
+            "score": 0.0,
+            "status": "",
+            "day_move_pct": 4.7847,
+            "blockers": []
+          }
+        },
+        "math_edge": {
+          "status": "PASS",
+          "reason": "Positive expected value candidate.",
+          "value": {
+            "edge_status": "POSITIVE_EDGE_REVIEW",
+            "edge_score": 92.5,
+            "expected_value_pct": 0.625,
+            "estimated_win_probability": 0.85,
+            "risk_reward_ratio": 1.5
+          }
+        },
+        "paper_plan_only": {
+          "status": "PASS",
+          "reason": "Paper-plan-only candidate exists for review.",
+          "value": {
+            "planned_shares": 456,
+            "planned_notional": 1997.28,
+            "target_price": 4.4194,
+            "stop_price": 4.3537,
+            "order_submission": false,
+            "live_trading": false
+          }
+        }
+      },
+      "price": 4.38,
+      "day_move_pct": 4.7847,
+      "relative_volume": 1.1088,
+      "expected_value_pct": 0.625,
+      "edge_score": 92.5,
+      "planned_notional": 1997.28,
+      "target_price": 4.4194,
+      "stop_price": 4.3537,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
       "ticker": "PATH",
       "final_verdict": "WATCH ONLY",
       "action": "Track only. No order submitted.",
@@ -151,7 +512,7 @@
           "reason": "Market regime is neutral. Require stronger setup confirmation.",
           "value": {
             "regime": "NEUTRAL",
-            "score": 46.6174
+            "score": 53.6963
           }
         },
         "pre_breakout": {
@@ -167,9 +528,9 @@
           "status": "BLOCKED",
           "reason": "Reactive momentum gate did not pass.",
           "value": {
-            "score": 60.8032,
+            "score": 61.0451,
             "status": "RESEARCH_BUY_ALERT_CANDIDATE",
-            "day_move_pct": 4.8693,
+            "day_move_pct": 4.2381,
             "blockers": []
           }
         },
@@ -178,9 +539,9 @@
           "reason": "Small positive edge. Review only.",
           "value": {
             "edge_status": "SMALL_EDGE_WATCH",
-            "edge_score": 61.4024,
-            "expected_value_pct": 0.0853,
-            "estimated_win_probability": 0.4902,
+            "edge_score": 59.1491,
+            "expected_value_pct": 0.0538,
+            "estimated_win_probability": 0.4692,
             "risk_reward_ratio": 1.5
           }
         },
@@ -188,23 +549,23 @@
           "status": "PASS",
           "reason": "Paper-plan-only candidate exists for review.",
           "value": {
-            "planned_shares": 171,
-            "planned_notional": 1988.73,
-            "target_price": 11.7347,
-            "stop_price": 11.5602,
+            "planned_shares": 173,
+            "planned_notional": 1999.88,
+            "target_price": 11.664,
+            "stop_price": 11.4906,
             "order_submission": false,
             "live_trading": false
           }
         }
       },
-      "price": 11.63,
-      "day_move_pct": 4.8693,
-      "relative_volume": 2.163,
-      "expected_value_pct": 0.0853,
-      "edge_score": 61.4024,
-      "planned_notional": 1988.73,
-      "target_price": 11.7347,
-      "stop_price": 11.5602,
+      "price": 11.56,
+      "day_move_pct": 4.2381,
+      "relative_volume": 1.707,
+      "expected_value_pct": 0.0538,
+      "edge_score": 59.1491,
+      "planned_notional": 1999.88,
+      "target_price": 11.664,
+      "stop_price": 11.4906,
       "order_submission": false,
       "live_trading": false
     }
