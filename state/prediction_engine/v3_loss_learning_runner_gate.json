@@ -1,9 +1,9 @@
 {
   "schema_version": "v3_loss_learning_runner_gate_v1",
-  "generated_at": "2026-05-28T19:00:23.074843+00:00",
+  "generated_at": "2026-05-28T19:14:31.160600+00:00",
   "health": {
     "schema_version": "v3_loss_learning_runner_gate_health_v1",
-    "generated_at": "2026-05-28T19:00:23.074843+00:00",
+    "generated_at": "2026-05-28T19:14:31.160600+00:00",
     "status": "WARN",
     "blockers": [],
     "warnings": [
@@ -26,6 +26,21 @@
     "live_trading": false
   },
   "ticker_memory": {
+    "FUBO": {
+      "ticker": "FUBO",
+      "closed_count": 10,
+      "target_hits": 2,
+      "stop_hits": 5,
+      "time_exits": 3,
+      "failed_alerts": 7,
+      "avg_return_pct": -0.24217,
+      "total_return_pct": -2.4217,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T19:06:18.288894+00:00",
+      "last_return_pct": 0.0,
+      "last_layer": "REACTIVE",
+      "last_score": 65.0479
+    },
     "CELH": {
       "ticker": "CELH",
       "closed_count": 14,
@@ -38,21 +53,6 @@
       "last_reason": "TARGET_HIT",
       "last_closed_at": "2026-05-28T17:26:59.485933+00:00",
       "last_return_pct": 0.3957,
-      "last_layer": "PRE_BREAKOUT",
-      "last_score": 100.0
-    },
-    "FUBO": {
-      "ticker": "FUBO",
-      "closed_count": 9,
-      "target_hits": 2,
-      "stop_hits": 5,
-      "time_exits": 2,
-      "failed_alerts": 6,
-      "avg_return_pct": -0.26907777777777775,
-      "total_return_pct": -2.4217,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-28T17:12:56.181344+00:00",
-      "last_return_pct": 0.6883,
       "last_layer": "PRE_BREAKOUT",
       "last_score": 100.0
     },
@@ -719,6 +719,23 @@
   },
   "cooldowns": [
     {
+      "ticker": "FUBO",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": true,
+      "very_late_day": false,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T19:06:18.288894+00:00",
+      "last_return_pct": 0.0,
+      "closed_count": 10,
+      "target_hits": 2,
+      "stop_hits": 5,
+      "time_exits": 3,
+      "failed_alerts": 7,
+      "avg_return_pct": -0.2422
+    },
+    {
       "ticker": "CELH",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
@@ -734,23 +751,6 @@
       "time_exits": 4,
       "failed_alerts": 4,
       "avg_return_pct": 0.2075
-    },
-    {
-      "ticker": "FUBO",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": true,
-      "very_late_day": false,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-28T17:12:56.181344+00:00",
-      "last_return_pct": 0.6883,
-      "closed_count": 9,
-      "target_hits": 2,
-      "stop_hits": 5,
-      "time_exits": 2,
-      "failed_alerts": 6,
-      "avg_return_pct": -0.2691
     },
     {
       "ticker": "GME",
@@ -1503,6 +1503,23 @@
   ],
   "active_cooldowns": [
     {
+      "ticker": "FUBO",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": true,
+      "very_late_day": false,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T19:06:18.288894+00:00",
+      "last_return_pct": 0.0,
+      "closed_count": 10,
+      "target_hits": 2,
+      "stop_hits": 5,
+      "time_exits": 3,
+      "failed_alerts": 7,
+      "avg_return_pct": -0.2422
+    },
+    {
       "ticker": "CELH",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
@@ -1518,23 +1535,6 @@
       "time_exits": 4,
       "failed_alerts": 4,
       "avg_return_pct": 0.2075
-    },
-    {
-      "ticker": "FUBO",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": true,
-      "very_late_day": false,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-28T17:12:56.181344+00:00",
-      "last_return_pct": 0.6883,
-      "closed_count": 9,
-      "target_hits": 2,
-      "stop_hits": 5,
-      "time_exits": 2,
-      "failed_alerts": 6,
-      "avg_return_pct": -0.2691
     },
     {
       "ticker": "GM",
@@ -2100,7 +2100,7 @@
   ],
   "runner_candidates": [
     {
-      "ticker": "CELH",
+      "ticker": "FUBO",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -2131,7 +2131,7 @@
       "live_trading": false
     },
     {
-      "ticker": "FUBO",
+      "ticker": "CELH",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -3518,7 +3518,7 @@
   "runner_watch": [],
   "blocked_runner_candidates": [
     {
-      "ticker": "CELH",
+      "ticker": "FUBO",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -3549,7 +3549,7 @@
       "live_trading": false
     },
     {
-      "ticker": "FUBO",
+      "ticker": "CELH",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
