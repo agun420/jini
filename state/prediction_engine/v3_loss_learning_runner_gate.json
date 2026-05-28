@@ -1,9 +1,9 @@
 {
   "schema_version": "v3_loss_learning_runner_gate_v1",
-  "generated_at": "2026-05-28T12:18:02.270032+00:00",
+  "generated_at": "2026-05-28T12:32:12.085952+00:00",
   "health": {
     "schema_version": "v3_loss_learning_runner_gate_health_v1",
-    "generated_at": "2026-05-28T12:18:02.270032+00:00",
+    "generated_at": "2026-05-28T12:32:12.085952+00:00",
     "status": "WARN",
     "blockers": [],
     "warnings": [
@@ -13,7 +13,7 @@
     "winning_layer": "PRE_BREAKOUT",
     "promotion_decision": "PREBREAKOUT_LEADS_KEEP_REACTIVE_SECONDARY",
     "ticker_memory_count": 46,
-    "cooldown_active_count": 32,
+    "cooldown_active_count": 33,
     "runner_watch_count": 0,
     "blocked_runner_count": 46,
     "top_runner_ticker": null,
@@ -26,6 +26,21 @@
     "live_trading": false
   },
   "ticker_memory": {
+    "PATH": {
+      "ticker": "PATH",
+      "closed_count": 3,
+      "target_hits": 1,
+      "stop_hits": 0,
+      "time_exits": 2,
+      "failed_alerts": 1,
+      "avg_return_pct": 0.4033333333333333,
+      "total_return_pct": 1.21,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T12:24:00.774480+00:00",
+      "last_return_pct": -0.3439,
+      "last_layer": "REACTIVE",
+      "last_score": 60.8032
+    },
     "CLSK": {
       "ticker": "CLSK",
       "closed_count": 10,
@@ -175,21 +190,6 @@
       "last_return_pct": 0.4411,
       "last_layer": "REACTIVE",
       "last_score": 66.4839
-    },
-    "PATH": {
-      "ticker": "PATH",
-      "closed_count": 2,
-      "target_hits": 1,
-      "stop_hits": 0,
-      "time_exits": 1,
-      "failed_alerts": 0,
-      "avg_return_pct": 0.77695,
-      "total_return_pct": 1.5539,
-      "last_reason": "TIME_EXIT",
-      "last_closed_at": "2026-05-22T17:00:51.199005+00:00",
-      "last_return_pct": 0.0218,
-      "last_layer": "REACTIVE",
-      "last_score": 62.9553
     },
     "GM": {
       "ticker": "GM",
@@ -719,21 +719,72 @@
   },
   "cooldowns": [
     {
-      "ticker": "U",
-      "cooldown_active": false,
-      "cooldown_reason": null,
-      "cooldown_minutes_left": 0.0,
+      "ticker": "BBAI",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "TARGET_HIT",
+      "last_closed_at": "2026-05-22T13:46:36.757447+00:00",
+      "last_return_pct": 1.1167,
+      "closed_count": 10,
+      "target_hits": 5,
+      "stop_hits": 2,
+      "time_exits": 3,
+      "failed_alerts": 4,
+      "avg_return_pct": 0.3083
+    },
+    {
+      "ticker": "ENVX",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-22T20:19:21.093929+00:00",
+      "last_return_pct": -0.6015,
+      "closed_count": 4,
+      "target_hits": 2,
+      "stop_hits": 1,
+      "time_exits": 1,
+      "failed_alerts": 2,
+      "avg_return_pct": 0.4719
+    },
+    {
+      "ticker": "DKNG",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
       "late_day": false,
       "very_late_day": false,
       "last_reason": "TARGET_HIT",
       "last_closed_at": "2026-05-22T13:52:59.000379+00:00",
-      "last_return_pct": 0.5563,
-      "closed_count": 2,
-      "target_hits": 2,
+      "last_return_pct": 0.5186,
+      "closed_count": 6,
+      "target_hits": 3,
       "stop_hits": 0,
-      "time_exits": 0,
-      "failed_alerts": 0,
-      "avg_return_pct": 0.6251
+      "time_exits": 3,
+      "failed_alerts": 3,
+      "avg_return_pct": 0.2487
+    },
+    {
+      "ticker": "PATH",
+      "cooldown_active": true,
+      "cooldown_reason": "weak_time_exit_cooldown",
+      "cooldown_minutes_left": 36.81,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T12:24:00.774480+00:00",
+      "last_return_pct": -0.3439,
+      "closed_count": 3,
+      "target_hits": 1,
+      "stop_hits": 0,
+      "time_exits": 2,
+      "failed_alerts": 1,
+      "avg_return_pct": 0.4033
     },
     {
       "ticker": "CLSK",
@@ -855,23 +906,6 @@
       "avg_return_pct": 0.421
     },
     {
-      "ticker": "ENVX",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": false,
-      "very_late_day": false,
-      "last_reason": "TIME_EXIT",
-      "last_closed_at": "2026-05-22T20:19:21.093929+00:00",
-      "last_return_pct": -0.6015,
-      "closed_count": 4,
-      "target_hits": 2,
-      "stop_hits": 1,
-      "time_exits": 1,
-      "failed_alerts": 2,
-      "avg_return_pct": 0.4719
-    },
-    {
       "ticker": "DNA",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
@@ -904,23 +938,6 @@
       "time_exits": 4,
       "failed_alerts": 2,
       "avg_return_pct": 0.4853
-    },
-    {
-      "ticker": "PATH",
-      "cooldown_active": false,
-      "cooldown_reason": null,
-      "cooldown_minutes_left": 0.0,
-      "late_day": false,
-      "very_late_day": false,
-      "last_reason": "TIME_EXIT",
-      "last_closed_at": "2026-05-22T17:00:51.199005+00:00",
-      "last_return_pct": 0.0218,
-      "closed_count": 2,
-      "target_hits": 1,
-      "stop_hits": 0,
-      "time_exits": 1,
-      "failed_alerts": 0,
-      "avg_return_pct": 0.777
     },
     {
       "ticker": "GM",
@@ -1076,6 +1093,23 @@
       "avg_return_pct": 0.108
     },
     {
+      "ticker": "U",
+      "cooldown_active": false,
+      "cooldown_reason": null,
+      "cooldown_minutes_left": 0.0,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "TARGET_HIT",
+      "last_closed_at": "2026-05-22T13:52:59.000379+00:00",
+      "last_return_pct": 0.5563,
+      "closed_count": 2,
+      "target_hits": 2,
+      "stop_hits": 0,
+      "time_exits": 0,
+      "failed_alerts": 0,
+      "avg_return_pct": 0.6251
+    },
+    {
       "ticker": "PINS",
       "cooldown_active": false,
       "cooldown_reason": null,
@@ -1091,40 +1125,6 @@
       "time_exits": 0,
       "failed_alerts": 0,
       "avg_return_pct": 0.5515
-    },
-    {
-      "ticker": "DKNG",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": false,
-      "very_late_day": false,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-22T13:52:59.000379+00:00",
-      "last_return_pct": 0.5186,
-      "closed_count": 6,
-      "target_hits": 3,
-      "stop_hits": 0,
-      "time_exits": 3,
-      "failed_alerts": 3,
-      "avg_return_pct": 0.2487
-    },
-    {
-      "ticker": "BBAI",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": false,
-      "very_late_day": false,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-22T13:46:36.757447+00:00",
-      "last_return_pct": 1.1167,
-      "closed_count": 10,
-      "target_hits": 5,
-      "stop_hits": 2,
-      "time_exits": 3,
-      "failed_alerts": 4,
-      "avg_return_pct": 0.3083
     },
     {
       "ticker": "CVNA",
@@ -1503,6 +1503,74 @@
   ],
   "active_cooldowns": [
     {
+      "ticker": "BBAI",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "TARGET_HIT",
+      "last_closed_at": "2026-05-22T13:46:36.757447+00:00",
+      "last_return_pct": 1.1167,
+      "closed_count": 10,
+      "target_hits": 5,
+      "stop_hits": 2,
+      "time_exits": 3,
+      "failed_alerts": 4,
+      "avg_return_pct": 0.3083
+    },
+    {
+      "ticker": "ENVX",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-22T20:19:21.093929+00:00",
+      "last_return_pct": -0.6015,
+      "closed_count": 4,
+      "target_hits": 2,
+      "stop_hits": 1,
+      "time_exits": 1,
+      "failed_alerts": 2,
+      "avg_return_pct": 0.4719
+    },
+    {
+      "ticker": "DKNG",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "TARGET_HIT",
+      "last_closed_at": "2026-05-22T13:52:59.000379+00:00",
+      "last_return_pct": 0.5186,
+      "closed_count": 6,
+      "target_hits": 3,
+      "stop_hits": 0,
+      "time_exits": 3,
+      "failed_alerts": 3,
+      "avg_return_pct": 0.2487
+    },
+    {
+      "ticker": "PATH",
+      "cooldown_active": true,
+      "cooldown_reason": "weak_time_exit_cooldown",
+      "cooldown_minutes_left": 36.81,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T12:24:00.774480+00:00",
+      "last_return_pct": -0.3439,
+      "closed_count": 3,
+      "target_hits": 1,
+      "stop_hits": 0,
+      "time_exits": 2,
+      "failed_alerts": 1,
+      "avg_return_pct": 0.4033
+    },
+    {
       "ticker": "CLSK",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
@@ -1620,23 +1688,6 @@
       "time_exits": 3,
       "failed_alerts": 3,
       "avg_return_pct": 0.421
-    },
-    {
-      "ticker": "ENVX",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": false,
-      "very_late_day": false,
-      "last_reason": "TIME_EXIT",
-      "last_closed_at": "2026-05-22T20:19:21.093929+00:00",
-      "last_return_pct": -0.6015,
-      "closed_count": 4,
-      "target_hits": 2,
-      "stop_hits": 1,
-      "time_exits": 1,
-      "failed_alerts": 2,
-      "avg_return_pct": 0.4719
     },
     {
       "ticker": "DNA",
@@ -1807,40 +1858,6 @@
       "time_exits": 0,
       "failed_alerts": 1,
       "avg_return_pct": 0.108
-    },
-    {
-      "ticker": "DKNG",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": false,
-      "very_late_day": false,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-22T13:52:59.000379+00:00",
-      "last_return_pct": 0.5186,
-      "closed_count": 6,
-      "target_hits": 3,
-      "stop_hits": 0,
-      "time_exits": 3,
-      "failed_alerts": 3,
-      "avg_return_pct": 0.2487
-    },
-    {
-      "ticker": "BBAI",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": false,
-      "very_late_day": false,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-22T13:46:36.757447+00:00",
-      "last_return_pct": 1.1167,
-      "closed_count": 10,
-      "target_hits": 5,
-      "stop_hits": 2,
-      "time_exits": 3,
-      "failed_alerts": 4,
-      "avg_return_pct": 0.3083
     },
     {
       "ticker": "UBER",
@@ -2049,23 +2066,99 @@
   ],
   "runner_candidates": [
     {
-      "ticker": "U",
+      "ticker": "BBAI",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "two_failed_alerts_today"
+      ],
+      "warnings": [],
+      "price": 4.38,
+      "day_move_pct": 4.7847,
+      "relative_volume": 1.334,
+      "expected_value_pct": 0.625,
+      "edge_score": 92.5,
+      "base_target_price": 4.4194,
+      "base_stop_price": 4.3537,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "ENVX",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "two_failed_alerts_today",
+        "prebreakout_not_ready"
+      ],
+      "warnings": [],
+      "price": 7.46,
+      "day_move_pct": 2.8966,
+      "relative_volume": 5.1335,
+      "expected_value_pct": 0.3064,
+      "edge_score": 79.1937,
+      "base_target_price": 7.5271,
+      "base_stop_price": 7.4152,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "DKNG",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "two_failed_alerts_today",
         "prebreakout_not_ready",
         "expected_value_too_low"
       ],
       "warnings": [
         "edge_score_below_elite"
       ],
-      "price": 28.0,
-      "day_move_pct": 4.5947,
-      "relative_volume": 1.4339,
-      "expected_value_pct": 0.0589,
-      "edge_score": 59.4151,
-      "base_target_price": 28.252,
-      "base_stop_price": 27.832,
+      "price": 25.1331,
+      "day_move_pct": 5.5569,
+      "relative_volume": 1.3072,
+      "expected_value_pct": 0.1059,
+      "edge_score": 63.198,
+      "base_target_price": 25.3593,
+      "base_stop_price": 24.9823,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "PATH",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "weak_time_exit_cooldown",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
+      ],
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
       "runner_first_target_pct": 0.8,
       "runner_target_pct": 5.0,
       "runner_max_target_pct": 10.0,
@@ -2284,36 +2377,6 @@
       "live_trading": false
     },
     {
-      "ticker": "ENVX",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
       "ticker": "DNA",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
@@ -2349,35 +2412,6 @@
       "runner_status": "NO RUNNER",
       "blockers": [
         "two_failed_alerts_today",
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "PATH",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -2672,70 +2706,39 @@
       "live_trading": false
     },
     {
+      "ticker": "U",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
+      ],
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
       "ticker": "PINS",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "DKNG",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "BBAI",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -3414,23 +3417,99 @@
   "runner_watch": [],
   "blocked_runner_candidates": [
     {
-      "ticker": "U",
+      "ticker": "BBAI",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "two_failed_alerts_today"
+      ],
+      "warnings": [],
+      "price": 4.38,
+      "day_move_pct": 4.7847,
+      "relative_volume": 1.334,
+      "expected_value_pct": 0.625,
+      "edge_score": 92.5,
+      "base_target_price": 4.4194,
+      "base_stop_price": 4.3537,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "ENVX",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "two_failed_alerts_today",
+        "prebreakout_not_ready"
+      ],
+      "warnings": [],
+      "price": 7.46,
+      "day_move_pct": 2.8966,
+      "relative_volume": 5.1335,
+      "expected_value_pct": 0.3064,
+      "edge_score": 79.1937,
+      "base_target_price": 7.5271,
+      "base_stop_price": 7.4152,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "DKNG",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "two_failed_alerts_today",
         "prebreakout_not_ready",
         "expected_value_too_low"
       ],
       "warnings": [
         "edge_score_below_elite"
       ],
-      "price": 28.0,
-      "day_move_pct": 4.5947,
-      "relative_volume": 1.4339,
-      "expected_value_pct": 0.0589,
-      "edge_score": 59.4151,
-      "base_target_price": 28.252,
-      "base_stop_price": 27.832,
+      "price": 25.1331,
+      "day_move_pct": 5.5569,
+      "relative_volume": 1.3072,
+      "expected_value_pct": 0.1059,
+      "edge_score": 63.198,
+      "base_target_price": 25.3593,
+      "base_stop_price": 24.9823,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "PATH",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "weak_time_exit_cooldown",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
+      ],
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
       "runner_first_target_pct": 0.8,
       "runner_target_pct": 5.0,
       "runner_max_target_pct": 10.0,
@@ -3649,36 +3728,6 @@
       "live_trading": false
     },
     {
-      "ticker": "ENVX",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
       "ticker": "DNA",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
@@ -3714,35 +3763,6 @@
       "runner_status": "NO RUNNER",
       "blockers": [
         "two_failed_alerts_today",
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "PATH",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -4037,70 +4057,39 @@
       "live_trading": false
     },
     {
+      "ticker": "U",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
+      ],
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
       "ticker": "PINS",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "DKNG",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "BBAI",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",

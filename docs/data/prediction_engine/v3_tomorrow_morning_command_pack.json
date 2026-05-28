@@ -1,9 +1,9 @@
 {
   "schema_version": "v3_tomorrow_morning_command_pack_v1",
-  "generated_at": "2026-05-28T12:17:57.082098+00:00",
+  "generated_at": "2026-05-28T12:32:05.875304+00:00",
   "health": {
     "schema_version": "v3_tomorrow_morning_command_pack_health_v1",
-    "generated_at": "2026-05-28T12:17:57.082098+00:00",
+    "generated_at": "2026-05-28T12:32:05.875304+00:00",
     "status": "PASS",
     "blockers": [],
     "warnings": [],
@@ -13,10 +13,10 @@
     "package_100_score": 96,
     "morning_readiness": "READY_FOR_RESEARCH_AND_PLAN_ONLY_REVIEW",
     "market_regime": "NEUTRAL",
-    "market_regime_score": 49.4971,
-    "positive_edge_count": 0,
-    "paper_plan_count": 1,
-    "locked_watchlist_count": 1,
+    "market_regime_score": 52.9781,
+    "positive_edge_count": 2,
+    "paper_plan_count": 3,
+    "locked_watchlist_count": 3,
     "paper_trade_ready": false,
     "paper_order_allowed": false,
     "order_submission": false,
@@ -27,73 +27,105 @@
       "script": "scripts/run_alpaca_v3_market_enrichment.py",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "{\n  \"schema_version\": \"v3_enriched_rows_health_v3\",\n  \"generated_at\": \"2026-05-28T12:17:57.177998+00:00\",\n  \"status\": \"PASS\",\n  \"seed_mode\": \"paid_primary\",\n  \"blockers\": [],\n  \"warnings\": [],\n  \"rows\": 80,\n  \"rows_with_price\": 80,\n  \"rows_with_day_move\": 80,\n  \"rows_with_non_default_rvol\": 80,\n  \"rows_with_spread\": 80,\n  \"rows_with_quote_age\": 80,\n  \"top_ticker\": \"SNOW\",\n  \"top_day_move\": 36.402,\n  \"top_rvol\": 1.9061,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"v3_enriched_rows_health_v3\",\n  \"generated_at\": \"2026-05-28T12:32:06.179030+00:00\",\n  \"status\": \"PASS\",\n  \"seed_mode\": \"paid_primary\",\n  \"blockers\": [],\n  \"warnings\": [],\n  \"rows\": 80,\n  \"rows_with_price\": 80,\n  \"rows_with_day_move\": 80,\n  \"rows_with_non_default_rvol\": 79,\n  \"rows_with_spread\": 80,\n  \"rows_with_quote_age\": 80,\n  \"top_ticker\": \"SNOW\",\n  \"top_day_move\": 35.2759,\n  \"top_rvol\": 2.9247,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
       "stderr_tail": ""
     },
     {
       "script": "scripts/run_v3_market_regime_filter.py",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "{\n  \"schema_version\": \"v3_market_regime_filter_health_v1\",\n  \"generated_at\": \"2026-05-28T12:18:00.357652+00:00\",\n  \"status\": \"WARN\",\n  \"blockers\": [],\n  \"warnings\": [\n    \"no_market_index_rows_found_using_universe_proxy\"\n  ],\n  \"regime\": \"NEUTRAL\",\n  \"regime_score\": 49.4971,\n  \"recommendation\": \"Normal caution. Avoid weak setups and chase entries.\",\n  \"source\": \"universe_proxy\",\n  \"source_rows\": 80,\n  \"avg_day_move_pct\": 1.1708,\n  \"avg_vwap_distance_pct\": 0.0094,\n  \"avg_momentum_1m\": -0.028,\n  \"avg_momentum_5m\": 0.0074,\n  \"positive_move_pct\": 61.25,\n  \"above_vwap_pct\": 52.5,\n  \"positive_momentum_pct\": 35.0,\n  \"order_submission\": false,\n  \"live_trading\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"v3_market_regime_filter_health_v1\",\n  \"generated_at\": \"2026-05-28T12:32:10.579752+00:00\",\n  \"status\": \"WARN\",\n  \"blockers\": [],\n  \"warnings\": [\n    \"no_market_index_rows_found_using_universe_proxy\"\n  ],\n  \"regime\": \"NEUTRAL\",\n  \"regime_score\": 52.9781,\n  \"recommendation\": \"Normal caution. Avoid weak setups and chase entries.\",\n  \"source\": \"universe_proxy\",\n  \"source_rows\": 80,\n  \"avg_day_move_pct\": 1.1683,\n  \"avg_vwap_distance_pct\": 0.0101,\n  \"avg_momentum_1m\": 0.0024,\n  \"avg_momentum_5m\": 0.0457,\n  \"positive_move_pct\": 61.25,\n  \"above_vwap_pct\": 48.75,\n  \"positive_momentum_pct\": 60.0,\n  \"order_submission\": false,\n  \"live_trading\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false\n}\n",
       "stderr_tail": ""
     },
     {
       "script": "scripts/run_v3_prebreakout_predictor.py",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "{\n  \"schema_version\": \"v3_prebreakout_predictor_health_v2_tightened\",\n  \"generated_at\": \"2026-05-28T12:18:00.466889+00:00\",\n  \"status\": \"PASS\",\n  \"blockers\": [],\n  \"warnings\": [\n    \"market_closed_no_live_candidates_expected\"\n  ],\n  \"rows\": 80,\n  \"prebreakout_candidates\": 0,\n  \"breakout_trigger_candidates\": 0,\n  \"explosive_breakout_candidates\": 0,\n  \"total_candidates\": 0,\n  \"pullback_reclaim_watch\": 0,\n  \"wait_for_pullback\": 0,\n  \"chase_risk_extended\": 1,\n  \"watch\": 11,\n  \"blocked\": 2,\n  \"top_ticker\": \"PATH\",\n  \"top_status\": \"WATCH\",\n  \"top_score\": 57.4816,\n  \"market_open\": false,\n  \"market_regime\": \"NEUTRAL\",\n  \"market_regime_score\": 49.4971,\n  \"order_submission\": false,\n  \"live_trading\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"v3_prebreakout_predictor_health_v2_tightened\",\n  \"generated_at\": \"2026-05-28T12:32:10.697500+00:00\",\n  \"status\": \"PASS\",\n  \"blockers\": [],\n  \"warnings\": [],\n  \"rows\": 80,\n  \"prebreakout_candidates\": 0,\n  \"breakout_trigger_candidates\": 1,\n  \"explosive_breakout_candidates\": 0,\n  \"total_candidates\": 1,\n  \"pullback_reclaim_watch\": 0,\n  \"wait_for_pullback\": 0,\n  \"chase_risk_extended\": 1,\n  \"watch\": 18,\n  \"blocked\": 3,\n  \"top_ticker\": \"BBAI\",\n  \"top_status\": \"BREAKOUT_TRIGGER_CANDIDATE\",\n  \"top_score\": 100.0,\n  \"market_open\": false,\n  \"market_regime\": \"NEUTRAL\",\n  \"market_regime_score\": 52.9781,\n  \"order_submission\": false,\n  \"live_trading\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false\n}\n",
       "stderr_tail": ""
     },
     {
       "script": "scripts/run_v3_research_alert_score.py",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "{\n  \"schema_version\": \"v3_research_alert_score_health_v2\",\n  \"generated_at\": \"2026-05-28T12:18:00.676255+00:00\",\n  \"status\": \"PASS\",\n  \"blockers\": [],\n  \"warnings\": [],\n  \"rows\": 80,\n  \"research_buy_alert_candidates\": 1,\n  \"research_watch\": 14,\n  \"research_track_only\": 50,\n  \"research_blocked\": 14,\n  \"top_ticker\": \"U\",\n  \"top_research_alert_score_v3\": 60.3327,\n  \"market_regime\": \"NEUTRAL\",\n  \"market_regime_score\": 49.4971,\n  \"active_strict_gate_changed\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"v3_research_alert_score_health_v2\",\n  \"generated_at\": \"2026-05-28T12:32:10.891120+00:00\",\n  \"status\": \"PASS\",\n  \"blockers\": [],\n  \"warnings\": [],\n  \"rows\": 80,\n  \"research_buy_alert_candidates\": 2,\n  \"research_watch\": 11,\n  \"research_track_only\": 54,\n  \"research_blocked\": 12,\n  \"top_ticker\": \"ENVX\",\n  \"top_research_alert_score_v3\": 72.299,\n  \"market_regime\": \"NEUTRAL\",\n  \"market_regime_score\": 52.9781,\n  \"active_strict_gate_changed\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
       "stderr_tail": ""
     },
     {
       "script": "scripts/run_v3_mathematical_edge_model.py",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "{\n  \"schema_version\": \"v3_mathematical_edge_model_health_v1\",\n  \"generated_at\": \"2026-05-28T12:18:00.906780+00:00\",\n  \"status\": \"PASS\",\n  \"blockers\": [],\n  \"warnings\": [],\n  \"market_regime\": \"NEUTRAL\",\n  \"journal_low_confidence\": false,\n  \"candidate_count\": 1,\n  \"positive_edge_count\": 0,\n  \"small_edge_watch_count\": 1,\n  \"negative_edge_reject_count\": 0,\n  \"top_ticker\": \"U\",\n  \"top_edge_status\": \"SMALL_EDGE_WATCH\",\n  \"top_expected_value_pct\": 0.0589,\n  \"top_edge_score\": 59.4151,\n  \"estimated_cost_pct\": 0.05,\n  \"max_notional\": 2000.0,\n  \"paper_order_allowed\": false,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"v3_mathematical_edge_model_health_v1\",\n  \"generated_at\": \"2026-05-28T12:32:11.171388+00:00\",\n  \"status\": \"PASS\",\n  \"blockers\": [],\n  \"warnings\": [],\n  \"market_regime\": \"NEUTRAL\",\n  \"journal_low_confidence\": false,\n  \"candidate_count\": 3,\n  \"positive_edge_count\": 2,\n  \"small_edge_watch_count\": 1,\n  \"negative_edge_reject_count\": 0,\n  \"top_ticker\": \"BBAI\",\n  \"top_edge_status\": \"POSITIVE_EDGE_REVIEW\",\n  \"top_expected_value_pct\": 0.625,\n  \"top_edge_score\": 92.5,\n  \"estimated_cost_pct\": 0.05,\n  \"max_notional\": 2000.0,\n  \"paper_order_allowed\": false,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
       "stderr_tail": ""
     },
     {
       "script": "scripts/run_v3_paper_plan_export.py",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "{\n  \"schema_version\": \"v3_paper_order_plan_health_v1\",\n  \"generated_at\": \"2026-05-28T12:18:01.061113+00:00\",\n  \"status\": \"PASS\",\n  \"blockers\": [],\n  \"warnings\": [],\n  \"plan_count\": 1,\n  \"candidate_count_before_dedupe\": 1,\n  \"market_regime\": \"NEUTRAL\",\n  \"market_regime_score\": 49.4971,\n  \"max_notional_per_plan\": 2000.0,\n  \"paper_order_allowed\": false,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"v3_paper_order_plan_health_v1\",\n  \"generated_at\": \"2026-05-28T12:32:11.306824+00:00\",\n  \"status\": \"PASS\",\n  \"blockers\": [],\n  \"warnings\": [],\n  \"plan_count\": 3,\n  \"candidate_count_before_dedupe\": 3,\n  \"market_regime\": \"NEUTRAL\",\n  \"market_regime_score\": 52.9781,\n  \"max_notional_per_plan\": 2000.0,\n  \"paper_order_allowed\": false,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
       "stderr_tail": ""
     },
     {
       "script": "scripts/run_v3_package_100_validation.py",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "{\n  \"schema_version\": \"v3_package_100_validation_health_v1\",\n  \"generated_at\": \"2026-05-28T12:18:01.171911+00:00\",\n  \"status\": \"PASS\",\n  \"score\": 96,\n  \"blockers\": [],\n  \"warnings\": [\n    \"market_regime_warn\",\n    \"prebreakout_journal_warn\"\n  ],\n  \"tomorrow_readiness\": \"READY_FOR_RESEARCH_ONLY\",\n  \"missing_dashboard_ids\": [],\n  \"prebreakout_avg_return_pct\": 0.2029,\n  \"reactive_avg_return_pct\": 0.1105,\n  \"math_positive_edge_count\": 0,\n  \"paper_plan_count\": 1,\n  \"paper_trade_ready\": false,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"v3_package_100_validation_health_v1\",\n  \"generated_at\": \"2026-05-28T12:32:11.456528+00:00\",\n  \"status\": \"PASS\",\n  \"score\": 96,\n  \"blockers\": [],\n  \"warnings\": [\n    \"market_regime_warn\",\n    \"prebreakout_journal_warn\"\n  ],\n  \"tomorrow_readiness\": \"READY_FOR_RESEARCH_AND_PLAN_ONLY_REVIEW\",\n  \"missing_dashboard_ids\": [],\n  \"prebreakout_avg_return_pct\": 0.2029,\n  \"reactive_avg_return_pct\": 0.1053,\n  \"math_positive_edge_count\": 2,\n  \"paper_plan_count\": 3,\n  \"paper_trade_ready\": false,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
       "stderr_tail": ""
     },
     {
       "script": "scripts/run_v3_morning_readiness_report.py",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "{\n  \"schema_version\": \"v3_morning_readiness_report_health_v1\",\n  \"generated_at\": \"2026-05-28T12:18:01.274659+00:00\",\n  \"status\": \"WARN\",\n  \"blockers\": [],\n  \"warnings\": [\n    \"no_positive_edge_candidates_currently\"\n  ],\n  \"readiness\": \"READY_FOR_RESEARCH_AND_PLAN_ONLY_REVIEW\",\n  \"package_100_status\": \"PASS\",\n  \"package_100_score\": 96,\n  \"market_regime\": \"NEUTRAL\",\n  \"market_regime_score\": 49.4971,\n  \"positive_edge_count\": 0,\n  \"paper_plan_count\": 1,\n  \"locked_watchlist_count\": 1,\n  \"winning_layer\": \"PRE_BREAKOUT\",\n  \"promotion_decision\": \"PREBREAKOUT_LEADS_KEEP_REACTIVE_SECONDARY\",\n  \"paper_trade_ready\": false,\n  \"paper_order_allowed\": false,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"v3_morning_readiness_report_health_v1\",\n  \"generated_at\": \"2026-05-28T12:32:11.559455+00:00\",\n  \"status\": \"PASS\",\n  \"blockers\": [],\n  \"warnings\": [],\n  \"readiness\": \"READY_FOR_RESEARCH_AND_PLAN_ONLY_REVIEW\",\n  \"package_100_status\": \"PASS\",\n  \"package_100_score\": 96,\n  \"market_regime\": \"NEUTRAL\",\n  \"market_regime_score\": 52.9781,\n  \"positive_edge_count\": 2,\n  \"paper_plan_count\": 3,\n  \"locked_watchlist_count\": 3,\n  \"winning_layer\": \"PRE_BREAKOUT\",\n  \"promotion_decision\": \"PREBREAKOUT_LEADS_KEEP_REACTIVE_SECONDARY\",\n  \"paper_trade_ready\": false,\n  \"paper_order_allowed\": false,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
       "stderr_tail": ""
     }
   ],
   "locked_watchlist": [
     {
-      "ticker": "U",
+      "ticker": "BBAI",
+      "layer": "PRE_BREAKOUT",
+      "edge_status": null,
+      "edge_score": null,
+      "expected_value_pct": null,
+      "estimated_win_probability": null,
+      "risk_reward_ratio": null,
+      "live_price": 4.38,
+      "planned_shares": 456,
+      "planned_notional": 1997.28,
+      "target_price": 4.4194,
+      "stop_price": 4.3537,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "ENVX",
       "layer": "REACTIVE",
       "edge_status": null,
       "edge_score": null,
       "expected_value_pct": null,
       "estimated_win_probability": null,
       "risk_reward_ratio": null,
-      "live_price": 28.0,
-      "planned_shares": 71,
-      "planned_notional": 1988.0,
-      "target_price": 28.252,
-      "stop_price": 27.832,
+      "live_price": 7.46,
+      "planned_shares": 268,
+      "planned_notional": 1999.28,
+      "target_price": 7.5271,
+      "stop_price": 7.4152,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "DKNG",
+      "layer": "REACTIVE",
+      "edge_status": null,
+      "edge_score": null,
+      "expected_value_pct": null,
+      "estimated_win_probability": null,
+      "risk_reward_ratio": null,
+      "live_price": 25.1331,
+      "planned_shares": 79,
+      "planned_notional": 1985.51,
+      "target_price": 25.3593,
+      "stop_price": 24.9823,
       "order_submission": false,
       "live_trading": false
     }
@@ -102,8 +134,8 @@
     "readiness": "READY_FOR_RESEARCH_AND_PLAN_ONLY_REVIEW",
     "package_100_score": 96,
     "market_regime": "NEUTRAL",
-    "paper_plan_count": 1,
-    "positive_edge_count": 0,
+    "paper_plan_count": 3,
+    "positive_edge_count": 2,
     "instruction": "Review only. Do not enable order submission. Do not enable live trading."
   },
   "safety": {
