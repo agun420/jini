@@ -1,9 +1,9 @@
 {
   "schema_version": "v3_loss_learning_runner_gate_v1",
-  "generated_at": "2026-05-28T18:17:53.966497+00:00",
+  "generated_at": "2026-05-28T18:32:00.508663+00:00",
   "health": {
     "schema_version": "v3_loss_learning_runner_gate_health_v1",
-    "generated_at": "2026-05-28T18:17:53.966497+00:00",
+    "generated_at": "2026-05-28T18:32:00.508663+00:00",
     "status": "WARN",
     "blockers": [],
     "warnings": [
@@ -719,23 +719,6 @@
   },
   "cooldowns": [
     {
-      "ticker": "FUBO",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": false,
-      "very_late_day": false,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-28T17:12:56.181344+00:00",
-      "last_return_pct": 0.6883,
-      "closed_count": 9,
-      "target_hits": 2,
-      "stop_hits": 5,
-      "time_exits": 2,
-      "failed_alerts": 6,
-      "avg_return_pct": -0.2691
-    },
-    {
       "ticker": "CELH",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
@@ -751,6 +734,23 @@
       "time_exits": 4,
       "failed_alerts": 4,
       "avg_return_pct": 0.2075
+    },
+    {
+      "ticker": "FUBO",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "TARGET_HIT",
+      "last_closed_at": "2026-05-28T17:12:56.181344+00:00",
+      "last_return_pct": 0.6883,
+      "closed_count": 9,
+      "target_hits": 2,
+      "stop_hits": 5,
+      "time_exits": 2,
+      "failed_alerts": 6,
+      "avg_return_pct": -0.2691
     },
     {
       "ticker": "GME",
@@ -1503,23 +1503,6 @@
   ],
   "active_cooldowns": [
     {
-      "ticker": "FUBO",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": false,
-      "very_late_day": false,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-28T17:12:56.181344+00:00",
-      "last_return_pct": 0.6883,
-      "closed_count": 9,
-      "target_hits": 2,
-      "stop_hits": 5,
-      "time_exits": 2,
-      "failed_alerts": 6,
-      "avg_return_pct": -0.2691
-    },
-    {
       "ticker": "CELH",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
@@ -1535,6 +1518,23 @@
       "time_exits": 4,
       "failed_alerts": 4,
       "avg_return_pct": 0.2075
+    },
+    {
+      "ticker": "FUBO",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "TARGET_HIT",
+      "last_closed_at": "2026-05-28T17:12:56.181344+00:00",
+      "last_return_pct": 0.6883,
+      "closed_count": 9,
+      "target_hits": 2,
+      "stop_hits": 5,
+      "time_exits": 2,
+      "failed_alerts": 6,
+      "avg_return_pct": -0.2691
     },
     {
       "ticker": "GM",
@@ -2100,21 +2100,28 @@
   ],
   "runner_candidates": [
     {
-      "ticker": "FUBO",
+      "ticker": "CELH",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
         "two_failed_alerts_today",
-        "prebreakout_not_ready"
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
       ],
-      "warnings": [],
-      "price": 10.36,
-      "day_move_pct": 5.1777,
-      "relative_volume": 3.1326,
-      "expected_value_pct": 0.2112,
-      "edge_score": 71.1905,
-      "base_target_price": 10.4532,
-      "base_stop_price": 10.2978,
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
       "runner_first_target_pct": 0.8,
       "runner_target_pct": 5.0,
       "runner_max_target_pct": 10.0,
@@ -2123,7 +2130,7 @@
       "live_trading": false
     },
     {
-      "ticker": "CELH",
+      "ticker": "FUBO",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -3465,21 +3472,28 @@
   "runner_watch": [],
   "blocked_runner_candidates": [
     {
-      "ticker": "FUBO",
+      "ticker": "CELH",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
         "two_failed_alerts_today",
-        "prebreakout_not_ready"
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
       ],
-      "warnings": [],
-      "price": 10.36,
-      "day_move_pct": 5.1777,
-      "relative_volume": 3.1326,
-      "expected_value_pct": 0.2112,
-      "edge_score": 71.1905,
-      "base_target_price": 10.4532,
-      "base_stop_price": 10.2978,
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
       "runner_first_target_pct": 0.8,
       "runner_target_pct": 5.0,
       "runner_max_target_pct": 10.0,
@@ -3488,7 +3502,7 @@
       "live_trading": false
     },
     {
-      "ticker": "CELH",
+      "ticker": "FUBO",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
