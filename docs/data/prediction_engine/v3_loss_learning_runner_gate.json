@@ -1,9 +1,9 @@
 {
   "schema_version": "v3_loss_learning_runner_gate_v1",
-  "generated_at": "2026-05-28T19:14:31.160600+00:00",
+  "generated_at": "2026-05-28T19:28:24.169762+00:00",
   "health": {
     "schema_version": "v3_loss_learning_runner_gate_health_v1",
-    "generated_at": "2026-05-28T19:14:31.160600+00:00",
+    "generated_at": "2026-05-28T19:28:24.169762+00:00",
     "status": "WARN",
     "blockers": [],
     "warnings": [
@@ -13,7 +13,7 @@
     "winning_layer": "PRE_BREAKOUT",
     "promotion_decision": "PREBREAKOUT_LEADS_KEEP_REACTIVE_SECONDARY",
     "ticker_memory_count": 46,
-    "cooldown_active_count": 35,
+    "cooldown_active_count": 36,
     "runner_watch_count": 0,
     "blocked_runner_count": 46,
     "top_runner_ticker": null,
@@ -26,6 +26,36 @@
     "live_trading": false
   },
   "ticker_memory": {
+    "ACHR": {
+      "ticker": "ACHR",
+      "closed_count": 20,
+      "target_hits": 10,
+      "stop_hits": 5,
+      "time_exits": 5,
+      "failed_alerts": 7,
+      "avg_return_pct": 0.19139499999999998,
+      "total_return_pct": 3.8278999999999996,
+      "last_reason": "STOP_HIT",
+      "last_closed_at": "2026-05-28T19:20:25.471298+00:00",
+      "last_return_pct": -1.2241,
+      "last_layer": "REACTIVE",
+      "last_score": 61.05
+    },
+    "CVNA": {
+      "ticker": "CVNA",
+      "closed_count": 2,
+      "target_hits": 1,
+      "stop_hits": 0,
+      "time_exits": 1,
+      "failed_alerts": 1,
+      "avg_return_pct": 1.3526500000000001,
+      "total_return_pct": 2.7053000000000003,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T19:20:20.497832+00:00",
+      "last_return_pct": -0.1874,
+      "last_layer": "PRE_BREAKOUT",
+      "last_score": 100.0
+    },
     "FUBO": {
       "ticker": "FUBO",
       "closed_count": 10,
@@ -100,21 +130,6 @@
       "last_return_pct": -0.4948,
       "last_layer": "PRE_BREAKOUT",
       "last_score": 96.4024
-    },
-    "ACHR": {
-      "ticker": "ACHR",
-      "closed_count": 19,
-      "target_hits": 10,
-      "stop_hits": 4,
-      "time_exits": 5,
-      "failed_alerts": 6,
-      "avg_return_pct": 0.2658947368421053,
-      "total_return_pct": 5.0520000000000005,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-28T16:29:03.196753+00:00",
-      "last_return_pct": 1.7406,
-      "last_layer": "PRE_BREAKOUT",
-      "last_score": 82.834
     },
     "LUNR": {
       "ticker": "LUNR",
@@ -476,21 +491,6 @@
       "last_layer": "PRE_BREAKOUT",
       "last_score": 100.0
     },
-    "CVNA": {
-      "ticker": "CVNA",
-      "closed_count": 1,
-      "target_hits": 1,
-      "stop_hits": 0,
-      "time_exits": 0,
-      "failed_alerts": 0,
-      "avg_return_pct": 2.8927,
-      "total_return_pct": 2.8927,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-22T13:43:16.800130+00:00",
-      "last_return_pct": 2.8927,
-      "last_layer": "PRE_BREAKOUT",
-      "last_score": 100.0
-    },
     "UBER": {
       "ticker": "UBER",
       "closed_count": 1,
@@ -719,6 +719,40 @@
   },
   "cooldowns": [
     {
+      "ticker": "ACHR",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": true,
+      "very_late_day": false,
+      "last_reason": "STOP_HIT",
+      "last_closed_at": "2026-05-28T19:20:25.471298+00:00",
+      "last_return_pct": -1.2241,
+      "closed_count": 20,
+      "target_hits": 10,
+      "stop_hits": 5,
+      "time_exits": 5,
+      "failed_alerts": 7,
+      "avg_return_pct": 0.1914
+    },
+    {
+      "ticker": "CVNA",
+      "cooldown_active": true,
+      "cooldown_reason": "weak_time_exit_cooldown",
+      "cooldown_minutes_left": 36.94,
+      "late_day": true,
+      "very_late_day": false,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T19:20:20.497832+00:00",
+      "last_return_pct": -0.1874,
+      "closed_count": 2,
+      "target_hits": 1,
+      "stop_hits": 0,
+      "time_exits": 1,
+      "failed_alerts": 1,
+      "avg_return_pct": 1.3527
+    },
+    {
       "ticker": "FUBO",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
@@ -802,23 +836,6 @@
       "time_exits": 6,
       "failed_alerts": 4,
       "avg_return_pct": 0.3135
-    },
-    {
-      "ticker": "ACHR",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": true,
-      "very_late_day": false,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-28T16:29:03.196753+00:00",
-      "last_return_pct": 1.7406,
-      "closed_count": 19,
-      "target_hits": 10,
-      "stop_hits": 4,
-      "time_exits": 5,
-      "failed_alerts": 6,
-      "avg_return_pct": 0.2659
     },
     {
       "ticker": "LUNR",
@@ -1229,23 +1246,6 @@
       "avg_return_pct": 0.5515
     },
     {
-      "ticker": "CVNA",
-      "cooldown_active": false,
-      "cooldown_reason": null,
-      "cooldown_minutes_left": 0.0,
-      "late_day": true,
-      "very_late_day": false,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-22T13:43:16.800130+00:00",
-      "last_return_pct": 2.8927,
-      "closed_count": 1,
-      "target_hits": 1,
-      "stop_hits": 0,
-      "time_exits": 0,
-      "failed_alerts": 0,
-      "avg_return_pct": 2.8927
-    },
-    {
       "ticker": "UBER",
       "cooldown_active": true,
       "cooldown_reason": "post_stop_lockout",
@@ -1503,6 +1503,40 @@
   ],
   "active_cooldowns": [
     {
+      "ticker": "ACHR",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": true,
+      "very_late_day": false,
+      "last_reason": "STOP_HIT",
+      "last_closed_at": "2026-05-28T19:20:25.471298+00:00",
+      "last_return_pct": -1.2241,
+      "closed_count": 20,
+      "target_hits": 10,
+      "stop_hits": 5,
+      "time_exits": 5,
+      "failed_alerts": 7,
+      "avg_return_pct": 0.1914
+    },
+    {
+      "ticker": "CVNA",
+      "cooldown_active": true,
+      "cooldown_reason": "weak_time_exit_cooldown",
+      "cooldown_minutes_left": 36.94,
+      "late_day": true,
+      "very_late_day": false,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T19:20:20.497832+00:00",
+      "last_return_pct": -0.1874,
+      "closed_count": 2,
+      "target_hits": 1,
+      "stop_hits": 0,
+      "time_exits": 1,
+      "failed_alerts": 1,
+      "avg_return_pct": 1.3527
+    },
+    {
       "ticker": "FUBO",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
@@ -1569,23 +1603,6 @@
       "time_exits": 6,
       "failed_alerts": 4,
       "avg_return_pct": 0.3135
-    },
-    {
-      "ticker": "ACHR",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": true,
-      "very_late_day": false,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-28T16:29:03.196753+00:00",
-      "last_return_pct": 1.7406,
-      "closed_count": 19,
-      "target_hits": 10,
-      "stop_hits": 4,
-      "time_exits": 5,
-      "failed_alerts": 6,
-      "avg_return_pct": 0.2659
     },
     {
       "ticker": "LUNR",
@@ -2100,6 +2117,68 @@
   ],
   "runner_candidates": [
     {
+      "ticker": "ACHR",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "two_failed_alerts_today",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
+      ],
+      "warnings": [
+        "late_day_requires_elite_setup",
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "CVNA",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "weak_time_exit_cooldown",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
+      ],
+      "warnings": [
+        "late_day_requires_elite_setup",
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
       "ticker": "FUBO",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
@@ -2224,37 +2303,6 @@
     },
     {
       "ticker": "F",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "late_day_requires_elite_setup",
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "ACHR",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -2996,36 +3044,6 @@
     },
     {
       "ticker": "PINS",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "late_day_requires_elite_setup",
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "CVNA",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -3518,6 +3536,68 @@
   "runner_watch": [],
   "blocked_runner_candidates": [
     {
+      "ticker": "ACHR",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "two_failed_alerts_today",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
+      ],
+      "warnings": [
+        "late_day_requires_elite_setup",
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "CVNA",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "weak_time_exit_cooldown",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
+      ],
+      "warnings": [
+        "late_day_requires_elite_setup",
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
       "ticker": "FUBO",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
@@ -3642,37 +3722,6 @@
     },
     {
       "ticker": "F",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "late_day_requires_elite_setup",
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "ACHR",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -4414,36 +4463,6 @@
     },
     {
       "ticker": "PINS",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "late_day_requires_elite_setup",
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "CVNA",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
