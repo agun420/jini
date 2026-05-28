@@ -1,21 +1,23 @@
 {
   "schema_version": "v3_loss_learning_runner_gate_v1",
-  "generated_at": "2026-05-28T11:20:31.565880+00:00",
+  "generated_at": "2026-05-28T11:34:37.386830+00:00",
   "health": {
     "schema_version": "v3_loss_learning_runner_gate_health_v1",
-    "generated_at": "2026-05-28T11:20:31.565880+00:00",
-    "status": "PASS",
+    "generated_at": "2026-05-28T11:34:37.386830+00:00",
+    "status": "WARN",
     "blockers": [],
-    "warnings": [],
+    "warnings": [
+      "no_runner_watch_candidates"
+    ],
     "market_regime": "NEUTRAL",
     "winning_layer": "PRE_BREAKOUT",
     "promotion_decision": "PREBREAKOUT_LEADS_KEEP_REACTIVE_SECONDARY",
     "ticker_memory_count": 46,
     "cooldown_active_count": 32,
-    "runner_watch_count": 1,
-    "blocked_runner_count": 45,
-    "top_runner_ticker": "PATH",
-    "top_runner_ev_pct": 0.625,
+    "runner_watch_count": 0,
+    "blocked_runner_count": 46,
+    "top_runner_ticker": null,
+    "top_runner_ev_pct": null,
     "late_day": false,
     "very_late_day": false,
     "paper_trade_ready": false,
@@ -2048,17 +2050,22 @@
   "runner_candidates": [
     {
       "ticker": "PATH",
-      "runner_watch": true,
-      "runner_status": "RUNNER WATCH - PLAN ONLY",
-      "blockers": [],
-      "warnings": [],
-      "price": 11.6099,
-      "day_move_pct": 4.688,
-      "relative_volume": 2.93,
-      "expected_value_pct": 0.625,
-      "edge_score": 92.5,
-      "base_target_price": 11.7144,
-      "base_stop_price": 11.5402,
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "prebreakout_not_ready",
+        "expected_value_too_low"
+      ],
+      "warnings": [
+        "edge_score_below_elite"
+      ],
+      "price": 11.63,
+      "day_move_pct": 4.8693,
+      "relative_volume": 2.163,
+      "expected_value_pct": 0.0853,
+      "edge_score": 61.4024,
+      "base_target_price": 11.7347,
+      "base_stop_price": 11.5602,
       "runner_first_target_pct": 0.8,
       "runner_target_pct": 5.0,
       "runner_max_target_pct": 10.0,
@@ -3404,29 +3411,33 @@
       "live_trading": false
     }
   ],
-  "runner_watch": [
+  "runner_watch": [],
+  "blocked_runner_candidates": [
     {
       "ticker": "PATH",
-      "runner_watch": true,
-      "runner_status": "RUNNER WATCH - PLAN ONLY",
-      "blockers": [],
-      "warnings": [],
-      "price": 11.6099,
-      "day_move_pct": 4.688,
-      "relative_volume": 2.93,
-      "expected_value_pct": 0.625,
-      "edge_score": 92.5,
-      "base_target_price": 11.7144,
-      "base_stop_price": 11.5402,
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "prebreakout_not_ready",
+        "expected_value_too_low"
+      ],
+      "warnings": [
+        "edge_score_below_elite"
+      ],
+      "price": 11.63,
+      "day_move_pct": 4.8693,
+      "relative_volume": 2.163,
+      "expected_value_pct": 0.0853,
+      "edge_score": 61.4024,
+      "base_target_price": 11.7347,
+      "base_stop_price": 11.5602,
       "runner_first_target_pct": 0.8,
       "runner_target_pct": 5.0,
       "runner_max_target_pct": 10.0,
       "breakeven_after_first_target": true,
       "order_submission": false,
       "live_trading": false
-    }
-  ],
-  "blocked_runner_candidates": [
+    },
     {
       "ticker": "CLSK",
       "runner_watch": false,
