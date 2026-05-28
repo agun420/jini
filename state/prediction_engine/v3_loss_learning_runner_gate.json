@@ -1,9 +1,9 @@
 {
   "schema_version": "v3_loss_learning_runner_gate_v1",
-  "generated_at": "2026-05-28T20:10:25.995698+00:00",
+  "generated_at": "2026-05-28T20:24:06.899531+00:00",
   "health": {
     "schema_version": "v3_loss_learning_runner_gate_health_v1",
-    "generated_at": "2026-05-28T20:10:25.995698+00:00",
+    "generated_at": "2026-05-28T20:24:06.899531+00:00",
     "status": "WARN",
     "blockers": [],
     "warnings": [
@@ -26,6 +26,36 @@
     "live_trading": false
   },
   "ticker_memory": {
+    "ACHR": {
+      "ticker": "ACHR",
+      "closed_count": 21,
+      "target_hits": 10,
+      "stop_hits": 6,
+      "time_exits": 5,
+      "failed_alerts": 8,
+      "avg_return_pct": 0.12032857142857145,
+      "total_return_pct": 2.5269000000000004,
+      "last_reason": "STOP_HIT",
+      "last_closed_at": "2026-05-28T20:16:18.963139+00:00",
+      "last_return_pct": -1.301,
+      "last_layer": "REACTIVE",
+      "last_score": 66.0735
+    },
+    "AFRM": {
+      "ticker": "AFRM",
+      "closed_count": 5,
+      "target_hits": 1,
+      "stop_hits": 2,
+      "time_exits": 2,
+      "failed_alerts": 4,
+      "avg_return_pct": -0.34558,
+      "total_return_pct": -1.7279,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T20:16:14.309885+00:00",
+      "last_return_pct": -0.096,
+      "last_layer": "PRE_BREAKOUT",
+      "last_score": 100.0
+    },
     "CELH": {
       "ticker": "CELH",
       "closed_count": 16,
@@ -40,21 +70,6 @@
       "last_return_pct": 1.026,
       "last_layer": "REACTIVE",
       "last_score": 65.3756
-    },
-    "ACHR": {
-      "ticker": "ACHR",
-      "closed_count": 20,
-      "target_hits": 10,
-      "stop_hits": 5,
-      "time_exits": 5,
-      "failed_alerts": 7,
-      "avg_return_pct": 0.19139499999999998,
-      "total_return_pct": 3.8278999999999996,
-      "last_reason": "STOP_HIT",
-      "last_closed_at": "2026-05-28T19:20:25.471298+00:00",
-      "last_return_pct": -1.2241,
-      "last_layer": "REACTIVE",
-      "last_score": 61.05
     },
     "CVNA": {
       "ticker": "CVNA",
@@ -190,21 +205,6 @@
       "last_return_pct": 1.1221,
       "last_layer": "PRE_BREAKOUT",
       "last_score": 94.0148
-    },
-    "AFRM": {
-      "ticker": "AFRM",
-      "closed_count": 4,
-      "target_hits": 1,
-      "stop_hits": 2,
-      "time_exits": 1,
-      "failed_alerts": 3,
-      "avg_return_pct": -0.407975,
-      "total_return_pct": -1.6319,
-      "last_reason": "TIME_EXIT",
-      "last_closed_at": "2026-05-28T15:01:47.864604+00:00",
-      "last_return_pct": -0.2361,
-      "last_layer": "REACTIVE",
-      "last_score": 73.6463
     },
     "BBAI": {
       "ticker": "BBAI",
@@ -719,21 +719,38 @@
   },
   "cooldowns": [
     {
-      "ticker": "AI",
+      "ticker": "ACHR",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
       "cooldown_minutes_left": 999.0,
       "late_day": true,
       "very_late_day": true,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-28T15:30:47.701163+00:00",
-      "last_return_pct": 1.0774,
+      "last_reason": "STOP_HIT",
+      "last_closed_at": "2026-05-28T20:16:18.963139+00:00",
+      "last_return_pct": -1.301,
+      "closed_count": 21,
+      "target_hits": 10,
+      "stop_hits": 6,
+      "time_exits": 5,
+      "failed_alerts": 8,
+      "avg_return_pct": 0.1203
+    },
+    {
+      "ticker": "AFRM",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": true,
+      "very_late_day": true,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T20:16:14.309885+00:00",
+      "last_return_pct": -0.096,
       "closed_count": 5,
-      "target_hits": 3,
+      "target_hits": 1,
       "stop_hits": 2,
-      "time_exits": 0,
-      "failed_alerts": 2,
-      "avg_return_pct": 0.3249
+      "time_exits": 2,
+      "failed_alerts": 4,
+      "avg_return_pct": -0.3456
     },
     {
       "ticker": "CELH",
@@ -751,23 +768,6 @@
       "time_exits": 4,
       "failed_alerts": 4,
       "avg_return_pct": 0.3098
-    },
-    {
-      "ticker": "ACHR",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": true,
-      "very_late_day": true,
-      "last_reason": "STOP_HIT",
-      "last_closed_at": "2026-05-28T19:20:25.471298+00:00",
-      "last_return_pct": -1.2241,
-      "closed_count": 20,
-      "target_hits": 10,
-      "stop_hits": 5,
-      "time_exits": 5,
-      "failed_alerts": 7,
-      "avg_return_pct": 0.1914
     },
     {
       "ticker": "CVNA",
@@ -889,6 +889,23 @@
       "avg_return_pct": -0.1087
     },
     {
+      "ticker": "AI",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": true,
+      "very_late_day": true,
+      "last_reason": "TARGET_HIT",
+      "last_closed_at": "2026-05-28T15:30:47.701163+00:00",
+      "last_return_pct": 1.0774,
+      "closed_count": 5,
+      "target_hits": 3,
+      "stop_hits": 2,
+      "time_exits": 0,
+      "failed_alerts": 2,
+      "avg_return_pct": 0.3249
+    },
+    {
       "ticker": "ENVX",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
@@ -904,23 +921,6 @@
       "time_exits": 1,
       "failed_alerts": 3,
       "avg_return_pct": 0.3793
-    },
-    {
-      "ticker": "AFRM",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": true,
-      "very_late_day": true,
-      "last_reason": "TIME_EXIT",
-      "last_closed_at": "2026-05-28T15:01:47.864604+00:00",
-      "last_return_pct": -0.2361,
-      "closed_count": 4,
-      "target_hits": 1,
-      "stop_hits": 2,
-      "time_exits": 1,
-      "failed_alerts": 3,
-      "avg_return_pct": -0.408
     },
     {
       "ticker": "BBAI",
@@ -1503,21 +1503,38 @@
   ],
   "active_cooldowns": [
     {
-      "ticker": "AI",
+      "ticker": "ACHR",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
       "cooldown_minutes_left": 999.0,
       "late_day": true,
       "very_late_day": true,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-28T15:30:47.701163+00:00",
-      "last_return_pct": 1.0774,
+      "last_reason": "STOP_HIT",
+      "last_closed_at": "2026-05-28T20:16:18.963139+00:00",
+      "last_return_pct": -1.301,
+      "closed_count": 21,
+      "target_hits": 10,
+      "stop_hits": 6,
+      "time_exits": 5,
+      "failed_alerts": 8,
+      "avg_return_pct": 0.1203
+    },
+    {
+      "ticker": "AFRM",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": true,
+      "very_late_day": true,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T20:16:14.309885+00:00",
+      "last_return_pct": -0.096,
       "closed_count": 5,
-      "target_hits": 3,
+      "target_hits": 1,
       "stop_hits": 2,
-      "time_exits": 0,
-      "failed_alerts": 2,
-      "avg_return_pct": 0.3249
+      "time_exits": 2,
+      "failed_alerts": 4,
+      "avg_return_pct": -0.3456
     },
     {
       "ticker": "CELH",
@@ -1535,23 +1552,6 @@
       "time_exits": 4,
       "failed_alerts": 4,
       "avg_return_pct": 0.3098
-    },
-    {
-      "ticker": "ACHR",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": true,
-      "very_late_day": true,
-      "last_reason": "STOP_HIT",
-      "last_closed_at": "2026-05-28T19:20:25.471298+00:00",
-      "last_return_pct": -1.2241,
-      "closed_count": 20,
-      "target_hits": 10,
-      "stop_hits": 5,
-      "time_exits": 5,
-      "failed_alerts": 7,
-      "avg_return_pct": 0.1914
     },
     {
       "ticker": "FUBO",
@@ -1639,6 +1639,23 @@
       "avg_return_pct": -0.1087
     },
     {
+      "ticker": "AI",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": true,
+      "very_late_day": true,
+      "last_reason": "TARGET_HIT",
+      "last_closed_at": "2026-05-28T15:30:47.701163+00:00",
+      "last_return_pct": 1.0774,
+      "closed_count": 5,
+      "target_hits": 3,
+      "stop_hits": 2,
+      "time_exits": 0,
+      "failed_alerts": 2,
+      "avg_return_pct": 0.3249
+    },
+    {
       "ticker": "ENVX",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
@@ -1654,23 +1671,6 @@
       "time_exits": 1,
       "failed_alerts": 3,
       "avg_return_pct": 0.3793
-    },
-    {
-      "ticker": "AFRM",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": true,
-      "very_late_day": true,
-      "last_reason": "TIME_EXIT",
-      "last_closed_at": "2026-05-28T15:01:47.864604+00:00",
-      "last_return_pct": -0.2361,
-      "closed_count": 4,
-      "target_hits": 1,
-      "stop_hits": 2,
-      "time_exits": 1,
-      "failed_alerts": 3,
-      "avg_return_pct": -0.408
     },
     {
       "ticker": "BBAI",
@@ -2100,31 +2100,7 @@
   ],
   "runner_candidates": [
     {
-      "ticker": "AI",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
-        "very_late_day_no_new_runner",
-        "prebreakout_not_ready"
-      ],
-      "warnings": [],
-      "price": 10.2484,
-      "day_move_pct": 6.8655,
-      "relative_volume": 12.6586,
-      "expected_value_pct": 0.5676,
-      "edge_score": 88.8702,
-      "base_target_price": 10.3406,
-      "base_stop_price": 10.1869,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 3.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "CELH",
+      "ticker": "ACHR",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -2155,7 +2131,38 @@
       "live_trading": false
     },
     {
-      "ticker": "ACHR",
+      "ticker": "AFRM",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "two_failed_alerts_today",
+        "very_late_day_no_new_runner",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
+      ],
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "CELH",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -2401,7 +2408,7 @@
       "live_trading": false
     },
     {
-      "ticker": "ENVX",
+      "ticker": "AI",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -2432,7 +2439,7 @@
       "live_trading": false
     },
     {
-      "ticker": "AFRM",
+      "ticker": "ENVX",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -3511,31 +3518,7 @@
   "runner_watch": [],
   "blocked_runner_candidates": [
     {
-      "ticker": "AI",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
-        "very_late_day_no_new_runner",
-        "prebreakout_not_ready"
-      ],
-      "warnings": [],
-      "price": 10.2484,
-      "day_move_pct": 6.8655,
-      "relative_volume": 12.6586,
-      "expected_value_pct": 0.5676,
-      "edge_score": 88.8702,
-      "base_target_price": 10.3406,
-      "base_stop_price": 10.1869,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 3.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "CELH",
+      "ticker": "ACHR",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -3566,7 +3549,38 @@
       "live_trading": false
     },
     {
-      "ticker": "ACHR",
+      "ticker": "AFRM",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "two_failed_alerts_today",
+        "very_late_day_no_new_runner",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
+      ],
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "CELH",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -3812,7 +3826,7 @@
       "live_trading": false
     },
     {
-      "ticker": "ENVX",
+      "ticker": "AI",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -3843,7 +3857,7 @@
       "live_trading": false
     },
     {
-      "ticker": "AFRM",
+      "ticker": "ENVX",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
