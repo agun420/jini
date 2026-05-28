@@ -1,6 +1,6 @@
 {
   "schema_version": "signal_dashboard_market_guard_enriched_v1",
-  "generated_at": "2026-05-28T10:02:02.669061+00:00",
+  "generated_at": "2026-05-28T10:15:58.273160+00:00",
   "status": "PASS",
   "rows": [
     {
@@ -75,7 +75,7 @@
       "advanced_quality": {
         "advanced_quality_score": 100,
         "spread_pct": 0.1361,
-        "dollar_volume": 2679927.15,
+        "dollar_volume": 2758842.33,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -97,6 +97,125 @@
           "near_vwap_pullback_zone",
           "volume_returning",
           "controlled_breakout_range",
+          "breakout_not_overextended",
+          "breakout_volume_acceleration"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:ALERT_ONLY"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:ALERT_ONLY"
+      ],
+      "market_guard": {
+        "halt_luld_proxy_score": 0,
+        "halt_luld_flags": [],
+        "halt_luld_hard_blocks": [],
+        "halt_luld_status": "NORMAL"
+      },
+      "market_circuit_proxy": {
+        "market_circuit_proxy_status": "NORMAL",
+        "block_new_entries": false,
+        "flags": [],
+        "index_day_changes": {},
+        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
+      }
+    },
+    {
+      "ticker": "CLSK",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "ALERT ONLY",
+      "status": "ALERT_ONLY",
+      "signal_color": "blue",
+      "meaning": "Interesting, but missing at least one key confirmation.",
+      "action": "Track for confirmation.",
+      "score": 73.0,
+      "price": 17.085,
+      "entry": 17.085,
+      "stop": 16.8287,
+      "target": 17.5976,
+      "risk_reward": 2.0,
+      "relative_volume": 0.96,
+      "day_move_percent": 2.92,
+      "gap_pct": 6.98,
+      "vwap": 16.9396,
+      "vwap_distance_percent": 0.86,
+      "volume_acceleration": 3.18,
+      "trend_state": "BULLISH_CONTROLLED",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 82.86,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "positive day move, healthy gap, weak relative volume, volume acceleration, above VWAP and controlled, risk/reward acceptable",
+      "no_trade_reasons": [
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "CLSK",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260527",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "CLSK",
+        "news_count": 0,
+        "news_catalyst_score": 0,
+        "risk_flags": [],
+        "latest_headline": null,
+        "latest_url": null
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 96.0,
+        "spread_pct": 0.3337,
+        "dollar_volume": 5694840.54,
+        "spread_score": 15.0,
+        "liquidity_score": 12.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 18.0,
+        "pullback_quality_score": 18,
+        "breakout_compression_score": 10.0,
+        "sympathy_score": 3,
+        "theme": "crypto",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "good_dollar_volume",
+          "weak_rvol",
+          "vwap_controlled",
+          "not_chasing_vwap_controlled",
+          "near_vwap_pullback_zone",
+          "volume_returning",
           "breakout_not_overextended",
           "breakout_volume_acceleration"
         ],
@@ -194,10 +313,10 @@
         "latest_url": null
       },
       "advanced_quality": {
-        "advanced_quality_score": 98.0,
-        "spread_pct": 0.2861,
-        "dollar_volume": 57325921.1,
-        "spread_score": 15.0,
+        "advanced_quality_score": 95.0,
+        "spread_pct": 0.6697,
+        "dollar_volume": 59115337.8,
+        "spread_score": 12.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 18.0,
@@ -209,7 +328,7 @@
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
-          "spread_tight",
+          "spread_acceptable",
           "strong_dollar_volume",
           "weak_rvol",
           "vwap_controlled",
@@ -245,25 +364,25 @@
       }
     },
     {
-      "ticker": "CLSK",
+      "ticker": "ADBE",
       "source_type": "alpaca_paid_market_scanner",
-      "signal": "ALERT ONLY",
-      "status": "ALERT_ONLY",
-      "signal_color": "blue",
-      "meaning": "Interesting, but missing at least one key confirmation.",
-      "action": "Track for confirmation.",
-      "score": 73.0,
-      "price": 17.085,
-      "entry": 17.085,
-      "stop": 16.8287,
-      "target": 17.5976,
-      "risk_reward": 2.0,
-      "relative_volume": 0.96,
-      "day_move_percent": 2.92,
-      "gap_pct": 6.98,
-      "vwap": 16.9396,
-      "vwap_distance_percent": 0.86,
-      "volume_acceleration": 3.18,
+      "signal": "WATCH ONLY",
+      "status": "WATCH_ONLY",
+      "signal_color": "yellow",
+      "meaning": "Early or incomplete setup.",
+      "action": "Watch only. No order.",
+      "score": 51.0,
+      "price": 241.965,
+      "entry": 241.965,
+      "stop": 239.9684,
+      "target": 249.224,
+      "risk_reward": 3.64,
+      "relative_volume": 0.45,
+      "day_move_percent": -1.16,
+      "gap_pct": -1.14,
+      "vwap": 241.9036,
+      "vwap_distance_percent": 0.03,
+      "volume_acceleration": 1.44,
       "trend_state": "BULLISH_CONTROLLED",
       "candidate_quality": "GOOD",
       "data_quality": {
@@ -273,7 +392,7 @@
         "quality": "GOOD",
         "notes": []
       },
-      "trade_gate_summary": "positive day move, healthy gap, weak relative volume, volume acceleration, above VWAP and controlled, risk/reward acceptable",
+      "trade_gate_summary": "weak relative volume, above VWAP and controlled, risk/reward acceptable",
       "no_trade_reasons": [
         "relative_volume_too_low"
       ],
@@ -286,7 +405,7 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "CLSK",
+        "ticker": "ADBE",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260527",
         "short_volume": null,
@@ -306,7 +425,7 @@
         "FINRA short-pressure context attached. Context only, not a buy trigger."
       ],
       "alpaca_news": {
-        "ticker": "CLSK",
+        "ticker": "ADBE",
         "news_count": 0,
         "news_catalyst_score": 0,
         "risk_flags": [],
@@ -314,9 +433,9 @@
         "latest_url": null
       },
       "advanced_quality": {
-        "advanced_quality_score": 96.0,
-        "spread_pct": 0.2766,
-        "dollar_volume": 5552317.47,
+        "advanced_quality_score": 93.0,
+        "spread_pct": 0.3256,
+        "dollar_volume": 6498695.97,
         "spread_score": 15.0,
         "liquidity_score": 12.0,
         "rvol_quality_score": 2.0,
@@ -324,8 +443,8 @@
         "anti_chase_score": 18.0,
         "pullback_quality_score": 18,
         "breakout_compression_score": 10.0,
-        "sympathy_score": 3,
-        "theme": "crypto",
+        "sympathy_score": 0,
+        "theme": null,
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
@@ -338,6 +457,125 @@
           "volume_returning",
           "breakout_not_overextended",
           "breakout_volume_acceleration"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:WATCH_ONLY"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:WATCH_ONLY"
+      ],
+      "market_guard": {
+        "halt_luld_proxy_score": 0,
+        "halt_luld_flags": [],
+        "halt_luld_hard_blocks": [],
+        "halt_luld_status": "NORMAL"
+      },
+      "market_circuit_proxy": {
+        "market_circuit_proxy_status": "NORMAL",
+        "block_new_entries": false,
+        "flags": [],
+        "index_day_changes": {},
+        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
+      }
+    },
+    {
+      "ticker": "F",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "ALERT ONLY",
+      "status": "ALERT_ONLY",
+      "signal_color": "blue",
+      "meaning": "Interesting, but missing at least one key confirmation.",
+      "action": "Track for confirmation.",
+      "score": 79.0,
+      "price": 15.31,
+      "entry": 15.31,
+      "stop": 15.0804,
+      "target": 15.7693,
+      "risk_reward": 2.0,
+      "relative_volume": 0.81,
+      "day_move_percent": 3.03,
+      "gap_pct": 2.55,
+      "vwap": 15.1272,
+      "vwap_distance_percent": 1.21,
+      "volume_acceleration": 0.86,
+      "trend_state": "BULLISH_CONTROLLED",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 82.86,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "controlled day momentum, healthy gap, weak relative volume, above VWAP and controlled, risk/reward acceptable",
+      "no_trade_reasons": [
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "F",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260527",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "F",
+        "news_count": 4,
+        "news_catalyst_score": 31,
+        "risk_flags": [],
+        "latest_headline": "Michigan Set for Massive Battery Storage Buildout Under $1.6 Billion DTE Energy-LG Energy Solution Partnership",
+        "latest_url": "https://www.benzinga.com/markets/commodities/26/05/52831470/michigan-set-for-massive-battery-storage-buildout-under-1-6-billion-dte-energy-lg-energy-solution-partnership"
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 92.0,
+        "spread_pct": 0.0628,
+        "dollar_volume": 1053236.14,
+        "spread_score": 15.0,
+        "liquidity_score": 7.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 20,
+        "pullback_quality_score": 15.0,
+        "breakout_compression_score": 12.0,
+        "sympathy_score": 3,
+        "theme": "ev",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "thin_but_tradeable_dollar_volume",
+          "weak_rvol",
+          "vwap_controlled",
+          "day_move_controlled",
+          "not_chasing_vwap_controlled",
+          "near_vwap_pullback_zone",
+          "controlled_breakout_range",
+          "breakout_not_overextended"
         ],
         "hard_blocks": [],
         "quality_gate_status": "DASHBOARD_ONLY",
@@ -426,16 +664,16 @@
       ],
       "alpaca_news": {
         "ticker": "AMD",
-        "news_count": 2,
-        "news_catalyst_score": 4,
+        "news_count": 3,
+        "news_catalyst_score": 6,
         "risk_flags": [],
-        "latest_headline": "'ByteDance Developing Custom CPU Chips To Support AI Rollout, Sources Say' - Reuters Exclusive",
-        "latest_url": "https://www.benzinga.com/news/26/05/52830571/bytedance-developing-custom-cpu-chips-to-support-ai-rollout-sources-say-reuters-exclusive"
+        "latest_headline": "What's Going On With AMD Stock Thursday?",
+        "latest_url": "https://www.benzinga.com/markets/tech/26/05/52832119/whats-going-on-with-amd-stock-thursday-5"
       },
       "advanced_quality": {
         "advanced_quality_score": 92.0,
-        "spread_pct": 0.2252,
-        "dollar_volume": 110552515.26,
+        "spread_pct": 0.2055,
+        "dollar_volume": 113729556.3,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -543,16 +781,16 @@
       ],
       "alpaca_news": {
         "ticker": "CRWD",
-        "news_count": 1,
-        "news_catalyst_score": 10,
+        "news_count": 0,
+        "news_catalyst_score": 0,
         "risk_flags": [],
-        "latest_headline": "Benchmark Maintains Buy on CrowdStrike Holdings, Raises Price Target to $700",
-        "latest_url": "https://www.benzinga.com/news/26/05/52809680/benchmark-maintains-buy-on-crowdstrike-holdings-raises-price-target-to-700"
+        "latest_headline": null,
+        "latest_url": null
       },
       "advanced_quality": {
         "advanced_quality_score": 90.0,
         "spread_pct": 0.5227,
-        "dollar_volume": 6937413.18,
+        "dollar_volume": 7357801.12,
         "spread_score": 12.0,
         "liquidity_score": 12.0,
         "rvol_quality_score": 2.0,
@@ -584,125 +822,6 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "quality_gate_blocks": [
         "base_status_not_trade_eligible:ALERT_ONLY"
-      ],
-      "market_guard": {
-        "halt_luld_proxy_score": 0,
-        "halt_luld_flags": [],
-        "halt_luld_hard_blocks": [],
-        "halt_luld_status": "NORMAL"
-      },
-      "market_circuit_proxy": {
-        "market_circuit_proxy_status": "NORMAL",
-        "block_new_entries": false,
-        "flags": [],
-        "index_day_changes": {},
-        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
-      }
-    },
-    {
-      "ticker": "ADBE",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "WATCH ONLY",
-      "status": "WATCH_ONLY",
-      "signal_color": "yellow",
-      "meaning": "Early or incomplete setup.",
-      "action": "Watch only. No order.",
-      "score": 51.0,
-      "price": 241.965,
-      "entry": 241.965,
-      "stop": 239.9684,
-      "target": 249.224,
-      "risk_reward": 3.64,
-      "relative_volume": 0.45,
-      "day_move_percent": -1.16,
-      "gap_pct": -1.14,
-      "vwap": 241.9036,
-      "vwap_distance_percent": 0.03,
-      "volume_acceleration": 1.44,
-      "trend_state": "BULLISH_CONTROLLED",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 82.86,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "weak relative volume, above VWAP and controlled, risk/reward acceptable",
-      "no_trade_reasons": [
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "ADBE",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260527",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "ADBE",
-        "news_count": 0,
-        "news_catalyst_score": 0,
-        "risk_flags": [],
-        "latest_headline": null,
-        "latest_url": null
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 90.0,
-        "spread_pct": 0.9054,
-        "dollar_volume": 6460223.54,
-        "spread_score": 12.0,
-        "liquidity_score": 12.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 18.0,
-        "pullback_quality_score": 18,
-        "breakout_compression_score": 10.0,
-        "sympathy_score": 0,
-        "theme": null,
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_acceptable",
-          "good_dollar_volume",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "near_vwap_pullback_zone",
-          "volume_returning",
-          "breakout_not_overextended",
-          "breakout_volume_acceleration"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:WATCH_ONLY"
       ],
       "market_guard": {
         "halt_luld_proxy_score": 0,
@@ -789,8 +908,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 89.0,
-        "spread_pct": 0.4813,
-        "dollar_volume": 21907302.88,
+        "spread_pct": 0.3153,
+        "dollar_volume": 22999329.16,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -906,7 +1025,7 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 86.0,
-        "spread_pct": 0.6266,
+        "spread_pct": 0.5698,
         "dollar_volume": 359542.1,
         "spread_score": 12.0,
         "liquidity_score": 0.0,
@@ -943,6 +1062,125 @@
       "quality_gate_blocks": [
         "base_status_not_trade_eligible:ALERT_ONLY",
         "dollar_volume_below_1m"
+      ],
+      "market_guard": {
+        "halt_luld_proxy_score": 0,
+        "halt_luld_flags": [],
+        "halt_luld_hard_blocks": [],
+        "halt_luld_status": "NORMAL"
+      },
+      "market_circuit_proxy": {
+        "market_circuit_proxy_status": "NORMAL",
+        "block_new_entries": false,
+        "flags": [],
+        "index_day_changes": {},
+        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
+      }
+    },
+    {
+      "ticker": "DDOG",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "ALERT ONLY",
+      "status": "ALERT_ONLY",
+      "signal_color": "blue",
+      "meaning": "Interesting, but missing at least one key confirmation.",
+      "action": "Track for confirmation.",
+      "score": 65.0,
+      "price": 224.99,
+      "entry": 224.99,
+      "stop": 221.6151,
+      "target": 231.7397,
+      "risk_reward": 2.0,
+      "relative_volume": 0.45,
+      "day_move_percent": 0.93,
+      "gap_pct": 1.2,
+      "vwap": 222.8568,
+      "vwap_distance_percent": 0.96,
+      "volume_acceleration": 2.15,
+      "trend_state": "BULLISH_CONTROLLED",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 82.86,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "positive day move, weak relative volume, volume acceleration, above VWAP and controlled, risk/reward acceptable",
+      "no_trade_reasons": [
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "DDOG",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260527",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "DDOG",
+        "news_count": 0,
+        "news_catalyst_score": 0,
+        "risk_flags": [],
+        "latest_headline": null,
+        "latest_url": null
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 85.0,
+        "spread_pct": 0.726,
+        "dollar_volume": 4348156.74,
+        "spread_score": 12.0,
+        "liquidity_score": 7.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 18.0,
+        "pullback_quality_score": 18,
+        "breakout_compression_score": 10.0,
+        "sympathy_score": 0,
+        "theme": null,
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_acceptable",
+          "thin_but_tradeable_dollar_volume",
+          "weak_rvol",
+          "vwap_controlled",
+          "not_chasing_vwap_controlled",
+          "near_vwap_pullback_zone",
+          "volume_returning",
+          "breakout_not_overextended",
+          "breakout_volume_acceleration"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:ALERT_ONLY"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:ALERT_ONLY"
       ],
       "market_guard": {
         "halt_luld_proxy_score": 0,
@@ -1030,7 +1268,7 @@
       "advanced_quality": {
         "advanced_quality_score": 84.0,
         "spread_pct": 0.4619,
-        "dollar_volume": 446674.46,
+        "dollar_volume": 495569.35,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -1150,8 +1388,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 84.0,
-        "spread_pct": 0.0802,
-        "dollar_volume": 47814196.91,
+        "spread_pct": 0.1203,
+        "dollar_volume": 50849230.26,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -1182,127 +1420,6 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "quality_gate_blocks": [
         "base_status_not_trade_eligible:WATCH_ONLY"
-      ],
-      "market_guard": {
-        "halt_luld_proxy_score": 0,
-        "halt_luld_flags": [],
-        "halt_luld_hard_blocks": [],
-        "halt_luld_status": "NORMAL"
-      },
-      "market_circuit_proxy": {
-        "market_circuit_proxy_status": "NORMAL",
-        "block_new_entries": false,
-        "flags": [],
-        "index_day_changes": {},
-        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
-      }
-    },
-    {
-      "ticker": "F",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "ALERT ONLY",
-      "status": "ALERT_ONLY",
-      "signal_color": "blue",
-      "meaning": "Interesting, but missing at least one key confirmation.",
-      "action": "Track for confirmation.",
-      "score": 79.0,
-      "price": 15.31,
-      "entry": 15.31,
-      "stop": 15.0804,
-      "target": 15.7693,
-      "risk_reward": 2.0,
-      "relative_volume": 0.81,
-      "day_move_percent": 3.03,
-      "gap_pct": 2.55,
-      "vwap": 15.1272,
-      "vwap_distance_percent": 1.21,
-      "volume_acceleration": 0.86,
-      "trend_state": "BULLISH_CONTROLLED",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 82.86,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "controlled day momentum, healthy gap, weak relative volume, above VWAP and controlled, risk/reward acceptable",
-      "no_trade_reasons": [
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "F",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260527",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "F",
-        "news_count": 4,
-        "news_catalyst_score": 31,
-        "risk_flags": [],
-        "latest_headline": "Michigan Set for Massive Battery Storage Buildout Under $1.6 Billion DTE Energy-LG Energy Solution Partnership",
-        "latest_url": "https://www.benzinga.com/markets/commodities/26/05/52831470/michigan-set-for-massive-battery-storage-buildout-under-1-6-billion-dte-energy-lg-energy-solution-partnership"
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 82.0,
-        "spread_pct": 0.6938,
-        "dollar_volume": 754155.29,
-        "spread_score": 12.0,
-        "liquidity_score": 0.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 20,
-        "pullback_quality_score": 15.0,
-        "breakout_compression_score": 12.0,
-        "sympathy_score": 3,
-        "theme": "ev",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_acceptable",
-          "dollar_volume_too_low",
-          "weak_rvol",
-          "vwap_controlled",
-          "day_move_controlled",
-          "not_chasing_vwap_controlled",
-          "near_vwap_pullback_zone",
-          "controlled_breakout_range",
-          "breakout_not_overextended"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:ALERT_ONLY",
-          "dollar_volume_below_1m"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:ALERT_ONLY",
-        "dollar_volume_below_1m"
       ],
       "market_guard": {
         "halt_luld_proxy_score": 0,
@@ -1389,8 +1506,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 80.0,
-        "spread_pct": 1.3478,
-        "dollar_volume": 174688.55,
+        "spread_pct": 1.0341,
+        "dollar_volume": 183652.64,
         "spread_score": 7.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 9.0,
@@ -1425,125 +1542,6 @@
       "quality_gate_blocks": [
         "base_status_not_trade_eligible:ALERT_ONLY",
         "dollar_volume_below_1m"
-      ],
-      "market_guard": {
-        "halt_luld_proxy_score": 0,
-        "halt_luld_flags": [],
-        "halt_luld_hard_blocks": [],
-        "halt_luld_status": "NORMAL"
-      },
-      "market_circuit_proxy": {
-        "market_circuit_proxy_status": "NORMAL",
-        "block_new_entries": false,
-        "flags": [],
-        "index_day_changes": {},
-        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
-      }
-    },
-    {
-      "ticker": "DDOG",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "ALERT ONLY",
-      "status": "ALERT_ONLY",
-      "signal_color": "blue",
-      "meaning": "Interesting, but missing at least one key confirmation.",
-      "action": "Track for confirmation.",
-      "score": 65.0,
-      "price": 224.99,
-      "entry": 224.99,
-      "stop": 221.6151,
-      "target": 231.7397,
-      "risk_reward": 2.0,
-      "relative_volume": 0.45,
-      "day_move_percent": 0.93,
-      "gap_pct": 1.2,
-      "vwap": 222.8568,
-      "vwap_distance_percent": 0.96,
-      "volume_acceleration": 2.15,
-      "trend_state": "BULLISH_CONTROLLED",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 82.86,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "positive day move, weak relative volume, volume acceleration, above VWAP and controlled, risk/reward acceptable",
-      "no_trade_reasons": [
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "DDOG",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260527",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "DDOG",
-        "news_count": 0,
-        "news_catalyst_score": 0,
-        "risk_flags": [],
-        "latest_headline": null,
-        "latest_url": null
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 80.0,
-        "spread_pct": 1.1083,
-        "dollar_volume": 3831579.7,
-        "spread_score": 7.0,
-        "liquidity_score": 7.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 18.0,
-        "pullback_quality_score": 18,
-        "breakout_compression_score": 10.0,
-        "sympathy_score": 0,
-        "theme": null,
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_caution",
-          "thin_but_tradeable_dollar_volume",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "near_vwap_pullback_zone",
-          "volume_returning",
-          "breakout_not_overextended",
-          "breakout_volume_acceleration"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:ALERT_ONLY"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:ALERT_ONLY"
       ],
       "market_guard": {
         "halt_luld_proxy_score": 0,
@@ -1629,10 +1627,10 @@
         "latest_url": "https://www.benzinga.com/news/26/05/52812666/ge-aerospace-ceo-at-bernstein-strategic-decisions-conference-says-they-expect-to-see-a-modest-declin"
       },
       "advanced_quality": {
-        "advanced_quality_score": 73.0,
-        "spread_pct": 1.2587,
+        "advanced_quality_score": 78.0,
+        "spread_pct": 0.9417,
         "dollar_volume": 1067990.28,
-        "spread_score": 7.0,
+        "spread_score": 12.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 18.0,
@@ -1644,7 +1642,7 @@
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
-          "spread_caution",
+          "spread_acceptable",
           "thin_but_tradeable_dollar_volume",
           "weak_rvol",
           "vwap_controlled",
@@ -1747,7 +1745,7 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 71.0,
-        "spread_pct": 0.952,
+        "spread_pct": 0.6914,
         "dollar_volume": 425884.68,
         "spread_score": 12.0,
         "liquidity_score": 0.0,
@@ -1866,8 +1864,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 66.0,
-        "spread_pct": 0.8794,
-        "dollar_volume": 593058.51,
+        "spread_pct": 0.5644,
+        "dollar_volume": 645913.99,
         "spread_score": 12.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -1986,8 +1984,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 66.0,
-        "spread_pct": 0.7168,
-        "dollar_volume": 83621.37,
+        "spread_pct": 0.7968,
+        "dollar_volume": 95389.04,
         "spread_score": 12.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -2099,16 +2097,16 @@
       ],
       "alpaca_news": {
         "ticker": "AMZN",
-        "news_count": 12,
+        "news_count": 13,
         "news_catalyst_score": 100,
         "risk_flags": [],
-        "latest_headline": "Mark Zuckerberg Drops Hints Cloud Wars With Amazon And Microsoft Is 'Definitely On The Table' For Meta\u2014 'We Haven't Done That Yet Because\u2026'",
-        "latest_url": "https://www.benzinga.com/markets/tech/26/05/52831904/mark-zuckerberg-drops-hints-cloud-wars-with-amazon-and-microsoft-is-definitely-on-the-table-for-meta-we-havent-done-that-yet-because"
+        "latest_headline": "As Nvidia, Oracle And Amazon Pour Billions Into AI, Wall Street Is Quietly Hedging For Trouble",
+        "latest_url": "https://www.benzinga.com/markets/economic-data/26/05/52832109/as-nvidia-oracle-and-amazon-pour-billions-into-ai-wall-street-is-quietly-hedging-for-trouble"
       },
       "advanced_quality": {
         "advanced_quality_score": 55.0,
-        "spread_pct": 0.0884,
-        "dollar_volume": 38656666.07,
+        "spread_pct": 0.1292,
+        "dollar_volume": 39625230.7,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -2224,8 +2222,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 55.0,
-        "spread_pct": 0.2312,
-        "dollar_volume": 20511433.47,
+        "spread_pct": 0.3068,
+        "dollar_volume": 20993908.45,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -2343,8 +2341,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 52.0,
-        "spread_pct": 0.154,
-        "dollar_volume": 1406592.95,
+        "spread_pct": 0.1542,
+        "dollar_volume": 1457510.59,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -2460,8 +2458,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 51.0,
-        "spread_pct": 0.1643,
-        "dollar_volume": 21300202.68,
+        "spread_pct": 0.2395,
+        "dollar_volume": 26549701.98,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -2576,8 +2574,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 48.0,
-        "spread_pct": 0.0643,
-        "dollar_volume": 30387389.73,
+        "spread_pct": 0.1416,
+        "dollar_volume": 31215683.01,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -2684,8 +2682,8 @@
       ],
       "alpaca_news": {
         "ticker": "BA",
-        "news_count": 5,
-        "news_catalyst_score": 10,
+        "news_count": 4,
+        "news_catalyst_score": 8,
         "risk_flags": [],
         "latest_headline": "10 Industrials Stocks Whale Activity In Today's Session",
         "latest_url": "https://www.benzinga.com/insights/options/26/05/52818908/10-industrials-stocks-whale-activity-in-todays-session"
@@ -2711,6 +2709,123 @@
           "weak_rvol",
           "below_vwap",
           "below_vwap_no_pullback_entry"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:NO_TRADE"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:NO_TRADE"
+      ],
+      "market_guard": {
+        "halt_luld_proxy_score": 0,
+        "halt_luld_flags": [],
+        "halt_luld_hard_blocks": [],
+        "halt_luld_status": "NORMAL"
+      },
+      "market_circuit_proxy": {
+        "market_circuit_proxy_status": "NORMAL",
+        "block_new_entries": false,
+        "flags": [],
+        "index_day_changes": {},
+        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
+      }
+    },
+    {
+      "ticker": "BBAI",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "NO TRADE",
+      "status": "NO_TRADE",
+      "signal_color": "red",
+      "meaning": "Blocked by risk, data, trend, or score rules.",
+      "action": "No new entry.",
+      "score": 37.0,
+      "price": 4.2,
+      "entry": 4.2,
+      "stop": 4.137,
+      "target": 4.326,
+      "risk_reward": 2.0,
+      "relative_volume": 0.66,
+      "day_move_percent": -1.75,
+      "gap_pct": 0.48,
+      "vwap": 4.2103,
+      "vwap_distance_percent": -0.24,
+      "volume_acceleration": 1.98,
+      "trend_state": "BELOW_VWAP",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 82.86,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "weak relative volume, volume acceleration, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "BBAI",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260527",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "BBAI",
+        "news_count": 0,
+        "news_catalyst_score": 0,
+        "risk_flags": [],
+        "latest_headline": null,
+        "latest_url": null
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 47.0,
+        "spread_pct": 0.2281,
+        "dollar_volume": 1089270.0,
+        "spread_score": 15.0,
+        "liquidity_score": 7.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 0.0,
+        "anti_chase_score": 15.0,
+        "pullback_quality_score": 1.0,
+        "breakout_compression_score": 4.0,
+        "sympathy_score": 3,
+        "theme": "small_cap_ai",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "thin_but_tradeable_dollar_volume",
+          "weak_rvol",
+          "below_vwap",
+          "below_vwap_no_pullback_entry",
+          "breakout_volume_acceleration"
         ],
         "hard_blocks": [],
         "quality_gate_status": "DASHBOARD_ONLY",
@@ -2811,7 +2926,7 @@
       "advanced_quality": {
         "advanced_quality_score": 44.0,
         "spread_pct": 1.1963,
-        "dollar_volume": 1258838.25,
+        "dollar_volume": 1319460.97,
         "spread_score": 7.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -2926,10 +3041,10 @@
         "latest_url": null
       },
       "advanced_quality": {
-        "advanced_quality_score": 44.0,
-        "spread_pct": 0.409,
+        "advanced_quality_score": 41.0,
+        "spread_pct": 0.5286,
         "dollar_volume": 4206510.36,
-        "spread_score": 15.0,
+        "spread_score": 12.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 0.0,
@@ -2941,7 +3056,7 @@
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
-          "spread_tight",
+          "spread_acceptable",
           "thin_but_tradeable_dollar_volume",
           "weak_rvol",
           "below_vwap",
@@ -2957,125 +3072,6 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "quality_gate_blocks": [
         "base_status_not_trade_eligible:NO_TRADE"
-      ],
-      "market_guard": {
-        "halt_luld_proxy_score": 0,
-        "halt_luld_flags": [],
-        "halt_luld_hard_blocks": [],
-        "halt_luld_status": "NORMAL"
-      },
-      "market_circuit_proxy": {
-        "market_circuit_proxy_status": "NORMAL",
-        "block_new_entries": false,
-        "flags": [],
-        "index_day_changes": {},
-        "note": "Proxy guard using SPY/ETF moves. Official market-wide circuit breakers use S&P 500 index levels."
-      }
-    },
-    {
-      "ticker": "BBAI",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "NO TRADE",
-      "status": "NO_TRADE",
-      "signal_color": "red",
-      "meaning": "Blocked by risk, data, trend, or score rules.",
-      "action": "No new entry.",
-      "score": 37.0,
-      "price": 4.2,
-      "entry": 4.2,
-      "stop": 4.137,
-      "target": 4.326,
-      "risk_reward": 2.0,
-      "relative_volume": 0.66,
-      "day_move_percent": -1.75,
-      "gap_pct": 0.48,
-      "vwap": 4.2103,
-      "vwap_distance_percent": -0.24,
-      "volume_acceleration": 1.98,
-      "trend_state": "BELOW_VWAP",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 82.86,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "weak relative volume, volume acceleration, below VWAP, risk/reward acceptable",
-      "no_trade_reasons": [
-        "below_vwap",
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "BBAI",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260527",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "BBAI",
-        "news_count": 0,
-        "news_catalyst_score": 0,
-        "risk_flags": [],
-        "latest_headline": null,
-        "latest_url": null
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 40.0,
-        "spread_pct": 0.227,
-        "dollar_volume": 946730.4,
-        "spread_score": 15.0,
-        "liquidity_score": 0.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 0.0,
-        "anti_chase_score": 15.0,
-        "pullback_quality_score": 1.0,
-        "breakout_compression_score": 4.0,
-        "sympathy_score": 3,
-        "theme": "small_cap_ai",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "dollar_volume_too_low",
-          "weak_rvol",
-          "below_vwap",
-          "below_vwap_no_pullback_entry",
-          "breakout_volume_acceleration"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:NO_TRADE",
-          "dollar_volume_below_1m"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:NO_TRADE",
-        "dollar_volume_below_1m"
       ],
       "market_guard": {
         "halt_luld_proxy_score": 0,
@@ -3163,7 +3159,7 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 37.0,
-        "spread_pct": 0.7011,
+        "spread_pct": 0.6459,
         "dollar_volume": 428645.96,
         "spread_score": 12.0,
         "liquidity_score": 0.0,
@@ -3285,7 +3281,7 @@
       "advanced_quality": {
         "advanced_quality_score": 33.0,
         "spread_pct": 1.2422,
-        "dollar_volume": 320425.68,
+        "dollar_volume": 404702.67,
         "spread_score": 7.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -3403,8 +3399,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 29.25,
-        "spread_pct": 0.6349,
-        "dollar_volume": 51636.2,
+        "spread_pct": 0.639,
+        "dollar_volume": 59009.72,
         "spread_score": 12.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -3524,7 +3520,7 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 28.0,
-        "spread_pct": 1.4252,
+        "spread_pct": 1.4371,
         "dollar_volume": 66507.53,
         "spread_score": 7.0,
         "liquidity_score": 0.0,
@@ -3761,7 +3757,7 @@
       "advanced_quality": {
         "advanced_quality_score": 27.0,
         "spread_pct": 1.6151,
-        "dollar_volume": 188869.4,
+        "dollar_volume": 192709.84,
         "spread_score": 0.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -4005,7 +4001,7 @@
       "advanced_quality": {
         "advanced_quality_score": 19.25,
         "spread_pct": 1.4181,
-        "dollar_volume": 43640.93,
+        "dollar_volume": 45439.38,
         "spread_score": 7.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -4088,7 +4084,7 @@
     "allowed_to_trade_status": "TRADE_ELIGIBLE",
     "disclaimer": "Research labels only. Not financial advice."
   },
-  "sec_enriched_at": "2026-05-28T10:02:01.519088+00:00",
+  "sec_enriched_at": "2026-05-28T10:15:57.372462+00:00",
   "sec_enrichment": {
     "enabled": true,
     "source": "docs/data/prediction_engine/sec_catalysts.json",
@@ -4106,7 +4102,7 @@
   "alpaca_news_source": "docs/data/prediction_engine/alpaca_news.json",
   "source_before_news": "docs/data/prediction_engine/signal_dashboard_finra_enriched.json",
   "quality_source": "advanced_signal_quality_v1",
-  "quality_generated_at": "2026-05-28T10:15:58.501325+00:00",
+  "quality_generated_at": "2026-05-28T10:29:52.599121+00:00",
   "market_regime": {
     "regime": "NEUTRAL",
     "market_regime_score": 0,
@@ -4191,7 +4187,7 @@
       "sympathy_score": 3
     }
   },
-  "market_guard_generated_at": "2026-05-28T10:15:58.770128+00:00",
+  "market_guard_generated_at": "2026-05-28T10:29:52.862747+00:00",
   "market_guard_source": "docs/data/prediction_engine/signal_dashboard_quality_enriched.json",
   "market_circuit_proxy": {
     "market_circuit_proxy_status": "NORMAL",
