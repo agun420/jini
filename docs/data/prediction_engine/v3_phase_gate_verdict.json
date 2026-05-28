@@ -1,19 +1,19 @@
 {
   "schema_version": "v3_phase_gate_verdict_v1",
-  "generated_at": "2026-05-28T14:12:23.198997+00:00",
+  "generated_at": "2026-05-28T14:26:52.284826+00:00",
   "health": {
     "schema_version": "v3_phase_gate_verdict_health_v1",
-    "generated_at": "2026-05-28T14:12:23.198997+00:00",
+    "generated_at": "2026-05-28T14:26:52.284826+00:00",
     "status": "PASS",
     "blockers": [],
     "warnings": [],
-    "verdict_count": 8,
-    "buy_setup_plan_only_count": 2,
-    "scalp_setup_plan_only_count": 3,
-    "research_watch_count": 2,
-    "top_ticker": "LUNR",
+    "verdict_count": 5,
+    "buy_setup_plan_only_count": 3,
+    "scalp_setup_plan_only_count": 1,
+    "research_watch_count": 0,
+    "top_ticker": "ACHR",
     "top_verdict": "BUY SETUP - PLAN ONLY",
-    "market_regime": "NEUTRAL",
+    "market_regime": "RISK_ON",
     "package_100_status": "PASS",
     "morning_readiness": "READY_FOR_RESEARCH_AND_PLAN_ONLY_REVIEW",
     "safe_for_research": true,
@@ -23,14 +23,13 @@
     "live_trading": false
   },
   "verdict_counts": {
-    "BUY SETUP - PLAN ONLY": 2,
-    "SCALP SETUP - PLAN ONLY": 3,
-    "RESEARCH WATCH": 2,
+    "BUY SETUP - PLAN ONLY": 3,
+    "SCALP SETUP - PLAN ONLY": 1,
     "WATCH ONLY": 1
   },
   "verdicts": [
     {
-      "ticker": "LUNR",
+      "ticker": "ACHR",
       "final_verdict": "BUY SETUP - PLAN ONLY",
       "action": "Review only. No paper or live order submitted.",
       "phase_gates": {
@@ -49,110 +48,20 @@
           "status": "PASS",
           "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
           "value": {
-            "rows": 54,
-            "rows_with_price": 54,
-            "rows_with_day_move": 54,
-            "rows_with_non_default_rvol": 54,
-            "rows_with_spread": 54,
-            "rows_with_quote_age": 54
+            "rows": 52,
+            "rows_with_price": 52,
+            "rows_with_day_move": 52,
+            "rows_with_non_default_rvol": 52,
+            "rows_with_spread": 52,
+            "rows_with_quote_age": 52
           }
         },
         "market_regime": {
-          "status": "WATCH",
-          "reason": "Market regime is neutral. Require stronger setup confirmation.",
-          "value": {
-            "regime": "NEUTRAL",
-            "score": 46.9168
-          }
-        },
-        "pre_breakout": {
           "status": "PASS",
-          "reason": "Pre-breakout setup is forming.",
+          "reason": "Market regime is supportive for momentum research.",
           "value": {
-            "score": 83.4,
-            "status": "EXPLOSIVE_BREAKOUT_CANDIDATE",
-            "blockers": []
-          }
-        },
-        "reactive_momentum": {
-          "status": "MISSING",
-          "reason": "No reactive row found.",
-          "value": {
-            "score": 0.0,
-            "status": "",
-            "day_move_pct": 5.652,
-            "blockers": []
-          }
-        },
-        "math_edge": {
-          "status": "PASS",
-          "reason": "Positive expected value candidate.",
-          "value": {
-            "edge_status": "POSITIVE_EDGE_REVIEW",
-            "edge_score": 92.8225,
-            "expected_value_pct": 1.105,
-            "estimated_win_probability": 0.85,
-            "risk_reward_ratio": 1.875
-          }
-        },
-        "paper_plan_only": {
-          "status": "PASS",
-          "reason": "Paper-plan-only candidate exists for review.",
-          "value": {
-            "planned_shares": 46,
-            "planned_notional": 1960.52,
-            "target_price": 43.2593,
-            "stop_price": 42.279,
-            "order_submission": false,
-            "live_trading": false
-          }
-        }
-      },
-      "price": 42.62,
-      "day_move_pct": 5.652,
-      "relative_volume": 5.0051,
-      "expected_value_pct": 1.105,
-      "edge_score": 92.8225,
-      "planned_notional": 1960.52,
-      "target_price": 43.2593,
-      "stop_price": 42.279,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "IONQ",
-      "final_verdict": "BUY SETUP - PLAN ONLY",
-      "action": "Review only. No paper or live order submitted.",
-      "phase_gates": {
-        "safety_lock": {
-          "status": "PASS",
-          "reason": "Hard safety lock passed. Orders and live trading are off.",
-          "value": {
-            "safe_for_research": true,
-            "safe_for_paper_submission": false,
-            "safe_for_live_trading": false,
-            "order_submission": false,
-            "live_trading": false
-          }
-        },
-        "data_quality": {
-          "status": "PASS",
-          "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
-          "value": {
-            "rows": 54,
-            "rows_with_price": 54,
-            "rows_with_day_move": 54,
-            "rows_with_non_default_rvol": 54,
-            "rows_with_spread": 54,
-            "rows_with_quote_age": 54
-          }
-        },
-        "market_regime": {
-          "status": "WATCH",
-          "reason": "Market regime is neutral. Require stronger setup confirmation.",
-          "value": {
-            "regime": "NEUTRAL",
-            "score": 46.9168
+            "regime": "RISK_ON",
+            "score": 66.4516
           }
         },
         "pre_breakout": {
@@ -170,7 +79,7 @@
           "value": {
             "score": 0.0,
             "status": "",
-            "day_move_pct": 2.2018,
+            "day_move_pct": 4.4168,
             "blockers": []
           }
         },
@@ -189,300 +98,30 @@
           "status": "PASS",
           "reason": "Paper-plan-only candidate exists for review.",
           "value": {
-            "planned_shares": 29,
-            "planned_notional": 1938.36,
-            "target_price": 67.4416,
-            "stop_price": 66.439,
+            "planned_shares": 292,
+            "planned_notional": 1997.08,
+            "target_price": 6.9009,
+            "stop_price": 6.7983,
             "order_submission": false,
             "live_trading": false
           }
         }
       },
-      "price": 66.84,
-      "day_move_pct": 2.2018,
-      "relative_volume": 3.1089,
+      "price": 6.8393,
+      "day_move_pct": 4.4168,
+      "relative_volume": 2.7882,
       "expected_value_pct": 0.625,
       "edge_score": 92.5,
-      "planned_notional": 1938.36,
-      "target_price": 67.4416,
-      "stop_price": 66.439,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "AFRM",
-      "final_verdict": "SCALP SETUP - PLAN ONLY",
-      "action": "Review only. Reactive scalp setup. No order submitted.",
-      "phase_gates": {
-        "safety_lock": {
-          "status": "PASS",
-          "reason": "Hard safety lock passed. Orders and live trading are off.",
-          "value": {
-            "safe_for_research": true,
-            "safe_for_paper_submission": false,
-            "safe_for_live_trading": false,
-            "order_submission": false,
-            "live_trading": false
-          }
-        },
-        "data_quality": {
-          "status": "PASS",
-          "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
-          "value": {
-            "rows": 54,
-            "rows_with_price": 54,
-            "rows_with_day_move": 54,
-            "rows_with_non_default_rvol": 54,
-            "rows_with_spread": 54,
-            "rows_with_quote_age": 54
-          }
-        },
-        "market_regime": {
-          "status": "WATCH",
-          "reason": "Market regime is neutral. Require stronger setup confirmation.",
-          "value": {
-            "regime": "NEUTRAL",
-            "score": 46.9168
-          }
-        },
-        "pre_breakout": {
-          "status": "MISSING",
-          "reason": "No pre-breakout row found.",
-          "value": {
-            "score": 0.0,
-            "status": "",
-            "blockers": []
-          }
-        },
-        "reactive_momentum": {
-          "status": "PASS",
-          "reason": "Reactive momentum is usable for review.",
-          "value": {
-            "score": 73.6463,
-            "status": "RESEARCH_BUY_ALERT_CANDIDATE",
-            "day_move_pct": 2.2147,
-            "blockers": []
-          }
-        },
-        "math_edge": {
-          "status": "PASS",
-          "reason": "Positive expected value candidate.",
-          "value": {
-            "edge_status": "POSITIVE_EDGE_REVIEW",
-            "edge_score": 84.2207,
-            "expected_value_pct": 0.3728,
-            "estimated_win_probability": 0.6819,
-            "risk_reward_ratio": 1.5
-          }
-        },
-        "paper_plan_only": {
-          "status": "PASS",
-          "reason": "Paper-plan-only candidate exists for review.",
-          "value": {
-            "planned_shares": 27,
-            "planned_notional": 1944.0,
-            "target_price": 72.648,
-            "stop_price": 71.568,
-            "order_submission": false,
-            "live_trading": false
-          }
-        }
-      },
-      "price": 72.0,
-      "day_move_pct": 2.2147,
-      "relative_volume": 5.8841,
-      "expected_value_pct": 0.3728,
-      "edge_score": 84.2207,
-      "planned_notional": 1944.0,
-      "target_price": 72.648,
-      "stop_price": 71.568,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "AI",
-      "final_verdict": "SCALP SETUP - PLAN ONLY",
-      "action": "Review only. Reactive scalp setup. No order submitted.",
-      "phase_gates": {
-        "safety_lock": {
-          "status": "PASS",
-          "reason": "Hard safety lock passed. Orders and live trading are off.",
-          "value": {
-            "safe_for_research": true,
-            "safe_for_paper_submission": false,
-            "safe_for_live_trading": false,
-            "order_submission": false,
-            "live_trading": false
-          }
-        },
-        "data_quality": {
-          "status": "PASS",
-          "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
-          "value": {
-            "rows": 54,
-            "rows_with_price": 54,
-            "rows_with_day_move": 54,
-            "rows_with_non_default_rvol": 54,
-            "rows_with_spread": 54,
-            "rows_with_quote_age": 54
-          }
-        },
-        "market_regime": {
-          "status": "WATCH",
-          "reason": "Market regime is neutral. Require stronger setup confirmation.",
-          "value": {
-            "regime": "NEUTRAL",
-            "score": 46.9168
-          }
-        },
-        "pre_breakout": {
-          "status": "MISSING",
-          "reason": "No pre-breakout row found.",
-          "value": {
-            "score": 0.0,
-            "status": "",
-            "blockers": []
-          }
-        },
-        "reactive_momentum": {
-          "status": "PASS",
-          "reason": "Reactive momentum is usable for review.",
-          "value": {
-            "score": 71.0429,
-            "status": "RESEARCH_BUY_ALERT_CANDIDATE",
-            "day_move_pct": 5.3702,
-            "blockers": []
-          }
-        },
-        "math_edge": {
-          "status": "PASS",
-          "reason": "Positive expected value candidate.",
-          "value": {
-            "edge_status": "POSITIVE_EDGE_REVIEW",
-            "edge_score": 81.3397,
-            "expected_value_pct": 0.3385,
-            "estimated_win_probability": 0.659,
-            "risk_reward_ratio": 1.5
-          }
-        },
-        "paper_plan_only": {
-          "status": "PASS",
-          "reason": "Paper-plan-only candidate exists for review.",
-          "value": {
-            "planned_shares": 197,
-            "planned_notional": 1990.69,
-            "target_price": 10.1959,
-            "stop_price": 10.0444,
-            "order_submission": false,
-            "live_trading": false
-          }
-        }
-      },
-      "price": 10.105,
-      "day_move_pct": 5.3702,
-      "relative_volume": 4.6131,
-      "expected_value_pct": 0.3385,
-      "edge_score": 81.3397,
-      "planned_notional": 1990.69,
-      "target_price": 10.1959,
-      "stop_price": 10.0444,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "ACHR",
-      "final_verdict": "SCALP SETUP - PLAN ONLY",
-      "action": "Review only. Reactive scalp setup. No order submitted.",
-      "phase_gates": {
-        "safety_lock": {
-          "status": "PASS",
-          "reason": "Hard safety lock passed. Orders and live trading are off.",
-          "value": {
-            "safe_for_research": true,
-            "safe_for_paper_submission": false,
-            "safe_for_live_trading": false,
-            "order_submission": false,
-            "live_trading": false
-          }
-        },
-        "data_quality": {
-          "status": "PASS",
-          "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
-          "value": {
-            "rows": 54,
-            "rows_with_price": 54,
-            "rows_with_day_move": 54,
-            "rows_with_non_default_rvol": 54,
-            "rows_with_spread": 54,
-            "rows_with_quote_age": 54
-          }
-        },
-        "market_regime": {
-          "status": "WATCH",
-          "reason": "Market regime is neutral. Require stronger setup confirmation.",
-          "value": {
-            "regime": "NEUTRAL",
-            "score": 46.9168
-          }
-        },
-        "pre_breakout": {
-          "status": "MISSING",
-          "reason": "No pre-breakout row found.",
-          "value": {
-            "score": 0.0,
-            "status": "",
-            "blockers": []
-          }
-        },
-        "reactive_momentum": {
-          "status": "PASS",
-          "reason": "Reactive momentum is usable for review.",
-          "value": {
-            "score": 70.8672,
-            "status": "RESEARCH_BUY_ALERT_CANDIDATE",
-            "day_move_pct": 4.0458,
-            "blockers": []
-          }
-        },
-        "math_edge": {
-          "status": "PASS",
-          "reason": "Positive expected value candidate.",
-          "value": {
-            "edge_status": "POSITIVE_EDGE_REVIEW",
-            "edge_score": 76.9461,
-            "expected_value_pct": 0.2784,
-            "estimated_win_probability": 0.619,
-            "risk_reward_ratio": 1.5
-          }
-        },
-        "paper_plan_only": {
-          "status": "PASS",
-          "reason": "Paper-plan-only candidate exists for review.",
-          "value": {
-            "planned_shares": 293,
-            "planned_notional": 1996.8,
-            "target_price": 6.8763,
-            "stop_price": 6.7741,
-            "order_submission": false,
-            "live_trading": false
-          }
-        }
-      },
-      "price": 6.815,
-      "day_move_pct": 4.0458,
-      "relative_volume": 7.7912,
-      "expected_value_pct": 0.2784,
-      "edge_score": 76.9461,
-      "planned_notional": 1996.8,
-      "target_price": 6.8763,
-      "stop_price": 6.7741,
+      "planned_notional": 1997.08,
+      "target_price": 6.9009,
+      "stop_price": 6.7983,
       "order_submission": false,
       "live_trading": false
     },
     {
       "ticker": "LCID",
-      "final_verdict": "RESEARCH WATCH",
-      "action": "Track only. Needs stronger confirmation.",
+      "final_verdict": "BUY SETUP - PLAN ONLY",
+      "action": "Review only. No paper or live order submitted.",
       "phase_gates": {
         "safety_lock": {
           "status": "PASS",
@@ -499,28 +138,28 @@
           "status": "PASS",
           "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
           "value": {
-            "rows": 54,
-            "rows_with_price": 54,
-            "rows_with_day_move": 54,
-            "rows_with_non_default_rvol": 54,
-            "rows_with_spread": 54,
-            "rows_with_quote_age": 54
+            "rows": 52,
+            "rows_with_price": 52,
+            "rows_with_day_move": 52,
+            "rows_with_non_default_rvol": 52,
+            "rows_with_spread": 52,
+            "rows_with_quote_age": 52
           }
         },
         "market_regime": {
-          "status": "WATCH",
-          "reason": "Market regime is neutral. Require stronger setup confirmation.",
+          "status": "PASS",
+          "reason": "Market regime is supportive for momentum research.",
           "value": {
-            "regime": "NEUTRAL",
-            "score": 46.9168
+            "regime": "RISK_ON",
+            "score": 66.4516
           }
         },
         "pre_breakout": {
-          "status": "MISSING",
-          "reason": "No pre-breakout row found.",
+          "status": "PASS",
+          "reason": "Pre-breakout setup is forming.",
           "value": {
-            "score": 0.0,
-            "status": "",
+            "score": 100.0,
+            "status": "BREAKOUT_TRIGGER_CANDIDATE",
             "blockers": []
           }
         },
@@ -528,9 +167,9 @@
           "status": "WATCH",
           "reason": "Reactive setup is watch-only.",
           "value": {
-            "score": 69.9114,
+            "score": 66.6037,
             "status": "RESEARCH_BUY_ALERT_CANDIDATE",
-            "day_move_pct": 3.9137,
+            "day_move_pct": 3.8339,
             "blockers": []
           }
         },
@@ -539,40 +178,40 @@
           "reason": "Positive expected value candidate.",
           "value": {
             "edge_status": "POSITIVE_EDGE_REVIEW",
-            "edge_score": 71.2136,
-            "expected_value_pct": 0.2015,
-            "estimated_win_probability": 0.5677,
+            "edge_score": 92.5,
+            "expected_value_pct": 0.625,
+            "estimated_win_probability": 0.85,
             "risk_reward_ratio": 1.5
           }
         },
         "paper_plan_only": {
-          "status": "MISSING",
-          "reason": "No paper plan exists for this ticker.",
+          "status": "PASS",
+          "reason": "Paper-plan-only candidate exists for review.",
           "value": {
-            "planned_shares": null,
-            "planned_notional": null,
-            "target_price": null,
-            "stop_price": null,
+            "planned_shares": 308,
+            "planned_notional": 1998.92,
+            "target_price": 6.5484,
+            "stop_price": 6.4511,
             "order_submission": false,
             "live_trading": false
           }
         }
       },
-      "price": 6.505,
-      "day_move_pct": 3.9137,
-      "relative_volume": 6.2335,
-      "expected_value_pct": 0.2015,
-      "edge_score": 71.2136,
-      "planned_notional": null,
-      "target_price": 6.5635,
-      "stop_price": 6.466,
+      "price": 6.49,
+      "day_move_pct": 3.8339,
+      "relative_volume": 3.3313,
+      "expected_value_pct": 0.625,
+      "edge_score": 92.5,
+      "planned_notional": 1998.92,
+      "target_price": 6.5484,
+      "stop_price": 6.4511,
       "order_submission": false,
       "live_trading": false
     },
     {
-      "ticker": "BBAI",
-      "final_verdict": "RESEARCH WATCH",
-      "action": "Track only. Needs stronger confirmation.",
+      "ticker": "ENVX",
+      "final_verdict": "BUY SETUP - PLAN ONLY",
+      "action": "Review only. No paper or live order submitted.",
       "phase_gates": {
         "safety_lock": {
           "status": "PASS",
@@ -589,20 +228,110 @@
           "status": "PASS",
           "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
           "value": {
-            "rows": 54,
-            "rows_with_price": 54,
-            "rows_with_day_move": 54,
-            "rows_with_non_default_rvol": 54,
-            "rows_with_spread": 54,
-            "rows_with_quote_age": 54
+            "rows": 52,
+            "rows_with_price": 52,
+            "rows_with_day_move": 52,
+            "rows_with_non_default_rvol": 52,
+            "rows_with_spread": 52,
+            "rows_with_quote_age": 52
           }
         },
         "market_regime": {
-          "status": "WATCH",
-          "reason": "Market regime is neutral. Require stronger setup confirmation.",
+          "status": "PASS",
+          "reason": "Market regime is supportive for momentum research.",
           "value": {
-            "regime": "NEUTRAL",
-            "score": 46.9168
+            "regime": "RISK_ON",
+            "score": 66.4516
+          }
+        },
+        "pre_breakout": {
+          "status": "PASS",
+          "reason": "Pre-breakout setup is forming.",
+          "value": {
+            "score": 87.944,
+            "status": "PRE_BREAKOUT_CANDIDATE",
+            "blockers": []
+          }
+        },
+        "reactive_momentum": {
+          "status": "MISSING",
+          "reason": "No reactive row found.",
+          "value": {
+            "score": 0.0,
+            "status": "",
+            "day_move_pct": 1.3333,
+            "blockers": []
+          }
+        },
+        "math_edge": {
+          "status": "PASS",
+          "reason": "Positive expected value candidate.",
+          "value": {
+            "edge_status": "POSITIVE_EDGE_REVIEW",
+            "edge_score": 90.6916,
+            "expected_value_pct": 0.625,
+            "estimated_win_probability": 0.85,
+            "risk_reward_ratio": 1.5
+          }
+        },
+        "paper_plan_only": {
+          "status": "PASS",
+          "reason": "Paper-plan-only candidate exists for review.",
+          "value": {
+            "planned_shares": 263,
+            "planned_notional": 1998.8,
+            "target_price": 7.6684,
+            "stop_price": 7.5544,
+            "order_submission": false,
+            "live_trading": false
+          }
+        }
+      },
+      "price": 7.6,
+      "day_move_pct": 1.3333,
+      "relative_volume": 2.3076,
+      "expected_value_pct": 0.625,
+      "edge_score": 90.6916,
+      "planned_notional": 1998.8,
+      "target_price": 7.6684,
+      "stop_price": 7.5544,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "LUNR",
+      "final_verdict": "SCALP SETUP - PLAN ONLY",
+      "action": "Review only. Reactive scalp setup. No order submitted.",
+      "phase_gates": {
+        "safety_lock": {
+          "status": "PASS",
+          "reason": "Hard safety lock passed. Orders and live trading are off.",
+          "value": {
+            "safe_for_research": true,
+            "safe_for_paper_submission": false,
+            "safe_for_live_trading": false,
+            "order_submission": false,
+            "live_trading": false
+          }
+        },
+        "data_quality": {
+          "status": "PASS",
+          "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
+          "value": {
+            "rows": 52,
+            "rows_with_price": 52,
+            "rows_with_day_move": 52,
+            "rows_with_non_default_rvol": 52,
+            "rows_with_spread": 52,
+            "rows_with_quote_age": 52
+          }
+        },
+        "market_regime": {
+          "status": "PASS",
+          "reason": "Market regime is supportive for momentum research.",
+          "value": {
+            "regime": "RISK_ON",
+            "score": 66.4516
           }
         },
         "pre_breakout": {
@@ -618,9 +347,9 @@
           "status": "PASS",
           "reason": "Reactive momentum is usable for review.",
           "value": {
-            "score": 70.7499,
+            "score": 76.7028,
             "status": "RESEARCH_BUY_ALERT_CANDIDATE",
-            "day_move_pct": 3.2059,
+            "day_move_pct": 7.5359,
             "blockers": []
           }
         },
@@ -629,38 +358,38 @@
           "reason": "Positive expected value candidate.",
           "value": {
             "edge_status": "POSITIVE_EDGE_REVIEW",
-            "edge_score": 71.2436,
-            "expected_value_pct": 0.2002,
-            "estimated_win_probability": 0.5668,
+            "edge_score": 85.842,
+            "expected_value_pct": 0.4352,
+            "estimated_win_probability": 0.7235,
             "risk_reward_ratio": 1.5
           }
         },
         "paper_plan_only": {
-          "status": "MISSING",
-          "reason": "No paper plan exists for this ticker.",
+          "status": "PASS",
+          "reason": "Paper-plan-only candidate exists for review.",
           "value": {
-            "planned_shares": null,
-            "planned_notional": null,
-            "target_price": null,
-            "stop_price": null,
+            "planned_shares": 46,
+            "planned_notional": 1995.48,
+            "target_price": 43.7704,
+            "stop_price": 43.1197,
             "order_submission": false,
             "live_trading": false
           }
         }
       },
-      "price": 4.5101,
-      "day_move_pct": 3.2059,
-      "relative_volume": 8.2809,
-      "expected_value_pct": 0.2002,
-      "edge_score": 71.2436,
-      "planned_notional": null,
-      "target_price": 4.5507,
-      "stop_price": 4.483,
+      "price": 43.38,
+      "day_move_pct": 7.5359,
+      "relative_volume": 3.5231,
+      "expected_value_pct": 0.4352,
+      "edge_score": 85.842,
+      "planned_notional": 1995.48,
+      "target_price": 43.7704,
+      "stop_price": 43.1197,
       "order_submission": false,
       "live_trading": false
     },
     {
-      "ticker": "FUBO",
+      "ticker": "AFRM",
       "final_verdict": "WATCH ONLY",
       "action": "Track only. No order submitted.",
       "phase_gates": {
@@ -679,20 +408,20 @@
           "status": "PASS",
           "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
           "value": {
-            "rows": 54,
-            "rows_with_price": 54,
-            "rows_with_day_move": 54,
-            "rows_with_non_default_rvol": 54,
-            "rows_with_spread": 54,
-            "rows_with_quote_age": 54
+            "rows": 52,
+            "rows_with_price": 52,
+            "rows_with_day_move": 52,
+            "rows_with_non_default_rvol": 52,
+            "rows_with_spread": 52,
+            "rows_with_quote_age": 52
           }
         },
         "market_regime": {
-          "status": "WATCH",
-          "reason": "Market regime is neutral. Require stronger setup confirmation.",
+          "status": "PASS",
+          "reason": "Market regime is supportive for momentum research.",
           "value": {
-            "regime": "NEUTRAL",
-            "score": 46.9168
+            "regime": "RISK_ON",
+            "score": 66.4516
           }
         },
         "pre_breakout": {
@@ -708,9 +437,9 @@
           "status": "BLOCKED",
           "reason": "Reactive momentum gate did not pass.",
           "value": {
-            "score": 64.6222,
+            "score": 63.794,
             "status": "RESEARCH_BUY_ALERT_CANDIDATE",
-            "day_move_pct": 3.0457,
+            "day_move_pct": 2.5554,
             "blockers": []
           }
         },
@@ -719,40 +448,40 @@
           "reason": "Positive expected value candidate.",
           "value": {
             "edge_status": "POSITIVE_EDGE_REVIEW",
-            "edge_score": 77.8915,
-            "expected_value_pct": 0.3043,
-            "estimated_win_probability": 0.6362,
+            "edge_score": 72.4653,
+            "expected_value_pct": 0.2314,
+            "estimated_win_probability": 0.5876,
             "risk_reward_ratio": 1.5
           }
         },
         "paper_plan_only": {
-          "status": "MISSING",
-          "reason": "No paper plan exists for this ticker.",
+          "status": "PASS",
+          "reason": "Paper-plan-only candidate exists for review.",
           "value": {
-            "planned_shares": null,
-            "planned_notional": null,
-            "target_price": null,
-            "stop_price": null,
+            "planned_shares": 27,
+            "planned_notional": 1950.48,
+            "target_price": 72.8902,
+            "stop_price": 71.8066,
             "order_submission": false,
             "live_trading": false
           }
         }
       },
-      "price": 10.15,
-      "day_move_pct": 3.0457,
-      "relative_volume": 3.2152,
-      "expected_value_pct": 0.3043,
-      "edge_score": 77.8915,
-      "planned_notional": null,
-      "target_price": 10.2413,
-      "stop_price": 10.0891,
+      "price": 72.24,
+      "day_move_pct": 2.5554,
+      "relative_volume": 2.8201,
+      "expected_value_pct": 0.2314,
+      "edge_score": 72.4653,
+      "planned_notional": 1950.48,
+      "target_price": 72.8902,
+      "stop_price": 71.8066,
       "order_submission": false,
       "live_trading": false
     }
   ],
   "top_verdicts": [
     {
-      "ticker": "LUNR",
+      "ticker": "ACHR",
       "final_verdict": "BUY SETUP - PLAN ONLY",
       "action": "Review only. No paper or live order submitted.",
       "phase_gates": {
@@ -771,110 +500,20 @@
           "status": "PASS",
           "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
           "value": {
-            "rows": 54,
-            "rows_with_price": 54,
-            "rows_with_day_move": 54,
-            "rows_with_non_default_rvol": 54,
-            "rows_with_spread": 54,
-            "rows_with_quote_age": 54
+            "rows": 52,
+            "rows_with_price": 52,
+            "rows_with_day_move": 52,
+            "rows_with_non_default_rvol": 52,
+            "rows_with_spread": 52,
+            "rows_with_quote_age": 52
           }
         },
         "market_regime": {
-          "status": "WATCH",
-          "reason": "Market regime is neutral. Require stronger setup confirmation.",
-          "value": {
-            "regime": "NEUTRAL",
-            "score": 46.9168
-          }
-        },
-        "pre_breakout": {
           "status": "PASS",
-          "reason": "Pre-breakout setup is forming.",
+          "reason": "Market regime is supportive for momentum research.",
           "value": {
-            "score": 83.4,
-            "status": "EXPLOSIVE_BREAKOUT_CANDIDATE",
-            "blockers": []
-          }
-        },
-        "reactive_momentum": {
-          "status": "MISSING",
-          "reason": "No reactive row found.",
-          "value": {
-            "score": 0.0,
-            "status": "",
-            "day_move_pct": 5.652,
-            "blockers": []
-          }
-        },
-        "math_edge": {
-          "status": "PASS",
-          "reason": "Positive expected value candidate.",
-          "value": {
-            "edge_status": "POSITIVE_EDGE_REVIEW",
-            "edge_score": 92.8225,
-            "expected_value_pct": 1.105,
-            "estimated_win_probability": 0.85,
-            "risk_reward_ratio": 1.875
-          }
-        },
-        "paper_plan_only": {
-          "status": "PASS",
-          "reason": "Paper-plan-only candidate exists for review.",
-          "value": {
-            "planned_shares": 46,
-            "planned_notional": 1960.52,
-            "target_price": 43.2593,
-            "stop_price": 42.279,
-            "order_submission": false,
-            "live_trading": false
-          }
-        }
-      },
-      "price": 42.62,
-      "day_move_pct": 5.652,
-      "relative_volume": 5.0051,
-      "expected_value_pct": 1.105,
-      "edge_score": 92.8225,
-      "planned_notional": 1960.52,
-      "target_price": 43.2593,
-      "stop_price": 42.279,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "IONQ",
-      "final_verdict": "BUY SETUP - PLAN ONLY",
-      "action": "Review only. No paper or live order submitted.",
-      "phase_gates": {
-        "safety_lock": {
-          "status": "PASS",
-          "reason": "Hard safety lock passed. Orders and live trading are off.",
-          "value": {
-            "safe_for_research": true,
-            "safe_for_paper_submission": false,
-            "safe_for_live_trading": false,
-            "order_submission": false,
-            "live_trading": false
-          }
-        },
-        "data_quality": {
-          "status": "PASS",
-          "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
-          "value": {
-            "rows": 54,
-            "rows_with_price": 54,
-            "rows_with_day_move": 54,
-            "rows_with_non_default_rvol": 54,
-            "rows_with_spread": 54,
-            "rows_with_quote_age": 54
-          }
-        },
-        "market_regime": {
-          "status": "WATCH",
-          "reason": "Market regime is neutral. Require stronger setup confirmation.",
-          "value": {
-            "regime": "NEUTRAL",
-            "score": 46.9168
+            "regime": "RISK_ON",
+            "score": 66.4516
           }
         },
         "pre_breakout": {
@@ -892,7 +531,7 @@
           "value": {
             "score": 0.0,
             "status": "",
-            "day_move_pct": 2.2018,
+            "day_move_pct": 4.4168,
             "blockers": []
           }
         },
@@ -911,300 +550,30 @@
           "status": "PASS",
           "reason": "Paper-plan-only candidate exists for review.",
           "value": {
-            "planned_shares": 29,
-            "planned_notional": 1938.36,
-            "target_price": 67.4416,
-            "stop_price": 66.439,
+            "planned_shares": 292,
+            "planned_notional": 1997.08,
+            "target_price": 6.9009,
+            "stop_price": 6.7983,
             "order_submission": false,
             "live_trading": false
           }
         }
       },
-      "price": 66.84,
-      "day_move_pct": 2.2018,
-      "relative_volume": 3.1089,
+      "price": 6.8393,
+      "day_move_pct": 4.4168,
+      "relative_volume": 2.7882,
       "expected_value_pct": 0.625,
       "edge_score": 92.5,
-      "planned_notional": 1938.36,
-      "target_price": 67.4416,
-      "stop_price": 66.439,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "AFRM",
-      "final_verdict": "SCALP SETUP - PLAN ONLY",
-      "action": "Review only. Reactive scalp setup. No order submitted.",
-      "phase_gates": {
-        "safety_lock": {
-          "status": "PASS",
-          "reason": "Hard safety lock passed. Orders and live trading are off.",
-          "value": {
-            "safe_for_research": true,
-            "safe_for_paper_submission": false,
-            "safe_for_live_trading": false,
-            "order_submission": false,
-            "live_trading": false
-          }
-        },
-        "data_quality": {
-          "status": "PASS",
-          "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
-          "value": {
-            "rows": 54,
-            "rows_with_price": 54,
-            "rows_with_day_move": 54,
-            "rows_with_non_default_rvol": 54,
-            "rows_with_spread": 54,
-            "rows_with_quote_age": 54
-          }
-        },
-        "market_regime": {
-          "status": "WATCH",
-          "reason": "Market regime is neutral. Require stronger setup confirmation.",
-          "value": {
-            "regime": "NEUTRAL",
-            "score": 46.9168
-          }
-        },
-        "pre_breakout": {
-          "status": "MISSING",
-          "reason": "No pre-breakout row found.",
-          "value": {
-            "score": 0.0,
-            "status": "",
-            "blockers": []
-          }
-        },
-        "reactive_momentum": {
-          "status": "PASS",
-          "reason": "Reactive momentum is usable for review.",
-          "value": {
-            "score": 73.6463,
-            "status": "RESEARCH_BUY_ALERT_CANDIDATE",
-            "day_move_pct": 2.2147,
-            "blockers": []
-          }
-        },
-        "math_edge": {
-          "status": "PASS",
-          "reason": "Positive expected value candidate.",
-          "value": {
-            "edge_status": "POSITIVE_EDGE_REVIEW",
-            "edge_score": 84.2207,
-            "expected_value_pct": 0.3728,
-            "estimated_win_probability": 0.6819,
-            "risk_reward_ratio": 1.5
-          }
-        },
-        "paper_plan_only": {
-          "status": "PASS",
-          "reason": "Paper-plan-only candidate exists for review.",
-          "value": {
-            "planned_shares": 27,
-            "planned_notional": 1944.0,
-            "target_price": 72.648,
-            "stop_price": 71.568,
-            "order_submission": false,
-            "live_trading": false
-          }
-        }
-      },
-      "price": 72.0,
-      "day_move_pct": 2.2147,
-      "relative_volume": 5.8841,
-      "expected_value_pct": 0.3728,
-      "edge_score": 84.2207,
-      "planned_notional": 1944.0,
-      "target_price": 72.648,
-      "stop_price": 71.568,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "AI",
-      "final_verdict": "SCALP SETUP - PLAN ONLY",
-      "action": "Review only. Reactive scalp setup. No order submitted.",
-      "phase_gates": {
-        "safety_lock": {
-          "status": "PASS",
-          "reason": "Hard safety lock passed. Orders and live trading are off.",
-          "value": {
-            "safe_for_research": true,
-            "safe_for_paper_submission": false,
-            "safe_for_live_trading": false,
-            "order_submission": false,
-            "live_trading": false
-          }
-        },
-        "data_quality": {
-          "status": "PASS",
-          "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
-          "value": {
-            "rows": 54,
-            "rows_with_price": 54,
-            "rows_with_day_move": 54,
-            "rows_with_non_default_rvol": 54,
-            "rows_with_spread": 54,
-            "rows_with_quote_age": 54
-          }
-        },
-        "market_regime": {
-          "status": "WATCH",
-          "reason": "Market regime is neutral. Require stronger setup confirmation.",
-          "value": {
-            "regime": "NEUTRAL",
-            "score": 46.9168
-          }
-        },
-        "pre_breakout": {
-          "status": "MISSING",
-          "reason": "No pre-breakout row found.",
-          "value": {
-            "score": 0.0,
-            "status": "",
-            "blockers": []
-          }
-        },
-        "reactive_momentum": {
-          "status": "PASS",
-          "reason": "Reactive momentum is usable for review.",
-          "value": {
-            "score": 71.0429,
-            "status": "RESEARCH_BUY_ALERT_CANDIDATE",
-            "day_move_pct": 5.3702,
-            "blockers": []
-          }
-        },
-        "math_edge": {
-          "status": "PASS",
-          "reason": "Positive expected value candidate.",
-          "value": {
-            "edge_status": "POSITIVE_EDGE_REVIEW",
-            "edge_score": 81.3397,
-            "expected_value_pct": 0.3385,
-            "estimated_win_probability": 0.659,
-            "risk_reward_ratio": 1.5
-          }
-        },
-        "paper_plan_only": {
-          "status": "PASS",
-          "reason": "Paper-plan-only candidate exists for review.",
-          "value": {
-            "planned_shares": 197,
-            "planned_notional": 1990.69,
-            "target_price": 10.1959,
-            "stop_price": 10.0444,
-            "order_submission": false,
-            "live_trading": false
-          }
-        }
-      },
-      "price": 10.105,
-      "day_move_pct": 5.3702,
-      "relative_volume": 4.6131,
-      "expected_value_pct": 0.3385,
-      "edge_score": 81.3397,
-      "planned_notional": 1990.69,
-      "target_price": 10.1959,
-      "stop_price": 10.0444,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "ACHR",
-      "final_verdict": "SCALP SETUP - PLAN ONLY",
-      "action": "Review only. Reactive scalp setup. No order submitted.",
-      "phase_gates": {
-        "safety_lock": {
-          "status": "PASS",
-          "reason": "Hard safety lock passed. Orders and live trading are off.",
-          "value": {
-            "safe_for_research": true,
-            "safe_for_paper_submission": false,
-            "safe_for_live_trading": false,
-            "order_submission": false,
-            "live_trading": false
-          }
-        },
-        "data_quality": {
-          "status": "PASS",
-          "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
-          "value": {
-            "rows": 54,
-            "rows_with_price": 54,
-            "rows_with_day_move": 54,
-            "rows_with_non_default_rvol": 54,
-            "rows_with_spread": 54,
-            "rows_with_quote_age": 54
-          }
-        },
-        "market_regime": {
-          "status": "WATCH",
-          "reason": "Market regime is neutral. Require stronger setup confirmation.",
-          "value": {
-            "regime": "NEUTRAL",
-            "score": 46.9168
-          }
-        },
-        "pre_breakout": {
-          "status": "MISSING",
-          "reason": "No pre-breakout row found.",
-          "value": {
-            "score": 0.0,
-            "status": "",
-            "blockers": []
-          }
-        },
-        "reactive_momentum": {
-          "status": "PASS",
-          "reason": "Reactive momentum is usable for review.",
-          "value": {
-            "score": 70.8672,
-            "status": "RESEARCH_BUY_ALERT_CANDIDATE",
-            "day_move_pct": 4.0458,
-            "blockers": []
-          }
-        },
-        "math_edge": {
-          "status": "PASS",
-          "reason": "Positive expected value candidate.",
-          "value": {
-            "edge_status": "POSITIVE_EDGE_REVIEW",
-            "edge_score": 76.9461,
-            "expected_value_pct": 0.2784,
-            "estimated_win_probability": 0.619,
-            "risk_reward_ratio": 1.5
-          }
-        },
-        "paper_plan_only": {
-          "status": "PASS",
-          "reason": "Paper-plan-only candidate exists for review.",
-          "value": {
-            "planned_shares": 293,
-            "planned_notional": 1996.8,
-            "target_price": 6.8763,
-            "stop_price": 6.7741,
-            "order_submission": false,
-            "live_trading": false
-          }
-        }
-      },
-      "price": 6.815,
-      "day_move_pct": 4.0458,
-      "relative_volume": 7.7912,
-      "expected_value_pct": 0.2784,
-      "edge_score": 76.9461,
-      "planned_notional": 1996.8,
-      "target_price": 6.8763,
-      "stop_price": 6.7741,
+      "planned_notional": 1997.08,
+      "target_price": 6.9009,
+      "stop_price": 6.7983,
       "order_submission": false,
       "live_trading": false
     },
     {
       "ticker": "LCID",
-      "final_verdict": "RESEARCH WATCH",
-      "action": "Track only. Needs stronger confirmation.",
+      "final_verdict": "BUY SETUP - PLAN ONLY",
+      "action": "Review only. No paper or live order submitted.",
       "phase_gates": {
         "safety_lock": {
           "status": "PASS",
@@ -1221,28 +590,28 @@
           "status": "PASS",
           "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
           "value": {
-            "rows": 54,
-            "rows_with_price": 54,
-            "rows_with_day_move": 54,
-            "rows_with_non_default_rvol": 54,
-            "rows_with_spread": 54,
-            "rows_with_quote_age": 54
+            "rows": 52,
+            "rows_with_price": 52,
+            "rows_with_day_move": 52,
+            "rows_with_non_default_rvol": 52,
+            "rows_with_spread": 52,
+            "rows_with_quote_age": 52
           }
         },
         "market_regime": {
-          "status": "WATCH",
-          "reason": "Market regime is neutral. Require stronger setup confirmation.",
+          "status": "PASS",
+          "reason": "Market regime is supportive for momentum research.",
           "value": {
-            "regime": "NEUTRAL",
-            "score": 46.9168
+            "regime": "RISK_ON",
+            "score": 66.4516
           }
         },
         "pre_breakout": {
-          "status": "MISSING",
-          "reason": "No pre-breakout row found.",
+          "status": "PASS",
+          "reason": "Pre-breakout setup is forming.",
           "value": {
-            "score": 0.0,
-            "status": "",
+            "score": 100.0,
+            "status": "BREAKOUT_TRIGGER_CANDIDATE",
             "blockers": []
           }
         },
@@ -1250,9 +619,9 @@
           "status": "WATCH",
           "reason": "Reactive setup is watch-only.",
           "value": {
-            "score": 69.9114,
+            "score": 66.6037,
             "status": "RESEARCH_BUY_ALERT_CANDIDATE",
-            "day_move_pct": 3.9137,
+            "day_move_pct": 3.8339,
             "blockers": []
           }
         },
@@ -1261,40 +630,40 @@
           "reason": "Positive expected value candidate.",
           "value": {
             "edge_status": "POSITIVE_EDGE_REVIEW",
-            "edge_score": 71.2136,
-            "expected_value_pct": 0.2015,
-            "estimated_win_probability": 0.5677,
+            "edge_score": 92.5,
+            "expected_value_pct": 0.625,
+            "estimated_win_probability": 0.85,
             "risk_reward_ratio": 1.5
           }
         },
         "paper_plan_only": {
-          "status": "MISSING",
-          "reason": "No paper plan exists for this ticker.",
+          "status": "PASS",
+          "reason": "Paper-plan-only candidate exists for review.",
           "value": {
-            "planned_shares": null,
-            "planned_notional": null,
-            "target_price": null,
-            "stop_price": null,
+            "planned_shares": 308,
+            "planned_notional": 1998.92,
+            "target_price": 6.5484,
+            "stop_price": 6.4511,
             "order_submission": false,
             "live_trading": false
           }
         }
       },
-      "price": 6.505,
-      "day_move_pct": 3.9137,
-      "relative_volume": 6.2335,
-      "expected_value_pct": 0.2015,
-      "edge_score": 71.2136,
-      "planned_notional": null,
-      "target_price": 6.5635,
-      "stop_price": 6.466,
+      "price": 6.49,
+      "day_move_pct": 3.8339,
+      "relative_volume": 3.3313,
+      "expected_value_pct": 0.625,
+      "edge_score": 92.5,
+      "planned_notional": 1998.92,
+      "target_price": 6.5484,
+      "stop_price": 6.4511,
       "order_submission": false,
       "live_trading": false
     },
     {
-      "ticker": "BBAI",
-      "final_verdict": "RESEARCH WATCH",
-      "action": "Track only. Needs stronger confirmation.",
+      "ticker": "ENVX",
+      "final_verdict": "BUY SETUP - PLAN ONLY",
+      "action": "Review only. No paper or live order submitted.",
       "phase_gates": {
         "safety_lock": {
           "status": "PASS",
@@ -1311,20 +680,110 @@
           "status": "PASS",
           "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
           "value": {
-            "rows": 54,
-            "rows_with_price": 54,
-            "rows_with_day_move": 54,
-            "rows_with_non_default_rvol": 54,
-            "rows_with_spread": 54,
-            "rows_with_quote_age": 54
+            "rows": 52,
+            "rows_with_price": 52,
+            "rows_with_day_move": 52,
+            "rows_with_non_default_rvol": 52,
+            "rows_with_spread": 52,
+            "rows_with_quote_age": 52
           }
         },
         "market_regime": {
-          "status": "WATCH",
-          "reason": "Market regime is neutral. Require stronger setup confirmation.",
+          "status": "PASS",
+          "reason": "Market regime is supportive for momentum research.",
           "value": {
-            "regime": "NEUTRAL",
-            "score": 46.9168
+            "regime": "RISK_ON",
+            "score": 66.4516
+          }
+        },
+        "pre_breakout": {
+          "status": "PASS",
+          "reason": "Pre-breakout setup is forming.",
+          "value": {
+            "score": 87.944,
+            "status": "PRE_BREAKOUT_CANDIDATE",
+            "blockers": []
+          }
+        },
+        "reactive_momentum": {
+          "status": "MISSING",
+          "reason": "No reactive row found.",
+          "value": {
+            "score": 0.0,
+            "status": "",
+            "day_move_pct": 1.3333,
+            "blockers": []
+          }
+        },
+        "math_edge": {
+          "status": "PASS",
+          "reason": "Positive expected value candidate.",
+          "value": {
+            "edge_status": "POSITIVE_EDGE_REVIEW",
+            "edge_score": 90.6916,
+            "expected_value_pct": 0.625,
+            "estimated_win_probability": 0.85,
+            "risk_reward_ratio": 1.5
+          }
+        },
+        "paper_plan_only": {
+          "status": "PASS",
+          "reason": "Paper-plan-only candidate exists for review.",
+          "value": {
+            "planned_shares": 263,
+            "planned_notional": 1998.8,
+            "target_price": 7.6684,
+            "stop_price": 7.5544,
+            "order_submission": false,
+            "live_trading": false
+          }
+        }
+      },
+      "price": 7.6,
+      "day_move_pct": 1.3333,
+      "relative_volume": 2.3076,
+      "expected_value_pct": 0.625,
+      "edge_score": 90.6916,
+      "planned_notional": 1998.8,
+      "target_price": 7.6684,
+      "stop_price": 7.5544,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "LUNR",
+      "final_verdict": "SCALP SETUP - PLAN ONLY",
+      "action": "Review only. Reactive scalp setup. No order submitted.",
+      "phase_gates": {
+        "safety_lock": {
+          "status": "PASS",
+          "reason": "Hard safety lock passed. Orders and live trading are off.",
+          "value": {
+            "safe_for_research": true,
+            "safe_for_paper_submission": false,
+            "safe_for_live_trading": false,
+            "order_submission": false,
+            "live_trading": false
+          }
+        },
+        "data_quality": {
+          "status": "PASS",
+          "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
+          "value": {
+            "rows": 52,
+            "rows_with_price": 52,
+            "rows_with_day_move": 52,
+            "rows_with_non_default_rvol": 52,
+            "rows_with_spread": 52,
+            "rows_with_quote_age": 52
+          }
+        },
+        "market_regime": {
+          "status": "PASS",
+          "reason": "Market regime is supportive for momentum research.",
+          "value": {
+            "regime": "RISK_ON",
+            "score": 66.4516
           }
         },
         "pre_breakout": {
@@ -1340,9 +799,9 @@
           "status": "PASS",
           "reason": "Reactive momentum is usable for review.",
           "value": {
-            "score": 70.7499,
+            "score": 76.7028,
             "status": "RESEARCH_BUY_ALERT_CANDIDATE",
-            "day_move_pct": 3.2059,
+            "day_move_pct": 7.5359,
             "blockers": []
           }
         },
@@ -1351,38 +810,38 @@
           "reason": "Positive expected value candidate.",
           "value": {
             "edge_status": "POSITIVE_EDGE_REVIEW",
-            "edge_score": 71.2436,
-            "expected_value_pct": 0.2002,
-            "estimated_win_probability": 0.5668,
+            "edge_score": 85.842,
+            "expected_value_pct": 0.4352,
+            "estimated_win_probability": 0.7235,
             "risk_reward_ratio": 1.5
           }
         },
         "paper_plan_only": {
-          "status": "MISSING",
-          "reason": "No paper plan exists for this ticker.",
+          "status": "PASS",
+          "reason": "Paper-plan-only candidate exists for review.",
           "value": {
-            "planned_shares": null,
-            "planned_notional": null,
-            "target_price": null,
-            "stop_price": null,
+            "planned_shares": 46,
+            "planned_notional": 1995.48,
+            "target_price": 43.7704,
+            "stop_price": 43.1197,
             "order_submission": false,
             "live_trading": false
           }
         }
       },
-      "price": 4.5101,
-      "day_move_pct": 3.2059,
-      "relative_volume": 8.2809,
-      "expected_value_pct": 0.2002,
-      "edge_score": 71.2436,
-      "planned_notional": null,
-      "target_price": 4.5507,
-      "stop_price": 4.483,
+      "price": 43.38,
+      "day_move_pct": 7.5359,
+      "relative_volume": 3.5231,
+      "expected_value_pct": 0.4352,
+      "edge_score": 85.842,
+      "planned_notional": 1995.48,
+      "target_price": 43.7704,
+      "stop_price": 43.1197,
       "order_submission": false,
       "live_trading": false
     },
     {
-      "ticker": "FUBO",
+      "ticker": "AFRM",
       "final_verdict": "WATCH ONLY",
       "action": "Track only. No order submitted.",
       "phase_gates": {
@@ -1401,20 +860,20 @@
           "status": "PASS",
           "reason": "V3 enrichment has complete price, move, RVOL, spread, and quote-age coverage.",
           "value": {
-            "rows": 54,
-            "rows_with_price": 54,
-            "rows_with_day_move": 54,
-            "rows_with_non_default_rvol": 54,
-            "rows_with_spread": 54,
-            "rows_with_quote_age": 54
+            "rows": 52,
+            "rows_with_price": 52,
+            "rows_with_day_move": 52,
+            "rows_with_non_default_rvol": 52,
+            "rows_with_spread": 52,
+            "rows_with_quote_age": 52
           }
         },
         "market_regime": {
-          "status": "WATCH",
-          "reason": "Market regime is neutral. Require stronger setup confirmation.",
+          "status": "PASS",
+          "reason": "Market regime is supportive for momentum research.",
           "value": {
-            "regime": "NEUTRAL",
-            "score": 46.9168
+            "regime": "RISK_ON",
+            "score": 66.4516
           }
         },
         "pre_breakout": {
@@ -1430,9 +889,9 @@
           "status": "BLOCKED",
           "reason": "Reactive momentum gate did not pass.",
           "value": {
-            "score": 64.6222,
+            "score": 63.794,
             "status": "RESEARCH_BUY_ALERT_CANDIDATE",
-            "day_move_pct": 3.0457,
+            "day_move_pct": 2.5554,
             "blockers": []
           }
         },
@@ -1441,33 +900,33 @@
           "reason": "Positive expected value candidate.",
           "value": {
             "edge_status": "POSITIVE_EDGE_REVIEW",
-            "edge_score": 77.8915,
-            "expected_value_pct": 0.3043,
-            "estimated_win_probability": 0.6362,
+            "edge_score": 72.4653,
+            "expected_value_pct": 0.2314,
+            "estimated_win_probability": 0.5876,
             "risk_reward_ratio": 1.5
           }
         },
         "paper_plan_only": {
-          "status": "MISSING",
-          "reason": "No paper plan exists for this ticker.",
+          "status": "PASS",
+          "reason": "Paper-plan-only candidate exists for review.",
           "value": {
-            "planned_shares": null,
-            "planned_notional": null,
-            "target_price": null,
-            "stop_price": null,
+            "planned_shares": 27,
+            "planned_notional": 1950.48,
+            "target_price": 72.8902,
+            "stop_price": 71.8066,
             "order_submission": false,
             "live_trading": false
           }
         }
       },
-      "price": 10.15,
-      "day_move_pct": 3.0457,
-      "relative_volume": 3.2152,
-      "expected_value_pct": 0.3043,
-      "edge_score": 77.8915,
-      "planned_notional": null,
-      "target_price": 10.2413,
-      "stop_price": 10.0891,
+      "price": 72.24,
+      "day_move_pct": 2.5554,
+      "relative_volume": 2.8201,
+      "expected_value_pct": 0.2314,
+      "edge_score": 72.4653,
+      "planned_notional": 1950.48,
+      "target_price": 72.8902,
+      "stop_price": 71.8066,
       "order_submission": false,
       "live_trading": false
     }
