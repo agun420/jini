@@ -1,6 +1,6 @@
 {
   "schema_version": "signal_dashboard_quality_enriched_v1",
-  "generated_at": "2026-05-28T20:15:44.765126+00:00",
+  "generated_at": "2026-05-28T20:29:25.394193+00:00",
   "status": "PASS",
   "rows": [
     {
@@ -74,8 +74,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 100,
-        "spread_pct": 0.1364,
-        "dollar_volume": 710793782.36,
+        "spread_pct": 0.0682,
+        "dollar_volume": 673040241.82,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -183,7 +183,7 @@
       "advanced_quality": {
         "advanced_quality_score": 100,
         "spread_pct": 0.5081,
-        "dollar_volume": 312103452.83,
+        "dollar_volume": 278824208.45,
         "spread_score": 12.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -290,8 +290,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 100,
-        "spread_pct": 0.488,
-        "dollar_volume": 52809533.24,
+        "spread_pct": 0.3902,
+        "dollar_volume": 46544640.01,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 9.0,
@@ -397,8 +397,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 99.0,
-        "spread_pct": 0.442,
-        "dollar_volume": 244783031.03,
+        "spread_pct": 0.1656,
+        "dollar_volume": 226537395.72,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -503,8 +503,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 98.0,
-        "spread_pct": 0.1064,
-        "dollar_volume": 2132401537.6,
+        "spread_pct": 0.3653,
+        "dollar_volume": 1894149384.8,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -527,6 +527,112 @@
           "controlled_above_vwap",
           "controlled_breakout_range",
           "breakout_not_overextended"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:ALERT_ONLY"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:ALERT_ONLY"
+      ]
+    },
+    {
+      "ticker": "CRWD",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "ALERT ONLY",
+      "status": "ALERT_ONLY",
+      "signal_color": "blue",
+      "meaning": "Interesting, but missing at least one key confirmation.",
+      "action": "Track for confirmation.",
+      "score": 65.0,
+      "price": 674.78,
+      "entry": 674.78,
+      "stop": 664.6583,
+      "target": 695.0234,
+      "risk_reward": 2.0,
+      "relative_volume": 0.53,
+      "day_move_percent": 2.12,
+      "gap_pct": 1.71,
+      "vwap": 667.2575,
+      "vwap_distance_percent": 1.13,
+      "volume_acceleration": 1.79,
+      "trend_state": "BULLISH_CONTROLLED",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 82.86,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "positive day move, weak relative volume, volume acceleration, above VWAP and controlled, risk/reward acceptable",
+      "no_trade_reasons": [
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "CRWD",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260527",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "CRWD",
+        "news_count": 2,
+        "news_catalyst_score": 27,
+        "risk_flags": [],
+        "latest_headline": "CrowdStrike Signs AI Cyber Risk Collaboration With Insurers",
+        "latest_url": "https://www.benzinga.com/markets/large-cap/26/05/52848652/crowdstrike-signs-ai-cyber-risk-collaboration-with-insurers"
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 96.0,
+        "spread_pct": 0.3713,
+        "dollar_volume": 1214880659.8,
+        "spread_score": 15.0,
+        "liquidity_score": 15.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 18.0,
+        "pullback_quality_score": 18,
+        "breakout_compression_score": 10.0,
+        "sympathy_score": 0,
+        "theme": null,
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "strong_dollar_volume",
+          "weak_rvol",
+          "vwap_controlled",
+          "not_chasing_vwap_controlled",
+          "near_vwap_pullback_zone",
+          "volume_returning",
+          "breakout_not_overextended",
+          "breakout_volume_acceleration"
         ],
         "hard_blocks": [],
         "quality_gate_status": "DASHBOARD_ONLY",
@@ -610,8 +716,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 96.0,
-        "spread_pct": 0.2846,
-        "dollar_volume": 656304656.17,
+        "spread_pct": 0.0659,
+        "dollar_volume": 609855602.99,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -643,112 +749,6 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "quality_gate_blocks": [
         "base_status_not_trade_eligible:WATCH_ONLY"
-      ]
-    },
-    {
-      "ticker": "CRWD",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "ALERT ONLY",
-      "status": "ALERT_ONLY",
-      "signal_color": "blue",
-      "meaning": "Interesting, but missing at least one key confirmation.",
-      "action": "Track for confirmation.",
-      "score": 65.0,
-      "price": 674.78,
-      "entry": 674.78,
-      "stop": 664.6583,
-      "target": 695.0234,
-      "risk_reward": 2.0,
-      "relative_volume": 0.53,
-      "day_move_percent": 2.12,
-      "gap_pct": 1.71,
-      "vwap": 667.2575,
-      "vwap_distance_percent": 1.13,
-      "volume_acceleration": 1.79,
-      "trend_state": "BULLISH_CONTROLLED",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 82.86,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "positive day move, weak relative volume, volume acceleration, above VWAP and controlled, risk/reward acceptable",
-      "no_trade_reasons": [
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "CRWD",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260527",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "CRWD",
-        "news_count": 2,
-        "news_catalyst_score": 27,
-        "risk_flags": [],
-        "latest_headline": "CrowdStrike Signs AI Cyber Risk Collaboration With Insurers",
-        "latest_url": "https://www.benzinga.com/markets/large-cap/26/05/52848652/crowdstrike-signs-ai-cyber-risk-collaboration-with-insurers"
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 93.0,
-        "spread_pct": 0.7635,
-        "dollar_volume": 1298827340.48,
-        "spread_score": 12.0,
-        "liquidity_score": 15.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 18.0,
-        "pullback_quality_score": 18,
-        "breakout_compression_score": 10.0,
-        "sympathy_score": 0,
-        "theme": null,
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_acceptable",
-          "strong_dollar_volume",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "near_vwap_pullback_zone",
-          "volume_returning",
-          "breakout_not_overextended",
-          "breakout_volume_acceleration"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:ALERT_ONLY"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:ALERT_ONLY"
       ]
     },
     {
@@ -822,8 +822,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 93.0,
-        "spread_pct": 0.8516,
-        "dollar_volume": 1097326177.78,
+        "spread_pct": 0.8172,
+        "dollar_volume": 1049696469.75,
         "spread_score": 12.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -928,8 +928,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 92.0,
-        "spread_pct": 0.0386,
-        "dollar_volume": 13137746743.43,
+        "spread_pct": 0.2119,
+        "dollar_volume": 12416169896.25,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -1024,7 +1024,7 @@
       ],
       "alpaca_news": {
         "ticker": "CRM",
-        "news_count": 20,
+        "news_count": 19,
         "news_catalyst_score": 100,
         "risk_flags": [],
         "latest_headline": "Citigroup Maintains Neutral on Salesforce, Lowers Price Target to $187",
@@ -1032,8 +1032,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 89.0,
-        "spread_pct": 0.1417,
-        "dollar_volume": 2834118856.12,
+        "spread_pct": 0.3397,
+        "dollar_volume": 2584675592.96,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -1135,10 +1135,10 @@
         "latest_url": "https://www.benzinga.com/news/26/05/52855724/disney-files-early-license-renewal-requests-for-8-abc-stations-with-federal-communications-commissio"
       },
       "advanced_quality": {
-        "advanced_quality_score": 86.0,
-        "spread_pct": 0.6721,
-        "dollar_volume": 600046995.36,
-        "spread_score": 12.0,
+        "advanced_quality_score": 89.0,
+        "spread_pct": 0.4134,
+        "dollar_volume": 573712713.9,
+        "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 18.0,
@@ -1150,7 +1150,7 @@
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
-          "spread_acceptable",
+          "spread_tight",
           "strong_dollar_volume",
           "weak_rvol",
           "vwap_controlled",
@@ -1346,8 +1346,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 84.0,
-        "spread_pct": 0.2215,
-        "dollar_volume": 1090443179.86,
+        "spread_pct": 0.1345,
+        "dollar_volume": 1018995809.39,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -1451,8 +1451,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 84.0,
-        "spread_pct": 0.0902,
-        "dollar_volume": 285497223.07,
+        "spread_pct": 0.1202,
+        "dollar_volume": 273682887.62,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -1556,8 +1556,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 84.0,
-        "spread_pct": 0.3267,
-        "dollar_volume": 75458035.59,
+        "spread_pct": 0.2859,
+        "dollar_volume": 212202633.19,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -1653,11 +1653,11 @@
       ],
       "alpaca_news": {
         "ticker": "GME",
-        "news_count": 0,
-        "news_catalyst_score": 0,
+        "news_count": 1,
+        "news_catalyst_score": 25,
         "risk_flags": [],
-        "latest_headline": null,
-        "latest_url": null
+        "latest_headline": "Etsy and eBay Amend Depop Sale Agreement, Extending Timeline To Q3 2026; Adds Up To $136M Additional Termination Fee Structure",
+        "latest_url": "https://www.benzinga.com/m-a/26/05/52858354/etsy-and-ebay-amend-depop-sale-agreement-extending-timeline-to-q3-2026-adds-up-to-136m-additional-te"
       },
       "advanced_quality": {
         "advanced_quality_score": 83.0,
@@ -1874,8 +1874,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 60.0,
-        "spread_pct": 0.4383,
-        "dollar_volume": 330208998.3,
+        "spread_pct": 0.2928,
+        "dollar_volume": 311215342.54,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -1978,8 +1978,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 60.0,
-        "spread_pct": 0.1786,
-        "dollar_volume": 456273607.47,
+        "spread_pct": 0.2501,
+        "dollar_volume": 417683268.41,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -2082,8 +2082,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 56.0,
-        "spread_pct": 0.3639,
-        "dollar_volume": 516406823.43,
+        "spread_pct": 0.3396,
+        "dollar_volume": 481506864.15,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -2185,8 +2185,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 56.0,
-        "spread_pct": 0.1223,
-        "dollar_volume": 1255894970.0,
+        "spread_pct": 0.1442,
+        "dollar_volume": 1163199357.1,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -2288,8 +2288,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 55.0,
-        "spread_pct": 0.3953,
-        "dollar_volume": 689877414.16,
+        "spread_pct": 0.2177,
+        "dollar_volume": 655575700.98,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -2394,8 +2394,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 55.0,
-        "spread_pct": 0.0438,
-        "dollar_volume": 9165813530.66,
+        "spread_pct": 0.0256,
+        "dollar_volume": 8661670504.02,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -2498,8 +2498,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 55.0,
-        "spread_pct": 0.2026,
-        "dollar_volume": 249671591.4,
+        "spread_pct": 0.203,
+        "dollar_volume": 236218214.4,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -2602,8 +2602,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 55.0,
-        "spread_pct": 0.1919,
-        "dollar_volume": 1321945985.31,
+        "spread_pct": 0.2192,
+        "dollar_volume": 1226377907.16,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -2706,8 +2706,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 52.0,
-        "spread_pct": 0.3229,
-        "dollar_volume": 1391636667.33,
+        "spread_pct": 0.2408,
+        "dollar_volume": 1318791039.93,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -2810,8 +2810,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 51.0,
-        "spread_pct": 0.0468,
-        "dollar_volume": 6127124709.99,
+        "spread_pct": 0.0187,
+        "dollar_volume": 5776846585.88,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -2913,8 +2913,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 48.0,
-        "spread_pct": 0.0577,
-        "dollar_volume": 13433273124.63,
+        "spread_pct": 0.0128,
+        "dollar_volume": 13008821487.06,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -3018,7 +3018,7 @@
       "advanced_quality": {
         "advanced_quality_score": 44.25,
         "spread_pct": 0.6349,
-        "dollar_volume": 25832666.86,
+        "dollar_volume": 24469569.74,
         "spread_score": 12.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -3122,8 +3122,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 42.25,
-        "spread_pct": 0.1832,
-        "dollar_volume": 32374055.38,
+        "spread_pct": 0.1588,
+        "dollar_volume": 30860056.22,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -3604,7 +3604,7 @@
     "allowed_to_trade_status": "TRADE_ELIGIBLE",
     "disclaimer": "Research labels only. Not financial advice."
   },
-  "sec_enriched_at": "2026-05-28T20:15:43.880651+00:00",
+  "sec_enriched_at": "2026-05-28T20:29:24.558682+00:00",
   "sec_enrichment": {
     "enabled": true,
     "source": "docs/data/prediction_engine/sec_catalysts.json",
@@ -3622,7 +3622,7 @@
   "alpaca_news_source": "docs/data/prediction_engine/alpaca_news.json",
   "source_before_news": "docs/data/prediction_engine/signal_dashboard_finra_enriched.json",
   "quality_source": "advanced_signal_quality_v1",
-  "quality_generated_at": "2026-05-28T20:29:25.673250+00:00",
+  "quality_generated_at": "2026-05-28T20:43:06.756908+00:00",
   "market_regime": {
     "regime": "NEUTRAL",
     "market_regime_score": 0,
