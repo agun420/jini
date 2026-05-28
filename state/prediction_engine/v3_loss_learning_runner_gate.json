@@ -1,9 +1,9 @@
 {
   "schema_version": "v3_loss_learning_runner_gate_v1",
-  "generated_at": "2026-05-28T16:37:40.758854+00:00",
+  "generated_at": "2026-05-28T16:52:40.276481+00:00",
   "health": {
     "schema_version": "v3_loss_learning_runner_gate_health_v1",
-    "generated_at": "2026-05-28T16:37:40.758854+00:00",
+    "generated_at": "2026-05-28T16:52:40.276481+00:00",
     "status": "WARN",
     "blockers": [],
     "warnings": [
@@ -26,6 +26,36 @@
     "live_trading": false
   },
   "ticker_memory": {
+    "FUBO": {
+      "ticker": "FUBO",
+      "closed_count": 8,
+      "target_hits": 1,
+      "stop_hits": 5,
+      "time_exits": 2,
+      "failed_alerts": 6,
+      "avg_return_pct": -0.38875,
+      "total_return_pct": -3.11,
+      "last_reason": "STOP_HIT",
+      "last_closed_at": "2026-05-28T16:43:33.492023+00:00",
+      "last_return_pct": -0.9737,
+      "last_layer": "REACTIVE",
+      "last_score": 61.0549
+    },
+    "GM": {
+      "ticker": "GM",
+      "closed_count": 7,
+      "target_hits": 2,
+      "stop_hits": 0,
+      "time_exits": 5,
+      "failed_alerts": 3,
+      "avg_return_pct": 0.16872857142857142,
+      "total_return_pct": 1.1811,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T16:43:28.668843+00:00",
+      "last_return_pct": -0.0588,
+      "last_layer": "PRE_BREAKOUT",
+      "last_score": 88.9872
+    },
     "F": {
       "ticker": "F",
       "closed_count": 11,
@@ -55,21 +85,6 @@
       "last_return_pct": 1.7406,
       "last_layer": "PRE_BREAKOUT",
       "last_score": 82.834
-    },
-    "FUBO": {
-      "ticker": "FUBO",
-      "closed_count": 7,
-      "target_hits": 1,
-      "stop_hits": 4,
-      "time_exits": 2,
-      "failed_alerts": 5,
-      "avg_return_pct": -0.3051857142857143,
-      "total_return_pct": -2.1363,
-      "last_reason": "STOP_HIT",
-      "last_closed_at": "2026-05-28T16:29:03.196753+00:00",
-      "last_return_pct": -0.5842,
-      "last_layer": "PRE_BREAKOUT",
-      "last_score": 91.1964
     },
     "LUNR": {
       "ticker": "LUNR",
@@ -370,21 +385,6 @@
       "last_return_pct": -0.1078,
       "last_layer": "REACTIVE",
       "last_score": 66.8999
-    },
-    "GM": {
-      "ticker": "GM",
-      "closed_count": 6,
-      "target_hits": 2,
-      "stop_hits": 0,
-      "time_exits": 4,
-      "failed_alerts": 2,
-      "avg_return_pct": 0.20665,
-      "total_return_pct": 1.2399,
-      "last_reason": "TIME_EXIT",
-      "last_closed_at": "2026-05-22T17:00:43.002243+00:00",
-      "last_return_pct": -0.3153,
-      "last_layer": "PRE_BREAKOUT",
-      "last_score": 100.0
     },
     "RIOT": {
       "ticker": "RIOT",
@@ -719,6 +719,40 @@
   },
   "cooldowns": [
     {
+      "ticker": "FUBO",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "STOP_HIT",
+      "last_closed_at": "2026-05-28T16:43:33.492023+00:00",
+      "last_return_pct": -0.9737,
+      "closed_count": 8,
+      "target_hits": 1,
+      "stop_hits": 5,
+      "time_exits": 2,
+      "failed_alerts": 6,
+      "avg_return_pct": -0.3887
+    },
+    {
+      "ticker": "GM",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T16:43:28.668843+00:00",
+      "last_return_pct": -0.0588,
+      "closed_count": 7,
+      "target_hits": 2,
+      "stop_hits": 0,
+      "time_exits": 5,
+      "failed_alerts": 3,
+      "avg_return_pct": 0.1687
+    },
+    {
       "ticker": "F",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
@@ -751,23 +785,6 @@
       "time_exits": 5,
       "failed_alerts": 6,
       "avg_return_pct": 0.2659
-    },
-    {
-      "ticker": "FUBO",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": false,
-      "very_late_day": false,
-      "last_reason": "STOP_HIT",
-      "last_closed_at": "2026-05-28T16:29:03.196753+00:00",
-      "last_return_pct": -0.5842,
-      "closed_count": 7,
-      "target_hits": 1,
-      "stop_hits": 4,
-      "time_exits": 2,
-      "failed_alerts": 5,
-      "avg_return_pct": -0.3052
     },
     {
       "ticker": "LUNR",
@@ -1108,23 +1125,6 @@
       "time_exits": 3,
       "failed_alerts": 3,
       "avg_return_pct": 0.421
-    },
-    {
-      "ticker": "GM",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": false,
-      "very_late_day": false,
-      "last_reason": "TIME_EXIT",
-      "last_closed_at": "2026-05-22T17:00:43.002243+00:00",
-      "last_return_pct": -0.3153,
-      "closed_count": 6,
-      "target_hits": 2,
-      "stop_hits": 0,
-      "time_exits": 4,
-      "failed_alerts": 2,
-      "avg_return_pct": 0.2067
     },
     {
       "ticker": "RIOT",
@@ -1503,6 +1503,40 @@
   ],
   "active_cooldowns": [
     {
+      "ticker": "FUBO",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "STOP_HIT",
+      "last_closed_at": "2026-05-28T16:43:33.492023+00:00",
+      "last_return_pct": -0.9737,
+      "closed_count": 8,
+      "target_hits": 1,
+      "stop_hits": 5,
+      "time_exits": 2,
+      "failed_alerts": 6,
+      "avg_return_pct": -0.3887
+    },
+    {
+      "ticker": "GM",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-28T16:43:28.668843+00:00",
+      "last_return_pct": -0.0588,
+      "closed_count": 7,
+      "target_hits": 2,
+      "stop_hits": 0,
+      "time_exits": 5,
+      "failed_alerts": 3,
+      "avg_return_pct": 0.1687
+    },
+    {
       "ticker": "F",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
@@ -1535,23 +1569,6 @@
       "time_exits": 5,
       "failed_alerts": 6,
       "avg_return_pct": 0.2659
-    },
-    {
-      "ticker": "FUBO",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": false,
-      "very_late_day": false,
-      "last_reason": "STOP_HIT",
-      "last_closed_at": "2026-05-28T16:29:03.196753+00:00",
-      "last_return_pct": -0.5842,
-      "closed_count": 7,
-      "target_hits": 1,
-      "stop_hits": 4,
-      "time_exits": 2,
-      "failed_alerts": 5,
-      "avg_return_pct": -0.3052
     },
     {
       "ticker": "LUNR",
@@ -1860,23 +1877,6 @@
       "avg_return_pct": 0.421
     },
     {
-      "ticker": "GM",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": false,
-      "very_late_day": false,
-      "last_reason": "TIME_EXIT",
-      "last_closed_at": "2026-05-22T17:00:43.002243+00:00",
-      "last_return_pct": -0.3153,
-      "closed_count": 6,
-      "target_hits": 2,
-      "stop_hits": 0,
-      "time_exits": 4,
-      "failed_alerts": 2,
-      "avg_return_pct": 0.2067
-    },
-    {
       "ticker": "RIOT",
       "cooldown_active": true,
       "cooldown_reason": "post_stop_lockout",
@@ -2100,6 +2100,66 @@
   ],
   "runner_candidates": [
     {
+      "ticker": "FUBO",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "two_failed_alerts_today",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
+      ],
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "GM",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "two_failed_alerts_today",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
+      ],
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
       "ticker": "F",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
@@ -2131,36 +2191,6 @@
     },
     {
       "ticker": "ACHR",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "FUBO",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -2759,36 +2789,6 @@
     },
     {
       "ticker": "AAL",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "GM",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -3472,6 +3472,66 @@
   "runner_watch": [],
   "blocked_runner_candidates": [
     {
+      "ticker": "FUBO",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "two_failed_alerts_today",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
+      ],
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
+      "ticker": "GM",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "two_failed_alerts_today",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
+      ],
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 5.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
       "ticker": "F",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
@@ -3503,36 +3563,6 @@
     },
     {
       "ticker": "ACHR",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "FUBO",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -4131,36 +4161,6 @@
     },
     {
       "ticker": "AAL",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "GM",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
