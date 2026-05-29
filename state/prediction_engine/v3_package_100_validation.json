@@ -1,23 +1,26 @@
 {
   "schema_version": "v3_package_100_validation_v1",
-  "generated_at": "2026-05-29T13:34:47.564316+00:00",
+  "generated_at": "2026-05-29T13:50:28.804419+00:00",
   "health": {
     "schema_version": "v3_package_100_validation_health_v1",
-    "generated_at": "2026-05-29T13:34:47.564316+00:00",
-    "status": "PASS",
-    "score": 94,
+    "generated_at": "2026-05-29T13:50:28.804419+00:00",
+    "status": "FAIL",
+    "score": 88,
     "blockers": [],
     "warnings": [
       "market_regime_warn",
+      "prebreakout_warn",
       "prebreakout_journal_warn",
+      "reactive_warn",
+      "daily_report_warn",
       "paper_plan_warn"
     ],
-    "tomorrow_readiness": "READY_FOR_RESEARCH_AND_PLAN_ONLY_REVIEW",
+    "tomorrow_readiness": "READY_FOR_RESEARCH_ONLY",
     "missing_dashboard_ids": [],
     "prebreakout_avg_return_pct": 0.1755,
-    "reactive_avg_return_pct": 0.0992,
-    "math_positive_edge_count": 1,
-    "paper_plan_count": 3,
+    "reactive_avg_return_pct": 0.0993,
+    "math_positive_edge_count": 0,
+    "paper_plan_count": 0,
     "paper_trade_ready": false,
     "order_submission": false,
     "live_trading": false
@@ -27,7 +30,7 @@
       "path": "docs/data/prediction_engine/v3_enriched_rows_health.json",
       "exists": true,
       "status": "PASS",
-      "generated_at": "2026-05-29T13:34:43.169110+00:00",
+      "generated_at": "2026-05-29T13:50:23.156501+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": null,
@@ -38,7 +41,7 @@
       "path": "docs/data/prediction_engine/v3_market_regime_filter_health.json",
       "exists": true,
       "status": "WARN",
-      "generated_at": "2026-05-29T13:34:46.705298+00:00",
+      "generated_at": "2026-05-29T13:50:27.999099+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
@@ -50,19 +53,21 @@
     "prebreakout": {
       "path": "docs/data/prediction_engine/v3_prebreakout_predictor_health.json",
       "exists": true,
-      "status": "PASS",
-      "generated_at": "2026-05-29T13:34:46.875513+00:00",
+      "status": "WARN",
+      "generated_at": "2026-05-29T13:50:28.155877+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
       "blockers": [],
-      "warnings": []
+      "warnings": [
+        "no_prebreakout_candidates_currently"
+      ]
     },
     "prebreakout_journal": {
       "path": "docs/data/prediction_engine/v3_prebreakout_outcome_journal_health.json",
       "exists": true,
       "status": "WARN",
-      "generated_at": "2026-05-29T13:25:06.903944+00:00",
+      "generated_at": "2026-05-29T13:40:42.304687+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
@@ -74,19 +79,21 @@
     "reactive": {
       "path": "docs/data/prediction_engine/v3_research_alert_score_health.json",
       "exists": true,
-      "status": "PASS",
-      "generated_at": "2026-05-29T13:34:47.002925+00:00",
+      "status": "WARN",
+      "generated_at": "2026-05-29T13:50:28.296489+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
       "blockers": [],
-      "warnings": []
+      "warnings": [
+        "no_research_buy_alert_candidates_currently"
+      ]
     },
     "reactive_journal": {
       "path": "docs/data/prediction_engine/v3_research_alert_outcome_journal_health.json",
       "exists": true,
       "status": "PASS",
-      "generated_at": "2026-05-29T13:25:12.356606+00:00",
+      "generated_at": "2026-05-29T13:40:47.678424+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
@@ -97,7 +104,7 @@
       "path": "docs/data/prediction_engine/v3_outcome_quality_audit_health.json",
       "exists": true,
       "status": "PASS",
-      "generated_at": "2026-05-29T13:25:12.570147+00:00",
+      "generated_at": "2026-05-29T13:40:47.881745+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": null,
@@ -107,19 +114,21 @@
     "daily_report": {
       "path": "docs/data/prediction_engine/v3_daily_research_report_health.json",
       "exists": true,
-      "status": "PASS",
-      "generated_at": "2026-05-29T13:25:12.706220+00:00",
+      "status": "WARN",
+      "generated_at": "2026-05-29T13:40:48.011326+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": null,
       "blockers": [],
-      "warnings": []
+      "warnings": [
+        "market_regime_risk_off"
+      ]
     },
     "regime_outcome_audit": {
       "path": "docs/data/prediction_engine/v3_regime_outcome_audit_health.json",
       "exists": true,
       "status": "PASS",
-      "generated_at": "2026-05-29T13:25:12.890140+00:00",
+      "generated_at": "2026-05-29T13:40:48.189418+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
@@ -130,7 +139,7 @@
       "path": "docs/data/prediction_engine/v3_mathematical_edge_model_health.json",
       "exists": true,
       "status": "PASS",
-      "generated_at": "2026-05-29T13:34:47.276538+00:00",
+      "generated_at": "2026-05-29T13:50:28.565627+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
@@ -141,7 +150,7 @@
       "path": "docs/data/prediction_engine/v3_paper_order_plan_health.json",
       "exists": true,
       "status": "WARN",
-      "generated_at": "2026-05-29T13:34:47.406442+00:00",
+      "generated_at": "2026-05-29T13:50:28.696064+00:00",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
@@ -154,7 +163,7 @@
       "path": "docs/data/prediction_engine/final_repo_audit.json",
       "exists": true,
       "status": "PASS",
-      "generated_at": "2026-05-29T13:34:42.899216+00:00",
+      "generated_at": "2026-05-29T13:50:22.892400+00:00",
       "order_submission": null,
       "live_trading": null,
       "paper_order_allowed": null,
