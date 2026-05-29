@@ -336,7 +336,13 @@ def _run_engines_parallel(use_cache: bool) -> dict[str, set[str]]:
 # jini v3 scoring gate
 # ═══════════════════════════════════════════════════════════════════════════
 
-def _score_with_jini(tickers: set[str], min_score: float) -> list[dict]:
+def _score_with_jini(tickers: set[str], min_score: float,
+                     require_alert: bool = True) -> list[dict]:
+    """Score the given tickers through jini's v3 chain.
+
+    require_alert=True  → strict (must be buy_order_alert_candidate_v3) — CONSENSUS tier
+    require_alert=False → relaxed (final_score >= min_score only)        — WATCH tier
+    """
     if not ENRICHED_PATH.exists() or not tickers:
         return []
 
@@ -360,28 +366,89 @@ def _score_with_jini(tickers: set[str], min_score: float) -> list[dict]:
     rows = DangerScoreScorerV3().score(rows)
     rows = FinalTradeScoreScorerV3().score(rows)
 
-    return [
-        r for r in rows
-        if r.get("buy_order_alert_candidate_v3")
-        and float(r.get("final_trade_score_v3", 0)) >= min_score
-    ]
+    out = []
+    for r in rows:
+        score_ok = float(r.get("final_trade_score_v3", 0)) >= min_score
+        alert_ok = r.get("buy_order_alert_candidate_v3") if require_alert else True
+        if score_ok and alert_ok:
+            out.append(r)
+    return out
 
 
 # ═══════════════════════════════════════════════════════════════════════════
 # Outputs
 # ═══════════════════════════════════════════════════════════════════════════
 
+def _enrich_pick(sig, tier, vote_counts, engine_picks, weights, pb_levels):
+    """Turn a scored row into a dashboard-ready pick with trade plan + tier."""
+    ticker  = _sym(sig)
+    sources = sorted(n for n, p in engine_picks.items() if ticker in p)
+    price   = float(sig.get("price") or 0)
+
+    vwap_dist = float(sig.get("vwap_distance_pct") or 0)
+    vwap_abs  = price / (1 + vwap_dist / 100) if vwap_dist else price
+
+    pb = pb_levels.get(ticker, {})
+    plan = build_trade_plan(
+        price=price,
+        entry=pb.get("entry"), stop=pb.get("stop"),
+        target1=pb.get("target1"), target2=pb.get("target2"),
+        vwap=vwap_abs, atr=None,
+        setup_type=pb.get("setup_type", "NONE"),
+        score=float(sig.get("final_trade_score_v3", 0)),
+        rvol=float(sig.get("relative_volume", 1) or 1),
+        danger=float(sig.get("danger_score_v3", 0) or 0),
+    )
+    return {
+        "ticker":                        ticker,
+        "tier":                          tier,   # CONSENSUS | HIGH_CONVICTION
+        "setup_type":                    pb.get("setup_type", "NONE"),
+        "final_trade_score_v3":          sig.get("final_trade_score_v3"),
+        "final_trade_score_status_v3":   sig.get("final_trade_score_status_v3"),
+        "runner_potential_v3":           sig.get("runner_potential_v3"),
+        "entry_quality_v3":              sig.get("entry_quality_v3"),
+        "danger_score_v3":               sig.get("danger_score_v3"),
+        "price":                         price,
+        "relative_volume":               sig.get("relative_volume"),
+        "vwap_distance_pct":             sig.get("vwap_distance_pct"),
+        "momentum_1m":                   sig.get("momentum_1m"),
+        "candle_strength":               sig.get("candle_strength"),
+        "vote_count":                    vote_counts.get(ticker, 0),
+        "vote_sources":                  sources,
+        "entry":          plan.entry,
+        "stop":           plan.stop,
+        "target1":        plan.target1,
+        "target2":        plan.target2,
+        "rr":             plan.rr,
+        "rr_t1":          plan.rr_t1,
+        "confidence":     plan.confidence,
+        "signal_state":   plan.state,
+        "action":         plan.action,
+        "entry_zone":     plan.entry_zone,
+        "exit_guidance":  plan.exit_guidance,
+        "invalidation":   plan.invalidation,
+        "weighted_score": round(
+            float(sig.get("final_trade_score_v3", 0))
+            + sum(weights.get(s, 1.0) for s in sources) * 5.0
+            + (10 if tier == "CONSENSUS" else 0),
+            2,
+        ),
+    }
+
+
 def _write_live_picks(
-    picks: list[dict],
+    consensus_sigs: list[dict],
+    watch_sigs: list[dict],
     vote_counts: dict[str, int],
     engine_picks: dict[str, set[str]],
     threshold: int,
     min_score: float,
-) -> None:
-    """Structured snapshot for the model2 dashboard and other consumers."""
+) -> list[dict]:
+    """Structured snapshot for the dashboard. Emits graded tiers."""
     LIVE_PICKS.parent.mkdir(parents=True, exist_ok=True)
-    now_et = datetime.now(ZoneInfo("America/New_York")).isoformat()
+    now_et  = datetime.now(ZoneInfo("America/New_York")).isoformat()
     weights = _load_engine_weights()
+    pb_levels = _load_prebreakout_levels()
 
     vote_table = [
         {
@@ -392,69 +459,17 @@ def _write_live_picks(
         for ticker, votes in sorted(vote_counts.items(), key=lambda x: (-x[1], x[0]))
     ]
 
-    pb_levels = _load_prebreakout_levels()  # ticker -> {setup,entry,stop,target1,target2}
+    consensus_picks = [_enrich_pick(s, "CONSENSUS", vote_counts, engine_picks, weights, pb_levels)
+                       for s in consensus_sigs]
+    consensus_tickers = {p["ticker"] for p in consensus_picks}
+    watch_ideas = [_enrich_pick(s, "HIGH_CONVICTION", vote_counts, engine_picks, weights, pb_levels)
+                   for s in watch_sigs if _sym(s) not in consensus_tickers]
 
-    enriched_picks = []
-    for sig in picks:
-        ticker  = _sym(sig)
-        sources = sorted(n for n, p in engine_picks.items() if ticker in p)
-        price   = float(sig.get("price") or 0)
-
-        # Derive absolute VWAP from price + vwap_distance_pct
-        vwap_dist = float(sig.get("vwap_distance_pct") or 0)
-        vwap_abs  = price / (1 + vwap_dist / 100) if vwap_dist else price
-
-        # Prefer pre-breakout levels if this ticker is also a prebreakout setup
-        pb = pb_levels.get(ticker, {})
-        plan = build_trade_plan(
-            price=price,
-            entry=pb.get("entry"), stop=pb.get("stop"),
-            target1=pb.get("target1"), target2=pb.get("target2"),
-            vwap=vwap_abs, atr=None,
-            setup_type=pb.get("setup_type", "NONE"),
-            score=float(sig.get("final_trade_score_v3", 0)),
-            rvol=float(sig.get("relative_volume", 1) or 1),
-            danger=float(sig.get("danger_score_v3", 0) or 0),
-        )
-
-        enriched_picks.append({
-            "ticker":                        ticker,
-            "setup_type":                    pb.get("setup_type", "NONE"),
-            "final_trade_score_v3":          sig.get("final_trade_score_v3"),
-            "final_trade_score_status_v3":   sig.get("final_trade_score_status_v3"),
-            "runner_potential_v3":           sig.get("runner_potential_v3"),
-            "entry_quality_v3":              sig.get("entry_quality_v3"),
-            "danger_score_v3":               sig.get("danger_score_v3"),
-            "price":                         price,
-            "relative_volume":               sig.get("relative_volume"),
-            "vwap_distance_pct":             sig.get("vwap_distance_pct"),
-            "momentum_1m":                   sig.get("momentum_1m"),
-            "candle_strength":               sig.get("candle_strength"),
-            "vote_count":                    vote_counts.get(ticker, 0),
-            "vote_sources":                  sources,
-            # ── Trade plan (Entry / SL / T1 / T2 / state / action) ──────────
-            "entry":          plan.entry,
-            "stop":           plan.stop,
-            "target1":        plan.target1,
-            "target2":        plan.target2,
-            "rr":             plan.rr,
-            "rr_t1":          plan.rr_t1,
-            "confidence":     plan.confidence,
-            "signal_state":   plan.state,
-            "action":         plan.action,
-            "entry_zone":     plan.entry_zone,
-            "exit_guidance":  plan.exit_guidance,
-            "invalidation":   plan.invalidation,
-            "weighted_score": round(
-                float(sig.get("final_trade_score_v3", 0))
-                + sum(weights.get(s, 1.0) for s in sources) * 5.0,
-                2,
-            ),
-        })
-    enriched_picks.sort(key=lambda p: p["weighted_score"] or 0, reverse=True)
+    consensus_picks.sort(key=lambda p: p["weighted_score"] or 0, reverse=True)
+    watch_ideas.sort(key=lambda p: p["weighted_score"] or 0, reverse=True)
 
     payload = {
-        "schema_version":  "consensus_picks_v1",
+        "schema_version":  "consensus_picks_v2",
         "generated_at":    now_et,
         "market_open":     _market_is_open(),
         "active_engines":  [n for n, p in engine_picks.items() if p],
@@ -462,11 +477,12 @@ def _write_live_picks(
         "min_score":       min_score,
         "engine_weights":  weights,
         "vote_table":      vote_table,
-        "consensus_picks": enriched_picks,
+        "consensus_picks": consensus_picks,
+        "watch_ideas":     watch_ideas,
     }
     LIVE_PICKS.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    print(f"\n[live]  wrote {LIVE_PICKS}")
-    return enriched_picks
+    print(f"\n[live]  wrote {LIVE_PICKS}  ({len(consensus_picks)} consensus, {len(watch_ideas)} watch)")
+    return consensus_picks + watch_ideas
 
 
 def _log_outcomes(picks: list[dict]) -> None:
@@ -522,6 +538,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Elite consensus aggregator for jini")
     parser.add_argument("--threshold", type=int,   default=DEFAULT_THRESHOLD)
     parser.add_argument("--min-score", type=float, default=DEFAULT_MIN_SCORE)
+    parser.add_argument("--watch-min-score", type=float, default=58.0,
+                        help="Relaxed score bar for single-engine HIGH_CONVICTION ideas")
     parser.add_argument("--no-cache",  action="store_true",
                         help="Force re-running engines, ignoring cached signal files")
     args = parser.parse_args()
@@ -537,7 +555,7 @@ def main() -> None:
     active = [n for n, p in engine_picks.items() if p]
     if not active:
         print("\nNo engine returned candidates.")
-        _write_live_picks([], {}, engine_picks, args.threshold, args.min_score)
+        _write_live_picks([], [], {}, engine_picks, args.threshold, args.min_score)
         return
 
     # ── 2. Count votes (weighted by historical accuracy) ────────────────
@@ -563,30 +581,35 @@ def main() -> None:
         print(f"  … and {len(vote_counts) - 30} more")
 
     # ── 3. Gate through jini v3 ─────────────────────────────────────────
-    buy_signals = _score_with_jini(consensus, args.min_score) if consensus else []
+    # CONSENSUS tier: tickers with >= threshold votes, strict alert gate
+    consensus_sigs = _score_with_jini(consensus, args.min_score, require_alert=True) if consensus else []
+
+    # HIGH-CONVICTION (watch) tier: single-engine tickers that still pass a
+    # relaxed v3 gate — so the board is never empty when true consensus is thin.
+    single = {t for t, v in vote_counts.items() if v >= 1 and t not in consensus}
+    watch_sigs = _score_with_jini(single, args.watch_min_score, require_alert=False) if single else []
 
     # ── 4. Persist outputs (also builds trade plans) ────────────────────
-    enriched = _write_live_picks(buy_signals, vote_counts, engine_picks,
+    enriched = _write_live_picks(consensus_sigs, watch_sigs, vote_counts, engine_picks,
                                  args.threshold, args.min_score)
-    _log_outcomes(enriched)
+    _log_outcomes([p for p in enriched if p.get("tier") == "CONSENSUS"])
 
     # ── 5. Console report with full trade plan ──────────────────────────
     if enriched:
         now = datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d %H:%M ET")
         print(f"\n{'='*78}\nFINAL PICKS ({len(enriched)})  —  {now}\n{'='*78}")
         for p in enriched:
+            tier_tag = "★" if p.get("tier") == "CONSENSUS" else "·"
             print(
-                f"  {p['ticker']:<6} {p['signal_state']:<14} "
+                f"  {tier_tag} {p['ticker']:<6} {p['signal_state']:<14} "
                 f"entry=${p['entry']:<7.2f} SL=${p['stop']:<7.2f} "
                 f"T1=${p['target1']:<7.2f} T2=${p['target2']:<7.2f} "
                 f"{p['rr']:.1f}R  conf={p['confidence']:.0f}%  "
                 f"[{', '.join(p['vote_sources'])}]"
             )
-            print(f"         → {p['action']}")
-    elif consensus:
-        print("\nNo consensus ticker passed jini's v3 gate.")
+            print(f"           → {p['action']}")
     else:
-        print(f"\nNo ticker reached the {args.threshold}-vote threshold.")
+        print(f"\nNo actionable ideas (no ticker passed the v3 gate).")
 
 
 if __name__ == "__main__":

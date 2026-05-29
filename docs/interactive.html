@@ -121,6 +121,9 @@ tr.signal-gap td:first-child{border-left:3px solid var(--blue)}
 .state-badge.st-stopped{background:var(--red-soft);color:var(--red);border:1px solid var(--red-bd)}
 .state-badge.st-stale{background:rgba(74,90,120,.1);color:var(--dim);border:1px solid var(--border);opacity:.7}
 .vote-source{display:inline-block;font-size:9px;padding:1px 5px;border-radius:3px;background:var(--border2);color:var(--text);font-family:var(--mono);margin-right:3px;font-weight:700}
+.tier-tag{font-size:11px;font-weight:800}
+.tier-tag.tt-consensus{color:var(--green)} .tier-tag.tt-watch{color:var(--dim)}
+tr.tier-divider td{background:var(--surface2);color:var(--muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:6px 14px;text-align:left!important}
 .empty-state{padding:60px 20px;text-align:center;color:var(--dim)}
 .empty-state h3{font-size:15px;color:var(--text);margin-bottom:6px;font-weight:600}
 .empty-state code{background:var(--surface2);padding:2px 8px;border-radius:4px;font-family:var(--mono);font-size:11px;color:var(--yellow)}
@@ -485,6 +488,11 @@ function stateBadge(state) {
   const [label, cls] = STATE_LABELS[state] || [state || '—', 'st-potential'];
   return `<span class="state-badge ${cls}">${label}</span>`;
 }
+function tierTag(tier) {
+  if (tier === 'CONSENSUS') return '<span class="tier-tag tt-consensus">★</span>';
+  if (tier === 'HIGH_CONVICTION') return '<span class="tier-tag tt-watch">·</span>';
+  return '';
+}
 
 function toast(msg, isError=false) {
   const t = $('toast');
@@ -615,42 +623,48 @@ async function pollOutcomes() {
 // ════════════════════════════════════════════════════════════════════════
 function renderConsensus() {
   if (!consensusData) return;
-  const picks = consensusData.consensus_picks || [];
-  $('badge-consensus').textContent = picks.length;
-  $('stat-cons-count').textContent = picks.length;
+  const consensus = consensusData.consensus_picks || [];
+  const watch     = consensusData.watch_ideas || [];
+  const all       = [...consensus, ...watch];
+  $('badge-consensus').textContent = all.length;
+  $('stat-cons-count').textContent = consensus.length;
   $('stat-threshold').textContent  = consensusData.threshold ?? '—';
   $('stat-engines').textContent    = (consensusData.active_engines || []).join(', ') || '—';
-  const avg = picks.length
-    ? picks.reduce((s,p) => s + (p.final_trade_score_v3||0), 0) / picks.length : 0;
-  $('stat-avg-score').textContent = picks.length ? avg.toFixed(1) : '—';
+  const avg = all.length
+    ? all.reduce((s,p) => s + (p.final_trade_score_v3||0), 0) / all.length : 0;
+  $('stat-avg-score').textContent = all.length ? avg.toFixed(1) : '—';
 
   const w = consensusData.engine_weights || {};
   $('engine-weights').textContent = Object.entries(w).map(([n,v]) => `${n}=${v}`).join(' • ') || 'flat';
 
-  // Sort + filter
-  const sorted = [...picks].sort((a,b) => {
+  // Sort within each tier, then concat (consensus always on top)
+  const srt = arr => [...arr].sort((a,b) => {
     const av = a[sortConsKey], bv = b[sortConsKey];
     if (typeof av === 'string') return sortConsDir * (av||'').localeCompare(bv||'');
     return sortConsDir * ((bv||0) - (av||0));
   });
-  const filtered = sorted.filter(p =>
-    !consSearch || (p.ticker||'').toLowerCase().includes(consSearch));
+  const match = p => !consSearch || (p.ticker||'').toLowerCase().includes(consSearch);
+  const cFiltered = srt(consensus).filter(match);
+  const wFiltered = srt(watch).filter(match);
 
   const tb = $('consensus-tbody');
-  if (!filtered.length) {
+  if (!cFiltered.length && !wFiltered.length) {
+    const engN = (consensusData.active_engines || []).length;
     tb.innerHTML = `<tr><td colspan="12" class="empty-state">
-      <h3>No consensus picks yet</h3>
-      Run <code>PYTHONPATH=src python3 scripts/run_consensus_aggregator.py</code> during market hours
+      <h3>No actionable intraday ideas right now</h3>
+      ${engN < 2
+        ? `Only ${engN} engine active — start engine2/engine3 for true consensus. Single-engine ideas appear here when they pass the v3 gate.`
+        : 'Engines ran but nothing passed the v3 gate this cycle. Check back next scan.'}
     </td></tr>`;
     lastConsensusTickers = new Set();
     return;
   }
 
-  const newTickers = new Set(filtered.map(p => p.ticker));
-  tb.innerHTML = filtered.map(p => {
+  const rowHtml = (p) => {
     const flash = !lastConsensusTickers.has(p.ticker) && lastConsensusTickers.size > 0 ? ' flash' : '';
-    return `<tr class="signal-strong${flash}" onclick="showDetail('${p.ticker}','consensus')">
-      <td class="ticker">${p.ticker}</td>
+    const rowCls = p.tier === 'CONSENSUS' ? 'signal-strong' : 'signal-watch';
+    return `<tr class="${rowCls}${flash}" onclick="showDetail('${p.ticker}','consensus')">
+      <td class="ticker">${p.ticker} ${tierTag(p.tier)}</td>
       <td>${stateBadge(p.signal_state)}</td>
       <td class="mono">$${fmt(p.price)}</td>
       <td class="mono blue">$${fmt(p.entry)}</td>
@@ -663,7 +677,15 @@ function renderConsensus() {
       <td class="mono red">${fmt(p.danger_score_v3, 0)}</td>
       <td class="mono yellow">${p.vote_count}/${(consensusData.active_engines||[]).length}</td>
     </tr>`;
-  }).join('');
+  };
+  let html = cFiltered.map(rowHtml).join('');
+  if (wFiltered.length) {
+    html += `<tr class="tier-divider"><td colspan="12">HIGH-CONVICTION · single-engine ideas that pass the v3 gate</td></tr>`;
+    html += wFiltered.map(rowHtml).join('');
+  }
+  tb.innerHTML = html;
+
+  const newTickers = new Set(cFiltered.map(p => p.ticker));
 
   // Alerts on new picks
   const newPicks = [...newTickers].filter(t => !lastConsensusTickers.has(t) && lastConsensusTickers.size > 0);
