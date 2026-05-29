@@ -1,6 +1,6 @@
 {
   "schema_version": "signal_dashboard_quality_enriched_v1",
-  "generated_at": "2026-05-29T11:10:38.502199+00:00",
+  "generated_at": "2026-05-29T11:25:22.224914+00:00",
   "status": "PASS",
   "rows": [
     {
@@ -74,8 +74,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 100,
-        "spread_pct": 0.0676,
-        "dollar_volume": 1957199.9,
+        "spread_pct": 0.0677,
+        "dollar_volume": 2814267.52,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -182,8 +182,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 98.0,
-        "spread_pct": 0.0528,
-        "dollar_volume": 389811705.9,
+        "spread_pct": 0.175,
+        "dollar_volume": 417137797.3,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -204,6 +204,112 @@
           "not_chasing_vwap_controlled",
           "volume_fading",
           "controlled_above_vwap",
+          "controlled_breakout_range",
+          "breakout_not_overextended"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:ALERT_ONLY"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:ALERT_ONLY"
+      ]
+    },
+    {
+      "ticker": "F",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "ALERT ONLY",
+      "status": "ALERT_ONLY",
+      "signal_color": "blue",
+      "meaning": "Interesting, but missing at least one key confirmation.",
+      "action": "Track for confirmation.",
+      "score": 79.0,
+      "price": 15.31,
+      "entry": 15.31,
+      "stop": 15.0804,
+      "target": 15.7693,
+      "risk_reward": 2.0,
+      "relative_volume": 0.81,
+      "day_move_percent": 3.03,
+      "gap_pct": 2.55,
+      "vwap": 15.1272,
+      "vwap_distance_percent": 1.21,
+      "volume_acceleration": 0.86,
+      "trend_state": "BULLISH_CONTROLLED",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 82.86,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "controlled day momentum, healthy gap, weak relative volume, above VWAP and controlled, risk/reward acceptable",
+      "no_trade_reasons": [
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "F",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260528",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "F",
+        "news_count": 3,
+        "news_catalyst_score": 6,
+        "risk_flags": [],
+        "latest_headline": "Ford Is Clocking Its Best Rally Since 2009: What's Driving The Surge?",
+        "latest_url": "https://www.benzinga.com/markets/equities/26/05/52855205/ford-stock-ford-energy-ai-battery-rally-best-since-2009"
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 97.0,
+        "spread_pct": 0.297,
+        "dollar_volume": 5268691.54,
+        "spread_score": 15.0,
+        "liquidity_score": 12.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 20,
+        "pullback_quality_score": 15.0,
+        "breakout_compression_score": 12.0,
+        "sympathy_score": 3,
+        "theme": "ev",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "good_dollar_volume",
+          "weak_rvol",
+          "vwap_controlled",
+          "day_move_controlled",
+          "not_chasing_vwap_controlled",
+          "near_vwap_pullback_zone",
           "controlled_breakout_range",
           "breakout_not_overextended"
         ],
@@ -289,8 +395,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 93.0,
-        "spread_pct": 0.542,
-        "dollar_volume": 1077453.13,
+        "spread_pct": 0.5148,
+        "dollar_volume": 1359911.06,
         "spread_score": 12.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -312,112 +418,6 @@
           "near_vwap_pullback_zone",
           "volume_returning",
           "controlled_breakout_range",
-          "breakout_not_overextended",
-          "breakout_volume_acceleration"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:ALERT_ONLY"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:ALERT_ONLY"
-      ]
-    },
-    {
-      "ticker": "CRWD",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "ALERT ONLY",
-      "status": "ALERT_ONLY",
-      "signal_color": "blue",
-      "meaning": "Interesting, but missing at least one key confirmation.",
-      "action": "Track for confirmation.",
-      "score": 65.0,
-      "price": 674.78,
-      "entry": 674.78,
-      "stop": 664.6583,
-      "target": 695.0234,
-      "risk_reward": 2.0,
-      "relative_volume": 0.53,
-      "day_move_percent": 2.12,
-      "gap_pct": 1.71,
-      "vwap": 667.2575,
-      "vwap_distance_percent": 1.13,
-      "volume_acceleration": 1.79,
-      "trend_state": "BULLISH_CONTROLLED",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 82.86,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "positive day move, weak relative volume, volume acceleration, above VWAP and controlled, risk/reward acceptable",
-      "no_trade_reasons": [
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "CRWD",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260528",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "CRWD",
-        "news_count": 1,
-        "news_catalyst_score": 25,
-        "risk_flags": [],
-        "latest_headline": "CrowdStrike Signs AI Cyber Risk Collaboration With Insurers",
-        "latest_url": "https://www.benzinga.com/markets/large-cap/26/05/52848652/crowdstrike-signs-ai-cyber-risk-collaboration-with-insurers"
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 93.0,
-        "spread_pct": 0.2935,
-        "dollar_volume": 12726350.8,
-        "spread_score": 15.0,
-        "liquidity_score": 12.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 18.0,
-        "pullback_quality_score": 18,
-        "breakout_compression_score": 10.0,
-        "sympathy_score": 0,
-        "theme": null,
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "good_dollar_volume",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "near_vwap_pullback_zone",
-          "volume_returning",
           "breakout_not_overextended",
           "breakout_volume_acceleration"
         ],
@@ -503,8 +503,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 93.0,
-        "spread_pct": 0.2211,
-        "dollar_volume": 6297865.02,
+        "spread_pct": 0.2497,
+        "dollar_volume": 6776955.72,
         "spread_score": 15.0,
         "liquidity_score": 12.0,
         "rvol_quality_score": 2.0,
@@ -536,112 +536,6 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "quality_gate_blocks": [
         "base_status_not_trade_eligible:WATCH_ONLY"
-      ]
-    },
-    {
-      "ticker": "F",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "ALERT ONLY",
-      "status": "ALERT_ONLY",
-      "signal_color": "blue",
-      "meaning": "Interesting, but missing at least one key confirmation.",
-      "action": "Track for confirmation.",
-      "score": 79.0,
-      "price": 15.31,
-      "entry": 15.31,
-      "stop": 15.0804,
-      "target": 15.7693,
-      "risk_reward": 2.0,
-      "relative_volume": 0.81,
-      "day_move_percent": 3.03,
-      "gap_pct": 2.55,
-      "vwap": 15.1272,
-      "vwap_distance_percent": 1.21,
-      "volume_acceleration": 0.86,
-      "trend_state": "BULLISH_CONTROLLED",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 82.86,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "controlled day momentum, healthy gap, weak relative volume, above VWAP and controlled, risk/reward acceptable",
-      "no_trade_reasons": [
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "F",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260528",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "F",
-        "news_count": 3,
-        "news_catalyst_score": 6,
-        "risk_flags": [],
-        "latest_headline": "Ford Is Clocking Its Best Rally Since 2009: What's Driving The Surge?",
-        "latest_url": "https://www.benzinga.com/markets/equities/26/05/52855205/ford-stock-ford-energy-ai-battery-rally-best-since-2009"
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 92.0,
-        "spread_pct": 0.0593,
-        "dollar_volume": 4829095.51,
-        "spread_score": 15.0,
-        "liquidity_score": 7.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 20,
-        "pullback_quality_score": 15.0,
-        "breakout_compression_score": 12.0,
-        "sympathy_score": 3,
-        "theme": "ev",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "thin_but_tradeable_dollar_volume",
-          "weak_rvol",
-          "vwap_controlled",
-          "day_move_controlled",
-          "not_chasing_vwap_controlled",
-          "near_vwap_pullback_zone",
-          "controlled_breakout_range",
-          "breakout_not_overextended"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:ALERT_ONLY"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:ALERT_ONLY"
       ]
     },
     {
@@ -707,16 +601,16 @@
       ],
       "alpaca_news": {
         "ticker": "AMD",
-        "news_count": 4,
-        "news_catalyst_score": 77,
+        "news_count": 5,
+        "news_catalyst_score": 100,
         "risk_flags": [],
-        "latest_headline": "Taiwan Semiconductor Targets 30% Power Savings To Fight the AI Energy Crisis: Report",
-        "latest_url": "https://www.benzinga.com/markets/tech/26/05/52866391/taiwan-semiconductor-targets-30-power-savings-to-fight-the-ai-energy-crisis-report"
+        "latest_headline": "Intel Takes On AMD With New Chips For Portable Gaming Devices",
+        "latest_url": "https://www.benzinga.com/markets/tech/26/05/52867033/intel-takes-on-amd-with-new-chips-for-portable-gaming-devices"
       },
       "advanced_quality": {
         "advanced_quality_score": 92.0,
-        "spread_pct": 0.0955,
-        "dollar_volume": 153615057.08,
+        "spread_pct": 0.0959,
+        "dollar_volume": 182199022.54,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -819,8 +713,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 91.0,
-        "spread_pct": 0.2199,
-        "dollar_volume": 2462051.01,
+        "spread_pct": 0.2206,
+        "dollar_volume": 2849812.17,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -855,25 +749,25 @@
       ]
     },
     {
-      "ticker": "CRM",
+      "ticker": "CRWD",
       "source_type": "alpaca_paid_market_scanner",
-      "signal": "WATCH ONLY",
-      "status": "WATCH_ONLY",
-      "signal_color": "yellow",
-      "meaning": "Early or incomplete setup.",
-      "action": "Watch only. No order.",
-      "score": 59.0,
-      "price": 181.46,
-      "entry": 181.46,
-      "stop": 179.62,
-      "target": 186.9038,
-      "risk_reward": 2.96,
-      "relative_volume": 0.69,
-      "day_move_percent": 0.22,
-      "gap_pct": 0.77,
-      "vwap": 181.0685,
-      "vwap_distance_percent": 0.22,
-      "volume_acceleration": 1.02,
+      "signal": "ALERT ONLY",
+      "status": "ALERT_ONLY",
+      "signal_color": "blue",
+      "meaning": "Interesting, but missing at least one key confirmation.",
+      "action": "Track for confirmation.",
+      "score": 65.0,
+      "price": 674.78,
+      "entry": 674.78,
+      "stop": 664.6583,
+      "target": 695.0234,
+      "risk_reward": 2.0,
+      "relative_volume": 0.53,
+      "day_move_percent": 2.12,
+      "gap_pct": 1.71,
+      "vwap": 667.2575,
+      "vwap_distance_percent": 1.13,
+      "volume_acceleration": 1.79,
       "trend_state": "BULLISH_CONTROLLED",
       "candidate_quality": "GOOD",
       "data_quality": {
@@ -883,7 +777,7 @@
         "quality": "GOOD",
         "notes": []
       },
-      "trade_gate_summary": "positive day move, weak relative volume, above VWAP and controlled, risk/reward acceptable",
+      "trade_gate_summary": "positive day move, weak relative volume, volume acceleration, above VWAP and controlled, risk/reward acceptable",
       "no_trade_reasons": [
         "relative_volume_too_low"
       ],
@@ -896,7 +790,7 @@
         "catalyst_flags": []
       },
       "finra_short_pressure": {
-        "ticker": "CRM",
+        "ticker": "CRWD",
         "source": "FINRA_REGSHO_DAILY_CNMS",
         "trade_date": "20260528",
         "short_volume": null,
@@ -916,46 +810,48 @@
         "FINRA short-pressure context attached. Context only, not a buy trigger."
       ],
       "alpaca_news": {
-        "ticker": "CRM",
-        "news_count": 13,
-        "news_catalyst_score": 100,
+        "ticker": "CRWD",
+        "news_count": 1,
+        "news_catalyst_score": 25,
         "risk_flags": [],
-        "latest_headline": "Citigroup Maintains Neutral on Salesforce, Lowers Price Target to $187",
-        "latest_url": "https://www.benzinga.com/news/26/05/52857510/citigroup-maintains-neutral-on-salesforce-lowers-price-target-to-187"
+        "latest_headline": "CrowdStrike Signs AI Cyber Risk Collaboration With Insurers",
+        "latest_url": "https://www.benzinga.com/markets/large-cap/26/05/52848652/crowdstrike-signs-ai-cyber-risk-collaboration-with-insurers"
       },
       "advanced_quality": {
-        "advanced_quality_score": 86.0,
-        "spread_pct": 0.28,
-        "dollar_volume": 15487248.08,
-        "spread_score": 15.0,
+        "advanced_quality_score": 90.0,
+        "spread_pct": 0.6615,
+        "dollar_volume": 13928808.76,
+        "spread_score": 12.0,
         "liquidity_score": 12.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 18.0,
         "anti_chase_score": 18.0,
-        "pullback_quality_score": 15.0,
-        "breakout_compression_score": 6.0,
+        "pullback_quality_score": 18,
+        "breakout_compression_score": 10.0,
         "sympathy_score": 0,
         "theme": null,
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
-          "spread_tight",
+          "spread_acceptable",
           "good_dollar_volume",
           "weak_rvol",
           "vwap_controlled",
           "not_chasing_vwap_controlled",
           "near_vwap_pullback_zone",
-          "breakout_not_overextended"
+          "volume_returning",
+          "breakout_not_overextended",
+          "breakout_volume_acceleration"
         ],
         "hard_blocks": [],
         "quality_gate_status": "DASHBOARD_ONLY",
         "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY"
+          "base_status_not_trade_eligible:ALERT_ONLY"
         ]
       },
       "quality_gate_status": "DASHBOARD_ONLY",
       "quality_gate_blocks": [
-        "base_status_not_trade_eligible:WATCH_ONLY"
+        "base_status_not_trade_eligible:ALERT_ONLY"
       ]
     },
     {
@@ -1028,10 +924,10 @@
         "latest_url": null
       },
       "advanced_quality": {
-        "advanced_quality_score": 85.0,
-        "spread_pct": 0.7744,
-        "dollar_volume": 525583.84,
-        "spread_score": 12.0,
+        "advanced_quality_score": 88.0,
+        "spread_pct": 0.0969,
+        "dollar_volume": 546026.22,
+        "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 9.0,
         "vwap_control_score": 18.0,
@@ -1043,7 +939,7 @@
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
-          "spread_acceptable",
+          "spread_tight",
           "dollar_volume_too_low",
           "moderate_rvol",
           "vwap_controlled",
@@ -1065,6 +961,110 @@
       "quality_gate_blocks": [
         "base_status_not_trade_eligible:ALERT_ONLY",
         "dollar_volume_below_1m"
+      ]
+    },
+    {
+      "ticker": "CRM",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "WATCH ONLY",
+      "status": "WATCH_ONLY",
+      "signal_color": "yellow",
+      "meaning": "Early or incomplete setup.",
+      "action": "Watch only. No order.",
+      "score": 59.0,
+      "price": 181.46,
+      "entry": 181.46,
+      "stop": 179.62,
+      "target": 186.9038,
+      "risk_reward": 2.96,
+      "relative_volume": 0.69,
+      "day_move_percent": 0.22,
+      "gap_pct": 0.77,
+      "vwap": 181.0685,
+      "vwap_distance_percent": 0.22,
+      "volume_acceleration": 1.02,
+      "trend_state": "BULLISH_CONTROLLED",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 82.86,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "positive day move, weak relative volume, above VWAP and controlled, risk/reward acceptable",
+      "no_trade_reasons": [
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "CRM",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260528",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "CRM",
+        "news_count": 12,
+        "news_catalyst_score": 100,
+        "risk_flags": [],
+        "latest_headline": "Citigroup Maintains Neutral on Salesforce, Lowers Price Target to $187",
+        "latest_url": "https://www.benzinga.com/news/26/05/52857510/citigroup-maintains-neutral-on-salesforce-lowers-price-target-to-187"
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 86.0,
+        "spread_pct": 0.2188,
+        "dollar_volume": 16347731.4,
+        "spread_score": 15.0,
+        "liquidity_score": 12.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 18.0,
+        "pullback_quality_score": 15.0,
+        "breakout_compression_score": 6.0,
+        "sympathy_score": 0,
+        "theme": null,
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "good_dollar_volume",
+          "weak_rvol",
+          "vwap_controlled",
+          "not_chasing_vwap_controlled",
+          "near_vwap_pullback_zone",
+          "breakout_not_overextended"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:WATCH_ONLY"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:WATCH_ONLY"
       ]
     },
     {
@@ -1139,7 +1139,7 @@
       "advanced_quality": {
         "advanced_quality_score": 84.0,
         "spread_pct": 0.3218,
-        "dollar_volume": 512329.54,
+        "dollar_volume": 529419.65,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -1246,8 +1246,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 84.0,
-        "spread_pct": 0.0402,
-        "dollar_volume": 66204591.98,
+        "spread_pct": 0.0645,
+        "dollar_volume": 71147694.17,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -1351,7 +1351,7 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 81.0,
-        "spread_pct": 0.4277,
+        "spread_pct": 0.1841,
         "dollar_volume": 1031840.04,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
@@ -1382,6 +1382,111 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "quality_gate_blocks": [
         "base_status_not_trade_eligible:ALERT_ONLY"
+      ]
+    },
+    {
+      "ticker": "CELH",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "WATCH ONLY",
+      "status": "WATCH_ONLY",
+      "signal_color": "yellow",
+      "meaning": "Early or incomplete setup.",
+      "action": "Watch only. No order.",
+      "score": 47.0,
+      "price": 30.255,
+      "entry": 30.255,
+      "stop": 29.8012,
+      "target": 31.1626,
+      "risk_reward": 2.0,
+      "relative_volume": 0.6,
+      "day_move_percent": -0.31,
+      "gap_pct": 0.45,
+      "vwap": 29.8867,
+      "vwap_distance_percent": 1.23,
+      "volume_acceleration": 0.5,
+      "trend_state": "BULLISH_CONTROLLED",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 82.86,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "weak relative volume, volume fading, above VWAP and controlled, risk/reward acceptable",
+      "no_trade_reasons": [
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "CELH",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260528",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "CELH",
+        "news_count": 0,
+        "news_catalyst_score": 0,
+        "risk_flags": [],
+        "latest_headline": null,
+        "latest_url": null
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 76.0,
+        "spread_pct": 0.2692,
+        "dollar_volume": 1153169.32,
+        "spread_score": 15.0,
+        "liquidity_score": 7.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 18.0,
+        "anti_chase_score": 13.0,
+        "pullback_quality_score": 15.0,
+        "breakout_compression_score": 6.0,
+        "sympathy_score": 0,
+        "theme": null,
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
+          "spread_tight",
+          "thin_but_tradeable_dollar_volume",
+          "weak_rvol",
+          "vwap_controlled",
+          "not_chasing_vwap_controlled",
+          "volume_fading",
+          "near_vwap_pullback_zone",
+          "breakout_not_overextended"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:WATCH_ONLY"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:WATCH_ONLY"
       ]
     },
     {
@@ -1455,8 +1560,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 74.0,
-        "spread_pct": 0.2989,
-        "dollar_volume": 726394.02,
+        "spread_pct": 0.2889,
+        "dollar_volume": 737211.12,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -1561,7 +1666,7 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 73.0,
-        "spread_pct": 1.4672,
+        "spread_pct": 1.3129,
         "dollar_volume": 762266.12,
         "spread_score": 7.0,
         "liquidity_score": 0.0,
@@ -1595,113 +1700,6 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "quality_gate_blocks": [
         "base_status_not_trade_eligible:ALERT_ONLY",
-        "dollar_volume_below_1m"
-      ]
-    },
-    {
-      "ticker": "CELH",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "WATCH ONLY",
-      "status": "WATCH_ONLY",
-      "signal_color": "yellow",
-      "meaning": "Early or incomplete setup.",
-      "action": "Watch only. No order.",
-      "score": 47.0,
-      "price": 30.255,
-      "entry": 30.255,
-      "stop": 29.8012,
-      "target": 31.1626,
-      "risk_reward": 2.0,
-      "relative_volume": 0.6,
-      "day_move_percent": -0.31,
-      "gap_pct": 0.45,
-      "vwap": 29.8867,
-      "vwap_distance_percent": 1.23,
-      "volume_acceleration": 0.5,
-      "trend_state": "BULLISH_CONTROLLED",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 82.86,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "weak relative volume, volume fading, above VWAP and controlled, risk/reward acceptable",
-      "no_trade_reasons": [
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "CELH",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260528",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "CELH",
-        "news_count": 0,
-        "news_catalyst_score": 0,
-        "risk_flags": [],
-        "latest_headline": null,
-        "latest_url": null
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 69.0,
-        "spread_pct": 0.2991,
-        "dollar_volume": 991305.07,
-        "spread_score": 15.0,
-        "liquidity_score": 0.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 18.0,
-        "anti_chase_score": 13.0,
-        "pullback_quality_score": 15.0,
-        "breakout_compression_score": 6.0,
-        "sympathy_score": 0,
-        "theme": null,
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "dollar_volume_too_low",
-          "weak_rvol",
-          "vwap_controlled",
-          "not_chasing_vwap_controlled",
-          "volume_fading",
-          "near_vwap_pullback_zone",
-          "breakout_not_overextended"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY",
-          "dollar_volume_below_1m"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:WATCH_ONLY",
         "dollar_volume_below_1m"
       ]
     },
@@ -1775,10 +1773,10 @@
         "latest_url": "https://www.benzinga.com/markets/prediction-markets/26/05/52849305/donald-trump-wants-prediction-markets-to-thrive-but-aga-boss-bill-miller-disagrees-the-cftc-is-a-rogue-agency"
       },
       "advanced_quality": {
-        "advanced_quality_score": 66.0,
-        "spread_pct": 0.6091,
+        "advanced_quality_score": 69.0,
+        "spread_pct": 0.4463,
         "dollar_volume": 302485.26,
-        "spread_score": 12.0,
+        "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 18.0,
@@ -1790,7 +1788,7 @@
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
-          "spread_acceptable",
+          "spread_tight",
           "dollar_volume_too_low",
           "weak_rvol",
           "vwap_controlled",
@@ -1884,8 +1882,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 55.0,
-        "spread_pct": 0.0551,
-        "dollar_volume": 72223294.42,
+        "spread_pct": 0.1286,
+        "dollar_volume": 81134352.53,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -1990,8 +1988,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 52.0,
-        "spread_pct": 0.1472,
-        "dollar_volume": 2051231.39,
+        "spread_pct": 0.1474,
+        "dollar_volume": 2539390.93,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -2094,8 +2092,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 52.0,
-        "spread_pct": 0.1777,
-        "dollar_volume": 1598593.16,
+        "spread_pct": 0.2133,
+        "dollar_volume": 1766356.18,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -2198,8 +2196,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 52.0,
-        "spread_pct": 0.1867,
-        "dollar_volume": 16969528.8,
+        "spread_pct": 0.1864,
+        "dollar_volume": 19065736.2,
         "spread_score": 15.0,
         "liquidity_score": 12.0,
         "rvol_quality_score": 2.0,
@@ -2302,8 +2300,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 52.0,
-        "spread_pct": 0.2727,
-        "dollar_volume": 16086480.15,
+        "spread_pct": 0.2028,
+        "dollar_volume": 17996904.69,
         "spread_score": 15.0,
         "liquidity_score": 12.0,
         "rvol_quality_score": 2.0,
@@ -2406,8 +2404,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 51.0,
-        "spread_pct": 0.053,
-        "dollar_volume": 59098288.3,
+        "spread_pct": 0.1087,
+        "dollar_volume": 67106099.39,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -2509,8 +2507,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 48.0,
-        "spread_pct": 0.1811,
-        "dollar_volume": 1002746.67,
+        "spread_pct": 0.3614,
+        "dollar_volume": 1969374.63,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -2612,8 +2610,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 48.0,
-        "spread_pct": 0.0578,
-        "dollar_volume": 38760529.62,
+        "spread_pct": 0.0739,
+        "dollar_volume": 42458400.33,
         "spread_score": 15.0,
         "liquidity_score": 15.0,
         "rvol_quality_score": 2.0,
@@ -2715,8 +2713,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 48.0,
-        "spread_pct": 0.4018,
-        "dollar_volume": 2748508.4,
+        "spread_pct": 0.3055,
+        "dollar_volume": 2907648.7,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -2819,7 +2817,7 @@
       "advanced_quality": {
         "advanced_quality_score": 44.0,
         "spread_pct": 0.3558,
-        "dollar_volume": 1293466.59,
+        "dollar_volume": 1326021.84,
         "spread_score": 15.0,
         "liquidity_score": 7.0,
         "rvol_quality_score": 2.0,
@@ -2848,114 +2846,6 @@
       "quality_gate_status": "DASHBOARD_ONLY",
       "quality_gate_blocks": [
         "base_status_not_trade_eligible:NO_TRADE"
-      ]
-    },
-    {
-      "ticker": "CVNA",
-      "source_type": "alpaca_paid_market_scanner",
-      "signal": "WATCH ONLY",
-      "status": "WATCH_ONLY",
-      "signal_color": "yellow",
-      "meaning": "Early or incomplete setup.",
-      "action": "Watch only. No order.",
-      "score": 43.0,
-      "price": 71.18,
-      "entry": 71.18,
-      "stop": 70.1123,
-      "target": 73.3154,
-      "risk_reward": 2.0,
-      "relative_volume": 1.11,
-      "day_move_percent": 3.0,
-      "gap_pct": 4.25,
-      "vwap": 71.9669,
-      "vwap_distance_percent": -1.09,
-      "volume_acceleration": 0.69,
-      "trend_state": "BELOW_VWAP",
-      "candidate_quality": "GOOD",
-      "data_quality": {
-        "primary_source": "alpaca_sip",
-        "fallback_used": false,
-        "data_age_seconds": 82.86,
-        "quality": "GOOD",
-        "notes": []
-      },
-      "trade_gate_summary": "positive day move, healthy gap, weak relative volume, volume fading, below VWAP, risk/reward acceptable",
-      "no_trade_reasons": [
-        "below_vwap",
-        "relative_volume_too_low"
-      ],
-      "sec_catalyst": {
-        "final_label": null,
-        "catalyst_score": 0,
-        "filing_risk_score": 0,
-        "latest_filings": [],
-        "risk_flags": [],
-        "catalyst_flags": []
-      },
-      "finra_short_pressure": {
-        "ticker": "CVNA",
-        "source": "FINRA_REGSHO_DAILY_CNMS",
-        "trade_date": "20260528",
-        "short_volume": null,
-        "short_exempt_volume": null,
-        "total_volume": null,
-        "short_volume_ratio": null,
-        "short_pressure_score": 0.0,
-        "short_pressure_label": "NO_DATA",
-        "notes": [
-          "symbol_not_found_in_latest_finra_file"
-        ]
-      },
-      "short_pressure_score": 0.0,
-      "short_pressure_label": "NO_DATA",
-      "short_volume_ratio": null,
-      "enrichment_notes": [
-        "FINRA short-pressure context attached. Context only, not a buy trigger."
-      ],
-      "alpaca_news": {
-        "ticker": "CVNA",
-        "news_count": 0,
-        "news_catalyst_score": 0,
-        "risk_flags": [],
-        "latest_headline": null,
-        "latest_url": null
-      },
-      "advanced_quality": {
-        "advanced_quality_score": 40.0,
-        "spread_pct": 0.0948,
-        "dollar_volume": 354262.86,
-        "spread_score": 15.0,
-        "liquidity_score": 0.0,
-        "rvol_quality_score": 2.0,
-        "vwap_control_score": 0.0,
-        "anti_chase_score": 13.0,
-        "pullback_quality_score": 1.0,
-        "breakout_compression_score": 6.0,
-        "sympathy_score": 3,
-        "theme": "meme_retail",
-        "halt_risk_score": 0,
-        "market_regime": "NEUTRAL",
-        "reasons": [
-          "spread_tight",
-          "dollar_volume_too_low",
-          "weak_rvol",
-          "below_vwap",
-          "day_move_controlled",
-          "volume_fading",
-          "below_vwap_no_pullback_entry",
-          "controlled_breakout_range"
-        ],
-        "hard_blocks": [],
-        "quality_gate_status": "DASHBOARD_ONLY",
-        "quality_gate_blocks": [
-          "base_status_not_trade_eligible:WATCH_ONLY",
-          "dollar_volume_below_1m"
-        ]
-      },
-      "quality_gate_status": "DASHBOARD_ONLY",
-      "quality_gate_blocks": [
-        "base_status_not_trade_eligible:WATCH_ONLY",
-        "dollar_volume_below_1m"
       ]
     },
     {
@@ -3029,10 +2919,10 @@
         "latest_url": null
       },
       "advanced_quality": {
-        "advanced_quality_score": 39.0,
-        "spread_pct": 0.9132,
-        "dollar_volume": 166751.05,
-        "spread_score": 12.0,
+        "advanced_quality_score": 42.0,
+        "spread_pct": 0.2618,
+        "dollar_volume": 173557.8,
+        "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
         "vwap_control_score": 0.0,
@@ -3044,11 +2934,119 @@
         "halt_risk_score": 0,
         "market_regime": "NEUTRAL",
         "reasons": [
+          "spread_tight",
+          "dollar_volume_too_low",
+          "weak_rvol",
+          "below_vwap",
+          "day_move_controlled",
+          "below_vwap_no_pullback_entry",
+          "controlled_breakout_range"
+        ],
+        "hard_blocks": [],
+        "quality_gate_status": "DASHBOARD_ONLY",
+        "quality_gate_blocks": [
+          "base_status_not_trade_eligible:WATCH_ONLY",
+          "dollar_volume_below_1m"
+        ]
+      },
+      "quality_gate_status": "DASHBOARD_ONLY",
+      "quality_gate_blocks": [
+        "base_status_not_trade_eligible:WATCH_ONLY",
+        "dollar_volume_below_1m"
+      ]
+    },
+    {
+      "ticker": "CVNA",
+      "source_type": "alpaca_paid_market_scanner",
+      "signal": "WATCH ONLY",
+      "status": "WATCH_ONLY",
+      "signal_color": "yellow",
+      "meaning": "Early or incomplete setup.",
+      "action": "Watch only. No order.",
+      "score": 43.0,
+      "price": 71.18,
+      "entry": 71.18,
+      "stop": 70.1123,
+      "target": 73.3154,
+      "risk_reward": 2.0,
+      "relative_volume": 1.11,
+      "day_move_percent": 3.0,
+      "gap_pct": 4.25,
+      "vwap": 71.9669,
+      "vwap_distance_percent": -1.09,
+      "volume_acceleration": 0.69,
+      "trend_state": "BELOW_VWAP",
+      "candidate_quality": "GOOD",
+      "data_quality": {
+        "primary_source": "alpaca_sip",
+        "fallback_used": false,
+        "data_age_seconds": 82.86,
+        "quality": "GOOD",
+        "notes": []
+      },
+      "trade_gate_summary": "positive day move, healthy gap, weak relative volume, volume fading, below VWAP, risk/reward acceptable",
+      "no_trade_reasons": [
+        "below_vwap",
+        "relative_volume_too_low"
+      ],
+      "sec_catalyst": {
+        "final_label": null,
+        "catalyst_score": 0,
+        "filing_risk_score": 0,
+        "latest_filings": [],
+        "risk_flags": [],
+        "catalyst_flags": []
+      },
+      "finra_short_pressure": {
+        "ticker": "CVNA",
+        "source": "FINRA_REGSHO_DAILY_CNMS",
+        "trade_date": "20260528",
+        "short_volume": null,
+        "short_exempt_volume": null,
+        "total_volume": null,
+        "short_volume_ratio": null,
+        "short_pressure_score": 0.0,
+        "short_pressure_label": "NO_DATA",
+        "notes": [
+          "symbol_not_found_in_latest_finra_file"
+        ]
+      },
+      "short_pressure_score": 0.0,
+      "short_pressure_label": "NO_DATA",
+      "short_volume_ratio": null,
+      "enrichment_notes": [
+        "FINRA short-pressure context attached. Context only, not a buy trigger."
+      ],
+      "alpaca_news": {
+        "ticker": "CVNA",
+        "news_count": 0,
+        "news_catalyst_score": 0,
+        "risk_flags": [],
+        "latest_headline": null,
+        "latest_url": null
+      },
+      "advanced_quality": {
+        "advanced_quality_score": 37.0,
+        "spread_pct": 0.5964,
+        "dollar_volume": 487796.54,
+        "spread_score": 12.0,
+        "liquidity_score": 0.0,
+        "rvol_quality_score": 2.0,
+        "vwap_control_score": 0.0,
+        "anti_chase_score": 13.0,
+        "pullback_quality_score": 1.0,
+        "breakout_compression_score": 6.0,
+        "sympathy_score": 3,
+        "theme": "meme_retail",
+        "halt_risk_score": 0,
+        "market_regime": "NEUTRAL",
+        "reasons": [
           "spread_acceptable",
           "dollar_volume_too_low",
           "weak_rvol",
           "below_vwap",
           "day_move_controlled",
+          "volume_fading",
           "below_vwap_no_pullback_entry",
           "controlled_breakout_range"
         ],
@@ -3244,7 +3242,7 @@
       "advanced_quality": {
         "advanced_quality_score": 29.25,
         "spread_pct": 0.6349,
-        "dollar_volume": 69310.78,
+        "dollar_volume": 101291.96,
         "spread_score": 12.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -3350,8 +3348,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 27.25,
-        "spread_pct": 0.2993,
-        "dollar_volume": 274587.25,
+        "spread_pct": 0.1203,
+        "dollar_volume": 306420.06,
         "spread_score": 15.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -3565,8 +3563,8 @@
       },
       "advanced_quality": {
         "advanced_quality_score": 21.0,
-        "spread_pct": 1.9231,
-        "dollar_volume": 135347.07,
+        "spread_pct": 1.7291,
+        "dollar_volume": 144500.7,
         "spread_score": 0.0,
         "liquidity_score": 0.0,
         "rvol_quality_score": 2.0,
@@ -3634,7 +3632,7 @@
     "allowed_to_trade_status": "TRADE_ELIGIBLE",
     "disclaimer": "Research labels only. Not financial advice."
   },
-  "sec_enriched_at": "2026-05-29T11:10:37.621464+00:00",
+  "sec_enriched_at": "2026-05-29T11:25:21.278573+00:00",
   "sec_enrichment": {
     "enabled": true,
     "source": "docs/data/prediction_engine/sec_catalysts.json",
@@ -3652,7 +3650,7 @@
   "alpaca_news_source": "docs/data/prediction_engine/alpaca_news.json",
   "source_before_news": "docs/data/prediction_engine/signal_dashboard_finra_enriched.json",
   "quality_source": "advanced_signal_quality_v1",
-  "quality_generated_at": "2026-05-29T11:25:22.464021+00:00",
+  "quality_generated_at": "2026-05-29T11:40:15.489870+00:00",
   "market_regime": {
     "regime": "NEUTRAL",
     "market_regime_score": 0,
