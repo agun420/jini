@@ -79,6 +79,41 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .panel{display:none}
 .panel.active{display:block}
 
+/* ── Game Plan (beginner) ── */
+.plan-toolbar{display:flex;align-items:center;gap:12px;padding:14px 24px;border-bottom:1px solid var(--border);background:var(--surface);flex-wrap:wrap}
+.plan-mode{display:flex;gap:8px}
+.plan-mode .chip{padding:7px 14px;font-size:12px}
+.plan-help{margin:0;padding:0 24px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;background:var(--surface2);border-bottom:1px solid var(--border)}
+.plan-help.open{max-height:600px;padding:18px 24px}
+.plan-help h4{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--text);margin-bottom:10px}
+.plan-help ol{margin:0 0 10px 18px;color:var(--body);font-size:13px;line-height:1.7}
+.plan-help li{margin-bottom:6px}
+.plan-disclaimer{font-size:12px;color:var(--yellow);background:var(--yellow-soft);border:1px solid var(--yellow-bd);border-radius:6px;padding:8px 12px}
+.plan-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;padding:20px 24px 60px}
+.plan-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;transition:border-color .15s,transform .1s;cursor:pointer}
+.plan-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.plan-card.urgent{border-color:var(--green-bd);box-shadow:0 0 0 1px var(--green-bd),0 8px 28px rgba(34,208,126,.12)}
+.plan-card.exit{border-color:var(--red-bd)}
+.plan-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.plan-card-tk{font-size:22px;font-weight:800;color:#fff;font-family:var(--mono)}
+.plan-card-sub{font-size:11px;color:var(--muted);margin-bottom:14px}
+.plan-card-sub .setup-pill{color:var(--blue)}
+.plan-steps{display:flex;flex-direction:column;gap:1px;background:var(--border);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.plan-step{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--surface2)}
+.plan-step-label{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--body)}
+.plan-step-num{width:18px;height:18px;border-radius:50%;background:var(--border2);color:var(--text);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.plan-step-val{font-size:15px;font-weight:700;font-family:var(--mono)}
+.plan-step.buy .plan-step-val{color:var(--blue)} .plan-step.buy .plan-step-num{background:var(--blue-soft);color:var(--blue)}
+.plan-step.tp .plan-step-val{color:var(--green)} .plan-step.tp .plan-step-num{background:var(--green-soft);color:var(--green)}
+.plan-step.exit .plan-step-val{color:var(--red)} .plan-step.exit .plan-step-num{background:var(--red-soft);color:var(--red)}
+.plan-english{font-size:12.5px;line-height:1.55;color:var(--body);background:var(--bg);border-radius:8px;padding:11px 12px;margin-bottom:12px;border-left:3px solid var(--blue)}
+.plan-english b{color:var(--text)}
+.plan-foot{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted)}
+.plan-foot .conf-num{font-family:var(--mono);font-weight:700}
+.plan-empty{grid-column:1/-1;text-align:center;padding:70px 20px;color:var(--dim)}
+.plan-empty h3{font-size:16px;color:var(--text);margin-bottom:8px}
+.plan-empty .big{font-size:40px;margin-bottom:12px}
+
 /* ── Table ── */
 .table-wrap{padding:0 0 60px;overflow-x:auto}
 table{width:100%;border-collapse:collapse}
@@ -210,7 +245,8 @@ tr.tier-divider td{background:var(--surface2);color:var(--muted);font-size:10px;
 <div id="freshness-bar"></div>
 
 <nav class="tabs">
-  <button class="tab active" data-tab="consensus">Intraday <span class="badge" id="badge-consensus">0</span></button>
+  <button class="tab active" data-tab="plan">📋 Game Plan <span class="badge" id="badge-plan">0</span></button>
+  <button class="tab" data-tab="consensus">Intraday <span class="badge" id="badge-consensus">0</span></button>
   <button class="tab" data-tab="swing">Swing <span class="badge" id="badge-swing">0</span></button>
   <button class="tab" data-tab="prebreak">Pre-Breakout <span class="badge" id="badge-prebreak">0</span></button>
   <button class="tab" data-tab="enriched">Enriched <span class="badge" id="badge-enriched">0</span></button>
@@ -218,8 +254,37 @@ tr.tier-divider td{background:var(--surface2);color:var(--muted);font-size:10px;
   <button class="tab" data-tab="outcomes">Outcomes <span class="badge" id="badge-outcomes">0</span></button>
 </nav>
 
+<!-- ── Game Plan Panel (beginner view) ── -->
+<div class="panel active" id="panel-plan">
+  <div class="plan-toolbar">
+    <div class="plan-mode">
+      <button class="chip active" data-plan-mode="intraday">⚡ Day Trade (today)</button>
+      <button class="chip" data-plan-mode="swing">📈 Swing (days–weeks)</button>
+    </div>
+    <button class="btn" id="plan-help-toggle">❔ How to use this</button>
+  </div>
+
+  <div id="plan-help" class="plan-help">
+    <h4>How to read a card — in plain English</h4>
+    <ol>
+      <li><b>State badge</b> tells you what to do <i>right now</i>:
+        <span class="state-badge st-active">ENTER NOW</span> buy it ·
+        <span class="state-badge st-ready">READY</span> set an alert, almost there ·
+        <span class="state-badge st-watch">WATCH</span> just keep an eye on it ·
+        <span class="state-badge st-target">TAKE PROFIT</span> sell ·
+        <span class="state-badge st-stopped">EXIT</span> get out.</li>
+      <li><b style="color:var(--blue)">Buy Zone</b> = the price to buy at. <b style="color:var(--green)">Take Profit 1 / 2</b> = where to sell (sell half at the first, the rest at the second). <b style="color:var(--red)">Safety Exit</b> = sell immediately if it falls here — that caps your loss.</li>
+      <li><b>Confidence</b> = how strong the setup is. <b>Reward:Risk</b> of 2:1 means you aim to make $2 for every $1 you risk.</li>
+      <li>Never risk more than ~1% of your account on one trade. Use the <b>$ calculator</b> (bottom-right) to size it.</li>
+    </ol>
+    <p class="plan-disclaimer">⚠ Research/paper only. Not financial advice. These are setups to study, not guaranteed trades.</p>
+  </div>
+
+  <div id="plan-cards" class="plan-cards"></div>
+</div>
+
 <!-- ── Consensus Panel ── -->
-<div class="panel active" id="panel-consensus">
+<div class="panel" id="panel-consensus">
   <div class="stats-bar">
     <div class="stat"><div class="stat-label">Consensus picks</div><div class="stat-value green" id="stat-cons-count">0</div></div>
     <div class="stat"><div class="stat-label">Threshold</div><div class="stat-value yellow" id="stat-threshold">—</div></div>
@@ -462,6 +527,7 @@ let sortPbKey   = 'explosion_prob', sortPbDir   = -1;
 let sortSwKey   = 'quality_score',  sortSwDir   = -1;
 let pbFilter = 'all', outFilter = 'all', swFilter = 'all';
 let pbMinProb = 60, swMinQ = 55;
+let planMode = 'intraday';
 let consSearch = '', pbSearch = '', enSearch = '', outSearch = '', swSearch = '';
 let lastConsensusTickers = new Set();
 let lastAlertTime = 0;
@@ -495,6 +561,102 @@ function tierTag(tier) {
   return '';
 }
 
+// ── Beginner state → friendly verb + urgency ──────────────────────────────
+const PLAN_STATE = {
+  ACTIVE:        ['ENTER NOW',   'st-active',   'urgent', '🟢'],
+  TRIGGER_READY: ['READY',       'st-ready',    '',       '🟡'],
+  WATCH:         ['WATCH',       'st-watch',    '',       '🔵'],
+  POTENTIAL:     ['EARLY',       'st-potential','',       '⚪'],
+  EXTENDED:      ["DON'T CHASE", 'st-extended', '',       '🟠'],
+  AT_TARGET1:    ['TAKE PROFIT', 'st-target',   '',       '💰'],
+  AT_TARGET2:    ['SELL ALL',    'st-target',   '',       '💰'],
+  STOPPED:       ['EXIT NOW',    'st-stopped',  'exit',   '🔴'],
+  STALE:         ['SKIP',        'st-stale',    '',       '⚫'],
+  NONE:          ['—',           'st-potential','',       '⚪'],
+};
+
+function planEnglish(p, isSwing) {
+  const st = p.signal_state || 'NONE';
+  const tk = p.ticker || p.symbol;
+  const horizon = isSwing ? 'over the next days–weeks' : 'today';
+  if (st === 'ACTIVE')
+    return `<b>Buy ${tk} now</b> near <b>$${fmt(p.entry)}</b>. Sell half at <b>$${fmt(p.target1)}</b>, the rest at <b>$${fmt(p.target2)}</b>. If it drops to <b>$${fmt(p.stop)}</b>, get out — that's your max loss.`;
+  if (st === 'TRIGGER_READY')
+    return `Almost ready. Set a buy alert at <b>$${fmt(p.entry)}</b>. When it triggers, target <b>$${fmt(p.target1)}</b> then <b>$${fmt(p.target2)}</b>; safety exit <b>$${fmt(p.stop)}</b>.`;
+  if (st === 'WATCH' || st === 'POTENTIAL')
+    return `Watch ${tk} ${horizon}. It's building toward a buy at <b>$${fmt(p.entry)}</b>. No action yet — wait for it to reach that price.`;
+  if (st === 'EXTENDED')
+    return `${tk} already ran past the entry. <b>Don't chase</b> — wait for a pullback toward <b>$${fmt(p.entry)}</b> before considering it.`;
+  if (st === 'AT_TARGET1')
+    return `${tk} hit the first target. <b>Sell half</b> at <b>$${fmt(p.target1)}</b> and move your safety exit up to your buy price. Let the rest run to <b>$${fmt(p.target2)}</b>.`;
+  if (st === 'AT_TARGET2')
+    return `${tk} reached the final target <b>$${fmt(p.target2)}</b>. <b>Sell the rest</b> — trade complete.`;
+  if (st === 'STOPPED')
+    return `${tk} hit the safety exit <b>$${fmt(p.stop)}</b>. <b>Get out now</b> — the setup is invalid.`;
+  return p.action || `Monitor ${tk}.`;
+}
+
+function planCard(p, isSwing) {
+  const st = p.signal_state || 'NONE';
+  const [label, cls, urgency, emoji] = PLAN_STATE[st] || PLAN_STATE.NONE;
+  const tk = p.ticker || p.symbol;
+  const setup = (p.setup_type && p.setup_type !== 'NONE') ? p.setup_type.replace(/_/g,' ') : (isSwing ? 'Swing' : 'Day trade');
+  const conf = p.confidence != null ? fmt(p.confidence,0)+'%' : '—';
+  const confCls = (p.confidence||0)>=70?'green':(p.confidence||0)>=50?'yellow':'dim';
+  const src = isSwing ? 'swing' : 'consensus';
+  return `<div class="plan-card ${urgency}" onclick="showDetail('${tk}','${src}')">
+    <div class="plan-card-top">
+      <span class="plan-card-tk">${emoji} ${tk}</span>
+      <span class="state-badge ${cls}">${label}</span>
+    </div>
+    <div class="plan-card-sub"><span class="setup-pill">${setup}</span> · ${isSwing?'days–weeks':'intraday'} · ${(p.vote_sources||[]).join(', ')||'jini'}</div>
+    <div class="plan-steps">
+      <div class="plan-step buy"><span class="plan-step-label"><span class="plan-step-num">1</span> Buy Zone</span><span class="plan-step-val">$${fmt(p.entry)}</span></div>
+      <div class="plan-step tp"><span class="plan-step-label"><span class="plan-step-num">2</span> Take Profit 1 (sell ½)</span><span class="plan-step-val">$${fmt(p.target1)}</span></div>
+      <div class="plan-step tp"><span class="plan-step-label"><span class="plan-step-num">3</span> Take Profit 2 (sell rest)</span><span class="plan-step-val">$${fmt(p.target2)}</span></div>
+      <div class="plan-step exit"><span class="plan-step-label"><span class="plan-step-num">!</span> Safety Exit</span><span class="plan-step-val">$${fmt(p.stop)}</span></div>
+    </div>
+    <div class="plan-english">💡 ${planEnglish(p, isSwing)}</div>
+    <div class="plan-foot">
+      <span>Confidence <b class="conf-num ${confCls}">${conf}</b></span>
+      <span>Reward:Risk <b class="conf-num yellow">${fmt(p.rr,1)}:1</b></span>
+      <span>Now <b class="conf-num">$${fmt(p.price)}</b></span>
+    </div>
+  </div>`;
+}
+
+const PLAN_ORDER = { ACTIVE:0, AT_TARGET1:1, AT_TARGET2:1, TRIGGER_READY:2, WATCH:3, POTENTIAL:4, EXTENDED:5, STOPPED:6, STALE:7, NONE:8 };
+
+function renderPlan() {
+  const isSwing = planMode === 'swing';
+  let items = [];
+  if (isSwing) {
+    items = (swingData?.candidates || []).slice();
+  } else {
+    items = [ ...(consensusData?.consensus_picks || []), ...(consensusData?.watch_ideas || []) ];
+  }
+  // Sort by actionability (ENTER NOW first), then confidence
+  items.sort((a,b) => {
+    const oa = PLAN_ORDER[a.signal_state] ?? 8, ob = PLAN_ORDER[b.signal_state] ?? 8;
+    if (oa !== ob) return oa - ob;
+    return (b.confidence||0) - (a.confidence||0);
+  });
+  $('badge-plan').textContent = items.length;
+
+  const wrap = $('plan-cards');
+  if (!items.length) {
+    wrap.innerHTML = `<div class="plan-empty">
+      <div class="big">${isSwing ? '📈' : '⚡'}</div>
+      <h3>No ${isSwing ? 'swing' : 'day-trade'} ideas right now</h3>
+      ${isSwing
+        ? 'Swing setups build over days. The scanner refreshes a few times a day — check back later.'
+        : 'Day-trade ideas appear during market hours (9:30am–4pm ET) as setups form. Right now nothing has triggered.'}
+    </div>`;
+    return;
+  }
+  wrap.innerHTML = items.map(p => planCard(p, isSwing)).join('');
+}
+
 function toast(msg, isError=false) {
   const t = $('toast');
   t.textContent = msg;
@@ -516,8 +678,17 @@ document.querySelectorAll('.tab').forEach(tab => {
     if (tab.dataset.tab === 'outcomes') pollOutcomes();
     if (tab.dataset.tab === 'enriched') pollEnriched();
     if (tab.dataset.tab === 'swing')    pollSwing();
+    if (tab.dataset.tab === 'plan')   { pollSwing(); renderPlan(); }
   });
 });
+
+// Game Plan mode toggle + help
+document.querySelectorAll('[data-plan-mode]').forEach(b => b.addEventListener('click', e => {
+  document.querySelectorAll('[data-plan-mode]').forEach(x => x.classList.remove('active'));
+  e.target.classList.add('active');
+  planMode = e.target.dataset.planMode;
+  renderPlan();
+}));
 
 // ════════════════════════════════════════════════════════════════════════
 //  Live ET clock + market status + feed freshness
@@ -698,6 +869,7 @@ function renderConsensus() {
     }
   }
   lastConsensusTickers = newTickers;
+  if (planMode === 'intraday') renderPlan();
 }
 
 // ════════════════════════════════════════════════════════════════════════
@@ -803,6 +975,7 @@ function renderSwing() {
       <td class="mono yellow">${fmt(c.rr, 1)}R</td>
     </tr>`;
   }).join('');
+  if (planMode === 'swing') renderPlan();
 }
 
 // ════════════════════════════════════════════════════════════════════════
@@ -1202,16 +1375,18 @@ $('fab-watch').addEventListener('click', () => {
 $('notif-toggle').addEventListener('change', e => {
   if (e.target.checked && Notification.permission !== 'granted') Notification.requestPermission();
 });
+$('plan-help-toggle').addEventListener('click', () => $('plan-help').classList.toggle('open'));
 
 document.addEventListener('keydown', e => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
   if (e.key === 'Escape') closeModal();
-  if (e.key === '1') document.querySelector('[data-tab="consensus"]').click();
-  if (e.key === '2') document.querySelector('[data-tab="swing"]').click();
-  if (e.key === '3') document.querySelector('[data-tab="prebreak"]').click();
-  if (e.key === '4') document.querySelector('[data-tab="enriched"]').click();
-  if (e.key === '5') document.querySelector('[data-tab="perf"]').click();
-  if (e.key === '6') document.querySelector('[data-tab="outcomes"]').click();
+  if (e.key === '1') document.querySelector('[data-tab="plan"]').click();
+  if (e.key === '2') document.querySelector('[data-tab="consensus"]').click();
+  if (e.key === '3') document.querySelector('[data-tab="swing"]').click();
+  if (e.key === '4') document.querySelector('[data-tab="prebreak"]').click();
+  if (e.key === '5') document.querySelector('[data-tab="enriched"]').click();
+  if (e.key === '6') document.querySelector('[data-tab="perf"]').click();
+  if (e.key === '7') document.querySelector('[data-tab="outcomes"]').click();
 });
 
 function playBeep() {
@@ -1228,6 +1403,7 @@ function playBeep() {
 //  Initial load
 // ════════════════════════════════════════════════════════════════════════
 pollConsensus(); pollPrebreak(); pollSwing(); loadWatchlist();
+renderPlan();
 setInterval(pollConsensus, POLL_MS_FAST);
 setInterval(pollPrebreak,  POLL_MS_FAST);
 setInterval(pollSwing,     POLL_MS_SLOW);
