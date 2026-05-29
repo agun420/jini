@@ -177,13 +177,15 @@ def _adapter_engine2(use_cache: bool) -> tuple[str, set[str], str]:
         return "engine2", set(), "SKIP — src/scanner.py missing"
 
     try:
+        eng2_env = _build_env()
+        eng2_env["ENGINE2_FAST_MODE"] = "1"  # skip slow social/short enrichment
         result = subprocess.run(
             [sys.executable, "-m", "src.scanner"],
             cwd=str(eng_dir),
             capture_output=True,
             text=True,
             timeout=ENGINE2_TIMEOUT_SEC,
-            env=_build_env(),
+            env=eng2_env,
             check=False,
         )
         if result.returncode != 0:
