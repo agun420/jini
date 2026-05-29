@@ -1,9 +1,9 @@
 {
   "schema_version": "v3_loss_learning_runner_gate_v1",
-  "generated_at": "2026-05-29T19:38:02.766257+00:00",
+  "generated_at": "2026-05-29T19:56:37.493443+00:00",
   "health": {
     "schema_version": "v3_loss_learning_runner_gate_health_v1",
-    "generated_at": "2026-05-29T19:38:02.766257+00:00",
+    "generated_at": "2026-05-29T19:56:37.493443+00:00",
     "status": "WARN",
     "blockers": [],
     "warnings": [
@@ -26,6 +26,21 @@
     "live_trading": false
   },
   "ticker_memory": {
+    "AI": {
+      "ticker": "AI",
+      "closed_count": 10,
+      "target_hits": 5,
+      "stop_hits": 4,
+      "time_exits": 1,
+      "failed_alerts": 4,
+      "avg_return_pct": 0.24143999999999996,
+      "total_return_pct": 2.4143999999999997,
+      "last_reason": "STOP_HIT",
+      "last_closed_at": "2026-05-29T19:44:33.790839+00:00",
+      "last_return_pct": -0.9691,
+      "last_layer": "REACTIVE",
+      "last_score": 67.1881
+    },
     "F": {
       "ticker": "F",
       "closed_count": 17,
@@ -100,21 +115,6 @@
       "last_return_pct": -0.4832,
       "last_layer": "PRE_BREAKOUT",
       "last_score": 81.8296
-    },
-    "AI": {
-      "ticker": "AI",
-      "closed_count": 9,
-      "target_hits": 5,
-      "stop_hits": 3,
-      "time_exits": 1,
-      "failed_alerts": 3,
-      "avg_return_pct": 0.37594444444444447,
-      "total_return_pct": 3.3835,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-29T15:35:08.789725+00:00",
-      "last_return_pct": 1.7699,
-      "last_layer": "REACTIVE",
-      "last_score": 61.1559
     },
     "HOOD": {
       "ticker": "HOOD",
@@ -740,15 +740,15 @@
       "cooldown_minutes_left": 999.0,
       "late_day": true,
       "very_late_day": true,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-29T15:35:08.789725+00:00",
-      "last_return_pct": 1.7699,
-      "closed_count": 9,
+      "last_reason": "STOP_HIT",
+      "last_closed_at": "2026-05-29T19:44:33.790839+00:00",
+      "last_return_pct": -0.9691,
+      "closed_count": 10,
       "target_hits": 5,
-      "stop_hits": 3,
+      "stop_hits": 4,
       "time_exits": 1,
-      "failed_alerts": 3,
-      "avg_return_pct": 0.3759
+      "failed_alerts": 4,
+      "avg_return_pct": 0.2414
     },
     {
       "ticker": "F",
@@ -1541,15 +1541,15 @@
       "cooldown_minutes_left": 999.0,
       "late_day": true,
       "very_late_day": true,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-29T15:35:08.789725+00:00",
-      "last_return_pct": 1.7699,
-      "closed_count": 9,
+      "last_reason": "STOP_HIT",
+      "last_closed_at": "2026-05-29T19:44:33.790839+00:00",
+      "last_return_pct": -0.9691,
+      "closed_count": 10,
       "target_hits": 5,
-      "stop_hits": 3,
+      "stop_hits": 4,
       "time_exits": 1,
-      "failed_alerts": 3,
-      "avg_return_pct": 0.3759
+      "failed_alerts": 4,
+      "avg_return_pct": 0.2414
     },
     {
       "ticker": "F",
@@ -2155,20 +2155,25 @@
       "blockers": [
         "two_failed_alerts_today",
         "very_late_day_no_new_runner",
-        "prebreakout_not_ready"
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
       ],
       "warnings": [
-        "edge_score_below_elite"
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
       ],
-      "price": 10.835,
-      "day_move_pct": 6.0176,
-      "relative_volume": 1.6128,
-      "expected_value_pct": 0.1519,
-      "edge_score": 67.2022,
-      "base_target_price": 10.9325,
-      "base_stop_price": 10.77,
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
       "runner_first_target_pct": 0.8,
-      "runner_target_pct": 3.0,
+      "runner_target_pct": 5.0,
       "runner_max_target_pct": 10.0,
       "breakeven_after_first_target": true,
       "order_submission": false,
@@ -3599,20 +3604,25 @@
       "blockers": [
         "two_failed_alerts_today",
         "very_late_day_no_new_runner",
-        "prebreakout_not_ready"
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
       ],
       "warnings": [
-        "edge_score_below_elite"
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
       ],
-      "price": 10.835,
-      "day_move_pct": 6.0176,
-      "relative_volume": 1.6128,
-      "expected_value_pct": 0.1519,
-      "edge_score": 67.2022,
-      "base_target_price": 10.9325,
-      "base_stop_price": 10.77,
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
       "runner_first_target_pct": 0.8,
-      "runner_target_pct": 3.0,
+      "runner_target_pct": 5.0,
       "runner_max_target_pct": 10.0,
       "breakeven_after_first_target": true,
       "order_submission": false,
