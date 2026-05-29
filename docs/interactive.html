@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Jini V3 // Interactive</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07090f; --surface:#0d1220; --surface2:#111827; --border:#1e2d45; --border2:#263554;
+  --text:#e8eeff; --muted:#7a8fb0; --dim:#4a5a78;
+  --green:#22d07e; --green-soft:rgba(34,208,126,.13); --green-bd:rgba(34,208,126,.32);
+  --red:#ff5c7a; --red-soft:rgba(255,92,122,.12); --red-bd:rgba(255,92,122,.32);
+  --yellow:#ffd166; --yellow-soft:rgba(255,209,102,.12); --yellow-bd:rgba(255,209,102,.32);
+  --blue:#69a7ff; --blue-soft:rgba(105,167,255,.12); --blue-bd:rgba(105,167,255,.32);
+  --orange:#ff8c42; --orange-soft:rgba(255,140,66,.12); --orange-bd:rgba(255,140,66,.32);
+  --purple:#b87dff; --purple-soft:rgba(184,125,255,.12); --purple-bd:rgba(184,125,255,.32);
+  --font:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --mono:'SF Mono','Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px;line-height:1.5;min-height:100vh;overflow-x:hidden}
+
+/* ── Header ── */
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--border);position:sticky;top:0;background:linear-gradient(135deg,#0a1628,#091220);backdrop-filter:blur(12px);z-index:100}
+.logo{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+.logo span{color:var(--muted);font-weight:400}
+.header-right{display:flex;align-items:center;gap:14px}
+#last-update{font-size:11px;color:var(--muted);font-family:var(--mono)}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:99px;border:1px solid var(--border)}
+.pill.live{color:var(--green);border-color:var(--green-bd);background:var(--green-soft)}
+.pill.live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s ease-in-out infinite}
+.pill.error{color:var(--red);border-color:var(--red-bd);background:var(--red-soft)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── Tabs ── */
+.tabs{display:flex;padding:0 24px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:50px;z-index:99}
+.tab{padding:11px 18px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all .15s;font-family:var(--font)}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--green);border-bottom-color:var(--green)}
+.tab .badge{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:99px;background:var(--border2);color:var(--text);font-size:10px;font-weight:700}
+.tab.active .badge{background:var(--green-soft);color:var(--green)}
+
+/* ── Toolbar ── */
+.toolbar{display:flex;align-items:center;gap:10px;padding:10px 24px;border-bottom:1px solid var(--border);background:var(--surface);flex-wrap:wrap}
+.toolbar-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chip{padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--dim);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;font-family:var(--font)}
+.chip.active{background:var(--green-soft);border-color:var(--green-bd);color:var(--green)}
+.chip:hover:not(.active){border-color:var(--border2);color:var(--text)}
+.toolbar input[type=text]{padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:11px;font-family:var(--mono);width:130px}
+.toolbar input[type=text]:focus{outline:none;border-color:var(--blue-bd)}
+.toolbar input[type=range]{accent-color:var(--yellow);width:90px;cursor:pointer}
+.toolbar .val{font-family:var(--mono);font-size:11px;color:var(--yellow);min-width:26px}
+.toolbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.btn{padding:5px 12px;border-radius:6px;border:1px solid var(--border2);background:transparent;color:var(--dim);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;font-family:var(--font)}
+.btn:hover{background:var(--surface2);color:var(--text)}
+.btn.primary{border-color:var(--green-bd);color:var(--green);background:var(--green-soft)}
+.btn.danger{border-color:var(--red-bd);color:var(--red);background:var(--red-soft)}
+.toggle{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text);cursor:pointer}
+.toggle input{accent-color:var(--green)}
+
+/* ── Stats bar ── */
+.stats-bar{display:flex;gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
+.stat{flex:1;padding:11px 16px;background:var(--surface)}
+.stat-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.stat-value{font-size:18px;font-weight:800;color:var(--text);font-family:var(--mono);font-variant-numeric:tabular-nums}
+.stat-value.green{color:var(--green)} .stat-value.yellow{color:var(--yellow)} .stat-value.red{color:var(--red)}
+
+/* ── Panels ── */
+.panel{display:none}
+.panel.active{display:block}
+
+/* ── Table ── */
+.table-wrap{padding:0 0 60px;overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:9px 14px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;background:var(--surface)}
+th:not(:first-child){text-align:right}
+th:hover{color:var(--text)}
+th.sort-asc::after{content:' ↑';color:var(--yellow)}
+th.sort-desc::after{content:' ↓';color:var(--yellow)}
+td{padding:10px 14px;border-bottom:1px solid rgba(30,45,69,.45);font-variant-numeric:tabular-nums}
+td:not(:first-child){text-align:right}
+tr:hover td{background:rgba(255,255,255,.025);cursor:pointer}
+tr.flash td{animation:rowflash .9s ease-out}
+tr.signal-strong td:first-child{border-left:3px solid var(--green)}
+tr.signal-watch td:first-child{border-left:3px solid var(--yellow)}
+tr.signal-coil td:first-child{border-left:3px solid var(--purple)}
+tr.signal-gap td:first-child{border-left:3px solid var(--blue)}
+@keyframes rowflash{0%{background:var(--green-soft)}100%{background:transparent}}
+.ticker{font-weight:800;color:var(--text);font-family:var(--mono);font-size:13px}
+.mono{font-family:var(--mono)}
+.green{color:var(--green)} .red{color:var(--red)} .yellow{color:var(--yellow)} .blue{color:var(--blue)} .purple{color:var(--purple)} .orange{color:var(--orange)} .dim{color:var(--dim)}
+.badge-setup{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-family:var(--mono)}
+.badge-setup.COIL_BREAKOUT{background:var(--purple-soft);color:var(--purple);border:1px solid var(--purple-bd)}
+.badge-setup.GAP_GO{background:var(--blue-soft);color:var(--blue);border:1px solid var(--blue-bd)}
+.badge-setup.ORB_LONG{background:var(--green-soft);color:var(--green);border:1px solid var(--green-bd)}
+.badge-setup.VWAP_RECLAIM{background:var(--yellow-soft);color:var(--yellow);border:1px solid var(--yellow-bd)}
+.badge-setup.BULL_FLAG{background:var(--green-soft);color:var(--green);border:1px solid var(--green-bd)}
+.badge-setup.LATE_DAY_MOMO{background:var(--orange-soft);color:var(--orange);border:1px solid var(--orange-bd)}
+.badge-setup.NONE{background:rgba(74,90,120,.15);color:var(--dim)}
+.state-badge{display:inline-block;padding:2px 9px;border-radius:4px;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-family:var(--mono);white-space:nowrap}
+.state-badge.st-active{background:var(--green-soft);color:var(--green);border:1px solid var(--green-bd);animation:pulse 1.6s ease-in-out infinite}
+.state-badge.st-ready{background:var(--yellow-soft);color:var(--yellow);border:1px solid var(--yellow-bd)}
+.state-badge.st-watch{background:var(--blue-soft);color:var(--blue);border:1px solid var(--blue-bd)}
+.state-badge.st-potential{background:rgba(74,90,120,.15);color:var(--dim);border:1px solid var(--border)}
+.state-badge.st-extended{background:var(--orange-soft);color:var(--orange);border:1px solid var(--orange-bd)}
+.state-badge.st-target{background:var(--green-soft);color:var(--green);border:1px solid var(--green-bd)}
+.state-badge.st-stopped{background:var(--red-soft);color:var(--red);border:1px solid var(--red-bd)}
+.state-badge.st-stale{background:rgba(74,90,120,.1);color:var(--dim);border:1px solid var(--border);opacity:.7}
+.vote-source{display:inline-block;font-size:9px;padding:1px 5px;border-radius:3px;background:var(--border2);color:var(--text);font-family:var(--mono);margin-right:3px;font-weight:700}
+.empty-state{padding:60px 20px;text-align:center;color:var(--dim)}
+.empty-state h3{font-size:15px;color:var(--text);margin-bottom:6px;font-weight:600}
+.empty-state code{background:var(--surface2);padding:2px 8px;border-radius:4px;font-family:var(--mono);font-size:11px;color:var(--yellow)}
+
+/* ── Performance ── */
+.perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:20px 24px}
+.perf-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px}
+.perf-card h3{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:12px}
+.perf-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.perf-kpi-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+.perf-kpi-value{font-size:22px;font-weight:800;font-family:var(--mono)}
+.perf-table{width:100%;font-size:12px}
+.perf-table th{background:transparent;padding:4px 6px;font-size:9px}
+.perf-table td{padding:6px 6px;border-bottom:1px solid rgba(30,45,69,.3)}
+.perf-bar{display:inline-block;height:6px;border-radius:3px;background:var(--green);vertical-align:middle;margin-right:6px;min-width:2px}
+
+/* ── Modal ── */
+#modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+#modal-overlay.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.6)}
+.modal-head{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-size:20px;font-weight:800;color:#fff;font-family:var(--mono)}
+.modal-close{background:transparent;border:none;color:var(--dim);font-size:24px;cursor:pointer;line-height:1}
+.modal-body{padding:22px 24px}
+.modal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.modal-cell{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px}
+.modal-cell-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.modal-cell-value{font-size:17px;font-weight:700;color:var(--text);font-family:var(--mono)}
+.modal-section{margin-bottom:18px}
+.modal-section h4{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px}
+.score-bar{height:6px;background:var(--border);border-radius:3px;margin:4px 0 10px;position:relative;overflow:hidden}
+.score-bar-fill{position:absolute;left:0;top:0;height:100%;border-radius:3px;background:var(--green);transition:width .3s}
+.score-row{display:flex;justify-content:space-between;font-size:11px}
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.plan-cell{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column}
+.plan-cell span{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.plan-cell b{font-size:15px;font-family:var(--mono)}
+.plan-action{font-size:12px;padding:8px 10px;background:var(--surface2);border-radius:6px;margin-bottom:6px;line-height:1.45}
+.plan-action strong{color:var(--text)}
+.action-row{display:flex;gap:8px;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--border)}
+.notes-area{width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:var(--mono);font-size:11px;min-height:68px;resize:vertical}
+.notes-area:focus{outline:none;border-color:var(--blue-bd)}
+
+/* ── Floating panels ── */
+.fab-tray{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:8px;z-index:80}
+.fab{width:46px;height:46px;border-radius:50%;background:var(--surface);border:1px solid var(--border2);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.4);transition:all .15s}
+.fab:hover{background:var(--surface2);border-color:var(--green-bd);color:var(--green)}
+.fab.active{background:var(--green-soft);border-color:var(--green-bd);color:var(--green)}
+.panel-pop{position:fixed;right:78px;background:var(--surface);border:1px solid var(--border2);border-radius:12px;width:290px;padding:18px;box-shadow:0 12px 32px rgba(0,0,0,.5);z-index:81;display:none}
+.panel-pop.open{display:block}
+.panel-pop h3{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:12px}
+.field{margin-bottom:10px}
+.field label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px}
+.field input{width:100%;padding:6px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:var(--mono);font-size:12px}
+.field input:focus{outline:none;border-color:var(--green-bd)}
+.calc-result{margin-top:12px;padding:12px;background:var(--green-soft);border:1px solid var(--green-bd);border-radius:8px}
+.calc-result-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+.calc-result-value{font-size:18px;font-weight:800;color:var(--green);font-family:var(--mono)}
+.watch-list{list-style:none;max-height:260px;overflow-y:auto;margin-bottom:8px}
+.watch-item{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border-radius:4px;font-family:var(--mono);font-size:12px}
+.watch-item:hover{background:var(--surface2)}
+.watch-item button{background:transparent;border:none;color:var(--red);cursor:pointer;font-size:14px}
+
+/* ── Toast ── */
+#toast{position:fixed;top:80px;right:24px;background:var(--green-soft);border:1px solid var(--green-bd);color:var(--green);padding:12px 20px;border-radius:8px;font-size:12px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.5);transform:translateX(450px);transition:transform .3s ease;z-index:300}
+#toast.show{transform:translateX(0)}
+#toast.error{background:var(--red-soft);border-color:var(--red-bd);color:var(--red)}
+
+@media (max-width:900px){.perf-grid{grid-template-columns:1fr}.modal-grid{grid-template-columns:repeat(2,1fr)}.stats-bar{flex-wrap:wrap}.stat{min-width:33%}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">JINI V3 // <span>INTERACTIVE</span></div>
+  <div class="header-right">
+    <span id="last-update">—</span>
+    <span class="pill" id="conn-pill">CONNECTING</span>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="consensus">Consensus <span class="badge" id="badge-consensus">0</span></button>
+  <button class="tab" data-tab="prebreak">Pre-Breakout <span class="badge" id="badge-prebreak">0</span></button>
+  <button class="tab" data-tab="enriched">Enriched Rows <span class="badge" id="badge-enriched">0</span></button>
+  <button class="tab" data-tab="perf">Performance</button>
+  <button class="tab" data-tab="outcomes">Outcomes <span class="badge" id="badge-outcomes">0</span></button>
+</nav>
+
+<!-- ── Consensus Panel ── -->
+<div class="panel active" id="panel-consensus">
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-label">Consensus picks</div><div class="stat-value green" id="stat-cons-count">0</div></div>
+    <div class="stat"><div class="stat-label">Threshold</div><div class="stat-value yellow" id="stat-threshold">—</div></div>
+    <div class="stat"><div class="stat-label">Active engines</div><div class="stat-value" id="stat-engines">—</div></div>
+    <div class="stat"><div class="stat-label">Avg score</div><div class="stat-value green" id="stat-avg-score">—</div></div>
+  </div>
+  <div class="toolbar">
+    <span class="toolbar-label">Engine weights</span>
+    <span id="engine-weights" class="mono dim">—</span>
+    <input type="text" id="search-cons" placeholder="Search ticker…">
+    <div class="toolbar-right">
+      <label class="toggle"><input type="checkbox" id="sound-toggle"> Sound</label>
+      <label class="toggle"><input type="checkbox" id="notif-toggle"> Notify</label>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table id="consensus-table">
+      <thead><tr>
+        <th data-sort-cons="ticker">Ticker</th>
+        <th data-sort-cons="signal_state">State</th>
+        <th data-sort-cons="price">Price</th>
+        <th data-sort-cons="entry">Entry</th>
+        <th data-sort-cons="stop">SL</th>
+        <th data-sort-cons="target1">T1</th>
+        <th data-sort-cons="target2">T2</th>
+        <th data-sort-cons="rr">R/R</th>
+        <th data-sort-cons="confidence">Conf</th>
+        <th data-sort-cons="final_trade_score_v3">Score</th>
+        <th data-sort-cons="danger_score_v3">Danger</th>
+        <th data-sort-cons="vote_count">Votes</th>
+      </tr></thead>
+      <tbody id="consensus-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ── Pre-Breakout Panel ── -->
+<div class="panel" id="panel-prebreak">
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-label">Candidates</div><div class="stat-value green" id="stat-pb-count">0</div></div>
+    <div class="stat"><div class="stat-label">Coil setups</div><div class="stat-value" id="stat-coil">0</div></div>
+    <div class="stat"><div class="stat-label">Gap setups</div><div class="stat-value blue" id="stat-gap">0</div></div>
+    <div class="stat"><div class="stat-label">ORB setups</div><div class="stat-value yellow" id="stat-orb">0</div></div>
+  </div>
+  <div class="toolbar">
+    <span class="toolbar-label">Setup</span>
+    <button class="chip active" data-pb-filter="all">All</button>
+    <button class="chip" data-pb-filter="COIL_BREAKOUT">Coil</button>
+    <button class="chip" data-pb-filter="GAP_GO">Gap&amp;Go</button>
+    <button class="chip" data-pb-filter="ORB_LONG">ORB</button>
+    <button class="chip" data-pb-filter="VWAP_RECLAIM">VWAP</button>
+    <button class="chip" data-pb-filter="BULL_FLAG">Flag</button>
+    <button class="chip" data-pb-filter="LATE_DAY_MOMO">Late</button>
+    <span class="toolbar-label" style="margin-left:14px">Min prob</span>
+    <input type="range" id="pb-min-prob" min="0" max="100" value="60">
+    <span class="val" id="pb-min-prob-val">60</span>
+    <input type="text" id="search-pb" placeholder="Search…">
+  </div>
+  <div class="table-wrap">
+    <table id="prebreak-table">
+      <thead><tr>
+        <th data-sort-pb="symbol">Ticker</th>
+        <th data-sort-pb="setup_type">Setup</th>
+        <th data-sort-pb="signal_state">State</th>
+        <th data-sort-pb="explosion_prob" class="sort-desc">Prob</th>
+        <th data-sort-pb="price">Price</th>
+        <th data-sort-pb="entry">Entry</th>
+        <th data-sort-pb="stop">SL</th>
+        <th data-sort-pb="target1">T1</th>
+        <th data-sort-pb="target2">T2</th>
+        <th data-sort-pb="rr">R/R</th>
+        <th data-sort-pb="confidence">Conf</th>
+        <th data-sort-pb="rel_strength">RS%</th>
+      </tr></thead>
+      <tbody id="prebreak-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ── Enriched Rows Panel ── -->
+<div class="panel" id="panel-enriched">
+  <div class="toolbar">
+    <span class="toolbar-label">jini's enriched candidate universe</span>
+    <input type="text" id="search-en" placeholder="Search…">
+  </div>
+  <div class="table-wrap">
+    <table id="enriched-table">
+      <thead><tr>
+        <th>Ticker</th><th>Price</th><th>Day %</th><th>RVOL</th>
+        <th>Mom 1m</th><th>Mom 5m</th><th>VWAP%</th><th>HOD dist</th>
+        <th>Candle</th><th>Spread%</th>
+      </tr></thead>
+      <tbody id="enriched-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ── Performance Panel ── -->
+<div class="panel" id="panel-perf">
+  <div class="perf-grid">
+    <div class="perf-card">
+      <h3>Overall</h3>
+      <div class="perf-kpis">
+        <div><div class="perf-kpi-label">Signals</div><div class="perf-kpi-value" id="perf-total">—</div></div>
+        <div><div class="perf-kpi-label">Resolved</div><div class="perf-kpi-value" id="perf-resolved">—</div></div>
+        <div><div class="perf-kpi-label">Hit Rate</div><div class="perf-kpi-value green" id="perf-hit">—</div></div>
+      </div>
+      <table class="perf-table">
+        <tr><td>Avg max gain</td><td class="mono green" id="perf-gain">—</td></tr>
+        <tr><td>Avg max loss</td><td class="mono red"   id="perf-loss">—</td></tr>
+      </table>
+    </div>
+    <div class="perf-card">
+      <h3>Per Engine</h3>
+      <table class="perf-table" id="perf-engine-table"></table>
+    </div>
+    <div class="perf-card" style="grid-column:1/-1">
+      <h3>Per Combination</h3>
+      <table class="perf-table" id="perf-combo-table"></table>
+    </div>
+    <div class="perf-card" style="grid-column:1/-1">
+      <h3>Hit Rate by Score Band</h3>
+      <canvas id="score-band-chart" height="120"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ── Outcomes Panel ── -->
+<div class="panel" id="panel-outcomes">
+  <div class="toolbar">
+    <span class="toolbar-label">Most recent 300 signals</span>
+    <button class="chip active" data-out-filter="all">All</button>
+    <button class="chip" data-out-filter="open">Open</button>
+    <button class="chip" data-out-filter="hit">Hits</button>
+    <button class="chip" data-out-filter="miss">Misses</button>
+    <input type="text" id="search-out" placeholder="Search…">
+  </div>
+  <div class="table-wrap">
+    <table id="outcomes-table">
+      <thead><tr>
+        <th>Time</th><th>Ticker</th><th>Score</th><th>Entry</th>
+        <th>+30m</th><th>+60m</th><th>EOD</th><th>Max +%</th><th>Max -%</th>
+        <th>Outcome</th><th style="text-align:right">Sources</th>
+      </tr></thead>
+      <tbody id="outcomes-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ── Floating action tray ── -->
+<div class="fab-tray">
+  <button class="fab" id="fab-calc" title="Position size calculator">$</button>
+  <button class="fab" id="fab-watch" title="Watchlist">★</button>
+</div>
+
+<div class="panel-pop" id="pop-calc" style="bottom:122px">
+  <h3>Position Size</h3>
+  <div class="field"><label>Account size ($)</label><input type="number" id="calc-acct" value="25000"></div>
+  <div class="field"><label>Risk per trade (%)</label><input type="number" id="calc-risk" value="1" step="0.1"></div>
+  <div class="field"><label>Entry</label><input type="number" id="calc-entry" step="0.01"></div>
+  <div class="field"><label>Stop</label><input type="number" id="calc-stop" step="0.01"></div>
+  <div class="calc-result">
+    <div class="calc-result-label">Shares</div>
+    <div class="calc-result-value" id="calc-shares">—</div>
+    <div class="calc-result-label" style="margin-top:6px">Position size</div>
+    <div class="calc-result-value" id="calc-size" style="font-size:14px">—</div>
+  </div>
+</div>
+
+<div class="panel-pop" id="pop-watch" style="bottom:66px">
+  <h3>Watchlist</h3>
+  <ul class="watch-list" id="watch-list"></ul>
+  <div class="field"><input type="text" id="watch-add" placeholder="Add ticker…"></div>
+</div>
+
+<!-- ── Detail Modal ── -->
+<div id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-title">—</div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════════════════════════════
+//  State
+// ════════════════════════════════════════════════════════════════════════
+const POLL_MS_FAST = 5000;
+const POLL_MS_SLOW = 20000;
+let consensusData = null, prebreakData = null, scorecardData = null,
+    outcomesData  = null, enrichedData = null;
+let sortConsKey = 'weighted_score', sortConsDir = -1;
+let sortPbKey   = 'explosion_prob', sortPbDir   = -1;
+let pbFilter = 'all', outFilter = 'all';
+let pbMinProb = 60;
+let consSearch = '', pbSearch = '', enSearch = '', outSearch = '';
+let lastConsensusTickers = new Set();
+let lastAlertTime = 0;
+let scoreBandChart = null;
+let watchlist = new Set();
+
+const $ = id => document.getElementById(id);
+const fmtPct = n => (n>=0?'+':'') + (Number(n)||0).toFixed(2) + '%';
+const fmt = (n, d=2) => (n===null||n===undefined||isNaN(n)) ? '—' : Number(n).toFixed(d);
+
+// Signal lifecycle state → colored badge (when to enter/sell)
+const STATE_LABELS = {
+  ACTIVE:        ['ENTER NOW', 'st-active'],
+  TRIGGER_READY: ['READY',     'st-ready'],
+  WATCH:         ['WATCH',     'st-watch'],
+  POTENTIAL:     ['MONITOR',   'st-potential'],
+  EXTENDED:      ['EXTENDED',  'st-extended'],
+  AT_TARGET1:    ['TRIM T1',   'st-target'],
+  AT_TARGET2:    ['SELL T2',   'st-target'],
+  STOPPED:       ['STOPPED',   'st-stopped'],
+  STALE:         ['STALE',     'st-stale'],
+  NONE:          ['—',         'st-potential'],
+};
+function stateBadge(state) {
+  const [label, cls] = STATE_LABELS[state] || [state || '—', 'st-potential'];
+  return `<span class="state-badge ${cls}">${label}</span>`;
+}
+
+function toast(msg, isError=false) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.toggle('error', isError);
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  Tab switching + keyboard shortcuts
+// ════════════════════════════════════════════════════════════════════════
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    $('panel-' + tab.dataset.tab).classList.add('active');
+    if (tab.dataset.tab === 'perf')     pollPerf();
+    if (tab.dataset.tab === 'outcomes') pollOutcomes();
+    if (tab.dataset.tab === 'enriched') pollEnriched();
+  });
+});
+
+// ════════════════════════════════════════════════════════════════════════
+//  Polling
+// ════════════════════════════════════════════════════════════════════════
+async function pollConsensus() {
+  try {
+    const r = await fetch('/api/consensus');
+    if (!r.ok) throw new Error('http ' + r.status);
+    consensusData = await r.json();
+    $('conn-pill').className = 'pill live'; $('conn-pill').textContent = 'LIVE';
+    $('last-update').textContent = consensusData.generated_at
+      ? new Date(consensusData.generated_at).toLocaleTimeString() : '—';
+    renderConsensus();
+  } catch (e) {
+    $('conn-pill').className = 'pill error'; $('conn-pill').textContent = 'OFFLINE';
+  }
+}
+
+async function pollPrebreak() {
+  try {
+    const r = await fetch('/api/prebreakout');
+    prebreakData = await r.json();
+    renderPrebreak();
+  } catch (e) {}
+}
+
+async function pollEnriched() {
+  try {
+    const r = await fetch('/api/enriched');
+    enrichedData = await r.json();
+    renderEnriched();
+  } catch (e) {}
+}
+
+async function pollPerf() {
+  try {
+    const r = await fetch('/api/scorecard');
+    scorecardData = await r.json();
+    renderPerf();
+  } catch (e) {}
+}
+
+async function pollOutcomes() {
+  try {
+    const r = await fetch('/api/outcomes');
+    outcomesData = await r.json();
+    renderOutcomes();
+  } catch (e) {}
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  Render — Consensus
+// ════════════════════════════════════════════════════════════════════════
+function renderConsensus() {
+  if (!consensusData) return;
+  const picks = consensusData.consensus_picks || [];
+  $('badge-consensus').textContent = picks.length;
+  $('stat-cons-count').textContent = picks.length;
+  $('stat-threshold').textContent  = consensusData.threshold ?? '—';
+  $('stat-engines').textContent    = (consensusData.active_engines || []).join(', ') || '—';
+  const avg = picks.length
+    ? picks.reduce((s,p) => s + (p.final_trade_score_v3||0), 0) / picks.length : 0;
+  $('stat-avg-score').textContent = picks.length ? avg.toFixed(1) : '—';
+
+  const w = consensusData.engine_weights || {};
+  $('engine-weights').textContent = Object.entries(w).map(([n,v]) => `${n}=${v}`).join(' • ') || 'flat';
+
+  // Sort + filter
+  const sorted = [...picks].sort((a,b) => {
+    const av = a[sortConsKey], bv = b[sortConsKey];
+    if (typeof av === 'string') return sortConsDir * (av||'').localeCompare(bv||'');
+    return sortConsDir * ((bv||0) - (av||0));
+  });
+  const filtered = sorted.filter(p =>
+    !consSearch || (p.ticker||'').toLowerCase().includes(consSearch));
+
+  const tb = $('consensus-tbody');
+  if (!filtered.length) {
+    tb.innerHTML = `<tr><td colspan="12" class="empty-state">
+      <h3>No consensus picks yet</h3>
+      Run <code>PYTHONPATH=src python3 scripts/run_consensus_aggregator.py</code> during market hours
+    </td></tr>`;
+    lastConsensusTickers = new Set();
+    return;
+  }
+
+  const newTickers = new Set(filtered.map(p => p.ticker));
+  tb.innerHTML = filtered.map(p => {
+    const flash = !lastConsensusTickers.has(p.ticker) && lastConsensusTickers.size > 0 ? ' flash' : '';
+    return `<tr class="signal-strong${flash}" onclick="showDetail('${p.ticker}','consensus')">
+      <td class="ticker">${p.ticker}</td>
+      <td>${stateBadge(p.signal_state)}</td>
+      <td class="mono">$${fmt(p.price)}</td>
+      <td class="mono blue">$${fmt(p.entry)}</td>
+      <td class="mono red">$${fmt(p.stop)}</td>
+      <td class="mono green">$${fmt(p.target1)}</td>
+      <td class="mono green">$${fmt(p.target2)}</td>
+      <td class="mono yellow">${fmt(p.rr,1)}R</td>
+      <td class="mono ${(p.confidence||0)>=70?'green':(p.confidence||0)>=50?'yellow':'dim'}">${fmt(p.confidence,0)}%</td>
+      <td class="mono green">${fmt(p.final_trade_score_v3, 1)}</td>
+      <td class="mono red">${fmt(p.danger_score_v3, 0)}</td>
+      <td class="mono yellow">${p.vote_count}/${(consensusData.active_engines||[]).length}</td>
+    </tr>`;
+  }).join('');
+
+  // Alerts on new picks
+  const newPicks = [...newTickers].filter(t => !lastConsensusTickers.has(t) && lastConsensusTickers.size > 0);
+  if (newPicks.length && Date.now() - lastAlertTime > 5000) {
+    lastAlertTime = Date.now();
+    if ($('sound-toggle').checked) playBeep();
+    if ($('notif-toggle').checked && Notification.permission === 'granted') {
+      new Notification('Jini — New consensus pick', { body: newPicks.join(', ') });
+    }
+  }
+  lastConsensusTickers = newTickers;
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  Render — Pre-Breakout
+// ════════════════════════════════════════════════════════════════════════
+function renderPrebreak() {
+  if (!prebreakData) return;
+  const all = prebreakData.candidates || [];
+  $('badge-prebreak').textContent = all.length;
+  $('stat-pb-count').textContent  = all.length;
+  $('stat-coil').textContent      = all.filter(c => c.setup_type === 'COIL_BREAKOUT').length;
+  $('stat-gap').textContent       = all.filter(c => c.setup_type === 'GAP_GO').length;
+  $('stat-orb').textContent       = all.filter(c => c.setup_type === 'ORB_LONG').length;
+
+  const sorted = [...all].sort((a,b) => {
+    const av = a[sortPbKey], bv = b[sortPbKey];
+    if (typeof av === 'string') return sortPbDir * (av||'').localeCompare(bv||'');
+    return sortPbDir * ((bv||0) - (av||0));
+  });
+  const filtered = sorted.filter(c => {
+    if (pbFilter !== 'all' && c.setup_type !== pbFilter) return false;
+    if ((c.explosion_prob || 0) < pbMinProb) return false;
+    if (pbSearch && !(c.symbol||'').toLowerCase().includes(pbSearch)) return false;
+    return true;
+  });
+
+  const tb = $('prebreak-tbody');
+  if (!filtered.length) {
+    tb.innerHTML = `<tr><td colspan="12" class="empty-state">
+      <h3>No pre-breakout candidates</h3>
+      Run <code>PYTHONPATH=src python3 scripts/run_prebreakout_scanner.py</code> during market hours or pre-market
+    </td></tr>`;
+    return;
+  }
+  tb.innerHTML = filtered.map(c => {
+    const setup = c.setup_type || 'NONE';
+    const rowCls = setup === 'COIL_BREAKOUT' ? 'signal-coil'
+                 : setup === 'GAP_GO' ? 'signal-gap'
+                 : 'signal-watch';
+    return `<tr class="${rowCls}" onclick="showDetail('${c.symbol}','prebreak')">
+      <td class="ticker">${c.symbol}</td>
+      <td><span class="badge-setup ${setup}">${setup}</span></td>
+      <td>${stateBadge(c.signal_state)}</td>
+      <td class="mono green">${fmt(c.explosion_prob, 0)}</td>
+      <td class="mono">$${fmt(c.price)}</td>
+      <td class="mono blue">$${fmt(c.entry)}</td>
+      <td class="mono red">$${fmt(c.stop)}</td>
+      <td class="mono green">$${fmt(c.target1)}</td>
+      <td class="mono green">$${fmt(c.target2)}</td>
+      <td class="mono yellow">${fmt(c.rr, 1)}R</td>
+      <td class="mono ${(c.confidence||0)>=70?'green':(c.confidence||0)>=50?'yellow':'dim'}">${fmt(c.confidence,0)}%</td>
+      <td class="mono ${(c.rel_strength||0) >= 0 ? 'green' : 'red'}">${fmtPct(c.rel_strength || 0)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  Render — Enriched Rows
+// ════════════════════════════════════════════════════════════════════════
+function renderEnriched() {
+  if (!enrichedData) return;
+  const rows = enrichedData.rows || [];
+  $('badge-enriched').textContent = rows.length;
+  const filtered = rows.filter(r => !enSearch || ((r.ticker||r.symbol||'').toLowerCase().includes(enSearch)));
+  $('enriched-tbody').innerHTML = filtered.map(r => `
+    <tr onclick="showDetail('${(r.ticker||r.symbol||'').toUpperCase()}','enriched')">
+      <td class="ticker">${(r.ticker||r.symbol||'').toUpperCase()}</td>
+      <td class="mono">$${fmt(r.price)}</td>
+      <td class="mono ${(r.day_move_pct||0) >= 0 ? 'green' : 'red'}">${fmtPct(r.day_move_pct || 0)}</td>
+      <td class="mono">${fmt(r.relative_volume, 1)}x</td>
+      <td class="mono ${(r.momentum_1m||0) >= 0 ? 'green' : 'red'}">${fmtPct(r.momentum_1m || 0)}</td>
+      <td class="mono ${(r.momentum_5m||0) >= 0 ? 'green' : 'red'}">${fmtPct(r.momentum_5m || 0)}</td>
+      <td class="mono ${(r.vwap_distance_pct||0) >= 0 ? 'green' : 'red'}">${fmtPct(r.vwap_distance_pct || 0)}</td>
+      <td class="mono">${fmt(r.high_of_day_distance_pct, 2)}%</td>
+      <td class="mono">${fmt(r.candle_strength, 2)}</td>
+      <td class="mono dim">${fmt(r.spread_pct, 3)}%</td>
+    </tr>`).join('') || `<tr><td colspan="10" class="empty-state"><h3>No enriched rows</h3></td></tr>`;
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  Render — Performance
+// ════════════════════════════════════════════════════════════════════════
+function renderPerf() {
+  if (!scorecardData || !scorecardData.overall) {
+    $('perf-total').textContent = '0';
+    $('perf-resolved').textContent = '0';
+    $('perf-hit').textContent = '—';
+    return;
+  }
+  const o = scorecardData.overall;
+  $('perf-total').textContent    = scorecardData.total_signals || 0;
+  $('perf-resolved').textContent = scorecardData.resolved_signals || 0;
+  $('perf-hit').textContent      = o.hit_rate !== null ? (o.hit_rate*100).toFixed(0)+'%' : '—';
+  $('perf-gain').textContent     = (o.avg_max_gain||0).toFixed(2) + '%';
+  $('perf-loss').textContent     = (o.avg_max_loss||0).toFixed(2) + '%';
+
+  const et = $('perf-engine-table');
+  et.innerHTML = '<tr><th style="text-align:left">Engine</th><th>n</th><th>Hit</th><th>Avg+</th><th>Avg-</th><th>Wt</th></tr>';
+  const engines = scorecardData.engines || {};
+  Object.entries(engines).sort((a,b) => (b[1].hit_rate||0)-(a[1].hit_rate||0)).forEach(([name, s]) => {
+    const hit = s.hit_rate !== null ? (s.hit_rate*100).toFixed(0)+'%' : '—';
+    const barW = Math.max(2, (s.hit_rate||0)*60);
+    et.innerHTML += `<tr>
+      <td><span class="perf-bar" style="width:${barW}px"></span>${name}</td>
+      <td class="mono dim">${s.samples||0}</td>
+      <td class="mono green">${hit}</td>
+      <td class="mono green">${(s.avg_max_gain||0).toFixed(2)}%</td>
+      <td class="mono red">${(s.avg_max_loss||0).toFixed(2)}%</td>
+      <td class="mono yellow">${s.weight}</td>
+    </tr>`;
+  });
+
+  const ct = $('perf-combo-table');
+  ct.innerHTML = '<tr><th style="text-align:left">Combination</th><th>n</th><th>Hit</th><th>Avg+</th><th>Avg-</th></tr>';
+  const combos = scorecardData.combinations || {};
+  Object.entries(combos).sort((a,b) => (b[1].hit_rate||0)-(a[1].hit_rate||0)).forEach(([name, s]) => {
+    const hit = s.hit_rate !== null ? (s.hit_rate*100).toFixed(0)+'%' : '—';
+    ct.innerHTML += `<tr>
+      <td class="mono">${name}</td>
+      <td class="mono dim">${s.samples||0}</td>
+      <td class="mono green">${hit}</td>
+      <td class="mono green">${(s.avg_max_gain||0).toFixed(2)}%</td>
+      <td class="mono red">${(s.avg_max_loss||0).toFixed(2)}%</td>
+    </tr>`;
+  });
+
+  const bands = scorecardData.score_bands || {};
+  const labels = Object.keys(bands);
+  const data   = labels.map(k => (bands[k].hit_rate || 0) * 100);
+  if (scoreBandChart) scoreBandChart.destroy();
+  scoreBandChart = new Chart($('score-band-chart'), {
+    type: 'bar',
+    data: { labels, datasets: [{ label: 'Hit rate %', data, backgroundColor: '#22d07e', borderRadius: 4 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { min: 0, max: 100, ticks: { color: '#7a8fb0' }, grid: { color: 'rgba(30,45,69,.4)' } },
+        x: { ticks: { color: '#e8eeff' }, grid: { display: false } }
+      }
+    }
+  });
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  Render — Outcomes
+// ════════════════════════════════════════════════════════════════════════
+function renderOutcomes() {
+  if (!outcomesData) return;
+  const recs = outcomesData.records || [];
+  $('badge-outcomes').textContent = recs.length;
+  const filtered = recs.filter(r => {
+    if (outSearch && !(r.ticker||'').toLowerCase().includes(outSearch)) return false;
+    if (outFilter === 'open' && r.outcome_hit_target !== null) return false;
+    if (outFilter === 'hit'  && r.outcome_hit_target !== true) return false;
+    if (outFilter === 'miss' && r.outcome_hit_target !== false) return false;
+    return true;
+  });
+  $('outcomes-tbody').innerHTML = filtered.map((r, i) => {
+    const ts = new Date(r.timestamp).toLocaleString();
+    const out = r.outcome_hit_target === null
+      ? `<button class="btn primary" onclick="markOutcome(event,'${r.ticker}',true)">Hit</button>
+         <button class="btn danger"  onclick="markOutcome(event,'${r.ticker}',false)">Miss</button>`
+      : r.outcome_hit_target
+        ? '<span class="green mono">✓ HIT</span>'
+        : '<span class="red mono">✗ MISS</span>';
+    return `<tr onclick="showDetail('${r.ticker}','outcome')">
+      <td class="mono dim" style="font-size:11px">${ts}</td>
+      <td class="ticker">${r.ticker}</td>
+      <td class="mono">${fmt(r.final_trade_score_v3, 1)}</td>
+      <td class="mono">$${fmt(r.entry_price)}</td>
+      <td class="mono">${r.outcome_price_30m ? '$'+fmt(r.outcome_price_30m) : '—'}</td>
+      <td class="mono">${r.outcome_price_60m ? '$'+fmt(r.outcome_price_60m) : '—'}</td>
+      <td class="mono">${r.outcome_price_eod ? '$'+fmt(r.outcome_price_eod) : '—'}</td>
+      <td class="mono green">${r.outcome_max_pct_gain != null ? '+'+r.outcome_max_pct_gain.toFixed(2)+'%' : '—'}</td>
+      <td class="mono red">${r.outcome_max_pct_loss != null ? r.outcome_max_pct_loss.toFixed(2)+'%' : '—'}</td>
+      <td>${out}</td>
+      <td style="text-align:right">${(r.vote_sources||[]).map(s => `<span class="vote-source">${s}</span>`).join('')}</td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="11" class="empty-state"><h3>No outcomes yet</h3></td></tr>`;
+}
+
+async function markOutcome(e, ticker, hit) {
+  e.stopPropagation();
+  try {
+    const r = await fetch('/api/outcome-mark', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ticker, hit })
+    });
+    if (r.ok) { toast(`${ticker} marked as ${hit ? 'HIT' : 'MISS'}`); pollOutcomes(); pollPerf(); }
+    else { const j = await r.json(); toast('Failed: ' + (j.error || 'unknown'), true); }
+  } catch (err) { toast('Error: ' + err.message, true); }
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  Detail Modal
+// ════════════════════════════════════════════════════════════════════════
+async function showDetail(ticker, source) {
+  let r = null;
+  if (source === 'consensus') r = (consensusData?.consensus_picks || []).find(x => x.ticker === ticker);
+  else if (source === 'prebreak') r = (prebreakData?.candidates || []).find(x => x.symbol === ticker);
+  else if (source === 'enriched') r = (enrichedData?.rows || []).find(x => (x.ticker||x.symbol||'').toUpperCase() === ticker);
+  else if (source === 'outcome')  r = (outcomesData?.records || []).find(x => x.ticker === ticker);
+  if (!r) return;
+
+  $('modal-title').textContent = ticker;
+  const cells = [];
+  const add = (lbl, val, cls='') => cells.push(
+    `<div class="modal-cell"><div class="modal-cell-label">${lbl}</div><div class="modal-cell-value ${cls}">${val}</div></div>`);
+
+  if (source === 'prebreak') {
+    add('Setup', `<span class="badge-setup ${r.setup_type}">${r.setup_type}</span>`);
+    add('Explosion prob', fmt(r.explosion_prob, 0), 'green');
+    add('Coil score', fmt(r.coil_score, 0), 'purple');
+    add('Entry', '$'+fmt(r.entry), 'blue');
+    add('Stop', '$'+fmt(r.stop), 'red');
+    add('Target', '$'+fmt(r.target), 'green');
+  } else if (source === 'consensus') {
+    add('Final score', fmt(r.final_trade_score_v3, 1), 'green');
+    add('Runner', fmt(r.runner_potential_v3, 0));
+    add('Entry quality', fmt(r.entry_quality_v3, 0));
+    add('Danger', fmt(r.danger_score_v3, 0), 'red');
+    add('Price', '$'+fmt(r.price));
+    add('RVOL', fmt(r.relative_volume, 1)+'x');
+  } else if (source === 'outcome') {
+    add('Entry', '$'+fmt(r.entry_price));
+    add('Max gain', r.outcome_max_pct_gain != null ? '+'+r.outcome_max_pct_gain.toFixed(2)+'%' : '—', 'green');
+    add('Max loss', r.outcome_max_pct_loss != null ? r.outcome_max_pct_loss.toFixed(2)+'%' : '—', 'red');
+    add('+30m', r.outcome_price_30m ? '$'+fmt(r.outcome_price_30m) : '—');
+    add('+60m', r.outcome_price_60m ? '$'+fmt(r.outcome_price_60m) : '—');
+    add('EOD', r.outcome_price_eod ? '$'+fmt(r.outcome_price_eod) : '—');
+  } else {
+    add('Price', '$'+fmt(r.price));
+    add('Day %', fmtPct(r.day_move_pct || 0), (r.day_move_pct||0) >= 0 ? 'green' : 'red');
+    add('RVOL', fmt(r.relative_volume, 1)+'x');
+    add('VWAP%', fmtPct(r.vwap_distance_pct || 0), (r.vwap_distance_pct||0) >= 0 ? 'green' : 'red');
+    add('Mom 5m', fmtPct(r.momentum_5m || 0));
+    add('HOD dist', fmt(r.high_of_day_distance_pct, 2)+'%');
+  }
+
+  const reasons = (r.reasons || []).map(x => `<span class="vote-source">${x}</span>`).join(' ');
+  const sources = (r.vote_sources || []).map(s => `<span class="vote-source">${s}</span>`).join(' ');
+
+  // ── Trade plan block (Entry / SL / T1 / T2 + when to enter/sell) ──────
+  let planHtml = '';
+  if (r.entry && r.signal_state) {
+    planHtml = `
+    <div class="modal-section">
+      <h4>Trade Plan ${stateBadge(r.signal_state)}</h4>
+      <div class="plan-grid">
+        <div class="plan-cell"><span>Entry</span><b class="blue">$${fmt(r.entry)}</b></div>
+        <div class="plan-cell"><span>Stop</span><b class="red">$${fmt(r.stop)}</b></div>
+        <div class="plan-cell"><span>Target 1</span><b class="green">$${fmt(r.target1)}</b></div>
+        <div class="plan-cell"><span>Target 2</span><b class="green">$${fmt(r.target2)}</b></div>
+        <div class="plan-cell"><span>R/R</span><b class="yellow">${fmt(r.rr,1)}:1</b></div>
+        <div class="plan-cell"><span>Confidence</span><b>${fmt(r.confidence,0)}%</b></div>
+      </div>
+      <div class="plan-action"><strong>When to enter:</strong> ${r.action || '—'}</div>
+      <div class="plan-action"><strong>When to sell:</strong> ${r.exit_guidance || '—'}</div>
+      ${r.invalidation ? `<div class="plan-action dim"><strong>Invalidation:</strong> ${r.invalidation}</div>` : ''}
+      <button class="btn primary" style="margin-top:10px" onclick="useInCalc(${r.entry}, ${r.stop})">↗ Size this trade</button>
+    </div>`;
+  }
+
+  $('modal-body').innerHTML = `
+    ${planHtml}
+    <div class="modal-grid">${cells.join('')}</div>
+    ${reasons ? `<div class="modal-section"><h4>Reasons</h4>${reasons}</div>` : ''}
+    ${sources ? `<div class="modal-section"><h4>Vote sources</h4>${sources}</div>` : ''}
+    <div class="modal-section">
+      <h4>Notes</h4>
+      <textarea class="notes-area" id="notes-input" placeholder="Add notes for ${ticker}…" data-ticker="${ticker}"></textarea>
+    </div>
+    <div class="action-row">
+      ${source === 'prebreak' ? `<button class="btn primary" onclick="useInCalc(${r.entry}, ${r.stop})">↗ Use in Calculator</button>` : ''}
+      <button class="btn ${watchlist.has(ticker) ? 'danger' : 'primary'}" id="watch-btn" onclick="toggleWatch('${ticker}')">${watchlist.has(ticker) ? '★ Remove from watchlist' : '☆ Add to watchlist'}</button>
+      <button class="btn" onclick="saveNotes('${ticker}')">Save Notes</button>
+      <button class="btn" onclick="window.open('https://www.tradingview.com/chart/?symbol=${ticker}','_blank')">Open in TradingView</button>
+    </div>`;
+  $('modal-overlay').classList.add('open');
+
+  try {
+    const nr = await fetch('/api/notes'); const notes = await nr.json();
+    if (notes[ticker]) $('notes-input').value = notes[ticker].note || '';
+  } catch (e) {}
+}
+
+function closeModal() { $('modal-overlay').classList.remove('open'); }
+
+async function saveNotes(ticker) {
+  const note = $('notes-input').value;
+  try {
+    await fetch('/api/notes', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ ticker, note }) });
+    toast('Notes saved for ' + ticker);
+  } catch (e) { toast('Failed: ' + e.message, true); }
+}
+
+function useInCalc(entry, stop) {
+  $('calc-entry').value = entry; $('calc-stop').value = stop; recalc();
+  $('pop-calc').classList.add('open'); $('fab-calc').classList.add('active');
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  Watchlist
+// ════════════════════════════════════════════════════════════════════════
+async function loadWatchlist() {
+  try {
+    const r = await fetch('/api/watchlist'); const j = await r.json();
+    watchlist = new Set(j.tickers || []); renderWatchlist();
+  } catch (e) {}
+}
+
+function renderWatchlist() {
+  const list = $('watch-list');
+  if (!watchlist.size) {
+    list.innerHTML = '<li class="dim" style="padding:8px">Empty — click ☆ on any ticker to add</li>';
+    return;
+  }
+  list.innerHTML = [...watchlist].sort().map(t => {
+    const pick = (consensusData?.consensus_picks || []).find(p => p.ticker === t);
+    const pb   = (prebreakData?.candidates || []).find(p => p.symbol === t);
+    const en   = (enrichedData?.rows || []).find(p => (p.ticker||p.symbol||'').toUpperCase() === t);
+    const ref  = pick || pb || en;
+    const price = ref ? '$'+fmt(ref.price) : '—';
+    const chg   = ref && ref.day_move_pct != null ? ref.day_move_pct
+                : ref && ref.vwap_distance_pct != null ? ref.vwap_distance_pct : 0;
+    const cls = chg >= 0 ? 'green' : 'red';
+    return `<li class="watch-item">
+      <span><span class="ticker" style="cursor:pointer" onclick="findAndShow('${t}')">${t}</span></span>
+      <span><span class="mono">${price}</span> <span class="mono ${cls}">${fmtPct(chg)}</span>
+      <button onclick="toggleWatch('${t}')">×</button></span>
+    </li>`;
+  }).join('');
+}
+
+function findAndShow(ticker) {
+  if ((consensusData?.consensus_picks || []).some(p => p.ticker === ticker)) return showDetail(ticker, 'consensus');
+  if ((prebreakData?.candidates || []).some(p => p.symbol === ticker)) return showDetail(ticker, 'prebreak');
+  if ((enrichedData?.rows || []).some(p => (p.ticker||p.symbol||'').toUpperCase() === ticker)) return showDetail(ticker, 'enriched');
+  toast(ticker + ' not in any current data');
+}
+
+async function toggleWatch(ticker) {
+  const action = watchlist.has(ticker) ? 'remove' : 'add';
+  try {
+    const r = await fetch('/api/watchlist', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+                                              body: JSON.stringify({ ticker, action }) });
+    const j = await r.json(); watchlist = new Set(j.tickers || []);
+    renderWatchlist();
+    const btn = $('watch-btn');
+    if (btn) {
+      btn.textContent = watchlist.has(ticker) ? '★ Remove from watchlist' : '☆ Add to watchlist';
+      btn.className = 'btn ' + (watchlist.has(ticker) ? 'danger' : 'primary');
+    }
+    toast(`${ticker} ${action === 'add' ? 'added' : 'removed'}`);
+  } catch (e) { toast('Failed: '+e.message, true); }
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  Position size calculator
+// ════════════════════════════════════════════════════════════════════════
+function recalc() {
+  const acct  = parseFloat($('calc-acct').value)  || 0;
+  const risk  = parseFloat($('calc-risk').value)  || 0;
+  const entry = parseFloat($('calc-entry').value) || 0;
+  const stop  = parseFloat($('calc-stop').value)  || 0;
+  if (!acct || !risk || !entry || !stop || entry === stop) {
+    $('calc-shares').textContent = '—'; $('calc-size').textContent = '—'; return;
+  }
+  const riskAmount = acct * (risk/100);
+  const perShare   = Math.abs(entry - stop);
+  const shares     = Math.floor(riskAmount / perShare);
+  const size       = shares * entry;
+  $('calc-shares').textContent = shares.toLocaleString();
+  $('calc-size').textContent   = '$' + size.toFixed(0).toLocaleString();
+}
+['calc-acct','calc-risk','calc-entry','calc-stop'].forEach(id => $(id).addEventListener('input', recalc));
+
+// ════════════════════════════════════════════════════════════════════════
+//  Wiring
+// ════════════════════════════════════════════════════════════════════════
+document.querySelectorAll('[data-pb-filter]').forEach(b => b.addEventListener('click', e => {
+  document.querySelectorAll('[data-pb-filter]').forEach(x => x.classList.remove('active'));
+  e.target.classList.add('active');
+  pbFilter = e.target.dataset.pbFilter; renderPrebreak();
+}));
+document.querySelectorAll('[data-out-filter]').forEach(b => b.addEventListener('click', e => {
+  document.querySelectorAll('[data-out-filter]').forEach(x => x.classList.remove('active'));
+  e.target.classList.add('active');
+  outFilter = e.target.dataset.outFilter; renderOutcomes();
+}));
+$('pb-min-prob').addEventListener('input', e => {
+  pbMinProb = +e.target.value; $('pb-min-prob-val').textContent = pbMinProb; renderPrebreak();
+});
+$('search-cons').addEventListener('input',  e => { consSearch = e.target.value.toLowerCase().trim(); renderConsensus(); });
+$('search-pb').addEventListener('input',    e => { pbSearch   = e.target.value.toLowerCase().trim(); renderPrebreak(); });
+$('search-en').addEventListener('input',    e => { enSearch   = e.target.value.toLowerCase().trim(); renderEnriched(); });
+$('search-out').addEventListener('input',   e => { outSearch  = e.target.value.toLowerCase().trim(); renderOutcomes(); });
+$('watch-add').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.value.trim()) { toggleWatch(e.target.value.trim().toUpperCase()); e.target.value=''; }
+});
+
+document.querySelectorAll('th[data-sort-cons]').forEach(th => th.addEventListener('click', () => {
+  const k = th.dataset.sortCons;
+  if (sortConsKey === k) sortConsDir *= -1; else { sortConsKey = k; sortConsDir = -1; }
+  document.querySelectorAll('th[data-sort-cons]').forEach(x => x.classList.remove('sort-asc','sort-desc'));
+  th.classList.add(sortConsDir > 0 ? 'sort-asc' : 'sort-desc');
+  renderConsensus();
+}));
+document.querySelectorAll('th[data-sort-pb]').forEach(th => th.addEventListener('click', () => {
+  const k = th.dataset.sortPb;
+  if (sortPbKey === k) sortPbDir *= -1; else { sortPbKey = k; sortPbDir = -1; }
+  document.querySelectorAll('th[data-sort-pb]').forEach(x => x.classList.remove('sort-asc','sort-desc'));
+  th.classList.add(sortPbDir > 0 ? 'sort-asc' : 'sort-desc');
+  renderPrebreak();
+}));
+
+$('fab-calc').addEventListener('click', () => {
+  $('pop-calc').classList.toggle('open'); $('fab-calc').classList.toggle('active');
+  $('pop-watch').classList.remove('open'); $('fab-watch').classList.remove('active');
+});
+$('fab-watch').addEventListener('click', () => {
+  $('pop-watch').classList.toggle('open'); $('fab-watch').classList.toggle('active');
+  $('pop-calc').classList.remove('open'); $('fab-calc').classList.remove('active');
+});
+$('notif-toggle').addEventListener('change', e => {
+  if (e.target.checked && Notification.permission !== 'granted') Notification.requestPermission();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.key === 'Escape') closeModal();
+  if (e.key === '1') document.querySelector('[data-tab="consensus"]').click();
+  if (e.key === '2') document.querySelector('[data-tab="prebreak"]').click();
+  if (e.key === '3') document.querySelector('[data-tab="enriched"]').click();
+  if (e.key === '4') document.querySelector('[data-tab="perf"]').click();
+  if (e.key === '5') document.querySelector('[data-tab="outcomes"]').click();
+});
+
+function playBeep() {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = ctx.createOscillator(); const gain = ctx.createGain();
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.frequency.value = 880; osc.type = 'sine';
+  gain.gain.setValueAtTime(0.15, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+  osc.start(); osc.stop(ctx.currentTime + 0.3);
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  Initial load
+// ════════════════════════════════════════════════════════════════════════
+pollConsensus(); pollPrebreak(); loadWatchlist();
+setInterval(pollConsensus, POLL_MS_FAST);
+setInterval(pollPrebreak,  POLL_MS_FAST);
+setInterval(loadWatchlist, POLL_MS_SLOW);
+</script>
+</body>
+</html>

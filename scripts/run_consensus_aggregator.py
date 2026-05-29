@@ -32,6 +32,10 @@ from zoneinfo import ZoneInfo
 JINI_ROOT = Path(__file__).resolve().parent.parent
 E1V32     = JINI_ROOT.parent
 
+# Ensure src/ is importable even without PYTHONPATH=src
+sys.path.insert(0, str(JINI_ROOT / "src"))
+from prediction_engine.trade_plan import build_trade_plan  # noqa: E402
+
 ENGINE_DIRS = {
     "engine2": E1V32 / "engine2",
     "engine3": E1V32 / "engine3",
@@ -93,6 +97,28 @@ def _file_age_sec(path: Path) -> float:
     if not path.exists():
         return float("inf")
     return time.time() - path.stat().st_mtime
+
+
+def _load_prebreakout_levels() -> dict[str, dict]:
+    """Map ticker -> {setup_type, entry, stop, target1, target2} from prebreakout output."""
+    if not PREBREAKOUT_PATH.exists():
+        return {}
+    try:
+        data = json.loads(PREBREAKOUT_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    out = {}
+    for c in data.get("candidates", []):
+        t = _sym(c)
+        if t:
+            out[t] = {
+                "setup_type": c.get("setup_type", "NONE"),
+                "entry":   c.get("entry"),
+                "stop":    c.get("stop"),
+                "target1": c.get("target1"),
+                "target2": c.get("target2"),
+            }
+    return out
 
 
 def _load_engine_weights() -> dict[str, float]:
@@ -366,25 +392,60 @@ def _write_live_picks(
         for ticker, votes in sorted(vote_counts.items(), key=lambda x: (-x[1], x[0]))
     ]
 
+    pb_levels = _load_prebreakout_levels()  # ticker -> {setup,entry,stop,target1,target2}
+
     enriched_picks = []
     for sig in picks:
         ticker  = _sym(sig)
         sources = sorted(n for n, p in engine_picks.items() if ticker in p)
+        price   = float(sig.get("price") or 0)
+
+        # Derive absolute VWAP from price + vwap_distance_pct
+        vwap_dist = float(sig.get("vwap_distance_pct") or 0)
+        vwap_abs  = price / (1 + vwap_dist / 100) if vwap_dist else price
+
+        # Prefer pre-breakout levels if this ticker is also a prebreakout setup
+        pb = pb_levels.get(ticker, {})
+        plan = build_trade_plan(
+            price=price,
+            entry=pb.get("entry"), stop=pb.get("stop"),
+            target1=pb.get("target1"), target2=pb.get("target2"),
+            vwap=vwap_abs, atr=None,
+            setup_type=pb.get("setup_type", "NONE"),
+            score=float(sig.get("final_trade_score_v3", 0)),
+            rvol=float(sig.get("relative_volume", 1) or 1),
+            danger=float(sig.get("danger_score_v3", 0) or 0),
+        )
+
         enriched_picks.append({
             "ticker":                        ticker,
+            "setup_type":                    pb.get("setup_type", "NONE"),
             "final_trade_score_v3":          sig.get("final_trade_score_v3"),
             "final_trade_score_status_v3":   sig.get("final_trade_score_status_v3"),
             "runner_potential_v3":           sig.get("runner_potential_v3"),
             "entry_quality_v3":              sig.get("entry_quality_v3"),
             "danger_score_v3":               sig.get("danger_score_v3"),
-            "price":                         sig.get("price"),
+            "price":                         price,
             "relative_volume":               sig.get("relative_volume"),
             "vwap_distance_pct":             sig.get("vwap_distance_pct"),
             "momentum_1m":                   sig.get("momentum_1m"),
             "candle_strength":               sig.get("candle_strength"),
             "vote_count":                    vote_counts.get(ticker, 0),
             "vote_sources":                  sources,
-            "weighted_score":                round(
+            # ── Trade plan (Entry / SL / T1 / T2 / state / action) ──────────
+            "entry":          plan.entry,
+            "stop":           plan.stop,
+            "target1":        plan.target1,
+            "target2":        plan.target2,
+            "rr":             plan.rr,
+            "rr_t1":          plan.rr_t1,
+            "confidence":     plan.confidence,
+            "signal_state":   plan.state,
+            "action":         plan.action,
+            "entry_zone":     plan.entry_zone,
+            "exit_guidance":  plan.exit_guidance,
+            "invalidation":   plan.invalidation,
+            "weighted_score": round(
                 float(sig.get("final_trade_score_v3", 0))
                 + sum(weights.get(s, 1.0) for s in sources) * 5.0,
                 2,
@@ -405,32 +466,43 @@ def _write_live_picks(
     }
     LIVE_PICKS.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print(f"\n[live]  wrote {LIVE_PICKS}")
+    return enriched_picks
 
 
-def _log_outcomes(signals: list[dict], vote_counts: dict[str, int],
-                  engine_picks: dict[str, set[str]]) -> None:
-    if not signals:
+def _log_outcomes(picks: list[dict]) -> None:
+    """Append enriched picks (with trade plans) to the outcomes log."""
+    if not picks:
         return
     OUTCOMES_LOG.parent.mkdir(parents=True, exist_ok=True)
     now_et = datetime.now(ZoneInfo("America/New_York")).isoformat()
     with OUTCOMES_LOG.open("a", encoding="utf-8") as fh:
-        for sig in signals:
-            ticker = _sym(sig)
-            sources = sorted(n for n, p in engine_picks.items() if ticker in p)
+        for p in picks:
             record = {
                 "timestamp":                   now_et,
-                "ticker":                      ticker,
-                "vote_count":                  vote_counts.get(ticker, 0),
-                "vote_sources":                sources,
-                "final_trade_score_v3":        sig.get("final_trade_score_v3"),
-                "final_trade_score_status_v3": sig.get("final_trade_score_status_v3"),
-                "runner_potential_v3":         sig.get("runner_potential_v3"),
-                "entry_quality_v3":            sig.get("entry_quality_v3"),
-                "danger_score_v3":             sig.get("danger_score_v3"),
-                "entry_price":                 sig.get("price"),
-                "vwap_distance_pct_at_signal": sig.get("vwap_distance_pct"),
-                "relative_volume_at_signal":   sig.get("relative_volume"),
+                "ticker":                      p.get("ticker"),
+                "vote_count":                  p.get("vote_count"),
+                "vote_sources":                p.get("vote_sources"),
+                "setup_type":                  p.get("setup_type"),
+                "signal_state":                p.get("signal_state"),
+                "final_trade_score_v3":        p.get("final_trade_score_v3"),
+                "final_trade_score_status_v3": p.get("final_trade_score_status_v3"),
+                "runner_potential_v3":         p.get("runner_potential_v3"),
+                "entry_quality_v3":            p.get("entry_quality_v3"),
+                "danger_score_v3":             p.get("danger_score_v3"),
+                "confidence":                  p.get("confidence"),
+                # Trade plan as logged at signal time
+                "entry_price":                 p.get("price"),
+                "plan_entry":                  p.get("entry"),
+                "plan_stop":                   p.get("stop"),
+                "plan_target1":                p.get("target1"),
+                "plan_target2":                p.get("target2"),
+                "plan_rr":                     p.get("rr"),
+                "vwap_distance_pct_at_signal": p.get("vwap_distance_pct"),
+                "relative_volume_at_signal":   p.get("relative_volume"),
+                # Outcome fields (filled by run_consensus_outcome_backfill.py)
                 "outcome_hit_target":          None,
+                "outcome_hit_t1":              None,
+                "outcome_hit_t2":              None,
                 "outcome_price_30m":           None,
                 "outcome_price_60m":           None,
                 "outcome_price_eod":           None,
@@ -439,7 +511,7 @@ def _log_outcomes(signals: list[dict], vote_counts: dict[str, int],
                 "outcome_filled_at":           None,
             }
             fh.write(json.dumps(record) + "\n")
-    print(f"[log]   {len(signals)} signal(s) appended → {OUTCOMES_LOG}")
+    print(f"[log]   {len(picks)} signal(s) appended → {OUTCOMES_LOG}")
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -493,32 +565,28 @@ def main() -> None:
     # ── 3. Gate through jini v3 ─────────────────────────────────────────
     buy_signals = _score_with_jini(consensus, args.min_score) if consensus else []
 
-    if buy_signals:
+    # ── 4. Persist outputs (also builds trade plans) ────────────────────
+    enriched = _write_live_picks(buy_signals, vote_counts, engine_picks,
+                                 args.threshold, args.min_score)
+    _log_outcomes(enriched)
+
+    # ── 5. Console report with full trade plan ──────────────────────────
+    if enriched:
         now = datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d %H:%M ET")
-        print(f"\n{'='*60}\nFINAL PICKS ({len(buy_signals)})  —  {now}\n{'='*60}")
-        for sig in buy_signals:
-            ticker = _sym(sig)
-            score  = float(sig.get("final_trade_score_v3", 0))
-            status = sig.get("final_trade_score_status_v3", "")
-            runner = float(sig.get("runner_potential_v3",   0))
-            entry  = float(sig.get("entry_quality_v3",      0))
-            danger = float(sig.get("danger_score_v3",       0))
-            price  = float(sig.get("price",                 0))
-            rvol   = float(sig.get("relative_volume",       0))
-            sources = sorted(n for n, p in engine_picks.items() if ticker in p)
+        print(f"\n{'='*78}\nFINAL PICKS ({len(enriched)})  —  {now}\n{'='*78}")
+        for p in enriched:
             print(
-                f"  {ticker:<8} score={score:5.1f} ({status})  "
-                f"R={runner:4.0f} E={entry:4.0f} D={danger:4.0f}  "
-                f"${price:>6.2f}  rvol={rvol:.1f}x  [{', '.join(sources)}]"
+                f"  {p['ticker']:<6} {p['signal_state']:<14} "
+                f"entry=${p['entry']:<7.2f} SL=${p['stop']:<7.2f} "
+                f"T1=${p['target1']:<7.2f} T2=${p['target2']:<7.2f} "
+                f"{p['rr']:.1f}R  conf={p['confidence']:.0f}%  "
+                f"[{', '.join(p['vote_sources'])}]"
             )
+            print(f"         → {p['action']}")
     elif consensus:
         print("\nNo consensus ticker passed jini's v3 gate.")
     else:
         print(f"\nNo ticker reached the {args.threshold}-vote threshold.")
-
-    # ── 4. Persist outputs ──────────────────────────────────────────────
-    _write_live_picks(buy_signals, vote_counts, engine_picks, args.threshold, args.min_score)
-    _log_outcomes(buy_signals, vote_counts, engine_picks)
 
 
 if __name__ == "__main__":

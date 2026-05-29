@@ -38,6 +38,10 @@ JINI_ROOT  = Path(__file__).resolve().parent.parent
 ET         = ZoneInfo("America/New_York")
 OUTPUT     = JINI_ROOT / "state" / "prebreakout_candidates.json"
 
+# Ensure src/ is importable even without PYTHONPATH=src
+sys.path.insert(0, str(JINI_ROOT / "src"))
+from prediction_engine.trade_plan import build_trade_plan  # noqa: E402
+
 # ── Universe seed: liquid daily movers we want to monitor ─────────────────
 DEFAULT_UNIVERSE = [
     # Mega-cap tech
@@ -180,9 +184,18 @@ class Features:
     # Setup
     setup_type:       str   = "NONE"
     explosion_prob:   float = 0.0
+    # Trade plan (filled by prediction_engine.trade_plan)
     entry:            float = 0.0
     stop:             float = 0.0
-    target:           float = 0.0
+    target1:          float = 0.0
+    target2:          float = 0.0
+    rr:               float = 0.0
+    confidence:       float = 0.0
+    signal_state:     str   = "NONE"   # POTENTIAL/WATCH/TRIGGER_READY/ACTIVE/EXTENDED/...
+    action:           str   = ""       # plain-English what-to-do-now
+    entry_zone:       str   = ""       # ENTER NOW / WAIT / DONE
+    exit_guidance:    str   = ""       # when/how to sell
+    invalidation:     str   = ""
     reasons:          list[str] = field(default_factory=list)
 
 
@@ -488,7 +501,27 @@ def _build_features(symbol: str, intraday: list, daily: list, spy_intraday: list
     # Setup + score
     f.setup_type, f.reasons = _classify_setup(f)
     f.explosion_prob        = _explosion_probability(f)
-    f.entry, f.stop, f.target = _entry_stop_target(f, intraday)
+
+    # Setup-specific raw levels → full trade plan (entry/stop/T1/T2/state/action)
+    raw_entry, raw_stop, raw_t2 = _entry_stop_target(f, intraday)
+    intra_atr = _atr(intraday, 14)
+    plan = build_trade_plan(
+        price=f.price, entry=raw_entry, stop=raw_stop, target2=raw_t2,
+        vwap=f.vwap, atr=intra_atr, day_high=day_hi,
+        setup_type=f.setup_type, score=f.explosion_prob,
+        rvol=f.rvol, danger=0.0,
+    )
+    f.entry         = plan.entry
+    f.stop          = plan.stop
+    f.target1       = plan.target1
+    f.target2       = plan.target2
+    f.rr            = plan.rr
+    f.confidence    = plan.confidence
+    f.signal_state  = plan.state
+    f.action        = plan.action
+    f.entry_zone    = plan.entry_zone
+    f.exit_guidance = plan.exit_guidance
+    f.invalidation  = plan.invalidation
     return f
 
 
@@ -540,18 +573,17 @@ def main() -> None:
     candidates.sort(key=lambda c: c.explosion_prob, reverse=True)
     top = candidates[:args.top_n]
 
-    print(f"\n{'='*60}\nTOP {len(top)} PRE-BREAKOUT CANDIDATES\n{'='*60}")
-    print(f"{'SYM':<6} {'PROB':>5} {'SETUP':<14} {'COIL':>4} {'OBV':>5} "
-          f"{'RS%':>6} {'RVOL':>5} {'PRICE':>7} {'ENTRY':>7} {'STOP':>7} {'TGT':>7}")
-    print("-" * 100)
+    print(f"\n{'='*108}\nTOP {len(top)} PRE-BREAKOUT CANDIDATES\n{'='*108}")
+    print(f"{'SYM':<6} {'PROB':>5} {'SETUP':<14} {'STATE':<14} "
+          f"{'PRICE':>7} {'ENTRY':>7} {'SL':>7} {'T1':>7} {'T2':>7} {'R/R':>5} {'CONF':>5}")
+    print("-" * 108)
     for c in top:
         print(
-            f"{c.symbol:<6} {c.explosion_prob:>5.1f} {c.setup_type:<14} "
-            f"{c.coil_score:>4.0f} {c.obv_slope:>5.2f} {c.rel_strength:>+6.2f} "
-            f"{c.rvol:>5.1f} {c.price:>7.2f} {c.entry:>7.2f} {c.stop:>7.2f} {c.target:>7.2f}"
+            f"{c.symbol:<6} {c.explosion_prob:>5.1f} {c.setup_type:<14} {c.signal_state:<14} "
+            f"{c.price:>7.2f} {c.entry:>7.2f} {c.stop:>7.2f} {c.target1:>7.2f} "
+            f"{c.target2:>7.2f} {c.rr:>4.1f}R {c.confidence:>4.0f}%"
         )
-        if c.reasons:
-            print(f"       reasons: {', '.join(c.reasons)}")
+        print(f"       → {c.action}")
 
     # ── Write structured output ──────────────────────────────────────────
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)

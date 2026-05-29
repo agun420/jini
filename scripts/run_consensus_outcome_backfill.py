@@ -137,13 +137,22 @@ def _process_record(record: dict, client, dry_run: bool) -> tuple[dict, bool]:
         if p is not None:
             record["outcome_price_eod"] = round(p, 4); changed = True
 
-    # Compute max excursion + hit_target once we have a full window
+    # Compute max excursion + hit flags once we have a full window
     if needs_eod or needs_60m:
         gain, loss = _max_excursion(bars, entry)
         if gain is not None:
             record["outcome_max_pct_gain"] = gain
             record["outcome_max_pct_loss"] = loss
             record["outcome_hit_target"]   = gain >= TARGET_GAIN_PCT and loss > -STOP_LOSS_PCT
+
+            # If a trade plan was logged, check whether T1 / T2 were actually reached
+            day_high = max(float(b.high) for b in bars)
+            t1 = record.get("plan_target1")
+            t2 = record.get("plan_target2")
+            if t1:
+                record["outcome_hit_t1"] = day_high >= float(t1)
+            if t2:
+                record["outcome_hit_t2"] = day_high >= float(t2)
             changed = True
 
     if changed and not dry_run:
