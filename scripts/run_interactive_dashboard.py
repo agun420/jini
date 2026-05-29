@@ -21,12 +21,13 @@ import os
 from datetime import datetime, timezone
 from pathlib import Path
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 
 JINI_ROOT  = Path(__file__).resolve().parent.parent
 STATE_DIR  = JINI_ROOT / "state"
 DOCS_DIR   = JINI_ROOT / "docs"
 HTML_FILE  = DOCS_DIR / "interactive.html"
+ENGINE2_DOCS = (JINI_ROOT.parent / "engine2" / "docs").resolve()
 NOTES_PATH      = STATE_DIR / "user_notes.json"
 WATCHLIST_PATH  = STATE_DIR / "user_watchlist.json"
 
@@ -61,6 +62,19 @@ def index():
         return _no_cache(app.make_response(HTML_FILE.read_text(encoding="utf-8")))
     return ("<h1>interactive.html missing</h1>"
             f"<p>Expected at: <code>{HTML_FILE}</code></p>"), 503
+
+
+# ─── Engine2 standalone dashboard (static files under ../engine2/docs) ─────
+@app.route("/engine2/", defaults={"subpath": "index.html"})
+@app.route("/engine2/<path:subpath>")
+def engine2_docs(subpath):
+    if not ENGINE2_DOCS.exists():
+        return (f"<h1>engine2 docs not found</h1><p>Expected at {ENGINE2_DOCS}</p>"), 503
+    resp = send_from_directory(ENGINE2_DOCS, subpath)
+    # signals.json must never be cached so the dashboard shows fresh scans
+    if subpath.endswith(".json"):
+        resp.headers["Cache-Control"] = "no-store, max-age=0"
+    return resp
 
 
 # ─── Read endpoints ──────────────────────────────────────────────────────

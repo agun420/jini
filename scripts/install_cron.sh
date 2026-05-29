@@ -16,6 +16,8 @@ TAG="# jini-scanner"
 crontab -l 2>/dev/null | grep -v "$TAG" > /tmp/cron.new || true
 
 cat >> /tmp/cron.new <<EOF
+$TAG  ── engine2 standalone scanner: every 2 min (FAST_MODE skips the social/NLP hang). Refreshes its own dashboard at /engine2/
+*/2 4-16 * * 1-5  cd /home/ubuntu/engine2 && ENGINE2_FAST_MODE=1 /usr/bin/python3 -m src.scanner >> $LOG/cron_engine2.log 2>&1
 $TAG  ── pre-breakout scanner: every 2 min, pre-market through close (4am-4pm ET = 9-21 UTC roughly; cron is in VM local time)
 */2 4-16 * * 1-5  cd $JINI && $PY scripts/run_prebreakout_scanner.py >> $LOG/cron_prebreakout.log 2>&1
 $TAG  ── consensus aggregator: every 5 min during market hours
