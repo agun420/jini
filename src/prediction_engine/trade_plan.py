@@ -87,12 +87,24 @@ def build_trade_plan(
     rvol: float = 1.0,
     danger: float = 0.0,
     ready_since: Optional[str] = None,
+    horizon: str = "intraday",          # "intraday" or "swing"
+    watch_pct: Optional[float] = None,  # override WATCH distance
+    ready_pct: Optional[float] = None,  # override TRIGGER_READY distance
 ) -> TradePlan:
     """
     Build a complete trade plan. Missing levels are derived from price/vwap/atr.
     All prices in dollars. `score` is final_trade_score_v3 OR explosion_prob (0-100).
+
+    horizon="swing" widens the WATCH/READY entry zones (daily bars move more)
+    unless explicit watch_pct/ready_pct are given.
     """
     price = float(price or 0)
+
+    # Entry-zone widths depend on horizon
+    if ready_pct is None:
+        ready_pct = 1.0 if horizon == "swing" else TRIGGER_READY_PCT
+    if watch_pct is None:
+        watch_pct = 3.0 if horizon == "swing" else WATCH_PCT
 
     # ── Derive entry if absent: break of recent high or current price ──────
     if not entry or entry <= 0:
@@ -121,7 +133,8 @@ def build_trade_plan(
 
     # ── Lifecycle state machine ─────────────────────────────────────────────
     state, action, entry_zone, exit_guidance = _resolve_state(
-        price, entry, stop, target1, target2, risk, ready_since
+        price, entry, stop, target1, target2, risk, ready_since,
+        ready_pct=ready_pct, watch_pct=watch_pct,
     )
 
     invalidation = _invalidation_text(setup_type, stop, vwap)
@@ -138,7 +151,8 @@ def build_trade_plan(
     )
 
 
-def _resolve_state(price, entry, stop, t1, t2, risk, ready_since):
+def _resolve_state(price, entry, stop, t1, t2, risk, ready_since,
+                   ready_pct=TRIGGER_READY_PCT, watch_pct=WATCH_PCT):
     """Return (state, action, entry_zone, exit_guidance) from price vs levels."""
     if price <= stop:
         return ("STOPPED", "EXIT — stop hit, setup invalidated", "DONE",
@@ -167,10 +181,10 @@ def _resolve_state(price, entry, stop, t1, t2, risk, ready_since):
     if stale:
         return ("STALE", "SKIP — signal stale, re-validate before trading", "WAIT",
                 "Setup has aged out. Wait for a fresh trigger.")
-    if dist_pct <= TRIGGER_READY_PCT:
+    if dist_pct <= ready_pct:
         return ("TRIGGER_READY", f"READY — {dist_pct:.2f}% below trigger, stage your order", "WAIT",
                 f"Place buy-stop at ${entry:.2f}. Stop ${stop:.2f}, T1 ${t1:.2f}, T2 ${t2:.2f}.")
-    if dist_pct <= WATCH_PCT:
+    if dist_pct <= watch_pct:
         return ("WATCH", f"WATCH — {dist_pct:.2f}% below trigger, building", "WAIT",
                 f"Not yet actionable. Trigger at ${entry:.2f}.")
     return ("POTENTIAL", f"MONITOR — {dist_pct:.2f}% below trigger, early", "WAIT",

@@ -48,10 +48,17 @@ def _now_utc():
 
 
 # ─── HTML ────────────────────────────────────────────────────────────────
+def _no_cache(response):
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"]        = "no-cache"
+    response.headers["Expires"]       = "0"
+    return response
+
+
 @app.route("/")
 def index():
     if HTML_FILE.exists():
-        return HTML_FILE.read_text(encoding="utf-8")
+        return _no_cache(app.make_response(HTML_FILE.read_text(encoding="utf-8")))
     return ("<h1>interactive.html missing</h1>"
             f"<p>Expected at: <code>{HTML_FILE}</code></p>"), 503
 
@@ -68,6 +75,12 @@ def api_consensus():
 @app.route("/api/prebreakout")
 def api_prebreakout():
     return jsonify(_read_json(STATE_DIR / "prebreakout_candidates.json",
+                              {"candidates": []}))
+
+
+@app.route("/api/swing")
+def api_swing():
+    return jsonify(_read_json(STATE_DIR / "swing_candidates.json",
                               {"candidates": []}))
 
 
@@ -112,6 +125,7 @@ def api_health():
         "files": {
             "consensus_picks_live.json":      fresh(STATE_DIR / "consensus_picks_live.json"),
             "prebreakout_candidates.json":    fresh(STATE_DIR / "prebreakout_candidates.json"),
+            "swing_candidates.json":          fresh(STATE_DIR / "swing_candidates.json"),
             "consensus_outcomes.jsonl":       fresh(STATE_DIR / "consensus_outcomes.jsonl"),
             "consensus_scorecard.json":       fresh(STATE_DIR / "consensus_scorecard.json"),
             "v3_enriched_rows.json":          fresh(STATE_DIR / "prediction_engine" / "v3_enriched_rows.json"),

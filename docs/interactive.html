@@ -27,6 +27,15 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .logo span{color:var(--muted);font-weight:400}
 .header-right{display:flex;align-items:center;gap:14px}
 #last-update{font-size:11px;color:var(--muted);font-family:var(--mono)}
+#clock{font-size:13px;color:var(--text);font-weight:700;letter-spacing:.02em}
+#market-status.open{color:var(--green);border-color:var(--green-bd);background:var(--green-soft)}
+#market-status.closed{color:var(--dim);border-color:var(--border)}
+#market-status.pre{color:var(--yellow);border-color:var(--yellow-bd);background:var(--yellow-soft)}
+#freshness-bar{display:flex;gap:1px;background:var(--border);border-bottom:1px solid var(--border);flex-wrap:wrap}
+.fresh-cell{flex:1;min-width:120px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 14px;background:var(--surface)}
+.fresh-name{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fresh-age{font-size:11px;font-family:var(--mono);font-weight:700}
+.fresh-age.ok{color:var(--green)} .fresh-age.warn{color:var(--yellow)} .fresh-age.stale{color:var(--red)} .fresh-age.none{color:var(--dim)}
 .pill{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:99px;border:1px solid var(--border)}
 .pill.live{color:var(--green);border-color:var(--green-bd);background:var(--green-soft)}
 .pill.live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s ease-in-out infinite}
@@ -98,6 +107,10 @@ tr.signal-gap td:first-child{border-left:3px solid var(--blue)}
 .badge-setup.BULL_FLAG{background:var(--green-soft);color:var(--green);border:1px solid var(--green-bd)}
 .badge-setup.LATE_DAY_MOMO{background:var(--orange-soft);color:var(--orange);border:1px solid var(--orange-bd)}
 .badge-setup.NONE{background:rgba(74,90,120,.15);color:var(--dim)}
+.badge-setup.BREAKOUT{background:var(--green-soft);color:var(--green);border:1px solid var(--green-bd)}
+.badge-setup.FLAT_BASE{background:var(--blue-soft);color:var(--blue);border:1px solid var(--blue-bd)}
+.badge-setup.PULLBACK_50MA{background:var(--yellow-soft);color:var(--yellow);border:1px solid var(--yellow-bd)}
+.badge-setup.EARLY_STAGE2{background:var(--purple-soft);color:var(--purple);border:1px solid var(--purple-bd)}
 .state-badge{display:inline-block;padding:2px 9px;border-radius:4px;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-family:var(--mono);white-space:nowrap}
 .state-badge.st-active{background:var(--green-soft);color:var(--green);border:1px solid var(--green-bd);animation:pulse 1.6s ease-in-out infinite}
 .state-badge.st-ready{background:var(--yellow-soft);color:var(--yellow);border:1px solid var(--yellow-bd)}
@@ -184,15 +197,19 @@ tr.signal-gap td:first-child{border-left:3px solid var(--blue)}
 <header>
   <div class="logo">JINI V3 // <span>INTERACTIVE</span></div>
   <div class="header-right">
-    <span id="last-update">—</span>
+    <span id="market-status" class="pill">—</span>
+    <span id="clock" class="mono">—</span>
     <span class="pill" id="conn-pill">CONNECTING</span>
   </div>
 </header>
 
+<div id="freshness-bar"></div>
+
 <nav class="tabs">
-  <button class="tab active" data-tab="consensus">Consensus <span class="badge" id="badge-consensus">0</span></button>
+  <button class="tab active" data-tab="consensus">Intraday <span class="badge" id="badge-consensus">0</span></button>
+  <button class="tab" data-tab="swing">Swing <span class="badge" id="badge-swing">0</span></button>
   <button class="tab" data-tab="prebreak">Pre-Breakout <span class="badge" id="badge-prebreak">0</span></button>
-  <button class="tab" data-tab="enriched">Enriched Rows <span class="badge" id="badge-enriched">0</span></button>
+  <button class="tab" data-tab="enriched">Enriched <span class="badge" id="badge-enriched">0</span></button>
   <button class="tab" data-tab="perf">Performance</button>
   <button class="tab" data-tab="outcomes">Outcomes <span class="badge" id="badge-outcomes">0</span></button>
 </nav>
@@ -231,6 +248,47 @@ tr.signal-gap td:first-child{border-left:3px solid var(--blue)}
         <th data-sort-cons="vote_count">Votes</th>
       </tr></thead>
       <tbody id="consensus-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ── Swing Panel ── -->
+<div class="panel" id="panel-swing">
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-label">Candidates</div><div class="stat-value green" id="stat-sw-count">0</div></div>
+    <div class="stat"><div class="stat-label">Breakouts</div><div class="stat-value" id="stat-sw-breakout">0</div></div>
+    <div class="stat"><div class="stat-label">Flat bases</div><div class="stat-value blue" id="stat-sw-base">0</div></div>
+    <div class="stat"><div class="stat-label">Pullbacks</div><div class="stat-value yellow" id="stat-sw-pullback">0</div></div>
+  </div>
+  <div class="toolbar">
+    <span class="toolbar-label">Setup</span>
+    <button class="chip active" data-sw-filter="all">All</button>
+    <button class="chip" data-sw-filter="BREAKOUT">Breakout</button>
+    <button class="chip" data-sw-filter="FLAT_BASE">Flat Base</button>
+    <button class="chip" data-sw-filter="PULLBACK_50MA">Pullback 50MA</button>
+    <button class="chip" data-sw-filter="EARLY_STAGE2">Early Stage-2</button>
+    <span class="toolbar-label" style="margin-left:14px">Min quality</span>
+    <input type="range" id="sw-min-q" min="0" max="100" value="55">
+    <span class="val" id="sw-min-q-val">55</span>
+    <input type="text" id="search-sw" placeholder="Search…">
+  </div>
+  <div class="table-wrap">
+    <table id="swing-table">
+      <thead><tr>
+        <th data-sort-sw="symbol">Ticker</th>
+        <th data-sort-sw="setup_type">Setup</th>
+        <th data-sort-sw="signal_state">State</th>
+        <th data-sort-sw="quality_score" class="sort-desc">Quality</th>
+        <th data-sort-sw="rs_3m">RS 3m</th>
+        <th data-sort-sw="pct_from_52w_high">52wH</th>
+        <th data-sort-sw="price">Price</th>
+        <th data-sort-sw="entry">Entry</th>
+        <th data-sort-sw="stop">SL</th>
+        <th data-sort-sw="target1">T1</th>
+        <th data-sort-sw="target2">T2</th>
+        <th data-sort-sw="rr">R/R</th>
+      </tr></thead>
+      <tbody id="swing-tbody"></tbody>
     </table>
   </div>
 </div>
@@ -394,12 +452,13 @@ tr.signal-gap td:first-child{border-left:3px solid var(--blue)}
 const POLL_MS_FAST = 5000;
 const POLL_MS_SLOW = 20000;
 let consensusData = null, prebreakData = null, scorecardData = null,
-    outcomesData  = null, enrichedData = null;
+    outcomesData  = null, enrichedData = null, swingData = null;
 let sortConsKey = 'weighted_score', sortConsDir = -1;
 let sortPbKey   = 'explosion_prob', sortPbDir   = -1;
-let pbFilter = 'all', outFilter = 'all';
-let pbMinProb = 60;
-let consSearch = '', pbSearch = '', enSearch = '', outSearch = '';
+let sortSwKey   = 'quality_score',  sortSwDir   = -1;
+let pbFilter = 'all', outFilter = 'all', swFilter = 'all';
+let pbMinProb = 60, swMinQ = 55;
+let consSearch = '', pbSearch = '', enSearch = '', outSearch = '', swSearch = '';
 let lastConsensusTickers = new Set();
 let lastAlertTime = 0;
 let scoreBandChart = null;
@@ -447,8 +506,54 @@ document.querySelectorAll('.tab').forEach(tab => {
     if (tab.dataset.tab === 'perf')     pollPerf();
     if (tab.dataset.tab === 'outcomes') pollOutcomes();
     if (tab.dataset.tab === 'enriched') pollEnriched();
+    if (tab.dataset.tab === 'swing')    pollSwing();
   });
 });
+
+// ════════════════════════════════════════════════════════════════════════
+//  Live ET clock + market status + feed freshness
+// ════════════════════════════════════════════════════════════════════════
+function nowET() {
+  return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
+}
+function tickClock() {
+  const et = nowET();
+  $('clock').textContent = et.toLocaleTimeString('en-US', { hour12: false }) + ' ET';
+  const day = et.getDay(), mins = et.getHours() * 60 + et.getMinutes();
+  const el = $('market-status');
+  if (day === 0 || day === 6) { el.textContent = 'CLOSED'; el.className = 'pill closed'; }
+  else if (mins >= 570 && mins < 960) { el.textContent = 'MARKET OPEN'; el.className = 'pill open'; }
+  else if (mins >= 240 && mins < 570) { el.textContent = 'PRE-MARKET'; el.className = 'pill pre'; }
+  else if (mins >= 960 && mins < 1200) { el.textContent = 'AFTER HOURS'; el.className = 'pill pre'; }
+  else { el.textContent = 'CLOSED'; el.className = 'pill closed'; }
+}
+setInterval(tickClock, 1000); tickClock();
+
+const FRESH_LABELS = {
+  'consensus_picks_live.json': 'Intraday',
+  'swing_candidates.json':     'Swing',
+  'prebreakout_candidates.json':'Pre-Breakout',
+  'v3_enriched_rows.json':     'Enriched',
+  'consensus_outcomes.jsonl':  'Outcomes',
+};
+function fmtAge(sec) {
+  if (sec === null || sec === undefined) return ['no data', 'none'];
+  if (sec < 90)   return [Math.round(sec) + 's ago', 'ok'];
+  if (sec < 3600) return [Math.round(sec/60) + 'm ago', sec < 900 ? 'ok' : 'warn'];
+  if (sec < 86400) return [Math.round(sec/3600) + 'h ago', 'stale'];
+  return [Math.round(sec/86400) + 'd ago', 'stale'];
+}
+async function pollFreshness() {
+  try {
+    const r = await fetch('/api/health'); const j = await r.json();
+    const files = j.files || {};
+    $('freshness-bar').innerHTML = Object.entries(FRESH_LABELS).map(([file, name]) => {
+      const [txt, cls] = fmtAge(files[file]);
+      return `<div class="fresh-cell"><span class="fresh-name">${name}</span><span class="fresh-age ${cls}">${txt}</span></div>`;
+    }).join('');
+  } catch (e) {}
+}
+setInterval(pollFreshness, 10000); pollFreshness();
 
 // ════════════════════════════════════════════════════════════════════════
 //  Polling
@@ -459,8 +564,6 @@ async function pollConsensus() {
     if (!r.ok) throw new Error('http ' + r.status);
     consensusData = await r.json();
     $('conn-pill').className = 'pill live'; $('conn-pill').textContent = 'LIVE';
-    $('last-update').textContent = consensusData.generated_at
-      ? new Date(consensusData.generated_at).toLocaleTimeString() : '—';
     renderConsensus();
   } catch (e) {
     $('conn-pill').className = 'pill error'; $('conn-pill').textContent = 'OFFLINE';
@@ -472,6 +575,14 @@ async function pollPrebreak() {
     const r = await fetch('/api/prebreakout');
     prebreakData = await r.json();
     renderPrebreak();
+  } catch (e) {}
+}
+
+async function pollSwing() {
+  try {
+    const r = await fetch('/api/swing');
+    swingData = await r.json();
+    renderSwing();
   } catch (e) {}
 }
 
@@ -621,6 +732,57 @@ function renderPrebreak() {
 }
 
 // ════════════════════════════════════════════════════════════════════════
+//  Render — Swing
+// ════════════════════════════════════════════════════════════════════════
+function renderSwing() {
+  if (!swingData) return;
+  const all = swingData.candidates || [];
+  $('badge-swing').textContent     = all.length;
+  $('stat-sw-count').textContent   = all.length;
+  $('stat-sw-breakout').textContent = all.filter(c => c.setup_type === 'BREAKOUT').length;
+  $('stat-sw-base').textContent    = all.filter(c => c.setup_type === 'FLAT_BASE').length;
+  $('stat-sw-pullback').textContent = all.filter(c => c.setup_type === 'PULLBACK_50MA').length;
+
+  const sorted = [...all].sort((a, b) => {
+    const av = a[sortSwKey], bv = b[sortSwKey];
+    if (typeof av === 'string') return sortSwDir * (av||'').localeCompare(bv||'');
+    return sortSwDir * ((bv||0) - (av||0));
+  });
+  const filtered = sorted.filter(c => {
+    if (swFilter !== 'all' && c.setup_type !== swFilter) return false;
+    if ((c.quality_score || 0) < swMinQ) return false;
+    if (swSearch && !(c.symbol||'').toLowerCase().includes(swSearch)) return false;
+    return true;
+  });
+
+  const tb = $('swing-tbody');
+  if (!filtered.length) {
+    tb.innerHTML = `<tr><td colspan="12" class="empty-state">
+      <h3>No swing candidates</h3>
+      Run <code>PYTHONPATH=src python3 scripts/run_swing_scanner.py</code> (uses daily bars, runs anytime)
+    </td></tr>`;
+    return;
+  }
+  tb.innerHTML = filtered.map(c => {
+    const setup = c.setup_type || 'NONE';
+    return `<tr class="signal-strong" onclick="showDetail('${c.symbol}','swing')">
+      <td class="ticker">${c.symbol}</td>
+      <td><span class="badge-setup ${setup}">${setup.replace('_',' ')}</span></td>
+      <td>${stateBadge(c.signal_state)}</td>
+      <td class="mono green">${fmt(c.quality_score, 0)}</td>
+      <td class="mono ${(c.rs_3m||0) >= 0 ? 'green' : 'red'}">${fmtPct(c.rs_3m || 0)}</td>
+      <td class="mono ${(c.pct_from_52w_high||0) >= -8 ? 'green' : 'dim'}">${fmt(c.pct_from_52w_high, 1)}%</td>
+      <td class="mono">$${fmt(c.price)}</td>
+      <td class="mono blue">$${fmt(c.entry)}</td>
+      <td class="mono red">$${fmt(c.stop)}</td>
+      <td class="mono green">$${fmt(c.target1)}</td>
+      <td class="mono green">$${fmt(c.target2)}</td>
+      <td class="mono yellow">${fmt(c.rr, 1)}R</td>
+    </tr>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════════════════════════════════════
 //  Render — Enriched Rows
 // ════════════════════════════════════════════════════════════════════════
 function renderEnriched() {
@@ -765,6 +927,7 @@ async function showDetail(ticker, source) {
   let r = null;
   if (source === 'consensus') r = (consensusData?.consensus_picks || []).find(x => x.ticker === ticker);
   else if (source === 'prebreak') r = (prebreakData?.candidates || []).find(x => x.symbol === ticker);
+  else if (source === 'swing')    r = (swingData?.candidates || []).find(x => x.symbol === ticker);
   else if (source === 'enriched') r = (enrichedData?.rows || []).find(x => (x.ticker||x.symbol||'').toUpperCase() === ticker);
   else if (source === 'outcome')  r = (outcomesData?.records || []).find(x => x.ticker === ticker);
   if (!r) return;
@@ -780,7 +943,14 @@ async function showDetail(ticker, source) {
     add('Coil score', fmt(r.coil_score, 0), 'purple');
     add('Entry', '$'+fmt(r.entry), 'blue');
     add('Stop', '$'+fmt(r.stop), 'red');
-    add('Target', '$'+fmt(r.target), 'green');
+    add('Target', '$'+fmt(r.target1), 'green');
+  } else if (source === 'swing') {
+    add('Setup', `<span class="badge-setup ${r.setup_type}">${(r.setup_type||'').replace('_',' ')}</span>`);
+    add('Quality', fmt(r.quality_score, 0), 'green');
+    add('RS 3-month', fmtPct(r.rs_3m || 0), (r.rs_3m||0) >= 0 ? 'green' : 'red');
+    add('From 52w high', fmt(r.pct_from_52w_high, 1)+'%');
+    add('Above 52w low', '+'+fmt(r.pct_above_52w_low, 0)+'%', 'green');
+    add('50/150/200 SMA', `${fmt(r.sma50,0)}/${fmt(r.sma150,0)}/${fmt(r.sma200,0)}`);
   } else if (source === 'consensus') {
     add('Final score', fmt(r.final_trade_score_v3, 1), 'green');
     add('Runner', fmt(r.runner_potential_v3, 0));
@@ -956,11 +1126,20 @@ document.querySelectorAll('[data-out-filter]').forEach(b => b.addEventListener('
   e.target.classList.add('active');
   outFilter = e.target.dataset.outFilter; renderOutcomes();
 }));
+document.querySelectorAll('[data-sw-filter]').forEach(b => b.addEventListener('click', e => {
+  document.querySelectorAll('[data-sw-filter]').forEach(x => x.classList.remove('active'));
+  e.target.classList.add('active');
+  swFilter = e.target.dataset.swFilter; renderSwing();
+}));
 $('pb-min-prob').addEventListener('input', e => {
   pbMinProb = +e.target.value; $('pb-min-prob-val').textContent = pbMinProb; renderPrebreak();
 });
+$('sw-min-q').addEventListener('input', e => {
+  swMinQ = +e.target.value; $('sw-min-q-val').textContent = swMinQ; renderSwing();
+});
 $('search-cons').addEventListener('input',  e => { consSearch = e.target.value.toLowerCase().trim(); renderConsensus(); });
 $('search-pb').addEventListener('input',    e => { pbSearch   = e.target.value.toLowerCase().trim(); renderPrebreak(); });
+$('search-sw').addEventListener('input',    e => { swSearch   = e.target.value.toLowerCase().trim(); renderSwing(); });
 $('search-en').addEventListener('input',    e => { enSearch   = e.target.value.toLowerCase().trim(); renderEnriched(); });
 $('search-out').addEventListener('input',   e => { outSearch  = e.target.value.toLowerCase().trim(); renderOutcomes(); });
 $('watch-add').addEventListener('keydown', e => {
@@ -981,6 +1160,13 @@ document.querySelectorAll('th[data-sort-pb]').forEach(th => th.addEventListener(
   th.classList.add(sortPbDir > 0 ? 'sort-asc' : 'sort-desc');
   renderPrebreak();
 }));
+document.querySelectorAll('th[data-sort-sw]').forEach(th => th.addEventListener('click', () => {
+  const k = th.dataset.sortSw;
+  if (sortSwKey === k) sortSwDir *= -1; else { sortSwKey = k; sortSwDir = -1; }
+  document.querySelectorAll('th[data-sort-sw]').forEach(x => x.classList.remove('sort-asc','sort-desc'));
+  th.classList.add(sortSwDir > 0 ? 'sort-asc' : 'sort-desc');
+  renderSwing();
+}));
 
 $('fab-calc').addEventListener('click', () => {
   $('pop-calc').classList.toggle('open'); $('fab-calc').classList.toggle('active');
@@ -998,10 +1184,11 @@ document.addEventListener('keydown', e => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
   if (e.key === 'Escape') closeModal();
   if (e.key === '1') document.querySelector('[data-tab="consensus"]').click();
-  if (e.key === '2') document.querySelector('[data-tab="prebreak"]').click();
-  if (e.key === '3') document.querySelector('[data-tab="enriched"]').click();
-  if (e.key === '4') document.querySelector('[data-tab="perf"]').click();
-  if (e.key === '5') document.querySelector('[data-tab="outcomes"]').click();
+  if (e.key === '2') document.querySelector('[data-tab="swing"]').click();
+  if (e.key === '3') document.querySelector('[data-tab="prebreak"]').click();
+  if (e.key === '4') document.querySelector('[data-tab="enriched"]').click();
+  if (e.key === '5') document.querySelector('[data-tab="perf"]').click();
+  if (e.key === '6') document.querySelector('[data-tab="outcomes"]').click();
 });
 
 function playBeep() {
@@ -1017,9 +1204,10 @@ function playBeep() {
 // ════════════════════════════════════════════════════════════════════════
 //  Initial load
 // ════════════════════════════════════════════════════════════════════════
-pollConsensus(); pollPrebreak(); loadWatchlist();
+pollConsensus(); pollPrebreak(); pollSwing(); loadWatchlist();
 setInterval(pollConsensus, POLL_MS_FAST);
 setInterval(pollPrebreak,  POLL_MS_FAST);
+setInterval(pollSwing,     POLL_MS_SLOW);
 setInterval(loadWatchlist, POLL_MS_SLOW);
 </script>
 </body>
