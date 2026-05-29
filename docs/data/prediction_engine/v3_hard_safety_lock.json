@@ -1,14 +1,19 @@
 {
   "schema_version": "v3_hard_safety_lock_v2",
-  "generated_at": "2026-05-29T06:25:16.261886+00:00",
+  "generated_at": "2026-05-29T06:39:40.811376+00:00",
   "health": {
     "schema_version": "v3_hard_safety_lock_health_v2",
-    "generated_at": "2026-05-29T06:25:16.261886+00:00",
-    "status": "PASS",
-    "blockers": [],
+    "generated_at": "2026-05-29T06:39:40.811376+00:00",
+    "status": "FAIL",
+    "blockers": [
+      "package_100_fail",
+      "morning_fail",
+      "tomorrow_pack_fail",
+      "package_100_not_pass"
+    ],
     "warnings": [],
-    "safe_for_research": true,
-    "safe_for_paper_plan_only": true,
+    "safe_for_research": false,
+    "safe_for_paper_plan_only": false,
     "safe_for_paper_submission": false,
     "safe_for_live_trading": false,
     "env_live_trading": null,
@@ -29,37 +34,46 @@
     "package_100": {
       "path": "docs/data/prediction_engine/v3_package_100_validation_health.json",
       "exists": true,
-      "status": "PASS",
+      "status": "FAIL",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": null,
       "paper_trade_ready": false,
-      "blockers": []
+      "blockers": [
+        "enrichment_fail",
+        "market_regime_fail",
+        "prebreakout_fail"
+      ]
     },
     "morning": {
       "path": "docs/data/prediction_engine/v3_morning_readiness_report_health.json",
       "exists": true,
-      "status": "WARN",
+      "status": "FAIL",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
       "paper_trade_ready": false,
-      "blockers": []
+      "blockers": [
+        "package_100_not_passing"
+      ]
     },
     "tomorrow_pack": {
       "path": "docs/data/prediction_engine/v3_tomorrow_morning_command_pack_health.json",
       "exists": true,
-      "status": "WARN",
+      "status": "FAIL",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
       "paper_trade_ready": false,
-      "blockers": []
+      "blockers": [
+        "script_failed_scripts_run_v3_package_100_validation.py",
+        "package_100_not_pass"
+      ]
     },
     "paper_plan": {
       "path": "docs/data/prediction_engine/v3_paper_order_plan_health.json",
       "exists": true,
-      "status": "PASS",
+      "status": "WARN",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
@@ -79,7 +93,7 @@
     "daily_report": {
       "path": "docs/data/prediction_engine/v3_daily_research_report_health.json",
       "exists": true,
-      "status": "PASS",
+      "status": "WARN",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": null,
@@ -99,8 +113,8 @@
   },
   "decision": {
     "run_mode": "RESEARCH_ONLY_AND_PAPER_PLAN_ONLY",
-    "safe_for_research": true,
-    "safe_for_paper_plan_only": true,
+    "safe_for_research": false,
+    "safe_for_paper_plan_only": false,
     "safe_for_paper_submission": false,
     "safe_for_live_trading": false,
     "reason": "Hard safety lock keeps all submissions disabled until multi-day validation is complete."
