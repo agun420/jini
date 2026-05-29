@@ -1,21 +1,21 @@
 {
   "schema_version": "v3_package_111_operator_decision_v1",
-  "generated_at": "2026-05-29T13:50:29.324439+00:00",
+  "generated_at": "2026-05-29T14:06:47.971289+00:00",
   "health": {
     "schema_version": "v3_package_111_operator_decision_health_v1",
-    "generated_at": "2026-05-29T13:50:29.324439+00:00",
+    "generated_at": "2026-05-29T14:06:47.971289+00:00",
     "status": "PASS",
     "blockers": [],
     "warnings": [],
-    "final_mode": "SAFETY_FAIL",
-    "primary_operator_layer": "NONE",
+    "final_mode": "PRE_BREAKOUT_PRIMARY",
+    "primary_operator_layer": "PRE_BREAKOUT",
     "eod_winning_layer": "PRE_BREAKOUT",
-    "safety_pass": false,
+    "safety_pass": true,
     "data_feed_fail": false,
     "pre_candidates": 0,
     "plan_count": 0,
-    "phase_verdict_count": 0,
-    "pkg100_score": 88,
+    "phase_verdict_count": 1,
+    "pkg100_score": 92,
     "order_submission": false,
     "live_trading": false,
     "paper_trade_ready": false,
@@ -32,48 +32,48 @@
     "prebreakout_target_hit_rate_pct": 43.83,
     "reactive_closed": 130,
     "reactive_target_hit_rate_pct": 36.15,
-    "market_regime": "RISK_OFF",
-    "market_regime_score": 37.4816
+    "market_regime": "NEUTRAL",
+    "market_regime_score": 44.0429
   },
   "prebreakout_snapshot": {
-    "rows_enriched": 60,
+    "rows_enriched": 55,
     "prebreakout_candidates": 0,
     "total_candidates": 0,
-    "top_ticker": "GE",
-    "top_score": 54.3432,
-    "top_status": "BLOCKED"
+    "top_ticker": "ENVX",
+    "top_score": 59.4,
+    "top_status": "WATCH"
   },
   "reactive_snapshot": {
     "candidates": 0,
-    "top_ticker": "PLTR"
+    "top_ticker": "HOOD"
   },
   "runner_gate_snapshot": {
     "runner_watch_count": 0,
     "winning_layer": "PRE_BREAKOUT"
   },
   "supporting_inputs": {
-    "phase_gate_status": "FAIL",
-    "phase_gate_verdict_count": 0,
-    "phase_gate_top_ticker": null,
+    "phase_gate_status": "PASS",
+    "phase_gate_verdict_count": 1,
+    "phase_gate_top_ticker": "HOOD",
     "phase_gate_role": "supporting_input_only",
-    "package_100_score": 88,
-    "package_100_status": "FAIL",
+    "package_100_score": 92,
+    "package_100_status": "PASS",
     "paper_plan_count": 0,
-    "hard_safety_lock_status": "FAIL",
-    "hard_safety_lock_safe_for_research": false,
+    "hard_safety_lock_status": "PASS",
+    "hard_safety_lock_safe_for_research": true,
     "data_feed_quality_status": "PASS"
   },
   "operator_decision": {
-    "final_mode": "SAFETY_FAIL",
-    "mode_message": "Hard safety lock is not PASS. Research halted.",
-    "primary_operator_layer": "NONE",
-    "secondary_operator_layer": "NONE",
+    "final_mode": "PRE_BREAKOUT_PRIMARY",
+    "mode_message": "EOD validates Pre-Breakout as primary operator layer.",
+    "primary_operator_layer": "PRE_BREAKOUT",
+    "secondary_operator_layer": "REACTIVE",
     "eod_winner": "PRE_BREAKOUT",
     "eod_promotion_decision": "PREBREAKOUT_LEADS_KEEP_REACTIVE_SECONDARY",
     "phase_gate_role": "supporting_input_only",
     "data_feed_warning": false,
-    "safe_to_run_research": false,
-    "next_action": "Fix all hard_safety_lock blockers first. Run master-paid-alpaca-pipeline workflow to refresh health files."
+    "safe_to_run_research": true,
+    "next_action": "Pre-Breakout is the primary research view. Top candidate: ENVX. No order submission. Review plan manually before any paper activation."
   },
   "safety": {
     "research_only": true,

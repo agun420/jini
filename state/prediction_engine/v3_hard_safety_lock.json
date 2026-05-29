@@ -1,19 +1,14 @@
 {
   "schema_version": "v3_hard_safety_lock_v2",
-  "generated_at": "2026-05-29T13:50:29.075125+00:00",
+  "generated_at": "2026-05-29T14:06:47.668496+00:00",
   "health": {
     "schema_version": "v3_hard_safety_lock_health_v2",
-    "generated_at": "2026-05-29T13:50:29.075125+00:00",
-    "status": "FAIL",
-    "blockers": [
-      "package_100_fail",
-      "morning_fail",
-      "tomorrow_pack_fail",
-      "package_100_not_pass"
-    ],
+    "generated_at": "2026-05-29T14:06:47.668496+00:00",
+    "status": "PASS",
+    "blockers": [],
     "warnings": [],
-    "safe_for_research": false,
-    "safe_for_paper_plan_only": false,
+    "safe_for_research": true,
+    "safe_for_paper_plan_only": true,
     "safe_for_paper_submission": false,
     "safe_for_live_trading": false,
     "env_live_trading": null,
@@ -34,7 +29,7 @@
     "package_100": {
       "path": "docs/data/prediction_engine/v3_package_100_validation_health.json",
       "exists": true,
-      "status": "FAIL",
+      "status": "PASS",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": null,
@@ -44,32 +39,27 @@
     "morning": {
       "path": "docs/data/prediction_engine/v3_morning_readiness_report_health.json",
       "exists": true,
-      "status": "FAIL",
+      "status": "PASS",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
       "paper_trade_ready": false,
-      "blockers": [
-        "package_100_not_passing"
-      ]
+      "blockers": []
     },
     "tomorrow_pack": {
       "path": "docs/data/prediction_engine/v3_tomorrow_morning_command_pack_health.json",
       "exists": true,
-      "status": "FAIL",
+      "status": "PASS",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
       "paper_trade_ready": false,
-      "blockers": [
-        "script_failed_scripts_run_v3_package_100_validation.py",
-        "package_100_not_pass"
-      ]
+      "blockers": []
     },
     "paper_plan": {
       "path": "docs/data/prediction_engine/v3_paper_order_plan_health.json",
       "exists": true,
-      "status": "WARN",
+      "status": "PASS",
       "order_submission": false,
       "live_trading": false,
       "paper_order_allowed": false,
@@ -109,8 +99,8 @@
   },
   "decision": {
     "run_mode": "RESEARCH_ONLY_AND_PAPER_PLAN_ONLY",
-    "safe_for_research": false,
-    "safe_for_paper_plan_only": false,
+    "safe_for_research": true,
+    "safe_for_paper_plan_only": true,
     "safe_for_paper_submission": false,
     "safe_for_live_trading": false,
     "reason": "Hard safety lock keeps all submissions disabled until multi-day validation is complete."
