@@ -1,9 +1,9 @@
 {
   "schema_version": "v3_loss_learning_runner_gate_v1",
-  "generated_at": "2026-05-29T11:49:41.689944+00:00",
+  "generated_at": "2026-05-29T12:04:45.689451+00:00",
   "health": {
     "schema_version": "v3_loss_learning_runner_gate_health_v1",
-    "generated_at": "2026-05-29T11:49:41.689944+00:00",
+    "generated_at": "2026-05-29T12:04:45.689451+00:00",
     "status": "WARN",
     "blockers": [],
     "warnings": [
@@ -13,7 +13,7 @@
     "winning_layer": "PRE_BREAKOUT",
     "promotion_decision": "PREBREAKOUT_LEADS_KEEP_REACTIVE_SECONDARY",
     "ticker_memory_count": 47,
-    "cooldown_active_count": 36,
+    "cooldown_active_count": 37,
     "runner_watch_count": 0,
     "blocked_runner_count": 47,
     "top_runner_ticker": null,
@@ -26,6 +26,21 @@
     "live_trading": false
   },
   "ticker_memory": {
+    "SOUN": {
+      "ticker": "SOUN",
+      "closed_count": 2,
+      "target_hits": 1,
+      "stop_hits": 0,
+      "time_exits": 1,
+      "failed_alerts": 0,
+      "avg_return_pct": 1.2539,
+      "total_return_pct": 2.5078,
+      "last_reason": "TARGET_HIT",
+      "last_closed_at": "2026-05-29T11:55:37.200909+00:00",
+      "last_return_pct": 2.049,
+      "last_layer": "REACTIVE",
+      "last_score": 77.6331
+    },
     "HIMS": {
       "ticker": "HIMS",
       "closed_count": 10,
@@ -55,21 +70,6 @@
       "last_return_pct": 3.2423,
       "last_layer": "REACTIVE",
       "last_score": 65.0363
-    },
-    "SOUN": {
-      "ticker": "SOUN",
-      "closed_count": 1,
-      "target_hits": 0,
-      "stop_hits": 0,
-      "time_exits": 1,
-      "failed_alerts": 0,
-      "avg_return_pct": 0.4588,
-      "total_return_pct": 0.4588,
-      "last_reason": "TIME_EXIT",
-      "last_closed_at": "2026-05-29T11:11:12.780326+00:00",
-      "last_return_pct": 0.4588,
-      "last_layer": "REACTIVE",
-      "last_score": 64.4238
     },
     "OPEN": {
       "ticker": "OPEN",
@@ -734,21 +734,38 @@
   },
   "cooldowns": [
     {
-      "ticker": "SOUN",
-      "cooldown_active": false,
-      "cooldown_reason": null,
-      "cooldown_minutes_left": 0.0,
+      "ticker": "OPEN",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
       "late_day": false,
       "very_late_day": false,
       "last_reason": "TIME_EXIT",
-      "last_closed_at": "2026-05-29T11:11:12.780326+00:00",
-      "last_return_pct": 0.4588,
-      "closed_count": 1,
-      "target_hits": 0,
+      "last_closed_at": "2026-05-29T10:56:32.293756+00:00",
+      "last_return_pct": -0.0098,
+      "closed_count": 4,
+      "target_hits": 1,
+      "stop_hits": 1,
+      "time_exits": 2,
+      "failed_alerts": 2,
+      "avg_return_pct": 0.1783
+    },
+    {
+      "ticker": "SOUN",
+      "cooldown_active": true,
+      "cooldown_reason": "post_target_cooldown",
+      "cooldown_minutes_left": 35.86,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "TARGET_HIT",
+      "last_closed_at": "2026-05-29T11:55:37.200909+00:00",
+      "last_return_pct": 2.049,
+      "closed_count": 2,
+      "target_hits": 1,
       "stop_hits": 0,
       "time_exits": 1,
       "failed_alerts": 0,
-      "avg_return_pct": 0.4588
+      "avg_return_pct": 1.2539
     },
     {
       "ticker": "HIMS",
@@ -783,23 +800,6 @@
       "time_exits": 1,
       "failed_alerts": 2,
       "avg_return_pct": 0.4403
-    },
-    {
-      "ticker": "OPEN",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": false,
-      "very_late_day": false,
-      "last_reason": "TIME_EXIT",
-      "last_closed_at": "2026-05-29T10:56:32.293756+00:00",
-      "last_return_pct": -0.0098,
-      "closed_count": 4,
-      "target_hits": 1,
-      "stop_hits": 1,
-      "time_exits": 2,
-      "failed_alerts": 2,
-      "avg_return_pct": 0.1783
     },
     {
       "ticker": "AI",
@@ -1535,6 +1535,40 @@
   ],
   "active_cooldowns": [
     {
+      "ticker": "OPEN",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "TIME_EXIT",
+      "last_closed_at": "2026-05-29T10:56:32.293756+00:00",
+      "last_return_pct": -0.0098,
+      "closed_count": 4,
+      "target_hits": 1,
+      "stop_hits": 1,
+      "time_exits": 2,
+      "failed_alerts": 2,
+      "avg_return_pct": 0.1783
+    },
+    {
+      "ticker": "SOUN",
+      "cooldown_active": true,
+      "cooldown_reason": "post_target_cooldown",
+      "cooldown_minutes_left": 35.86,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "TARGET_HIT",
+      "last_closed_at": "2026-05-29T11:55:37.200909+00:00",
+      "last_return_pct": 2.049,
+      "closed_count": 2,
+      "target_hits": 1,
+      "stop_hits": 0,
+      "time_exits": 1,
+      "failed_alerts": 0,
+      "avg_return_pct": 1.2539
+    },
+    {
       "ticker": "HIMS",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
@@ -1567,23 +1601,6 @@
       "time_exits": 1,
       "failed_alerts": 2,
       "avg_return_pct": 0.4403
-    },
-    {
-      "ticker": "OPEN",
-      "cooldown_active": true,
-      "cooldown_reason": "two_failed_alerts_today",
-      "cooldown_minutes_left": 999.0,
-      "late_day": false,
-      "very_late_day": false,
-      "last_reason": "TIME_EXIT",
-      "last_closed_at": "2026-05-29T10:56:32.293756+00:00",
-      "last_return_pct": -0.0098,
-      "closed_count": 4,
-      "target_hits": 1,
-      "stop_hits": 1,
-      "time_exits": 2,
-      "failed_alerts": 2,
-      "avg_return_pct": 0.1783
     },
     {
       "ticker": "AI",
@@ -2149,22 +2166,53 @@
   ],
   "runner_candidates": [
     {
+      "ticker": "OPEN",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "two_failed_alerts_today",
+        "prebreakout_not_ready"
+      ],
+      "warnings": [],
+      "price": 5.09,
+      "day_move_pct": 7.1579,
+      "relative_volume": 2.8454,
+      "expected_value_pct": 0.3222,
+      "edge_score": 79.9044,
+      "base_target_price": 5.1358,
+      "base_stop_price": 5.0595,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 3.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
       "ticker": "SOUN",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
-        "prebreakout_not_ready"
+        "post_target_cooldown",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
       ],
-      "warnings": [],
-      "price": 8.8,
-      "day_move_pct": 8.9109,
-      "relative_volume": 1.6636,
-      "expected_value_pct": 0.2097,
-      "edge_score": 71.7527,
-      "base_target_price": 8.8792,
-      "base_stop_price": 8.7472,
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
       "runner_first_target_pct": 0.8,
-      "runner_target_pct": 3.0,
+      "runner_target_pct": 5.0,
       "runner_max_target_pct": 10.0,
       "breakeven_after_first_target": true,
       "order_submission": false,
@@ -2202,36 +2250,6 @@
     },
     {
       "ticker": "SOFI",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "OPEN",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
@@ -3544,22 +3562,53 @@
   "runner_watch": [],
   "blocked_runner_candidates": [
     {
+      "ticker": "OPEN",
+      "runner_watch": false,
+      "runner_status": "NO RUNNER",
+      "blockers": [
+        "two_failed_alerts_today",
+        "prebreakout_not_ready"
+      ],
+      "warnings": [],
+      "price": 5.09,
+      "day_move_pct": 7.1579,
+      "relative_volume": 2.8454,
+      "expected_value_pct": 0.3222,
+      "edge_score": 79.9044,
+      "base_target_price": 5.1358,
+      "base_stop_price": 5.0595,
+      "runner_first_target_pct": 0.8,
+      "runner_target_pct": 3.0,
+      "runner_max_target_pct": 10.0,
+      "breakeven_after_first_target": true,
+      "order_submission": false,
+      "live_trading": false
+    },
+    {
       "ticker": "SOUN",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
-        "prebreakout_not_ready"
+        "post_target_cooldown",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
       ],
-      "warnings": [],
-      "price": 8.8,
-      "day_move_pct": 8.9109,
-      "relative_volume": 1.6636,
-      "expected_value_pct": 0.2097,
-      "edge_score": 71.7527,
-      "base_target_price": 8.8792,
-      "base_stop_price": 8.7472,
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
       "runner_first_target_pct": 0.8,
-      "runner_target_pct": 3.0,
+      "runner_target_pct": 5.0,
       "runner_max_target_pct": 10.0,
       "breakeven_after_first_target": true,
       "order_submission": false,
@@ -3597,36 +3646,6 @@
     },
     {
       "ticker": "SOFI",
-      "runner_watch": false,
-      "runner_status": "NO RUNNER",
-      "blockers": [
-        "two_failed_alerts_today",
-        "prebreakout_not_ready",
-        "math_edge_not_positive",
-        "expected_value_too_low",
-        "missing_price"
-      ],
-      "warnings": [
-        "edge_score_below_elite",
-        "rvol_below_runner_preference",
-        "base_target_not_above_price"
-      ],
-      "price": 0.0,
-      "day_move_pct": 0.0,
-      "relative_volume": 0.0,
-      "expected_value_pct": 0.0,
-      "edge_score": 0.0,
-      "base_target_price": null,
-      "base_stop_price": null,
-      "runner_first_target_pct": 0.8,
-      "runner_target_pct": 5.0,
-      "runner_max_target_pct": 10.0,
-      "breakeven_after_first_target": true,
-      "order_submission": false,
-      "live_trading": false
-    },
-    {
-      "ticker": "OPEN",
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
