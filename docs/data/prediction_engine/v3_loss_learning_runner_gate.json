@@ -1,19 +1,20 @@
 {
   "schema_version": "v3_loss_learning_runner_gate_v1",
-  "generated_at": "2026-05-29T14:06:48.187187+00:00",
+  "generated_at": "2026-05-29T14:22:33.878851+00:00",
   "health": {
     "schema_version": "v3_loss_learning_runner_gate_health_v1",
-    "generated_at": "2026-05-29T14:06:48.187187+00:00",
+    "generated_at": "2026-05-29T14:22:33.878851+00:00",
     "status": "WARN",
     "blockers": [],
     "warnings": [
+      "safety_not_pass_runner_gate_review_only",
       "no_runner_watch_candidates"
     ],
-    "market_regime": "NEUTRAL",
+    "market_regime": "RISK_OFF",
     "winning_layer": "PRE_BREAKOUT",
     "promotion_decision": "PREBREAKOUT_LEADS_KEEP_REACTIVE_SECONDARY",
     "ticker_memory_count": 47,
-    "cooldown_active_count": 35,
+    "cooldown_active_count": 36,
     "runner_watch_count": 0,
     "blocked_runner_count": 47,
     "top_runner_ticker": null,
@@ -26,6 +27,21 @@
     "live_trading": false
   },
   "ticker_memory": {
+    "HOOD": {
+      "ticker": "HOOD",
+      "closed_count": 3,
+      "target_hits": 1,
+      "stop_hits": 1,
+      "time_exits": 1,
+      "failed_alerts": 2,
+      "avg_return_pct": -0.4690666666666667,
+      "total_return_pct": -1.4072,
+      "last_reason": "STOP_HIT",
+      "last_closed_at": "2026-05-29T14:12:48.258166+00:00",
+      "last_return_pct": -2.1616,
+      "last_layer": "REACTIVE",
+      "last_score": 73.427
+    },
     "AI": {
       "ticker": "AI",
       "closed_count": 8,
@@ -671,21 +687,6 @@
       "last_layer": "REACTIVE",
       "last_score": 62.9917
     },
-    "HOOD": {
-      "ticker": "HOOD",
-      "closed_count": 2,
-      "target_hits": 1,
-      "stop_hits": 0,
-      "time_exits": 1,
-      "failed_alerts": 1,
-      "avg_return_pct": 0.3772,
-      "total_return_pct": 0.7544,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-21T17:19:39.974194+00:00",
-      "last_return_pct": 1.073,
-      "last_layer": "PRE_BREAKOUT",
-      "last_score": 84.1425
-    },
     "OXY": {
       "ticker": "OXY",
       "closed_count": 2,
@@ -735,20 +736,20 @@
   "cooldowns": [
     {
       "ticker": "HOOD",
-      "cooldown_active": false,
-      "cooldown_reason": null,
-      "cooldown_minutes_left": 0.0,
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
       "late_day": false,
       "very_late_day": false,
-      "last_reason": "TARGET_HIT",
-      "last_closed_at": "2026-05-21T17:19:39.974194+00:00",
-      "last_return_pct": 1.073,
-      "closed_count": 2,
+      "last_reason": "STOP_HIT",
+      "last_closed_at": "2026-05-29T14:12:48.258166+00:00",
+      "last_return_pct": -2.1616,
+      "closed_count": 3,
       "target_hits": 1,
-      "stop_hits": 0,
+      "stop_hits": 1,
       "time_exits": 1,
-      "failed_alerts": 1,
-      "avg_return_pct": 0.3772
+      "failed_alerts": 2,
+      "avg_return_pct": -0.4691
     },
     {
       "ticker": "AI",
@@ -1535,6 +1536,23 @@
   ],
   "active_cooldowns": [
     {
+      "ticker": "HOOD",
+      "cooldown_active": true,
+      "cooldown_reason": "two_failed_alerts_today",
+      "cooldown_minutes_left": 999.0,
+      "late_day": false,
+      "very_late_day": false,
+      "last_reason": "STOP_HIT",
+      "last_closed_at": "2026-05-29T14:12:48.258166+00:00",
+      "last_return_pct": -2.1616,
+      "closed_count": 3,
+      "target_hits": 1,
+      "stop_hits": 1,
+      "time_exits": 1,
+      "failed_alerts": 2,
+      "avg_return_pct": -0.4691
+    },
+    {
       "ticker": "AI",
       "cooldown_active": true,
       "cooldown_reason": "two_failed_alerts_today",
@@ -2136,16 +2154,26 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
-        "prebreakout_not_ready"
+        "safety_not_pass",
+        "risk_off_market",
+        "two_failed_alerts_today",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
       ],
-      "warnings": [],
-      "price": 88.36,
-      "day_move_pct": 4.149,
-      "relative_volume": 4.7036,
-      "expected_value_pct": 0.3663,
-      "edge_score": 83.7116,
-      "base_target_price": 89.1552,
-      "base_stop_price": 87.8298,
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
       "runner_first_target_pct": 0.8,
       "runner_target_pct": 5.0,
       "runner_max_target_pct": 10.0,
@@ -2158,6 +2186,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2188,6 +2218,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2218,6 +2250,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2248,6 +2282,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2278,6 +2314,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2308,6 +2346,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2338,6 +2378,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2368,6 +2410,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2398,6 +2442,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2428,6 +2474,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2458,6 +2506,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -2487,6 +2537,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -2516,6 +2568,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2546,6 +2600,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2576,6 +2632,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -2605,6 +2663,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -2634,6 +2694,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2664,6 +2726,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2694,6 +2758,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2724,6 +2790,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2754,6 +2822,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2784,6 +2854,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2814,6 +2886,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2844,6 +2918,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2874,6 +2950,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2904,6 +2982,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2934,6 +3014,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -2964,6 +3046,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -2993,6 +3077,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -3022,6 +3108,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3052,6 +3140,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3082,6 +3172,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "post_stop_lockout",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3112,6 +3204,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -3141,6 +3235,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -3170,6 +3266,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "post_stop_lockout",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3200,6 +3298,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -3229,6 +3329,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -3258,6 +3360,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3288,6 +3392,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3318,6 +3424,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3348,6 +3456,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3378,6 +3488,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3408,6 +3520,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3438,6 +3552,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "post_stop_lockout",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3468,6 +3584,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -3497,6 +3615,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3530,16 +3650,26 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
-        "prebreakout_not_ready"
+        "safety_not_pass",
+        "risk_off_market",
+        "two_failed_alerts_today",
+        "prebreakout_not_ready",
+        "math_edge_not_positive",
+        "expected_value_too_low",
+        "missing_price"
       ],
-      "warnings": [],
-      "price": 88.36,
-      "day_move_pct": 4.149,
-      "relative_volume": 4.7036,
-      "expected_value_pct": 0.3663,
-      "edge_score": 83.7116,
-      "base_target_price": 89.1552,
-      "base_stop_price": 87.8298,
+      "warnings": [
+        "edge_score_below_elite",
+        "rvol_below_runner_preference",
+        "base_target_not_above_price"
+      ],
+      "price": 0.0,
+      "day_move_pct": 0.0,
+      "relative_volume": 0.0,
+      "expected_value_pct": 0.0,
+      "edge_score": 0.0,
+      "base_target_price": null,
+      "base_stop_price": null,
       "runner_first_target_pct": 0.8,
       "runner_target_pct": 5.0,
       "runner_max_target_pct": 10.0,
@@ -3552,6 +3682,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3582,6 +3714,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3612,6 +3746,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3642,6 +3778,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3672,6 +3810,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3702,6 +3842,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3732,6 +3874,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3762,6 +3906,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3792,6 +3938,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3822,6 +3970,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3852,6 +4002,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -3881,6 +4033,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -3910,6 +4064,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3940,6 +4096,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -3970,6 +4128,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -3999,6 +4159,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -4028,6 +4190,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4058,6 +4222,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4088,6 +4254,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4118,6 +4286,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4148,6 +4318,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4178,6 +4350,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4208,6 +4382,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4238,6 +4414,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4268,6 +4446,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4298,6 +4478,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4328,6 +4510,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4358,6 +4542,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -4387,6 +4573,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -4416,6 +4604,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4446,6 +4636,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4476,6 +4668,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "post_stop_lockout",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4506,6 +4700,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -4535,6 +4731,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -4564,6 +4762,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "post_stop_lockout",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4594,6 +4794,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -4623,6 +4825,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -4652,6 +4856,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4682,6 +4888,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4712,6 +4920,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4742,6 +4952,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4772,6 +4984,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4802,6 +5016,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4832,6 +5048,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "post_stop_lockout",
         "prebreakout_not_ready",
         "math_edge_not_positive",
@@ -4862,6 +5080,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "prebreakout_not_ready",
         "math_edge_not_positive",
         "expected_value_too_low",
@@ -4891,6 +5111,8 @@
       "runner_watch": false,
       "runner_status": "NO RUNNER",
       "blockers": [
+        "safety_not_pass",
+        "risk_off_market",
         "two_failed_alerts_today",
         "prebreakout_not_ready",
         "math_edge_not_positive",
