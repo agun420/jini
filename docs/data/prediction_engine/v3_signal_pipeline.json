@@ -1,9 +1,9 @@
 {
   "schema_version": "v3_signal_pipeline_v1",
-  "generated_at": "2026-05-30T09:01:13.567006+00:00",
+  "generated_at": "2026-05-30T09:16:23.691335+00:00",
   "health": {
     "schema_version": "v3_signal_pipeline_health_v1",
-    "generated_at": "2026-05-30T09:01:13.567006+00:00",
+    "generated_at": "2026-05-30T09:16:23.691335+00:00",
     "status": "WARN",
     "blockers": [],
     "warnings": [
@@ -34,74 +34,74 @@
   "run_results": [
     {
       "script": "scripts/run_alpaca_v3_market_enrichment.py",
-      "started_at": "2026-05-30T09:01:13.567038+00:00",
-      "finished_at": "2026-05-30T09:01:15.876170+00:00",
+      "started_at": "2026-05-30T09:16:23.691363+00:00",
+      "finished_at": "2026-05-30T09:16:26.019314+00:00",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "{\n  \"schema_version\": \"v3_enriched_rows_health_v3\",\n  \"generated_at\": \"2026-05-30T09:01:13.668707+00:00\",\n  \"status\": \"FAIL\",\n  \"seed_mode\": \"paid_primary\",\n  \"blockers\": [\n    \"no_seed_symbols_available\"\n  ],\n  \"warnings\": [\n    \"no_rows_with_day_move\",\n    \"no_rows_with_spread\",\n    \"no_rows_with_quote_age\"\n  ],\n  \"rows\": 0,\n  \"rows_with_price\": 0,\n  \"rows_with_day_move\": 0,\n  \"rows_with_non_default_rvol\": 0,\n  \"rows_with_spread\": 0,\n  \"rows_with_quote_age\": 0,\n  \"top_ticker\": null,\n  \"top_day_move\": null,\n  \"top_rvol\": null,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"v3_enriched_rows_health_v3\",\n  \"generated_at\": \"2026-05-30T09:16:23.781704+00:00\",\n  \"status\": \"FAIL\",\n  \"seed_mode\": \"paid_primary\",\n  \"blockers\": [\n    \"no_seed_symbols_available\"\n  ],\n  \"warnings\": [\n    \"no_rows_with_day_move\",\n    \"no_rows_with_spread\",\n    \"no_rows_with_quote_age\"\n  ],\n  \"rows\": 0,\n  \"rows_with_price\": 0,\n  \"rows_with_day_move\": 0,\n  \"rows_with_non_default_rvol\": 0,\n  \"rows_with_spread\": 0,\n  \"rows_with_quote_age\": 0,\n  \"top_ticker\": null,\n  \"top_day_move\": null,\n  \"top_rvol\": null,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
       "stderr_tail": ""
     },
     {
       "script": "scripts/run_top_gainer_opportunity_scanner.py",
-      "started_at": "2026-05-30T09:01:15.876197+00:00",
-      "finished_at": "2026-05-30T09:01:16.060212+00:00",
+      "started_at": "2026-05-30T09:16:26.019338+00:00",
+      "finished_at": "2026-05-30T09:16:26.160832+00:00",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "{\n  \"schema_version\": \"opportunities_health_v1\",\n  \"generated_at\": \"2026-05-30T09:01:15.983073+00:00\",\n  \"status\": \"PASS\",\n  \"blockers\": [],\n  \"warnings\": [],\n  \"source\": \"buy_order_alert_mode\",\n  \"rows_in\": 52,\n  \"opportunities_out\": 52,\n  \"opportunity_candidates\": 27,\n  \"blocked_by_scanner\": 25,\n  \"top_ticker\": \"GE\",\n  \"top_score\": 15.0,\n  \"order_submission\": false,\n  \"live_trading\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"opportunities_health_v1\",\n  \"generated_at\": \"2026-05-30T09:16:26.090719+00:00\",\n  \"status\": \"PASS\",\n  \"blockers\": [],\n  \"warnings\": [],\n  \"source\": \"buy_order_alert_mode\",\n  \"rows_in\": 52,\n  \"opportunities_out\": 52,\n  \"opportunity_candidates\": 27,\n  \"blocked_by_scanner\": 25,\n  \"top_ticker\": \"GE\",\n  \"top_score\": 15.0,\n  \"order_submission\": false,\n  \"live_trading\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false\n}\n",
       "stderr_tail": ""
     },
     {
       "script": "scripts/run_feature_builder_snapshot.py",
-      "started_at": "2026-05-30T09:01:16.060237+00:00",
-      "finished_at": "2026-05-30T09:01:16.165165+00:00",
+      "started_at": "2026-05-30T09:16:26.160859+00:00",
+      "finished_at": "2026-05-30T09:16:26.275132+00:00",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "{\n  \"schema_version\": \"features_snapshot_health_v1\",\n  \"generated_at\": \"2026-05-30T09:01:16.103012+00:00\",\n  \"status\": \"WARN\",\n  \"blockers\": [],\n  \"warnings\": [\n    \"some_feature_rows_missing_spread\",\n    \"some_feature_rows_unknown_source\"\n  ],\n  \"source\": \"opportunities\",\n  \"rows_in\": 52,\n  \"features_out\": 52,\n  \"feature_quality_pass\": 52,\n  \"feature_quality_fail\": 0,\n  \"spread_missing_rows\": 52,\n  \"source_unknown_rows\": 52,\n  \"top_ticker\": \"GE\",\n  \"order_submission\": false,\n  \"live_trading\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"features_snapshot_health_v1\",\n  \"generated_at\": \"2026-05-30T09:16:26.202905+00:00\",\n  \"status\": \"WARN\",\n  \"blockers\": [],\n  \"warnings\": [\n    \"some_feature_rows_missing_spread\",\n    \"some_feature_rows_unknown_source\"\n  ],\n  \"source\": \"opportunities\",\n  \"rows_in\": 52,\n  \"features_out\": 52,\n  \"feature_quality_pass\": 52,\n  \"feature_quality_fail\": 0,\n  \"spread_missing_rows\": 52,\n  \"source_unknown_rows\": 52,\n  \"top_ticker\": \"GE\",\n  \"order_submission\": false,\n  \"live_trading\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false\n}\n",
       "stderr_tail": ""
     },
     {
       "script": "scripts/run_runner_potential_v3.py",
-      "started_at": "2026-05-30T09:01:16.165191+00:00",
-      "finished_at": "2026-05-30T09:01:16.286816+00:00",
+      "started_at": "2026-05-30T09:16:26.275158+00:00",
+      "finished_at": "2026-05-30T09:16:26.388260+00:00",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "{\n  \"schema_version\": \"runner_potential_v3_health_v1\",\n  \"generated_at\": \"2026-05-30T09:01:16.258579+00:00\",\n  \"status\": \"WARN\",\n  \"blockers\": [],\n  \"warnings\": [\n    \"no_runner_strong_rows_currently\"\n  ],\n  \"source\": \"features_snapshot\",\n  \"rows_in\": 52,\n  \"rows_out\": 52,\n  \"runner_strong\": 0,\n  \"runner_watch\": 0,\n  \"runner_weak\": 52,\n  \"runner_blocked\": 0,\n  \"top_ticker\": \"GE\",\n  \"top_runner_potential_v3\": 33.5,\n  \"order_submission\": false,\n  \"live_trading\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"runner_potential_v3_health_v1\",\n  \"generated_at\": \"2026-05-30T09:16:26.367057+00:00\",\n  \"status\": \"WARN\",\n  \"blockers\": [],\n  \"warnings\": [\n    \"no_runner_strong_rows_currently\"\n  ],\n  \"source\": \"features_snapshot\",\n  \"rows_in\": 52,\n  \"rows_out\": 52,\n  \"runner_strong\": 0,\n  \"runner_watch\": 0,\n  \"runner_weak\": 52,\n  \"runner_blocked\": 0,\n  \"top_ticker\": \"GE\",\n  \"top_runner_potential_v3\": 33.5,\n  \"order_submission\": false,\n  \"live_trading\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false\n}\n",
       "stderr_tail": ""
     },
     {
       "script": "scripts/run_entry_quality_v3.py",
-      "started_at": "2026-05-30T09:01:16.286840+00:00",
-      "finished_at": "2026-05-30T09:01:16.405528+00:00",
+      "started_at": "2026-05-30T09:16:26.388284+00:00",
+      "finished_at": "2026-05-30T09:16:26.561090+00:00",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "{\n  \"schema_version\": \"entry_quality_v3_health_v1\",\n  \"generated_at\": \"2026-05-30T09:01:16.374731+00:00\",\n  \"status\": \"WARN\",\n  \"blockers\": [],\n  \"warnings\": [\n    \"no_entry_clean_rows_currently\"\n  ],\n  \"source\": \"runner_potential_v3\",\n  \"rows_in\": 52,\n  \"rows_out\": 52,\n  \"entry_clean\": 0,\n  \"entry_wait\": 0,\n  \"entry_weak\": 52,\n  \"entry_blocked\": 0,\n  \"top_ticker\": \"GE\",\n  \"top_entry_quality_v3\": 57.0,\n  \"order_submission\": false,\n  \"live_trading\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"entry_quality_v3_health_v1\",\n  \"generated_at\": \"2026-05-30T09:16:26.484268+00:00\",\n  \"status\": \"WARN\",\n  \"blockers\": [],\n  \"warnings\": [\n    \"no_entry_clean_rows_currently\"\n  ],\n  \"source\": \"runner_potential_v3\",\n  \"rows_in\": 52,\n  \"rows_out\": 52,\n  \"entry_clean\": 0,\n  \"entry_wait\": 0,\n  \"entry_weak\": 52,\n  \"entry_blocked\": 0,\n  \"top_ticker\": \"GE\",\n  \"top_entry_quality_v3\": 57.0,\n  \"order_submission\": false,\n  \"live_trading\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false\n}\n",
       "stderr_tail": ""
     },
     {
       "script": "scripts/run_danger_score_v3.py",
-      "started_at": "2026-05-30T09:01:16.405555+00:00",
-      "finished_at": "2026-05-30T09:01:16.578203+00:00",
+      "started_at": "2026-05-30T09:16:26.561117+00:00",
+      "finished_at": "2026-05-30T09:16:26.686262+00:00",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "{\n  \"schema_version\": \"danger_score_v3_health_v1\",\n  \"generated_at\": \"2026-05-30T09:01:16.500675+00:00\",\n  \"status\": \"WARN\",\n  \"blockers\": [],\n  \"warnings\": [\n    \"no_low_danger_rows_currently\"\n  ],\n  \"source\": \"entry_quality_v3\",\n  \"rows_in\": 52,\n  \"rows_out\": 52,\n  \"danger_low\": 0,\n  \"danger_medium\": 51,\n  \"danger_high\": 1,\n  \"danger_blocked\": 0,\n  \"lowest_danger_ticker\": \"GE\",\n  \"lowest_danger_score_v3\": 44.0,\n  \"order_submission\": false,\n  \"live_trading\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"danger_score_v3_health_v1\",\n  \"generated_at\": \"2026-05-30T09:16:26.655108+00:00\",\n  \"status\": \"WARN\",\n  \"blockers\": [],\n  \"warnings\": [\n    \"no_low_danger_rows_currently\"\n  ],\n  \"source\": \"entry_quality_v3\",\n  \"rows_in\": 52,\n  \"rows_out\": 52,\n  \"danger_low\": 0,\n  \"danger_medium\": 51,\n  \"danger_high\": 1,\n  \"danger_blocked\": 0,\n  \"lowest_danger_ticker\": \"GE\",\n  \"lowest_danger_score_v3\": 44.0,\n  \"order_submission\": false,\n  \"live_trading\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false\n}\n",
       "stderr_tail": ""
     },
     {
       "script": "scripts/run_final_trade_score_v3.py",
-      "started_at": "2026-05-30T09:01:16.578228+00:00",
-      "finished_at": "2026-05-30T09:01:16.760187+00:00",
+      "started_at": "2026-05-30T09:16:26.686287+00:00",
+      "finished_at": "2026-05-30T09:16:26.866259+00:00",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "{\n  \"schema_version\": \"final_trade_score_v3_health_v1\",\n  \"generated_at\": \"2026-05-30T09:01:16.672060+00:00\",\n  \"status\": \"WARN\",\n  \"blockers\": [],\n  \"warnings\": [\n    \"no_strong_buy_alert_ready_rows_currently\"\n  ],\n  \"source\": \"danger_score_v3\",\n  \"rows_in\": 52,\n  \"rows_out\": 52,\n  \"buy_alert_ready_strong\": 0,\n  \"buy_alert_watch\": 0,\n  \"track_only\": 0,\n  \"no_edge\": 52,\n  \"final_blocked\": 0,\n  \"top_ticker\": \"GE\",\n  \"top_final_trade_score_v3\": 24.235,\n  \"trade_eligibility_enabled\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"final_trade_score_v3_health_v1\",\n  \"generated_at\": \"2026-05-30T09:16:26.783632+00:00\",\n  \"status\": \"WARN\",\n  \"blockers\": [],\n  \"warnings\": [\n    \"no_strong_buy_alert_ready_rows_currently\"\n  ],\n  \"source\": \"danger_score_v3\",\n  \"rows_in\": 52,\n  \"rows_out\": 52,\n  \"buy_alert_ready_strong\": 0,\n  \"buy_alert_watch\": 0,\n  \"track_only\": 0,\n  \"no_edge\": 52,\n  \"final_blocked\": 0,\n  \"top_ticker\": \"GE\",\n  \"top_final_trade_score_v3\": 24.235,\n  \"trade_eligibility_enabled\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
       "stderr_tail": ""
     },
     {
       "script": "scripts/run_strict_trade_gate_v3.py",
-      "started_at": "2026-05-30T09:01:16.760213+00:00",
-      "finished_at": "2026-05-30T09:01:16.961291+00:00",
+      "started_at": "2026-05-30T09:16:26.866286+00:00",
+      "finished_at": "2026-05-30T09:16:27.071234+00:00",
       "returncode": 0,
       "ok": true,
-      "stdout_tail": "{\n  \"schema_version\": \"strict_trade_gate_v3_health_v1\",\n  \"generated_at\": \"2026-05-30T09:01:16.869334+00:00\",\n  \"status\": \"WARN\",\n  \"blockers\": [],\n  \"warnings\": [\n    \"no_buy_order_alert_ready_rows_currently\"\n  ],\n  \"rows_in\": 52,\n  \"rows_out\": 52,\n  \"buy_order_alert_ready_strong\": 0,\n  \"buy_order_alert_ready\": 0,\n  \"buy_order_alert_blocked\": 52,\n  \"top_ticker\": \"GE\",\n  \"top_final_trade_score_v3\": 24.235,\n  \"trade_eligibility_enabled\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"strict_trade_gate_v3_health_v1\",\n  \"generated_at\": \"2026-05-30T09:16:26.980512+00:00\",\n  \"status\": \"WARN\",\n  \"blockers\": [],\n  \"warnings\": [\n    \"no_buy_order_alert_ready_rows_currently\"\n  ],\n  \"rows_in\": 52,\n  \"rows_out\": 52,\n  \"buy_order_alert_ready_strong\": 0,\n  \"buy_order_alert_ready\": 0,\n  \"buy_order_alert_blocked\": 52,\n  \"top_ticker\": \"GE\",\n  \"top_final_trade_score_v3\": 24.235,\n  \"trade_eligibility_enabled\": false,\n  \"paper_order_allowed\": false,\n  \"live_order_allowed\": false,\n  \"order_submission\": false,\n  \"live_trading\": false\n}\n",
       "stderr_tail": ""
     }
   ],
