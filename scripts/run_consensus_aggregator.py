@@ -522,9 +522,12 @@ def _log_outcomes(picks: list[dict]) -> None:
     """
     if not picks:
         return
-    actionable = [p for p in picks if p.get("signal_state") in LOGGABLE_STATES]
+    # Log genuine entry triggers (ACTIVE/READY, any tier) PLUS the daily TRACK
+    # study set (top-scored candidates) so we always build a learning dataset.
+    actionable = [p for p in picks
+                  if p.get("signal_state") in LOGGABLE_STATES or p.get("tier") == "TRACK"]
     if not actionable:
-        print("[log]   no actionable (ACTIVE/READY) signals this cycle — nothing logged")
+        print("[log]   no actionable or track signals this cycle — nothing logged")
         return
 
     seen = _already_logged_today()
@@ -584,6 +587,8 @@ def main() -> None:
     parser.add_argument("--min-score", type=float, default=DEFAULT_MIN_SCORE)
     parser.add_argument("--watch-min-score", type=float, default=58.0,
                         help="Relaxed score bar for single-engine HIGH_CONVICTION ideas")
+    parser.add_argument("--track-top-n", type=int, default=8,
+                        help="How many top-scored candidates to log daily for learning (TRACK tier)")
     parser.add_argument("--no-cache",  action="store_true",
                         help="Force re-running engines, ignoring cached signal files")
     args = parser.parse_args()
@@ -636,8 +641,29 @@ def main() -> None:
     # ── 4. Persist outputs (also builds trade plans) ────────────────────
     enriched = _write_live_picks(consensus_sigs, watch_sigs, vote_counts, engine_picks,
                                  args.threshold, args.min_score)
-    # Log BOTH tiers (dedup + actionable-state filtering happens inside).
-    _log_outcomes(enriched)
+
+    # ── 4b. TRACK study set: top-N best-scoring candidates (market hours
+    #        only), logged for learning even if they don't pass the buy gate.
+    #        This guarantees a labeled dataset to measure score edge against.
+    to_log = list(enriched)
+    if _market_is_open():
+        weights   = _load_engine_weights()
+        pb_levels = _load_prebreakout_levels()
+        already   = {p["ticker"] for p in enriched}
+        all_scored = _score_with_jini(single, 0.0, require_alert=False)
+        all_scored.sort(key=lambda r: float(r.get("final_trade_score_v3", 0) or 0), reverse=True)
+        n_track = 0
+        for sig in all_scored:
+            t = _sym(sig)
+            if t in already:
+                continue
+            to_log.append(_enrich_pick(sig, "TRACK", vote_counts, engine_picks, weights, pb_levels))
+            already.add(t)
+            n_track += 1
+            if n_track >= args.track_top_n:
+                break
+
+    _log_outcomes(to_log)
 
     # ── 5. Console report with full trade plan ──────────────────────────
     if enriched:
