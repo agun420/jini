@@ -487,17 +487,60 @@ def _write_live_picks(
     return consensus_picks + watch_ideas
 
 
+# Only these states are genuine entry triggers worth tracking as outcomes.
+LOGGABLE_STATES = {"ACTIVE", "TRIGGER_READY"}
+
+
+def _already_logged_today() -> set[str]:
+    """Tickers already logged today (dedup so a ticker is recorded once/day)."""
+    if not OUTCOMES_LOG.exists():
+        return set()
+    today = datetime.now(ZoneInfo("America/New_York")).date().isoformat()
+    seen = set()
+    for line in OUTCOMES_LOG.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        ts = (rec.get("timestamp") or "")[:10]
+        if ts == today and rec.get("ticker"):
+            seen.add(rec["ticker"])
+    return seen
+
+
 def _log_outcomes(picks: list[dict]) -> None:
-    """Append enriched picks (with trade plans) to the outcomes log."""
+    """
+    Append genuine entry triggers to the outcomes log.
+
+    Logs BOTH tiers (CONSENSUS + HIGH_CONVICTION) but only when the signal is
+    actionable (state ACTIVE/TRIGGER_READY), and at most once per ticker per day.
+    This builds a clean dataset of real entries — the feedback loop the
+    scorecard/analytics learn from.
+    """
     if not picks:
         return
+    actionable = [p for p in picks if p.get("signal_state") in LOGGABLE_STATES]
+    if not actionable:
+        print("[log]   no actionable (ACTIVE/READY) signals this cycle — nothing logged")
+        return
+
+    seen = _already_logged_today()
     OUTCOMES_LOG.parent.mkdir(parents=True, exist_ok=True)
     now_et = datetime.now(ZoneInfo("America/New_York")).isoformat()
+    logged = 0
     with OUTCOMES_LOG.open("a", encoding="utf-8") as fh:
-        for p in picks:
+        for p in actionable:
+            ticker = p.get("ticker")
+            if not ticker or ticker in seen:
+                continue
+            seen.add(ticker)
             record = {
                 "timestamp":                   now_et,
-                "ticker":                      p.get("ticker"),
+                "ticker":                      ticker,
+                "tier":                        p.get("tier"),
                 "vote_count":                  p.get("vote_count"),
                 "vote_sources":                p.get("vote_sources"),
                 "setup_type":                  p.get("setup_type"),
@@ -508,7 +551,6 @@ def _log_outcomes(picks: list[dict]) -> None:
                 "entry_quality_v3":            p.get("entry_quality_v3"),
                 "danger_score_v3":             p.get("danger_score_v3"),
                 "confidence":                  p.get("confidence"),
-                # Trade plan as logged at signal time
                 "entry_price":                 p.get("price"),
                 "plan_entry":                  p.get("entry"),
                 "plan_stop":                   p.get("stop"),
@@ -517,7 +559,6 @@ def _log_outcomes(picks: list[dict]) -> None:
                 "plan_rr":                     p.get("rr"),
                 "vwap_distance_pct_at_signal": p.get("vwap_distance_pct"),
                 "relative_volume_at_signal":   p.get("relative_volume"),
-                # Outcome fields (filled by run_consensus_outcome_backfill.py)
                 "outcome_hit_target":          None,
                 "outcome_hit_t1":              None,
                 "outcome_hit_t2":              None,
@@ -529,7 +570,8 @@ def _log_outcomes(picks: list[dict]) -> None:
                 "outcome_filled_at":           None,
             }
             fh.write(json.dumps(record) + "\n")
-    print(f"[log]   {len(picks)} signal(s) appended → {OUTCOMES_LOG}")
+            logged += 1
+    print(f"[log]   {logged} new entry trigger(s) appended → {OUTCOMES_LOG}")
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -594,7 +636,8 @@ def main() -> None:
     # ── 4. Persist outputs (also builds trade plans) ────────────────────
     enriched = _write_live_picks(consensus_sigs, watch_sigs, vote_counts, engine_picks,
                                  args.threshold, args.min_score)
-    _log_outcomes([p for p in enriched if p.get("tier") == "CONSENSUS"])
+    # Log BOTH tiers (dedup + actionable-state filtering happens inside).
+    _log_outcomes(enriched)
 
     # ── 5. Console report with full trade plan ──────────────────────────
     if enriched:
