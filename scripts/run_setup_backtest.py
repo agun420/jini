@@ -107,6 +107,7 @@ class Trade:
     date:    str
     symbol:  str
     setup:   str
+    side:    str           # long / short
     entry:   float
     stop:    float
     target:  float
@@ -160,13 +161,51 @@ def setup_orb(day_bars, prev_close, day_vol_avg, cfg) -> dict | None:
             if entry <= stop:
                 return None
             target = entry + (entry - stop) * cfg["r_target"]
-            return {"entry": entry, "stop": stop, "target": target,
+            return {"side": "long", "entry": entry, "stop": stop, "target": target,
                     "trigger_idx": i, "or_high": or_high, "or_low": or_low,
                     "gap_pct": round(gap_pct, 2), "rvol": round(rvol, 2)}
     return None
 
 
-SETUPS = {"orb": setup_orb}
+def setup_orb_fade(day_bars, prev_close, day_vol_avg, cfg) -> dict | None:
+    """
+    Gap-FADE (short): same gapper universe, but trade the FAILED breakout.
+    After the opening range, short the first break BELOW the OR low — capturing
+    the fade-to-EOD pattern that killed the long ORB. Stop above OR high.
+    """
+    if len(day_bars) < cfg["or_min"] + 5:
+        return None
+    session_open = float(day_bars[0].open)
+    gap_pct = (session_open - prev_close) / prev_close * 100 if prev_close else 0.0
+    if gap_pct < cfg["gap_min"]:
+        return None
+    if not (cfg["price_min"] <= session_open <= cfg["price_max"]):
+        return None
+    first30 = sum(float(b.volume) for b in day_bars[:30])
+    rvol = (first30 * 13) / day_vol_avg if day_vol_avg else 0.0
+    if rvol < cfg["rvol_min"]:
+        return None
+
+    orb = day_bars[:cfg["or_min"]]
+    or_high = max(float(b.high) for b in orb)
+    or_low  = min(float(b.low)  for b in orb)
+
+    for i in range(cfg["or_min"], len(day_bars)):
+        b = day_bars[i]
+        if float(b.low) <= or_low:                      # breakdown → short
+            entry = _apply_slippage(or_low, cfg["slippage_bps"], "sell")
+            stop  = or_high
+            if stop <= entry:
+                return None
+            risk = stop - entry
+            target = entry - risk * cfg["r_target"]
+            return {"side": "short", "entry": entry, "stop": stop, "target": target,
+                    "trigger_idx": i, "or_high": or_high, "or_low": or_low,
+                    "gap_pct": round(gap_pct, 2), "rvol": round(rvol, 2)}
+    return None
+
+
+SETUPS = {"orb": setup_orb, "orb_fade": setup_orb_fade}
 
 
 # ── Execution simulator ────────────────────────────────────────────────────
@@ -174,24 +213,36 @@ def _simulate(day_bars, spec, cfg) -> tuple[float, str, float]:
     """
     Walk bars from trigger forward. Conservative path-dependence: if a single
     bar's range straddles BOTH stop and target, assume STOP hit first.
-    Returns (exit_price, reason, r_multiple).
+    Handles long and short. Returns (exit_price, reason, r_multiple).
     """
+    side = spec.get("side", "long")
     entry, stop, target = spec["entry"], spec["stop"], spec["target"]
-    risk = entry - stop
+
+    if side == "long":
+        risk = entry - stop
+        for j in range(spec["trigger_idx"], len(day_bars)):
+            b = day_bars[j]
+            if float(b.low) <= stop:                 # stop wins ties
+                ex = _apply_slippage(stop, cfg["slippage_bps"], "sell")
+                return ex, "STOP", (ex - entry) / risk
+            if float(b.high) >= target:
+                ex = _apply_slippage(target, cfg["slippage_bps"], "sell")
+                return ex, "TARGET", (ex - entry) / risk
+        ex = _apply_slippage(float(day_bars[-1].close), cfg["slippage_bps"], "sell")
+        return ex, "EOD", (ex - entry) / risk
+
+    # short
+    risk = stop - entry
     for j in range(spec["trigger_idx"], len(day_bars)):
         b = day_bars[j]
-        lo, hi = float(b.low), float(b.high)
-        hit_stop   = lo <= stop
-        hit_target = hi >= target
-        if hit_stop:                       # conservative: stop wins ties
-            ex = _apply_slippage(stop, cfg["slippage_bps"], "sell")
-            return ex, "STOP", (ex - entry) / risk
-        if hit_target:
-            ex = _apply_slippage(target, cfg["slippage_bps"], "sell")
-            return ex, "TARGET", (ex - entry) / risk
-    # EOD exit at last close
-    ex = _apply_slippage(float(day_bars[-1].close), cfg["slippage_bps"], "sell")
-    return ex, "EOD", (ex - entry) / risk
+        if float(b.high) >= stop:                    # stop (price rises) wins ties
+            ex = _apply_slippage(stop, cfg["slippage_bps"], "buy")
+            return ex, "STOP", (entry - ex) / risk
+        if float(b.low) <= target:                   # target (price falls)
+            ex = _apply_slippage(target, cfg["slippage_bps"], "buy")
+            return ex, "TARGET", (entry - ex) / risk
+    ex = _apply_slippage(float(day_bars[-1].close), cfg["slippage_bps"], "buy")
+    return ex, "EOD", (entry - ex) / risk
 
 
 # ── Day grouping ───────────────────────────────────────────────────────────
@@ -330,7 +381,7 @@ def main() -> None:
                 continue
             ex, reason, r = _simulate(day_bars, spec, cfg)
             all_trades.append(Trade(
-                date=date, symbol=sym, setup=args.setup,
+                date=date, symbol=sym, setup=args.setup, side=spec.get("side","long"),
                 entry=round(spec["entry"],2), stop=round(spec["stop"],2),
                 target=round(spec["target"],2), exit=round(ex,2),
                 exit_reason=reason, r_multiple=round(r,3),
